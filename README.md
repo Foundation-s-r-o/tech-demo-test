@@ -1,4 +1,6 @@
 # Project - Demo / Template Application 
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FFoundation-s-r-o%2Ftech-demo-test.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FFoundation-s-r-o%2Ftech-demo-test?ref=badge_shield)
+
 
 This repository contains a demo application that will be used as a template for a new application. 
 
@@ -125,3 +127,7 @@ docker compose up --build -d
 ## Code Quality
 
 Results from Sonar and CodeClimate analysis can be found in ReadMe file for backend in /api folder and for frontend in /ui folder. 
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FFoundation-s-r-o%2Ftech-demo-test.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FFoundation-s-r-o%2Ftech-demo-test?ref=badge_large)
