@@ -1,0 +1,13 @@
+#app-content {
+    #app-content-title {
+        min-height: 40px;
+
+        h2 {
+            padding-top: 6px;
+        }
+    }
+
+    #app-content-frame {
+        min-height: calc(100vh - 120px); // 100% viewport height - height of header - height of title - height of footer
+    }
+}

@@ -1,0 +1,98 @@
+// Defaults vars
+$button-default-text-color: #ffffff;
+
+// Sizes vars
+$button-large-border-radius: 6px;
+$button-large-line-height: 20px;
+$button-large-font-size: 16px;
+$button-large-padding: 8px 10px;
+
+$button-small-border-radius: 3px;
+$button-small-line-height: 16px;
+$button-small-font-size: 14px;
+$button-small-padding: 2px 6px;
+
+// Variants vars
+$button-primary-bg-color: #232e64;
+$button-primary-bg-hover-color: #30408d;
+$button-primary-bg-active-color: #0b0c0c;
+
+$button-secondary-bg-color: #666666;
+$button-secondary-bg-hover-color: #a1a1a1;
+$button-secondary-bg-active-color: #0b0c0c;
+
+// Disabled vars
+$button-disabled-bg-color: #dddddd;
+$button-disabled-bg-hover-color: #a1a1a1;
+$button-disabled-bg-active-color: #0b0c0c;
+$button-disabled-text-color: #666666;
+$button-disabled-border-color: #bbbbbb;
+
+@mixin button-styles(
+    $bg-color,
+    $bg-hover-color,
+    $bg-active-color
+) {
+    background: $bg-color;
+
+    &:hover {
+        background: $bg-hover-color;
+    }
+    &:active {
+        background: $bg-active-color;
+    }
+}
+
+.btn.fndt_button {
+    border: none;
+    transition: none;
+    box-shadow: none !important;
+    color: $button-default-text-color;
+    border-radius: $button-large-border-radius;
+    line-height: $button-large-line-height;
+    font-size: $button-large-font-size;
+    padding: $button-large-padding;
+
+    &:hover {
+        outline: 1px solid #fff;
+    }
+    &:active {
+        outline: none;
+    }
+
+    &.btn-sm {
+        border-radius: $button-small-border-radius;
+        line-height: $button-small-line-height;
+        font-size: $button-small-font-size;
+        padding: $button-small-padding;
+    }
+
+    &.btn-primary {
+        @include button-styles(
+            $button-primary-bg-color,
+            $button-primary-bg-hover-color,
+            $button-primary-bg-active-color
+        );
+    }
+    &.btn-secondary {
+        @include button-styles(
+            $button-secondary-bg-color,
+            $button-secondary-bg-hover-color,
+            $button-secondary-bg-active-color
+        );
+    }
+
+    &.btn-primary:disabled,
+    &.btn-secondary:disabled ,
+    &:disabled
+    {
+        @include button-styles(
+            $button-disabled-bg-color,
+            $button-disabled-bg-hover-color,
+            $button-disabled-bg-active-color,
+        );
+        color: $button-disabled-text-color;
+        border: 1px solid $button-disabled-border-color;
+        opacity: 1;
+    }
+}

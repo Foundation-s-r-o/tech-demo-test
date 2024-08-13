@@ -1,0 +1,19 @@
+// @import '../../../../node_modules/bootstrap/scss/variables';
+
+$accordion-item-radius: 10px;
+$accordion-border-color: rgba(187, 187, 187, 1);
+
+.accordion-item {
+    margin-bottom: 10px;
+    border-radius: $accordion-item-radius;
+    .accordion-button {
+        border-radius: $accordion-item-radius;
+        &::after {
+            position: absolute;
+        }
+    }
+}
+
+.accordion-body {
+    border-top: 1px solid $accordion-border-color;
+}

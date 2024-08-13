@@ -1,0 +1,44 @@
+$border-color: #b1b4b6;
+
+.form-control.pagination_input_page {
+    width: 53px;
+    padding-left: 7px;
+    padding-right: 2px;
+}
+ul.pagination {
+    li {
+        button:disabled {
+            color: $border-color;
+            &:hover {
+                background: inherit;
+            }
+        }
+    }
+}
+.fndt_sort_link {
+    color: #000;
+    text-decoration: none;
+}
+
+table.table.fndt_table {
+    thead {
+        border-bottom: 1px solid $border-color;
+        tr {
+            th {
+            }
+        }
+    }
+
+    tbody {
+        border-top: none;
+        tr {
+            border-bottom: 1px solid $border-color;
+            td {
+            }
+
+            &.active {
+                background: lightgoldenrodyellow;
+            }
+        }
+    }
+}

@@ -1,0 +1,84 @@
+$modal-title-color: #005ea5;
+$modal-header-bg-color: #ffffff;
+$modal-bg-color: #f7f7f7;
+$error-modal-title-bg-color: #b10e1e;
+$info-modal-title-bg-color: #005ea5;
+
+// override of backdrop z-index for multiple modals
+@for $i from 1 through 6 {
+    $zIndexBackdrop:  #{1000 + (5 * $i)};
+    $zIndexContent:  #{1000 + (5 * $i) + 2};
+    .modal-backdrop.show:nth-of-type(#{$i}) {
+        z-index: $zIndexBackdrop;
+    }
+    div[role="dialog"][aria-modal="true"]:nth-of-type(#{$i}) {
+        z-index: $zIndexContent;
+    }
+}
+
+.modal {
+    .alert-modal.modal-dialog {
+        width: 360px !important;
+
+        .modal-content {
+            background: #ffffff;
+
+            .modal-header {
+                padding: 1rem 1rem;
+
+                .modal-title {
+                    color: #ffffff;
+                    text-align: center;
+                }
+            }
+
+            .modal-body {
+                text-align: center;
+            }
+        }
+
+        &.error-modal {
+            .modal-content {
+                .modal-header {
+                    background: $error-modal-title-bg-color;
+                }
+            }
+        }
+        &.info-modal {
+            .modal-content {
+                .modal-header {
+                    background: $info-modal-title-bg-color;
+                }
+            }
+        }
+    }
+
+    .modal-dialog {
+        &.modal-90w {
+            width: 90%;
+            max-width: 90%;
+        }
+
+        .modal-content {
+            border: none;
+            background: $modal-bg-color;
+
+            .modal-header {
+                padding: 0.5rem 1rem;
+                background: $modal-header-bg-color;
+
+                .modal-title {
+                    width: 100%;
+                    font-weight: normal;
+                    font-size: 1.2rem;
+                    color: $modal-title-color;
+                }
+            }
+
+            .modal-footer {
+                justify-content: center !important;
+                border-top: 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<springProperty name="loki-enabled" source="loki.enabled"/>
+
+	<!-- use Spring default values -->
+	<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd' 'HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>./logs/TechDemo.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>./logs/TechDemo-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+			<maxFileSize>200MB</maxFileSize>
+			<!-- keep 7 days' worth of history capped at 1GB total size -->
+			<maxHistory>7</maxHistory>
+			<totalSizeCap>1GB</totalSizeCap>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%d{yyyy-MM-dd' 'HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+			<charset>utf8</charset>
+		</encoder>
+	</appender>
+
+	<appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>info</level>
+		</filter>
+		<http>
+			<url>http://loki:3100/loki/api/v1/push</url>
+		</http>
+		<format>
+			<label>
+				<pattern>app=TECH-DEMO,host=${HOSTNAME},level=%level</pattern>
+				<readMarkers>false</readMarkers>
+			</label>
+			<message>
+				<pattern>{"level":"%level", "class":"%logger{36}", "thread":"%thread", "message": "%message"}</pattern>
+			</message>
+			<sortByTime>true</sortByTime>
+		</format>
+	</appender>
+
+	<root level="DEBUG">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+		<if condition='property("loki-enabled").equals("true")'>
+			<then>
+				<appender-ref ref="LOKI" />
+			</then>
+		</if>
+	</root>
+
+</configuration>

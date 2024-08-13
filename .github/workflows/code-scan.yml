@@ -1,0 +1,22 @@
+name: Code Scanning
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * 0'  # Run once a week
+  workflow_dispatch: # Add this line for manual triggering
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Run GitHub CodeQL
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: 'security-and-quality'

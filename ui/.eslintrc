@@ -1,0 +1,42 @@
+{
+    "env": {
+        "browser": true,
+        "node": true,
+        "es2020": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "parserOptions": {
+        "project": ["./tsconfig.json"],
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "modules": true,
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "ignorePatterns": ["webpack.config.js"],
+    "rules": {
+        "@typescript-eslint/no-unsafe-argument": "error",
+        "quotes": ["error", "single"],
+        "semi": ["error", "never"]
+    },
+    "globals": {
+        "ReactDOM": true,
+        "Promise": true,
+        "_": true,
+        "$": true,
+        "moment": true
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }}
+
+}

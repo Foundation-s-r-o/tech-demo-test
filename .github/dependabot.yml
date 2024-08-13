@@ -1,0 +1,18 @@
+version: 2
+
+updates:
+  - package-ecosystem: "maven"
+    directory: "/api"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "java dependencies"
+      - "backend"
+
+  - package-ecosystem: "npm"
+    directory: "/ui"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "npm dependencies"
+      - "frontend"

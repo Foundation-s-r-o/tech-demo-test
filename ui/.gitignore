@@ -1,0 +1,17 @@
+.env
+
+# binaries
+/dist
+
+# editors
+*.swp
+.idea
+.idea/
+.vs
+.vscode
+.DS_Store
+/node_modules/
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/tests/storageState*.json

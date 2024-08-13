@@ -1,0 +1,17 @@
+// @tailwind base;
+// @tailwind components;
+// @tailwind utilities;
+
+@import './bootstrap_variables_override.scss';
+@import './bootstrap_override.scss';
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+@import '../../../node_modules/bootstrap-icons/font/bootstrap-icons.css';
+@import '../../../node_modules/react-datepicker/dist/react-datepicker.css';
+@import './modals.scss';
+@import './forms.scss';
+
+// $accordion-icon-color: $accordion-button-active-color;
+
+body {
+    padding-bottom: 30px; // footer height
+}

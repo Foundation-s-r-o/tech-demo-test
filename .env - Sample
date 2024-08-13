@@ -1,0 +1,17 @@
+MYSQL_VERSION=8.0.30
+MYSQL_DATABASE_USERNAME=root
+MYSQL_DATABASE_PASSWORD=root1
+APP_API_SERVER_URL=http://localhost:8082
+
+# Exported ports - make sure you choose free ports on your local machine,
+# or leave empty, random free port will be assigned
+# port through which MySQL instance inside Docker will be available
+MYSQL_PORT_EXPORTED=9401
+# port through which REST API inside Docker will be available
+# also important thing make sure that APP_API_SERVER_URL uses this port
+API_PORT_EXPORTED=8082
+
+PLAYWRIGHT_SLOW_MO=1000
+ADMIN_USERNAME=admin
+ADMIN_PASS=
+NEW_RELIC_KEY:<OUR_LICENSE_KEY>

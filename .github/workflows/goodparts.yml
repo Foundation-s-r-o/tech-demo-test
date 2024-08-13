@@ -1,0 +1,46 @@
+name: Goodparts setup
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Goodparts'
+        default: "latest"
+      git-ref:
+        description: 'The branch, tag or SHA to checkout'
+        default: "master"
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    - name: Build with Maven
+      working-directory: api
+      run: mvn -B package
+      
+  goodparts:
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    name: Goodparts analysis
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    - name: setup
+      working-directory: ui
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+      run: npm install goodparts --save-dev

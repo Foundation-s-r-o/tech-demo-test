@@ -1,0 +1,35 @@
+$header-bg-color: #232e64;
+
+.header {
+    background-color: $header-bg-color;
+    width: 100%;
+
+    .header-content-wrapper {
+        height: 50px;
+    }
+
+    h1 {
+        font-size: 25px;
+        color: #fff;
+        margin: 0;
+    }
+
+    #auth-info {
+        color: #fff;
+        button {
+            background: none;
+            border: none;
+            color: #fff;
+            padding: 0;
+            margin: 0;
+        }
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+        > * {
+          padding: 0 5px;
+        }
+    }
+}
+

@@ -1,0 +1,139 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:${MYSQL_VERSION}
+    restart: unless-stopped
+    ports:
+      - ${MYSQL_PORT_EXPORTED}:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DATABASE_PASSWORD}
+    networks:
+      - tech-demo
+    command: ['mysqld']
+
+  api:
+    image: foundation/tech-demo-api:latest
+    build:
+      dockerfile: Dockerfile
+      args:
+        - ADMIN_USERNAME=${ADMIN_USERNAME}
+        - ADMIN_PASS=${ADMIN_PASS}
+        - PLAYWRIGHT_SLOW_MO=${PLAYWRIGHT_SLOW_MO}
+    ports:
+      - ${API_PORT_EXPORTED}:8080
+    restart: unless-stopped
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/tech-demo
+      - SPRING_DATASOURCE_USERNAME=${MYSQL_DATABASE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQL_DATABASE_PASSWORD}
+    networks:
+      - tech-demo
+
+  redis:
+    image: redis
+    command: redis-server
+    hostname: redishost
+    ports:
+      - "6379:6379"
+    networks:
+      - tech-demo
+
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    networks:
+      - tech-demo
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    hostname: prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prom_data:/prometheus
+    networks:
+      - tech-demo
+
+  collector:
+    image: otel/opentelemetry-collector:0.72.0
+    command: [ "--config=/etc/otel-collector-config.yml" ]
+    volumes:
+      - ./otel-config.yml:/etc/otel-collector-config.yml
+    ports:
+      - "4317:4317"
+    depends_on:
+      - prometheus
+      - jaeger
+    hostname: collector
+    networks:
+      - tech-demo
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14250"
+    hostname: jaeger
+    networks:
+      - tech-demo
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+    volumes:
+      - ./grafana:/etc/grafana/provisioning/datasources
+    networks:
+      - tech-demo
+
+  loki:
+    image: grafana/loki:2.8.2
+    hostname: loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - tech-demo
+
+  agent:
+    container_name: newrelic-infra
+    image: newrelic/infrastructure:latest
+    cap_add:
+      - SYS_PTRACE
+    network_mode: host
+    pid: host
+    privileged: true
+    volumes:
+      - "/:/host:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      NRIA_LICENSE_KEY: ${NEW_RELIC_KEY}
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
+  prom_data:
+networks:
+  tech-demo:

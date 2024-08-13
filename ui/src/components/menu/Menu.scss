@@ -1,0 +1,29 @@
+$menu-item-text: #232e64;
+
+.offcanvas {
+    z-index: 1045 !important;
+}
+
+.menu-offcanvas {
+    .offcanvas-body {
+        padding: 0;
+    }
+}
+
+button.menu-trigger {
+    font-size: 25px;
+    border: none;
+    background: none;
+    color: #fff;
+    outline: none;
+}
+
+.menu-row-item {
+    padding: 7px;
+    color: $menu-item-text;
+
+    &:hover {
+        background-color: lightgray;
+        cursor: pointer;
+    }
+}

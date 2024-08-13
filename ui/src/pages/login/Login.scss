@@ -1,0 +1,53 @@
+.form-signin-wrapper {
+    .form-signin {
+        padding: 15px;
+
+        .button-row {
+            padding-left: 60px;
+        }
+
+        .input-row {
+            display: flex;
+
+            input {
+                height: 40px;
+                width: 260px;
+            }
+
+            label {
+                line-height: 40px;
+                width: 60px;
+                text-align: right;
+                padding-right: 15px;
+            }
+        }
+    }
+
+    @media screen and (max-width: 420px) {
+        .form-signin {
+            width: 100%;
+
+            .input-row {
+                flex-direction: column !important;
+                label {
+                    text-align: left;
+                    width: 100%;
+                    line-height: inherit;
+                }
+
+                input {
+                    width: 100%;
+                }
+            }
+
+            .button-row {
+                padding: 0;
+
+                button {
+                    width: 100%;
+                    display: block;
+                }
+            }
+        }
+    }
+}

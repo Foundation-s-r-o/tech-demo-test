@@ -1,0 +1,73 @@
+{
+    "common": {
+        "layout": {
+            "footerVersion": "Verzia: {{version}}",
+            "headerTitle": "Foundation project",
+            "notLoggedInUser": "Neprihlásený používateľ",
+            "menu": "Menu"
+        },
+        "helper": {
+            "pageTitleDelimiter": " - ",
+            "itemTitle": "Položka",
+            "action": "Akcia"
+        },
+        "btn": {
+            "save": "Uložiť",
+            "confirm": "Potvrdiť",
+            "resetToDefaultValues": "Vymazať vstupné údaje",
+            "close": "Zatvoriť",
+            "logout": "Odhlásiť",
+            "login": "Prihlásiť",
+            "cancel": "Zrušiť",
+            "finish": "Ukončiť",
+            "search": "Vyhľadať",
+            "edit": "Upraviť"
+        },
+        "error": {
+            "generic": "Nastala chyba",
+            "badCredentials": "Neboli zadané korektné prístupové údaje.<br/><br/>Zatvorte oznam a zadajte korektné meno a heslo.",
+            "requiredField": "Povinné pole",
+            "chooseOneOption": "Zvoľte aspoň jeden parameter",
+            "noResults": "Žiadne dáta",
+            "oneOfRequired": "Prosím, vyplňte jedno z nasledovných polí: {{requiredFields}}"
+        },
+        "table": {
+            "noResults": "Žiadne výsledky",
+            "pageNo": "Stránka č.",
+            "ofTotalPages": "z {{totalPages}}",
+            "pageSize": "Veľkosť stránky",
+            "lastPage": "Posledná stránka",
+            "firstPage": "Prvá stránka",
+            "nextPage": "Ďalšia stránka",
+            "prevPage": "Predchádzajúca stránka"
+        }
+    },
+    "component": {
+        "title": {
+            "informacneOkno": "Informačné okno",
+            "homepage": "Homepage",
+            "oznamOChybe": "Oznam o chybe",
+            "prihlasenie": "Prihlásenie"
+        },
+        "persons": {
+            "title": "Osoby",
+            "list": "Zoznam osôb",
+            "delete": "Vymazať osobu",
+            "edit": "Upraviť osobu",
+            "add": "Pridať osobu"
+        }
+    },
+    "form": {
+        "input": {
+            "id": "ID",
+            "username": "Meno",
+            "password": "Heslo",
+            "email": "E-mail",
+            "firstName": "Meno",
+            "lastName": "Priezvisko",
+            "address": "Adresa",
+            "phone": "Telefón",
+            "state": "Štát"
+        }
+    }
+}

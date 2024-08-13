@@ -1,0 +1,39 @@
+name: Deploy to Elastic Beanstalk
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        required: true
+        description: Docker Image Tag to be deployed
+      aws-eb-app:
+        description: 'AWS Elastic Beanstalk application'     
+        required: true
+        type: choice
+        options:
+        - tech-demo
+      aws-eb-environment:
+        description: 'AWS Elastic Beanstalk environment'     
+        required: true
+        type: choice
+        options:
+        - Techdemo-env-2
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          use_existing_version_if_available: true
+          application_name: ${{ inputs.aws-eb-app }}
+          environment_name: ${{ inputs.aws-eb-environment }}
+          version_label: ${{github.SHA}}
+          region: eu-central-1
+          deployment_package: aws.docker-compose.yml

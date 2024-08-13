@@ -1,0 +1,6 @@
+10:48:44.370 [main] INFO  s.f.t.p.api.PersonControllerTest - Starting PersonControllerTest using Java 17.0.5 on Jozefs-MacBook-Air.local with PID 16107 (started by antony in /Users/antony/tech-demo/api)
+10:48:44.372 [main] INFO  s.f.t.p.api.PersonControllerTest - No active profile set, falling back to 1 default profile: "default"
+10:48:45.833 [main] INFO  o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+10:48:45.833 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+10:48:45.836 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 2 ms
+10:48:45.869 [main] INFO  s.f.t.p.api.PersonControllerTest - Started PersonControllerTest in 1.87 seconds (JVM running for 2.653)
