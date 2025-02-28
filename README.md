@@ -140,7 +140,7 @@ This project uses FOSSA for license scanning and dependency vulnerability detect
    curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
    ```
 
-2. Set your FOSSA API key as an environment variable:
+2. Set your FOSSA API key as an environment variable (NEVER commit this to source control):
    ```bash
    export FOSSA_API_KEY=your-api-key
    ```
