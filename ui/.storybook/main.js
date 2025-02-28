@@ -4,7 +4,11 @@ const dotenv = require('dotenv')
 
 module.exports = {
     typescript: {
-        reactDocgen: 'any-string',
+        reactDocgen: 'react-docgen-typescript',
+        reactDocgenTypescriptOptions: {
+            shouldExtractLiteralValuesFromEnum: true,
+            propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
+        },
     },
     stories: [
         '../src/**/*.stories.mdx',
@@ -14,14 +18,16 @@ module.exports = {
         '@storybook/addon-links',
         '@storybook/addon-essentials',
         '@storybook/addon-interactions',
-        '@storybook/preset-scss',
-        '@storybook-addon-react-router-v6',
-        '@storybook-react-i18next',
-        '@storybook-addon-paddings',
+        'storybook-addon-react-router-v6',
+        'storybook-react-i18next',
+        'storybook-addon-paddings',
     ],
-    framework: '@storybook/react',
-    core: {
-        builder: '@storybook/builder-webpack5',
+    framework: {
+        name: '@storybook/react-webpack5',
+        options: {},
+    },
+    docs: {
+        autodocs: true,
     },
     staticDirs: ['../src/assets'],
     webpackFinal: async (config) => {
