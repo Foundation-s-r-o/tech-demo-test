@@ -125,3 +125,42 @@ docker compose up --build -d
 ## Code Quality
 
 Results from Sonar and CodeClimate analysis can be found in ReadMe file for backend in /api folder and for frontend in /ui folder. 
+# FOSSA License Scanning
+
+This project uses FOSSA for license scanning and dependency vulnerability detection.
+
+## Current Status
+
+[\![FOSSA Status](https://app.fossa.com/api/projects/custom%2B46919%2Fgithub.com%2FFoundation-s-r-o%2Ftech-demo-test.git.svg?type=shield)](https://app.fossa.com/projects/custom%2B46919%2Fgithub.com%2FFoundation-s-r-o%2Ftech-demo-test.git?ref=badge_shield)
+
+## How to Run FOSSA Scans
+
+1. Install the FOSSA CLI:
+   ```bash
+   curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
+   ```
+
+2. Set your FOSSA API key as an environment variable:
+   ```bash
+   export FOSSA_API_KEY=your-api-key
+   ```
+
+3. Run a scan:
+   ```bash
+   fossa analyze
+   ```
+
+4. Test for license or security issues:
+   ```bash
+   fossa test
+   ```
+
+## Viewing Reports
+
+After running a scan, you can view the results in the [FOSSA dashboard](https://app.fossa.com/projects/custom%2B46919%2Fgithub.com%2FFoundation-s-r-o%2Ftech-demo-test.git).
+
+## CI/CD Integration
+
+This project includes a GitHub Actions workflow in `.github/workflows/fossa.yml` that automatically runs FOSSA scans on pushes to the main branch and on pull requests.
+
+For more information on FOSSA, visit [the FOSSA documentation](https://docs.fossa.com/).
