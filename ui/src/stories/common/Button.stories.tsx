@@ -1,5 +1,5 @@
 import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 import { FndtButton } from '@components/shared/buttons/FndtButton'
 import { FndtButtonSize } from '@components/shared/buttons/types'
 
@@ -11,13 +11,13 @@ export default {
         variant: 'primary',
         disabled: false,
     },
-} as ComponentMeta<typeof FndtButton>
+} as Meta<typeof FndtButton>
 
-const Template: ComponentStory<typeof FndtButton> = (args) => (
-    <FndtButton {...args}>{args.children}</FndtButton>
-)
+type Story = StoryObj<typeof FndtButton>
 
-export const Button = Template.bind({})
-Button.args = {
-    size: FndtButtonSize.lg,
+export const Button: Story = {
+    render: (args: React.ComponentProps<typeof FndtButton>) => <FndtButton {...args}>{args.children}</FndtButton>,
+    args: {
+        size: FndtButtonSize.lg,
+    }
 }
