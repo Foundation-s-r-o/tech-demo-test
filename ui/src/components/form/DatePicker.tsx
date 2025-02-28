@@ -4,7 +4,7 @@ import ReactDatePicker, {
     ReactDatePickerProps,
     registerLocale,
 } from 'react-datepicker'
-import {sk} from 'date-fns/locale/sk'
+import sk from 'date-fns/locale/sk'
 
 registerLocale('sk', sk)
 
