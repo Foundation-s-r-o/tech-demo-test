@@ -13,8 +13,8 @@
 version: 3
 
 # Sets the FOSSA API key required for accessing the FOSSA API and uploading/retrieving project data.
-# FOSSA strongly recommends setting the API key with the $FOSSA_API_KEY environment variable for security.
-apiKey: 99907dbdacd2cb9a17059ff0f1ff87e3
+# Use the $FOSSA_API_KEY environment variable for security.
+# DO NOT commit API keys to source control!
 
 # Project configuration
 project:
