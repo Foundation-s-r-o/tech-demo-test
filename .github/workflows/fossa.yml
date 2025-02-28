@@ -17,3 +17,10 @@ jobs:
         uses: fossas/fossa-action@v1
         with:
           api-key: ${{ secrets.FOSSA_API_KEY }}
+          
+      # Add a comment with scan results on PR
+      - name: FOSSA Test
+        uses: fossas/fossa-action@v1
+        with:
+          api-key: ${{ secrets.FOSSA_API_KEY }}
+          run-tests: true
