@@ -88,7 +88,7 @@
         "storybook-addon-react-router-v6": "^0.3.6",
         "storybook-react-i18next": "^2.0.10",
         "style-loader": "^3.3.4",
-        "ts-loader": "^9.5.1",
+        "ts-loader": "^9.5.2",
         "tsconfig-paths-webpack-plugin": "^4.1.0",
         "typescript": "^5.3.3",
         "webpack": "^5.89.0",
