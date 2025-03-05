@@ -163,4 +163,14 @@ After running a scan, you can view the results in the [FOSSA dashboard](https://
 
 This project includes a GitHub Actions workflow in `.github/workflows/fossa.yml` that automatically runs FOSSA scans on pushes to the main branch and on pull requests.
 
+## Suggested Security Improvements
+
+Based on recent FOSSA reports, here are recommended improvements:
+
+1. Add a declared license to your project (currently shows "No declared license found")
+2. Continue regular dependency updates (good progress with recent Tomcat and Spring Cloud updates)
+3. Set up automated FOSSA scans in CI/CD pipeline for early detection
+4. Create a security policy document describing vulnerability handling procedures
+5. Consider implementing a dependency update schedule rather than reactive updates
+
 For more information on FOSSA, visit [the FOSSA documentation](https://docs.fossa.com/).

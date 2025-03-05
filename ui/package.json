@@ -20,8 +20,8 @@
         "generate-openapi-services": "openapi-generator-cli generate -i api-docs.json -g typescript-axios -o src/api/generated --additional-properties=useSingleRequestParameter=true,stringEnums=true,supportsES6=true"
     },
     "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "author": "Foundation s.r.o.",
+    "license": "MIT",
     "dependencies": {
         "@openapitools/openapi-generator-cli": "^2.13.5",
         "@types/lodash": "^4.17.7",

@@ -1,6 +1,15 @@
 # Development Guidelines
 
-## Backend (Java/Spring Boot)
+## Essential Commands
+
+### Backend (Java/Spring Boot)
+- Build: `./mvnw clean install`
+- Run tests: `./mvnw test`
+- Run single test: `./mvnw -Dtest=TestClass#testMethod test`
+- Run integration tests: `./mvnw verify`
+- Generate code coverage: `./mvnw jacoco:report`
+- Start application: `./mvnw spring-boot:run`
+- Check code style: `./mvnw checkstyle:check`
 - Build: `./mvnw clean install`
 - Run tests: `./mvnw test`
 - Run single test: `./mvnw -Dtest=TestClass#testMethod test`
@@ -8,33 +17,54 @@
 - Debug: `./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"`
 - Check code style: `./mvnw checkstyle:check`
 - Generate code coverage: `./mvnw jacoco:report`
+- Start application: `./mvnw spring-boot:run`
 
-## Frontend (React/TypeScript)
-- Install: `npm install`
+### Frontend (React/TypeScript)
+- Install: `npm install --legacy-peer-deps`
 - Start dev server: `npm start`
 - Build: `npm run build`
-- Lint: `npm run lint` (ESLint + TypeScript)
+- Lint: `npm run lint`
 - Run tests: `npm run playwright`
+- Run specific test: `npx playwright test tests/path/to/test.spec.ts`
 - Generate API client: `npm run generate-openapi-services`
-- Run Storybook: `npm run storybook`
 
-## Style Guidelines
-- Java:
-  - Use tabs for indentation (4 spaces width), max line length 120
-  - Use JUnit 5 for tests, follow `given/when/then` pattern 
-  - SQL keywords lowercase, explicit column names in queries
-  - Use constructor injection for dependencies
-  - Proper exception handling with custom exceptions
-  - Follow checkstyle rules for naming, imports and formatting
-- TypeScript:
-  - Use import path aliases (@components, @api, @pages, @common)
-  - Single quotes for strings, no semicolons
-  - Use React functional components with hooks
-  - Strong typing with TypeScript, avoid `any`
-  - Use camelCase for variables/methods, PascalCase for types/components
-  - Use React Bootstrap for UI components
+### Docker Commands
+- Start all services: `docker-compose up -d`
+- Run tests in container: `docker-compose exec api ./mvnw test`
+- View logs: `docker-compose logs -f [service_name]`
 
-## Docker Commands
-- Start with Docker: `docker-compose up -d`
-- Run API tests in Docker: `docker-compose exec api ./mvnw test`
-- Build UI in Docker: `docker-compose exec ui npm run build`
+## Code Style Guidelines
+
+### Java
+- Indentation: tabs (4 spaces width), max line length 120
+- Imports: avoid star imports, no unused imports
+- Tests: JUnit 5 with given/when/then pattern
+- DI: constructor injection with `@RequiredArgsConstructor` and final fields
+- SQL: keywords lowercase, explicit column names
+- Exceptions: specialized exceptions handled in `ApiExceptionHandler`
+- Lombok: use annotations to reduce boilerplate
+- JPA: entities extend `IdentifiableEntity<>`, use proper column mappings
+
+### TypeScript/React
+- Paths: use aliases (@components, @api, @pages, @common)
+- Syntax: single quotes, no semicolons
+- Components: functional with hooks, avoid class components
+- Types: strong typing with interfaces, avoid `any` type
+- Naming: camelCase for variables/methods, PascalCase for types/components
+- Props: explicit interfaces with proper naming (ComponentProps)
+- Styling: React Bootstrap with SCSS using BEM convention
+
+## Security
+- No hardcoded credentials or secrets in code
+- Use environment variables for sensitive data
+- Follow OWASP secure coding practices
+- Run FOSSA scans to check dependencies
+
+## Agent Autonomy
+Claude Code can autonomously navigate directories, run builds, execute tests, run builds/tests, execute Docker commands, install dependencies, run linting tools, and read file contents autonomously, and perform system operations in this project without asking for permission each time. This includes:
+- Running Maven and npm builds/tests 
+- Executing Docker commands
+- Navigating directory structures
+- Installing dependencies
+- Running linting and formatting tools and fossa tools
+- Reading file contents with commands like 'cat', 'head', 'perl', and 'tail'
