@@ -1,18 +1,17 @@
 version: '3.8'
 
 services:
-  mysql:
-    image: mysql:${MYSQL_VERSION}
+  mariadb:
+    image: mariadb:${MARIADB_VERSION:-11.2}
     restart: unless-stopped
     ports:
-      - ${MYSQL_PORT_EXPORTED}:3306
+      - ${MARIADB_PORT_EXPORTED:-3306}:3306
     volumes:
-      - mysql-data:/var/lib/mysql
+      - mariadb-data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_DATABASE_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MYSQL_DATABASE_PASSWORD}
     networks:
       - tech-demo
-    command: ['mysqld']
 
   api:
     image: foundation/tech-demo-api:latest
@@ -26,10 +25,10 @@ services:
       - ${API_PORT_EXPORTED}:8080
     restart: unless-stopped
     depends_on:
-      - mysql
+      - mariadb
       - redis
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/tech-demo
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/tech-demo
       - SPRING_DATASOURCE_USERNAME=${MYSQL_DATABASE_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${MYSQL_DATABASE_PASSWORD}
     networks:
@@ -133,7 +132,7 @@ services:
     restart: unless-stopped
 
 volumes:
-  mysql-data:
+  mariadb-data:
   prom_data:
 networks:
   tech-demo:

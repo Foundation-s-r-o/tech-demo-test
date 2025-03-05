@@ -19,7 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.JdbcDatabaseContainer;
-import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.MariaDBContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
@@ -34,25 +34,25 @@ import sk.foundation.techdemo.TechDemoTestConfiguration;
 @ActiveProfiles({ "tc-flyway" })
 class FlywayMigrationIT {
 
-	static final MySQLContainer<?> MYSQL_CONTAINER;
+	static final MariaDBContainer<?> MARIADB_CONTAINER;
 
 	static {
-		MYSQL_CONTAINER = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.30"))
-				.withEnv("MYSQL_ROOT_PASSWORD", "test")
-				.withEnv("MYSQL_ROOT_HOST", "%")
+		MARIADB_CONTAINER = new MariaDBContainer<>(DockerImageName.parse("mariadb:11.2"))
+				.withEnv("MARIADB_ROOT_PASSWORD", "test")
+				.withEnv("MARIADB_ROOT_HOST", "%")
 				.withDatabaseName("test")
 				.withUsername("root")
 				.withPassword("test")
 				.withReuse(true);
 
-		MYSQL_CONTAINER.start();
+		MARIADB_CONTAINER.start();
 	}
 
 	@DynamicPropertySource
 	static void datasourceConfig(DynamicPropertyRegistry registry) {
-		registry.add("spring.datasource.url", MYSQL_CONTAINER::getJdbcUrl);
-		registry.add("spring.datasource.password", MYSQL_CONTAINER::getPassword);
-		registry.add("spring.datasource.username", MYSQL_CONTAINER::getUsername);
+		registry.add("spring.datasource.url", MARIADB_CONTAINER::getJdbcUrl);
+		registry.add("spring.datasource.password", MARIADB_CONTAINER::getPassword);
+		registry.add("spring.datasource.username", MARIADB_CONTAINER::getUsername);
 	}
 
 	static Stream<Arguments> flywayMigrationData() {
@@ -64,7 +64,7 @@ class FlywayMigrationIT {
 			throws SQLException {
 		int resultSetInt;
 		ResultSet resultSet = performQuery(
-				MYSQL_CONTAINER,
+				MARIADB_CONTAINER,
 				"select count(*) from test.flyway_schema_history where success = 1");
 
 		resultSetInt = resultSet.getInt(1);

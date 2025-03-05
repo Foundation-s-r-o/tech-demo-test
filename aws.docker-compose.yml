@@ -8,6 +8,6 @@ services:
       - 80:8080
     restart: unless-stopped
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}
       - SPRING_DATASOURCE_USERNAME=${RDS_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${RDS_PASSWORD}

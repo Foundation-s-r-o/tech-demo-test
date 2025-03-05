@@ -8,7 +8,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.MariaDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
@@ -28,7 +28,7 @@ public abstract class BaseIT {
 	public MockMvc mockMvc;
 
 	@Container
-	static final MySQLContainer<?> MYSQL_CONTAINER = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.30"))
+	static final MariaDBContainer<?> MARIADB_CONTAINER = new MariaDBContainer<>(DockerImageName.parse("mariadb:11.2"))
 			.withDatabaseName("tech-demo-it")
 			.withUsername("root")
 			.withPassword("test")
@@ -36,9 +36,9 @@ public abstract class BaseIT {
 
 	@DynamicPropertySource
 	static void configureProperties(DynamicPropertyRegistry registry) {
-		registry.add("spring.datasource.url", MYSQL_CONTAINER::getJdbcUrl);
-		registry.add("spring.datasource.username", MYSQL_CONTAINER::getUsername);
-		registry.add("spring.datasource.password", MYSQL_CONTAINER::getPassword);
-		registry.add("spring.datasource.driver-class-name", MYSQL_CONTAINER::getDriverClassName);
+		registry.add("spring.datasource.url", MARIADB_CONTAINER::getJdbcUrl);
+		registry.add("spring.datasource.username", MARIADB_CONTAINER::getUsername);
+		registry.add("spring.datasource.password", MARIADB_CONTAINER::getPassword);
+		registry.add("spring.datasource.driver-class-name", MARIADB_CONTAINER::getDriverClassName);
 	}
 }
