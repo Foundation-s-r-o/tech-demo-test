@@ -155,7 +155,7 @@
 		<dependency>
 			<groupId>com.squareup.okio</groupId>
 			<artifactId>okio-jvm</artifactId>
-			<version>3.4.0</version>
+			<version>3.10.2</version>
 		</dependency>
 		
 		<!-- Explicit Tomcat dependencies with latest security fixes -->
