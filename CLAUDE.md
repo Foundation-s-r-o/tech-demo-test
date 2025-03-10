@@ -7,16 +7,9 @@
 - Run tests: `./mvnw test`
 - Run single test: `./mvnw -Dtest=TestClass#testMethod test`
 - Run integration tests: `./mvnw verify`
-- Generate code coverage: `./mvnw jacoco:report`
-- Start application: `./mvnw spring-boot:run`
-- Check code style: `./mvnw checkstyle:check`
-- Build: `./mvnw clean install`
-- Run tests: `./mvnw test`
-- Run single test: `./mvnw -Dtest=TestClass#testMethod test`
-- Run integration tests: `./mvnw verify`
 - Debug: `./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"`
-- Check code style: `./mvnw checkstyle:check`
 - Generate code coverage: `./mvnw jacoco:report`
+- Check code style: `./mvnw checkstyle:check`
 - Start application: `./mvnw spring-boot:run`
 
 ### Frontend (React/TypeScript)
