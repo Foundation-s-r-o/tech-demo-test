@@ -88,7 +88,7 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-sleuth</artifactId>
-			<version>3.1.9</version>
+			<version>3.1.11</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.cloud</groupId>
