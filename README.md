@@ -122,6 +122,14 @@ docker compose up --build -d
    loki.enabled=true
 ```
 
+## Project Health Checks
+
+Run a comprehensive project health check (build, lint, tests, and FOSSA scans):
+
+```bash
+./doctor
+```
+
 ## Code Quality
 
 Results from Sonar and CodeClimate analysis can be found in ReadMe file for backend in /api folder and for frontend in /ui folder. 

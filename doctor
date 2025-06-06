@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+echo "### Checking environment"
+echo "- Bash version: $BASH_VERSION"
+echo "- Node version: $(node --version 2>/dev/null || echo 'Node not found')"
+echo "- npm version: $(npm --version 2>/dev/null || echo 'npm not found')"
+echo "- Java version: $(java -version 2>&1 | head -n 1)"
+
+echo
+echo "### Running UI build & lint"
+pushd "$script_dir/ui" >/dev/null
+./scripts/build.sh
+popd >/dev/null
+
+echo
+echo "### Running API build & tests"
+pushd "$script_dir/api" >/dev/null
+./mvnw clean verify
+popd >/dev/null
+
+echo
+echo "### Checking FOSSA CLI"
+if ! command -v fossa >/dev/null; then
+  echo "ERROR: FOSSA CLI not installed!"
+  echo "Please install FOSSA CLI: https://docs.fossa.com/docs/cli/"
+else
+  fossa analyze
+  fossa test
+fi
+
+echo
+echo "### Project health check completed successfully."

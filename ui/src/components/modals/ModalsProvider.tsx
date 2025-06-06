@@ -8,7 +8,7 @@ export default function ModalsProvider({ children }: PropsWithChildren) {
     const [openedModals, setOpenedModals] = useState<{
         [modalKey: string]: React.ReactElement<PropsWithChildren>
     }>({})
-    const containerRef = useRef<HTMLDivElement>()
+    const containerRef = useRef<HTMLDivElement | null>(null)
 
     const showModal = (
         modal: React.ReactElement<PropsWithChildren>,

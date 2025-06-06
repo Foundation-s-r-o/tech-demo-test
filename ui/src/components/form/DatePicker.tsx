@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 import React from 'react'
 import ReactDatePicker, {
-    ReactDatePickerProps,
+    DatePickerProps,
     registerLocale,
 } from 'react-datepicker'
-import sk from 'date-fns/locale/sk'
+import { sk } from 'date-fns/locale/sk'
 
 registerLocale('sk', sk)
 
@@ -13,7 +13,7 @@ const FndtDatePicker = ({
     ...props
 }: {
     className?: string | undefined
-} & ReactDatePickerProps) => {
+} & DatePickerProps) => {
     const dateFormat = 'd.M.yyyy' // todo: get from env/db??
     return (
         <ReactDatePicker

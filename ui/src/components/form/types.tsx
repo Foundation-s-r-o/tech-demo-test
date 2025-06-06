@@ -1,6 +1,6 @@
 import FndtTextArea from '@components/form/TextArea'
 import { ReactElement } from 'react'
-import { ReactDatePickerProps } from 'react-datepicker'
+import { DatePickerProps } from 'react-datepicker'
 import FndtCheckbox from './Checkbox'
 import DatePickerField from './DatePickerField'
 import FndtInput from './Input'
@@ -37,15 +37,15 @@ interface SegmentPropsGeneric {
     isDisabled?: boolean
     isClearable?: boolean
     defaultValue?: SelectOption
-    fieldElement?: ReactElement
-    labelElement?: ReactElement
+    fieldElement?: ReactElement<any, any>
+    labelElement?: ReactElement<any, any>
     inputWrapperClassName?: string
-    datePickerProps?: Partial<ReactDatePickerProps> | null
+    datePickerProps?: Partial<DatePickerProps> | null
 }
 
 interface SegmentPropsForCustom extends SegmentPropsGeneric {
     type: FndtInputType.Custom
-    fieldElement: ReactElement
+    fieldElement: ReactElement<any, any>
 }
 
 interface SegmentPropsForText extends SegmentPropsGeneric {
@@ -88,14 +88,14 @@ interface SegmentPropsForMultipleCheckboxes extends SegmentPropsGeneric {
 export interface GetFieldProps {
     id: string
     name: string
-    fieldElement?: ReactElement
+    fieldElement?: ReactElement<any, any>
     isDisabled?: boolean
     isClearable?: boolean
     defaultValue?: SelectOption
     onChange?: (value: unknown) => void
     options?: SelectOption[]
     type: FndtInputType
-    datePickerProps?: Partial<ReactDatePickerProps> | null
+    datePickerProps?: Partial<DatePickerProps> | null
 }
 
 export type SegmentInputCombined =
