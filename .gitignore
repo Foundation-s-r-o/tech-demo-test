@@ -5,5 +5,3 @@ api/logs/
 .qodo
 .m2/
 .vscode/
-/api/logs
-api/logs/TechDemo.log
