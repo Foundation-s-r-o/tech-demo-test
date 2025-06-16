@@ -93,7 +93,7 @@
         "@storybook/testing-library": "^0.2.2",
         "@types/react-datepicker": "^7.0.0",
         "@typescript-eslint/eslint-plugin": "^8.26.0",
-        "@typescript-eslint/parser": "^8.26.0",
+        "@typescript-eslint/parser": "^8.34.0",
         "autoprefixer": "10.4.20",
         "babel-loader": "^10.0.0",
         "css-loader": "^7.1.2",
