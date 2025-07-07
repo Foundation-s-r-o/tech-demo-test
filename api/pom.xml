@@ -24,7 +24,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<testcontainers.version>1.20.6</testcontainers.version>
-		<tomcat.version>10.1.35</tomcat.version>
+		<tomcat.version>11.0.9</tomcat.version>
 	</properties>
 	<dependencies>
 		<dependency>
