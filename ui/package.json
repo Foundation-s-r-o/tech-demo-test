@@ -46,7 +46,7 @@
         "minimatch": "^9.0.7"
     },
     "dependencies": {
-        "@openapitools/openapi-generator-cli": "^2.17.0",
+        "@openapitools/openapi-generator-cli": "^2.20.2",
         "@types/lodash": "^4.17.16",
         "@types/react": "^19.0.10",
         "@types/react-bootstrap": "^0.32.37",
@@ -85,7 +85,7 @@
         "string-width": "^7.2.0",
         "styled-components": "^6.1.15",
         "supports-color": "^10.0.0",
-        "tr46": "^5.0.0",
+        "tr46": "^6.0.0",
         "type-fest": "^4.37.0",
         "webidl-conversions": "^7.0.0",
         "whatwg-url": "^14.1.1",
@@ -99,17 +99,17 @@
         "@babel/preset-react": "^7.26.3",
         "@babel/preset-typescript": "^7.29.7",
         "@faker-js/faker": "^9.5.1",
-        "@playwright/test": "^1.50.1",
+        "@playwright/test": "^1.56.1",
         "@storybook/addon-actions": "^8.6.4",
         "@storybook/addon-essentials": "^8.6.4",
-        "@storybook/addon-interactions": "^8.6.4",
+        "@storybook/addon-interactions": "^8.6.14",
         "@storybook/addon-links": "^8.6.4",
         "@storybook/react": "^8.6.4",
         "@storybook/react-webpack5": "^8.6.4",
         "@storybook/testing-library": "^0.2.2",
         "@types/react-datepicker": "^7.0.0",
-        "@typescript-eslint/eslint-plugin": "^8.26.0",
-        "@typescript-eslint/parser": "^8.26.0",
+        "@typescript-eslint/eslint-plugin": "^8.46.2",
+        "@typescript-eslint/parser": "^8.46.2",
         "autoprefixer": "10.4.20",
         "babel-loader": "^10.0.0",
         "css-loader": "^7.1.2",
@@ -121,7 +121,7 @@
         "http-server": "^14.1.1",
         "mini-css-extract-plugin": "^2.9.2",
         "npm-check-updates": "^17.1.15",
-        "playwright": "^1.50.1",
+        "playwright": "^1.56.1",
         "postcss": "^8.5.3",
         "postcss-loader": "^8.1.1",
         "prettier": "^3.5.3",
@@ -138,6 +138,6 @@
         "typescript": "^5.8.2",
         "webpack": "^5.98.0",
         "webpack-cli": "^6.0.1",
-        "webpack-dev-server": "^5.2.0"
+        "webpack-dev-server": "^5.2.2"
     }
 }
