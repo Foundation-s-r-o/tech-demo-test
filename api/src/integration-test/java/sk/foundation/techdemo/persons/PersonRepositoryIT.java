@@ -9,17 +9,15 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import sk.foundation.techdemo.TechDemoTestConfiguration;
 
 @DataJpaTest
-@Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("tc")
 @Import(TechDemoTestConfiguration.class)
@@ -51,8 +49,8 @@ class PersonRepositoryIT {
 		user2.setLastName("LN2");
 		user2.setEmail("u1@mail.sk");
 
-		assertDoesNotThrow(() -> personRepository.persist(user1));
-		assertThrows(DataIntegrityViolationException.class, () -> personRepository.persist(user2));
+		assertDoesNotThrow(() -> personRepository.saveAndFlush(user1));
+		assertThrows(DataIntegrityViolationException.class, () -> personRepository.saveAndFlush(user2));
 	}
 
 }

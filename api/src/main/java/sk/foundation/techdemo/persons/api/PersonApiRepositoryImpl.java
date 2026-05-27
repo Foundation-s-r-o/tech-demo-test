@@ -16,7 +16,6 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.Cacheable;
 import sk.foundation.techdemo.infrastructure.api.PagedRequestDTO;
 import sk.foundation.techdemo.infrastructure.db.IdentifiableEntity_;
 import sk.foundation.techdemo.persons.Person;
@@ -30,7 +29,6 @@ public class PersonApiRepositoryImpl implements PersonApiRepository {
 	private final Logger log = LoggerFactory.getLogger(PersonApiRepositoryImpl.class);
 
 	@Override
-	@Cacheable(value = "personlist")
 	public List<PersonListItemResponseDTO> listPersons(
 			PersonFilter filter,
 			PagedRequestDTO paging,

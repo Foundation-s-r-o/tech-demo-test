@@ -33,3 +33,6 @@ build/
 
 # Logs
 logs/
+
+# Local H2 database files
+data/

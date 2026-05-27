@@ -6,16 +6,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 
 import sk.foundation.techdemo.BaseIT;
 
+@WithMockUser
 class PersonControllerIT extends BaseIT {
 	
 	private static final String API_PERSONS = "/api/persons";
@@ -27,7 +28,6 @@ class PersonControllerIT extends BaseIT {
 	ObjectMapper objectMapper;
 
 	@Test
-	@Disabled("cache impl gives different results")
 	@Sql({ "/sql/clearAll.sql" })
 	void getPersonDetail_notFound() throws Exception {
 		mockMvc.perform(get(API_PERSONS_ID, 1).accept(MediaType.APPLICATION_JSON))
@@ -46,8 +46,7 @@ class PersonControllerIT extends BaseIT {
 	}
 
 	@Test
-	@Disabled("cache impl gives different results")
-	@Sql({ "/sql/clearAll.sql", "/sql/data.sql" })	
+	@Sql({ "/sql/clearAll.sql", "/sql/data.sql" })
 	void getPersonList_success() throws Exception {
 		mockMvc.perform(
 				get(API_PERSONS).accept(MediaType.APPLICATION_JSON)

@@ -1,5 +1,28 @@
 # Development Guidelines
 
+## Stack & Ground Rules (upgrade COMPLETE — 2026-05-27)
+
+The backend upgrade is **done**. Current stack: **Spring Boot 4.0.6 / Java 25 LTS / embedded H2 / Spring Security session login / OpenPDF**. Full history, reasoning, and the Boot-4 migration notes live in [`docs/UPGRADE_PLAN.md`](docs/UPGRADE_PLAN.md).
+
+**Build requirement:** Java 25 must be active before building — `sdk use java 25.0.3-zulu`. (The global SDKMAN default is intentionally left alone; the workspace has Java 8/11/21 projects.)
+
+**Fast iteration is paramount.** Keep the local inner loop fast and **flag anything that slows local development** — Docker requirements, slow tests, heavyweight infra. Speed comes from removing infra, not from loosening the build gate.
+
+**Current stack (in place):**
+- **Spring Boot 4.0.6** (stable 4.0 line; do NOT chase 4.1+).
+- **Java 25 LTS** (`sdk use java 25.0.3-zulu` to build).
+- **DB: embedded H2 file-mode** (`./data/`, gitignored) — no Docker. Flyway migrations in **portable ANSI SQL**. **PostgreSQL is the future production DB (deferred)** — dialect/datasource stay **profile-driven** (never hardcode `H2Dialect` in shared config); avoid vendor-specific SQL/types so the H2→Postgres swap stays a non-event.
+- **Auth: Spring Security session login**, users in DB, BCrypt. Bootstrap user **`admin` / `admin`** (seeded via Flyway `V3`). **Keycloak comes later** — auth is kept dead-simple and swappable; no premature OAuth2 abstraction. CSRF disabled + permissive CORS are **demo-only** (flagged in `SecurityConfig`/`WebConfiguration`); tighten before any real deployment.
+- **PDF: OpenPDF** (`com.github.librepdf:openpdf`) — `GET /api/persons/{id}/pdf`.
+- **JSON: Jackson 3** (`tools.jackson`, via `spring-boot-starter-json`).
+
+**Removed / deferred:**
+- **Removed:** Redis/Redisson, the `ai/` OpenAI package, `spring-cloud-sleuth-otel`, legacy `hibernate-types-60`, the custom `DbPhysicalNamingStrategy`.
+- **Observability:** **Actuator + Micrometer** only. **OpenTelemetry + Prometheus deferred** (Phase 8, on Boot-4-stable versions, when needed).
+- **Docker: not used** — returns later with Keycloak / real deployment / PostgreSQL ITs.
+
+**Build gate stays strict** during the upgrade: Checkstyle `failOnViolation=true`, integration tests + JaCoCo on `verify`. With few tests, the gate is the main safety net. Verify before each commit; do not relax it for speed.
+
 ## Project Overview
 
 This is a full-stack Java/Spring Boot + React/TypeScript demo application serving as a template for future projects. It implements a comprehensive tech stack with observability, security scanning, and modern development practices.
@@ -8,13 +31,11 @@ This is a full-stack Java/Spring Boot + React/TypeScript demo application servin
 
 **Backend (Java/Spring Boot)**
 - Entry Point: `TechDemoApplication.java:10` - Standard Spring Boot application
-- Framework: Spring Boot 3.4.3 with Java 17
-- Database: MariaDB with JPA/Hibernate, Flyway migrations
-- Caching: Redis with Redisson
+- Framework: Spring Boot 4.0.6 with Java 25 LTS
+- Database: embedded H2 (file-mode) with JPA/Hibernate 7, Flyway migrations
 - Key Features:
   - Person CRUD operations (`persons/` package)
-  - Authentication system (`auth/` package) 
-  - AI integration (`ai/` package)
+  - Authentication: Spring Security session login (`auth/` package)
   - Infrastructure utilities (`infrastructure/` package)
 
 **Frontend (React/TypeScript)**
@@ -183,27 +204,20 @@ npx playwright install chromium   # one-time, if the browser binary is missing
 - Follow OWASP secure coding practices
 - Run FOSSA scans to check dependencies
 
-## Recent Updates (Updated: 2025-08-19)
+## Recent Updates (Updated: 2026-05-27)
 
-### Major Improvements
-- **Project Health Script**: Added `./doctor` comprehensive health check tool
-- **Enhanced Linting**: Improved ESLint configuration with stricter TypeScript rules
-- **Security Updates**: Multiple Dependabot updates including:
-  - TestContainers BOM to 1.20.6
-  - Bouncy Castle libraries (bcprov-jdk18on, bcpkix-jdk18on) to 1.80
-  - OpenTelemetry exporter to 1.48.0
-  - okio-jvm to 3.10.2 (CVE fix)
+### Stack upgrade (Spring Boot 3.4 → 4.0.6, Java 17 → 25) — see `docs/UPGRADE_PLAN.md`
+- **Spring Boot 4.0.6 / Java 25 LTS**; Hibernate 7; Jackson 3 (`tools.jackson`).
+- **Database**: MariaDB → embedded **H2 file-mode** (no Docker); portable ANSI Flyway migrations; integration tests run Docker-free.
+- **Auth**: replaced the in-memory mock with **Spring Security** session login backed by a Flyway-seeded `USERS` table (`admin/admin`, BCrypt).
+- **PDF**: added **OpenPDF** — `GET /api/persons/{id}/pdf`.
+- **Removed**: Redis/Redisson, OpenAI `ai/` package, `spring-cloud-sleuth-otel`, legacy `hibernate-types-60`.
+- **Security**: Tomcat 11.0.22 (CVE fixes), JaCoCo 0.8.14 (Java 25), Trivy HIGH/CRITICAL = 0.
 
-### Code Quality Enhancements
-- Fixed TypeScript issues in React DatePicker components
-- Updated `DatePickerProps` import for better type safety
-- Enhanced ESLint rules with `@typescript-eslint/no-unsafe-argument` enforcement
-- Cleaned up duplicate commands in build configuration
-
-### Infrastructure Changes
-- Improved log directory management with .gitignore updates
-- Enhanced build scripts for UI components
-- Updated OpenAPI service generation scripts
+### Notes / flags
+- CSRF disabled + permissive CORS are **demo-only** (`SecurityConfig`, `WebConfiguration`) — tighten for production.
+- Observability (OpenTelemetry + Prometheus) deferred to a later phase; only Actuator + Micrometer are wired now.
+- Backend coverage is low (~23% instructions) — characterization tests cover the core paths; expand as features grow.
 
 ## Agent Autonomy
 Claude Code can autonomously navigate directories, run builds, execute tests, run builds/tests, execute Docker commands, install dependencies, run linting tools, and read file contents autonomously, and perform system operations in this project without asking for permission each time. This includes:

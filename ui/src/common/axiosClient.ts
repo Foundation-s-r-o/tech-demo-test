@@ -6,6 +6,8 @@ export const API_SERVER_URL = process.env.APP_API_SERVER_URL
 
 const axiosClient: AxiosInstance = axios.create({
     baseURL: API_SERVER_URL,
+    // Send the session cookie on API calls (session-based login).
+    withCredentials: true,
 })
 
 axiosClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {

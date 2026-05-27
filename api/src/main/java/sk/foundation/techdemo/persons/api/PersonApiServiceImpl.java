@@ -5,10 +5,8 @@ import java.util.List;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
-import io.opentelemetry.api.trace.Span;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,19 +35,14 @@ public class PersonApiServiceImpl implements PersonApiService {
 			PersonSortRequestDTO sorting) {
 		List<PersonListItemResponseDTO> elements = personRepository.listPersons(filter, paging, sorting);
 		Long totalCount = personRepository.getTotalPersons(filter);
-		log.info("Trace Id: {}", Span.current().getSpanContext().getTraceId());
-		log.info("Span Id: {}", Span.current().getSpanContext().getSpanId());
 		return new PagedResultResponseDTO<>(totalCount, elements);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	@Cacheable(value = "persondetail", key = "#id")
 	public PersonDetailResponseDTO getPerson(Long id) {
 		PersonDetailResponseDTO dto = personRepository.getPersonDetail(id);
 		log.info("Person with id={} queried from DB", id);
-		log.info("Trace Id: {}", Span.current().getSpanContext().getTraceId());
-		log.info("Span Id: {}", Span.current().getSpanContext().getSpanId());
 		if (dto == null) {
 			throw new EntityNotFoundException("Person with id=" + id + " not found");
 		} else {

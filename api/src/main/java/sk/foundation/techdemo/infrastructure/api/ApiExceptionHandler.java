@@ -7,11 +7,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import lombok.RequiredArgsConstructor;
+import sk.foundation.techdemo.auth.exception.UnauthorizedException;
 
 @ControllerAdvice
 @RequiredArgsConstructor
@@ -34,6 +36,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(
 				new ApiExceptionResponseDTO(HttpStatus.CONFLICT, t.getMessage()),
 				HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(value = { AuthenticationException.class, UnauthorizedException.class })
+	public ResponseEntity<Object> handleUnauthorized(
+			Exception t,
+			HttpServletRequest request,
+			HttpServletResponse response) {
+		return new ResponseEntity<>(
+				new ApiExceptionResponseDTO(HttpStatus.UNAUTHORIZED, "Invalid credentials"),
+				HttpStatus.UNAUTHORIZED);
 	}
 
 }

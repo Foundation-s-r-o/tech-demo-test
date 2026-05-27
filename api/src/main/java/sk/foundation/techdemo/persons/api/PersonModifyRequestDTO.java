@@ -1,7 +1,7 @@
 package sk.foundation.techdemo.persons.api;
 
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,26 +10,28 @@ import lombok.Setter;
 @Setter
 public class PersonModifyRequestDTO {
 
+	// Required fields mirror the not-null columns on PERSON; the rest are optional (nullable columns).
+	// Length is bounded with @Size (@Max is for numeric types and was silently ignored before Boot 4).
+
 	@NotNull
-	@Max(256)
+	@Size(max = 255)
 	private String firstName;
 
 	@NotNull
-	@Max(256)
+	@Size(max = 255)
 	private String lastName;
 
 	@NotNull
-	@Max(256)
+	@Size(max = 255)
 	private String email;
 
-	@NotNull
-	@Max(256)
+	@Size(max = 255)
 	private String address;
 
-	@Max(256)
+	@Size(max = 255)
 	private String state;
 
-	@Max(256)
+	@Size(max = 255)
 	private String phoneNumber;
 
 }

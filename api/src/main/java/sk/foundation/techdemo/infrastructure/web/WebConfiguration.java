@@ -14,7 +14,13 @@ public class WebConfiguration implements WebMvcConfigurer {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedMethods("*");
+		// Permissive CORS for the local SPA dev server. allowCredentials is required so the
+		// session cookie flows; with credentials we must use origin patterns, not "*".
+		// Demo-only — tighten the allowed origins for any real deployment.
+		registry.addMapping("/**")
+				.allowedOriginPatterns("*")
+				.allowedMethods("*")
+				.allowCredentials(true);
 	}
 
 	@Override

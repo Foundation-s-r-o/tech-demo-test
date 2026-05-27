@@ -3,6 +3,8 @@ package sk.foundation.techdemo.persons.api;
 import jakarta.validation.Valid;
 
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +28,20 @@ import sk.foundation.techdemo.infrastructure.api.PagedResultResponseDTO;
 public class PersonController {
 
 	private final PersonApiService personApiService;
+	private final PersonPdfService personPdfService;
 
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PersonDetailResponseDTO> get(@PathVariable("id") Long id) {
 		return new ResponseEntity<>(personApiService.getPerson(id), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/{id}/pdf", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<byte[]> getPdf(@PathVariable("id") Long id) {
+		byte[] pdf = personPdfService.generatePersonPdf(id);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_PDF);
+		headers.setContentDisposition(ContentDisposition.attachment().filename("person-" + id + ".pdf").build());
+		return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
 	}
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
