@@ -5,19 +5,39 @@ Run: 2026-05-27 · SonarQube host: `http://10.16.35.93:9000` (matrika local inst
 Tools: ESLint + tsc (ui), Checkstyle + JaCoCo (api), Trivy (fs vuln), SonarQube (api + ui).
 Raw artifacts in this folder: `eslint-report.txt`, `trivy-report.{txt,json}`, `sonar-metrics-*.json`, `sonar-issues-*.json`.
 
-## Summary
+## Remediation results (2026-05-27)
+
+Items 1–5 of the recommendations were executed and re-verified. Before → after:
+
+| Metric | Before | After |
+|---|---|---|
+| ESLint errors (ui) | 11 | **0** |
+| Trivy CRITICAL | 5 | **0** |
+| Trivy HIGH | 49 | **5** (no fix available — see below) |
+| Trivy MEDIUM / LOW | 52 / 14 | 16 / 4 |
+| Sonar api CRITICAL smells | 4 | **0** |
+| Sonar api code smells | 8 | 4 |
+| Sonar ui code smells | 72 | 69 |
+
+**5 remaining HIGH have no fix within the agreed constraints (stay on Spring Boot 3.4.x, minimal bumps):**
+- `spring-boot` / `spring-boot-starter-actuator` 3.4.13 — CVE-2026-40973, CVE-2026-22731, CVE-2026-22733 only fixed in 3.5.x / 4.0.x. Requires a major-line upgrade → out of scope.
+- `lodash` / `lodash-es` 4.17.21 — CVE-2026-4800; the listed fix `4.18.0` is **not released** (latest is 4.17.21). No fix available.
+
+**Verification:** `npm run lint` (0 errors), `npm run build` (compiles, pre-existing SCSS/bundle warnings only), `mvn clean test` (1 unit test pass, 0 checkstyle violations, integration-test sources compile). ⚠️ **Integration tests were NOT run — Docker/Testcontainers unavailable in this environment.** Trivy + SonarQube re-run; artifacts in this folder refreshed.
+
+## Summary (post-remediation)
 
 | Tool | api | ui |
 |---|---|---|
-| Build / compile | ✅ pass (1 unit test, 0 checkstyle violations) | ✅ tsc pass |
-| ESLint | n/a | ❌ **11 errors** |
+| Build / compile | ✅ pass (1 unit test, 0 checkstyle violations) | ✅ tsc + build pass |
+| ESLint | n/a | ✅ **0 errors** |
 | Sonar bugs | 0 | 3 |
 | Sonar vulnerabilities | 0 | 0 |
 | Sonar security hotspots | 1 (hardcoded password) | 0 |
-| Sonar code smells | 8 | 72 |
+| Sonar code smells | 4 | 69 |
 | Sonar coverage | 5.7% | 0% |
 | Sonar ratings (rel/sec/maint) | 1.0 / 1.0 / 1.0 | 3.0 / 1.0 / 1.0 |
-| Trivy | — combined: **5 CRITICAL, 49 HIGH, 52 MEDIUM, 14 LOW** — |
+| Trivy | — combined: **0 CRITICAL, 5 HIGH, 16 MEDIUM, 4 LOW** — |
 
 Sonar dashboards: [tech-demo-api](http://10.16.35.93:9000/dashboard?id=tech-demo-api) · [tech-demo-ui](http://10.16.35.93:9000/dashboard?id=tech-demo-ui)
 
@@ -57,9 +77,15 @@ Many npm findings are transitive — pin via `"overrides"` in `ui/package.json` 
 
 ## Recommendations (priority order)
 
-1. Fix the 11 ESLint errors (blocks `npm run lint` gate).
-2. Bump tomcat to 10.1.55 — clears 3 CRITICAL + 13 HIGH at once.
-3. Add npm `overrides` for form-data, basic-ftp, axios, react-router.
-4. Bump spring-boot/spring-core/bcprov/netty in pom.
-5. Address api CRITICAL smells (constants, tab char).
-6. Raise test coverage (api 5.7%, ui 0%).
+> **Status:** Items 1–5 executed and verified on 2026-05-27 (see *Remediation results* above). Item 6 deferred.
+
+| # | Recommendation | Status |
+|---|---|---|
+| 1 | Fix the 11 ESLint errors (blocks `npm run lint` gate) | ✅ Done — 0 errors |
+| 2 | Bump tomcat to 10.1.55 | ✅ Done — cleared 3 CRITICAL + 13 HIGH |
+| 3 | Add npm `overrides` for form-data, basic-ftp, axios, react-router | ✅ Done (axios/react-router-dom/path-to-regexp bumped directly; form-data, basic-ftp, minimatch, react-router via `overrides`) |
+| 4 | Bump spring-boot/spring-core/bcprov/netty in pom | ✅ Done — parent 3.4.3→3.4.13, bouncycastle 1.80→1.84, netty-bom 4.1.134 pinned |
+| 5 | Address api CRITICAL smells (constants, tab char) | ✅ Done — all 4 closed in Sonar |
+| 6 | Raise test coverage (api 5.7%, ui 0%) | ⬜ Deferred (follow-up) |
+
+**Accepted/remaining (no fix within constraints):** 5 Trivy HIGH (spring-boot/actuator 3.4.x, lodash) — see *Remediation results*. Sonar ui still has 3 bugs (a11y keyboard listeners) + 1 pre-existing CRITICAL (`await` non-Promise in `LoginForm.tsx`) — outside the lint/CVE scope, candidates for the coverage follow-up.

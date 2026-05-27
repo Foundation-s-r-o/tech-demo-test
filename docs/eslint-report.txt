@@ -2,25 +2,3 @@
 > react-typescript-ui-template@1.0.0 lint
 > tsc --noEmit && eslint --ext .ts,.tsx src/
 
-
-/Users/antony/fndt/demo/tech-demo-test/ui/src/common/auth/AuthProvider.tsx
-  77:22  error  'err' is defined but never used  @typescript-eslint/no-unused-vars
-
-/Users/antony/fndt/demo/tech-demo-test/ui/src/components/form/types.tsx
-  40:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  40:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  41:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  41:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  48:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  48:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  91:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  91:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-
-/Users/antony/fndt/demo/tech-demo-test/ui/src/components/shared/table/TableWrapper.tsx
-  158:18  error  'e' is defined but never used  @typescript-eslint/no-unused-vars
-
-/Users/antony/fndt/demo/tech-demo-test/ui/src/pages/login/LoginForm.tsx
-  30:18  error  'error' is defined but never used  @typescript-eslint/no-unused-vars
-
-✖ 11 problems (11 errors, 0 warnings)
-

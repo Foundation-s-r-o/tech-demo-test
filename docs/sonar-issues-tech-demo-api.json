@@ -103,7 +103,6 @@
       "severity": "CRITICAL",
       "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonRepository.java",
       "project": "tech-demo-api",
-      "line": 15,
       "hash": "da2059abbfa8cb9c4f0a0bbf74e98436",
       "textRange": {
         "startLine": 15,
@@ -112,7 +111,8 @@
         "endOffset": 6
       },
       "flows": [],
-      "status": "OPEN",
+      "resolution": "FIXED",
+      "status": "CLOSED",
       "message": "Remove the non-escaped \\u0009 character from this literal.",
       "effort": "10min",
       "debt": "10min",
@@ -121,7 +121,8 @@
         "pitfall"
       ],
       "creationDate": "2024-08-13T10:58:41+0000",
-      "updateDate": "2026-05-27T10:02:24+0000",
+      "updateDate": "2026-05-27T10:45:04+0000",
+      "closeDate": "2026-05-27T10:45:04+0000",
       "type": "CODE_SMELL",
       "scope": "MAIN",
       "quickFixAvailable": false,
@@ -135,97 +136,7 @@
           "severity": "HIGH"
         }
       ],
-      "issueStatus": "OPEN",
-      "prioritizedRule": false,
-      "fromSonarQubeUpdate": false,
-      "internalTags": [],
-      "linkedTicketStatus": "NOT_LINKED"
-    },
-    {
-      "key": "ffd87ad3-d4ca-4f2f-9b15-a77c9ddd34bf",
-      "rule": "java:S1192",
-      "severity": "CRITICAL",
-      "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
-      "project": "tech-demo-api",
-      "line": 27,
-      "hash": "e5311950427f64fce8407d9cd2a0b670",
-      "textRange": {
-        "startLine": 27,
-        "endLine": 27,
-        "startOffset": 11,
-        "endOffset": 25
-      },
-      "flows": [
-        {
-          "locations": [
-            {
-              "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
-              "textRange": {
-                "startLine": 27,
-                "endLine": 27,
-                "startOffset": 11,
-                "endOffset": 25
-              },
-              "msg": "Duplication",
-              "msgFormattings": []
-            }
-          ]
-        },
-        {
-          "locations": [
-            {
-              "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
-              "textRange": {
-                "startLine": 39,
-                "endLine": 39,
-                "startOffset": 11,
-                "endOffset": 25
-              },
-              "msg": "Duplication",
-              "msgFormattings": []
-            }
-          ]
-        },
-        {
-          "locations": [
-            {
-              "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
-              "textRange": {
-                "startLine": 48,
-                "endLine": 48,
-                "startOffset": 11,
-                "endOffset": 25
-              },
-              "msg": "Duplication",
-              "msgFormattings": []
-            }
-          ]
-        }
-      ],
-      "status": "OPEN",
-      "message": "Define a constant instead of duplicating this literal \"Trace Id: {}\" 3 times.",
-      "effort": "8min",
-      "debt": "8min",
-      "author": "antony@foundation.sk",
-      "tags": [
-        "design"
-      ],
-      "creationDate": "2024-08-13T10:58:41+0000",
-      "updateDate": "2026-05-27T10:02:24+0000",
-      "type": "CODE_SMELL",
-      "scope": "MAIN",
-      "quickFixAvailable": false,
-      "messageFormattings": [],
-      "codeVariants": [],
-      "cleanCodeAttribute": "DISTINCT",
-      "cleanCodeAttributeCategory": "ADAPTABLE",
-      "impacts": [
-        {
-          "softwareQuality": "MAINTAINABILITY",
-          "severity": "HIGH"
-        }
-      ],
-      "issueStatus": "OPEN",
+      "issueStatus": "FIXED",
       "prioritizedRule": false,
       "fromSonarQubeUpdate": false,
       "internalTags": [],
@@ -237,7 +148,6 @@
       "severity": "CRITICAL",
       "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
       "project": "tech-demo-api",
-      "line": 28,
       "hash": "95dc585c594ce198e08a3efd78dc2b93",
       "textRange": {
         "startLine": 28,
@@ -292,7 +202,8 @@
           ]
         }
       ],
-      "status": "OPEN",
+      "resolution": "FIXED",
+      "status": "CLOSED",
       "message": "Define a constant instead of duplicating this literal \"Span Id: {}\" 3 times.",
       "effort": "8min",
       "debt": "8min",
@@ -301,7 +212,8 @@
         "design"
       ],
       "creationDate": "2024-08-13T10:58:41+0000",
-      "updateDate": "2026-05-27T10:02:24+0000",
+      "updateDate": "2026-05-27T10:45:04+0000",
+      "closeDate": "2026-05-27T10:45:04+0000",
       "type": "CODE_SMELL",
       "scope": "MAIN",
       "quickFixAvailable": false,
@@ -315,7 +227,98 @@
           "severity": "HIGH"
         }
       ],
-      "issueStatus": "OPEN",
+      "issueStatus": "FIXED",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "ffd87ad3-d4ca-4f2f-9b15-a77c9ddd34bf",
+      "rule": "java:S1192",
+      "severity": "CRITICAL",
+      "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
+      "project": "tech-demo-api",
+      "hash": "e5311950427f64fce8407d9cd2a0b670",
+      "textRange": {
+        "startLine": 27,
+        "endLine": 27,
+        "startOffset": 11,
+        "endOffset": 25
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
+              "textRange": {
+                "startLine": 27,
+                "endLine": 27,
+                "startOffset": 11,
+                "endOffset": 25
+              },
+              "msg": "Duplication",
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
+              "textRange": {
+                "startLine": 39,
+                "endLine": 39,
+                "startOffset": 11,
+                "endOffset": 25
+              },
+              "msg": "Duplication",
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
+              "textRange": {
+                "startLine": 48,
+                "endLine": 48,
+                "startOffset": 11,
+                "endOffset": 25
+              },
+              "msg": "Duplication",
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Define a constant instead of duplicating this literal \"Trace Id: {}\" 3 times.",
+      "effort": "8min",
+      "debt": "8min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "design"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:45:04+0000",
+      "closeDate": "2026-05-27T10:45:04+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "DISTINCT",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "FIXED",
       "prioritizedRule": false,
       "fromSonarQubeUpdate": false,
       "internalTags": [],
@@ -327,7 +330,6 @@
       "severity": "CRITICAL",
       "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/api/PersonApiRepositoryImpl.java",
       "project": "tech-demo-api",
-      "line": 75,
       "hash": "78d5c327f17a5b7f4ce50fc8d3efea84",
       "textRange": {
         "startLine": 75,
@@ -336,7 +338,8 @@
         "endOffset": 50
       },
       "flows": [],
-      "status": "OPEN",
+      "resolution": "FIXED",
+      "status": "CLOSED",
       "message": "Use static access with \"sk.foundation.techdemo.infrastructure.db.IdentifiableEntity_\" for \"ID\".",
       "effort": "5min",
       "debt": "5min",
@@ -345,7 +348,8 @@
         "confusing"
       ],
       "creationDate": "2024-08-13T10:58:41+0000",
-      "updateDate": "2026-05-27T10:02:24+0000",
+      "updateDate": "2026-05-27T10:45:04+0000",
+      "closeDate": "2026-05-27T10:45:04+0000",
       "type": "CODE_SMELL",
       "scope": "MAIN",
       "quickFixAvailable": true,
@@ -359,7 +363,7 @@
           "severity": "HIGH"
         }
       ],
-      "issueStatus": "OPEN",
+      "issueStatus": "FIXED",
       "prioritizedRule": false,
       "fromSonarQubeUpdate": false,
       "internalTags": [],

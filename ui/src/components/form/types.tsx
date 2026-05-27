@@ -14,6 +14,13 @@ export type SelectOption = {
     label: string
 }
 
+export type FieldElementProps = {
+    name?: string
+    id?: string
+    value?: unknown
+    onChange?: (value: unknown) => void
+}
+
 export enum FndtInputType {
     TextDate = 'TextDate',
     Text = 'Text',
@@ -37,15 +44,15 @@ interface SegmentPropsGeneric {
     isDisabled?: boolean
     isClearable?: boolean
     defaultValue?: SelectOption
-    fieldElement?: ReactElement<any, any>
-    labelElement?: ReactElement<any, any>
+    fieldElement?: ReactElement<FieldElementProps>
+    labelElement?: ReactElement
     inputWrapperClassName?: string
     datePickerProps?: Partial<DatePickerProps> | null
 }
 
 interface SegmentPropsForCustom extends SegmentPropsGeneric {
     type: FndtInputType.Custom
-    fieldElement: ReactElement<any, any>
+    fieldElement: ReactElement<FieldElementProps>
 }
 
 interface SegmentPropsForText extends SegmentPropsGeneric {
@@ -88,7 +95,7 @@ interface SegmentPropsForMultipleCheckboxes extends SegmentPropsGeneric {
 export interface GetFieldProps {
     id: string
     name: string
-    fieldElement?: ReactElement<any, any>
+    fieldElement?: ReactElement<FieldElementProps>
     isDisabled?: boolean
     isClearable?: boolean
     defaultValue?: SelectOption

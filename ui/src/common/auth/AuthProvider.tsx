@@ -74,7 +74,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
                         },
                     })
                 }
-            } catch (err) {
+            } catch {
                 dispatch({
                     type: AuthStateReducerActionType.INIT,
                     payload: {

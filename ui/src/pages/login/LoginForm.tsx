@@ -27,7 +27,7 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
                 password: values.password,
             })
             onLoginSuccess()
-        } catch (error: unknown) {
+        } catch {
             showModal(<ErrorModal text="common.error.badCredentials" />)
         } finally {
             setIsLoading(false)

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.3</version>
+		<version>3.4.13</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>sk.foundation</groupId>
@@ -24,7 +24,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<testcontainers.version>1.20.6</testcontainers.version>
-		<tomcat.version>10.1.35</tomcat.version>
+		<tomcat.version>10.1.55</tomcat.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -143,12 +143,12 @@
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcpkix-jdk18on</artifactId>
-			<version>1.80</version>
+			<version>1.84</version>
 		</dependency>
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk18on</artifactId>
-			<version>1.80</version>
+			<version>1.84</version>
 		</dependency>
 		
 		<!-- Fix for CVE-2023-3635 in okio -->
@@ -211,6 +211,14 @@
 				<groupId>org.testcontainers</groupId>
 				<artifactId>testcontainers-bom</artifactId>
 				<version>${testcontainers.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- Pin Netty (transitive via redisson/loki) to clear CVE-2026-42583/42579 -->
+			<dependency>
+				<groupId>io.netty</groupId>
+				<artifactId>netty-bom</artifactId>
+				<version>4.1.134.Final</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>

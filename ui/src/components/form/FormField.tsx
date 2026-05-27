@@ -55,18 +55,20 @@ export const FndtFormField = ({
                 />
             )
 
-        case FndtInputType.Custom:
+        case FndtInputType.Custom: {
+            const customOnChange = fieldElement.props.onChange
             return React.cloneElement(fieldElement, {
                 name: name,
                 id: id,
                 value: field.value,
                 onChange: (value: unknown) => {
                     setFieldValue(name, value)
-                    if (isFunction(fieldElement.props.onChange)) {
-                        fieldElement.props.onChange(value)
+                    if (isFunction(customOnChange)) {
+                        customOnChange(value)
                     }
                 },
             })
+        }
 
         case FndtInputType.MultipleChecbkoxes:
             return (

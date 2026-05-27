@@ -155,7 +155,7 @@ export const FndtTableWrapper = <T extends IdentifiableItemResponse>({
                         e
                     )
                 })
-        } catch (e) {
+        } catch {
             dispatch({
                 type: FndtTableReducerActionType.LOAD_ERROR,
             })

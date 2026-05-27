@@ -490,6 +490,53 @@
       "linkedTicketStatus": "NOT_LINKED"
     },
     {
+      "key": "d9e1c112-ee35-4130-8712-10795d3332a1",
+      "rule": "typescript:S2486",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/common/auth/AuthProvider.tsx",
+      "project": "tech-demo-ui",
+      "hash": "9dcd66fc3d98a347c205c43e822e7ebd",
+      "textRange": {
+        "startLine": 77,
+        "endLine": 85,
+        "startOffset": 14,
+        "endOffset": 13
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Handle this exception or don't catch it at all.",
+      "effort": "1h",
+      "debt": "1h",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "cwe",
+        "error-handling",
+        "suspicious"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:45:16+0000",
+      "closeDate": "2026-05-27T10:45:16+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
       "key": "5c4b8194-1d0a-4ee4-af8d-c4c4c04d65e4",
       "rule": "typescript:S6759",
       "severity": "MINOR",
@@ -522,52 +569,6 @@
       "codeVariants": [],
       "cleanCodeAttribute": "CONVENTIONAL",
       "cleanCodeAttributeCategory": "CONSISTENT",
-      "impacts": [
-        {
-          "softwareQuality": "MAINTAINABILITY",
-          "severity": "LOW"
-        }
-      ],
-      "issueStatus": "OPEN",
-      "prioritizedRule": false,
-      "fromSonarQubeUpdate": false,
-      "internalTags": [],
-      "linkedTicketStatus": "NOT_LINKED"
-    },
-    {
-      "key": "d9e1c112-ee35-4130-8712-10795d3332a1",
-      "rule": "typescript:S2486",
-      "severity": "MINOR",
-      "component": "tech-demo-ui:src/common/auth/AuthProvider.tsx",
-      "project": "tech-demo-ui",
-      "line": 77,
-      "hash": "9dcd66fc3d98a347c205c43e822e7ebd",
-      "textRange": {
-        "startLine": 77,
-        "endLine": 85,
-        "startOffset": 14,
-        "endOffset": 13
-      },
-      "flows": [],
-      "status": "OPEN",
-      "message": "Handle this exception or don't catch it at all.",
-      "effort": "1h",
-      "debt": "1h",
-      "author": "antony@foundation.sk",
-      "tags": [
-        "cwe",
-        "error-handling",
-        "suspicious"
-      ],
-      "creationDate": "2024-08-13T10:58:41+0000",
-      "updateDate": "2026-05-27T10:02:35+0000",
-      "type": "CODE_SMELL",
-      "scope": "MAIN",
-      "quickFixAvailable": false,
-      "messageFormattings": [],
-      "codeVariants": [],
-      "cleanCodeAttribute": "CLEAR",
-      "cleanCodeAttributeCategory": "INTENTIONAL",
       "impacts": [
         {
           "softwareQuality": "MAINTAINABILITY",
@@ -1046,11 +1047,11 @@
       "severity": "MINOR",
       "component": "tech-demo-ui:src/components/form/FormField.tsx",
       "project": "tech-demo-ui",
-      "line": 79,
+      "line": 81,
       "hash": "52e493fdaad0277563718fa1c8954f7d",
       "textRange": {
-        "startLine": 79,
-        "endLine": 79,
+        "startLine": 81,
+        "endLine": 81,
         "startOffset": 51,
         "endOffset": 58
       },
@@ -1091,11 +1092,11 @@
       "severity": "MINOR",
       "component": "tech-demo-ui:src/components/form/FormField.tsx",
       "project": "tech-demo-ui",
-      "line": 82,
+      "line": 84,
       "hash": "c60d9a59e62d878d4fed140d7c4864ea",
       "textRange": {
-        "startLine": 82,
-        "endLine": 82,
+        "startLine": 84,
+        "endLine": 84,
         "startOffset": 63,
         "endOffset": 70
       },
@@ -1136,11 +1137,11 @@
       "severity": "MINOR",
       "component": "tech-demo-ui:src/components/form/FormField.tsx",
       "project": "tech-demo-ui",
-      "line": 84,
+      "line": 86,
       "hash": "804c2a908f9198c30252665304651063",
       "textRange": {
-        "startLine": 84,
-        "endLine": 84,
+        "startLine": 86,
+        "endLine": 86,
         "startOffset": 59,
         "endOffset": 66
       },
@@ -3275,6 +3276,53 @@
       "linkedTicketStatus": "NOT_LINKED"
     },
     {
+      "key": "4ed5e32b-2e99-4476-b95e-b20700ed4a00",
+      "rule": "typescript:S2486",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/shared/table/TableWrapper.tsx",
+      "project": "tech-demo-ui",
+      "hash": "550051ee6b000602ffe414172dfff76d",
+      "textRange": {
+        "startLine": 158,
+        "endLine": 165,
+        "startOffset": 10,
+        "endOffset": 9
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Handle this exception or don't catch it at all.",
+      "effort": "1h",
+      "debt": "1h",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "cwe",
+        "error-handling",
+        "suspicious"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:45:16+0000",
+      "closeDate": "2026-05-27T10:45:16+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
       "key": "fd15d910-8e6e-4d81-a768-0867f5530401",
       "rule": "typescript:S4822",
       "severity": "MAJOR",
@@ -3326,52 +3374,6 @@
         {
           "softwareQuality": "RELIABILITY",
           "severity": "MEDIUM"
-        }
-      ],
-      "issueStatus": "OPEN",
-      "prioritizedRule": false,
-      "fromSonarQubeUpdate": false,
-      "internalTags": [],
-      "linkedTicketStatus": "NOT_LINKED"
-    },
-    {
-      "key": "4ed5e32b-2e99-4476-b95e-b20700ed4a00",
-      "rule": "typescript:S2486",
-      "severity": "MINOR",
-      "component": "tech-demo-ui:src/components/shared/table/TableWrapper.tsx",
-      "project": "tech-demo-ui",
-      "line": 158,
-      "hash": "550051ee6b000602ffe414172dfff76d",
-      "textRange": {
-        "startLine": 158,
-        "endLine": 165,
-        "startOffset": 10,
-        "endOffset": 9
-      },
-      "flows": [],
-      "status": "OPEN",
-      "message": "Handle this exception or don't catch it at all.",
-      "effort": "1h",
-      "debt": "1h",
-      "author": "antony@foundation.sk",
-      "tags": [
-        "cwe",
-        "error-handling",
-        "suspicious"
-      ],
-      "creationDate": "2024-08-13T10:58:41+0000",
-      "updateDate": "2026-05-27T10:02:35+0000",
-      "type": "CODE_SMELL",
-      "scope": "MAIN",
-      "quickFixAvailable": false,
-      "messageFormattings": [],
-      "codeVariants": [],
-      "cleanCodeAttribute": "CLEAR",
-      "cleanCodeAttributeCategory": "INTENTIONAL",
-      "impacts": [
-        {
-          "softwareQuality": "MAINTAINABILITY",
-          "severity": "LOW"
         }
       ],
       "issueStatus": "OPEN",
@@ -3469,6 +3471,53 @@
       "linkedTicketStatus": "NOT_LINKED"
     },
     {
+      "key": "7ab32fe1-fff7-4139-8f83-d48d15988ffc",
+      "rule": "typescript:S2486",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/pages/login/LoginForm.tsx",
+      "project": "tech-demo-ui",
+      "hash": "30dc71eebdc36cc68d2b4a6e98944942",
+      "textRange": {
+        "startLine": 30,
+        "endLine": 32,
+        "startOffset": 10,
+        "endOffset": 9
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Handle this exception or don't catch it at all.",
+      "effort": "1h",
+      "debt": "1h",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "cwe",
+        "error-handling",
+        "suspicious"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:45:16+0000",
+      "closeDate": "2026-05-27T10:45:16+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
       "key": "03f2afc0-713d-46ac-86ed-cb74c8adb35b",
       "rule": "typescript:S4123",
       "severity": "CRITICAL",
@@ -3505,52 +3554,6 @@
         {
           "softwareQuality": "MAINTAINABILITY",
           "severity": "HIGH"
-        }
-      ],
-      "issueStatus": "OPEN",
-      "prioritizedRule": false,
-      "fromSonarQubeUpdate": false,
-      "internalTags": [],
-      "linkedTicketStatus": "NOT_LINKED"
-    },
-    {
-      "key": "7ab32fe1-fff7-4139-8f83-d48d15988ffc",
-      "rule": "typescript:S2486",
-      "severity": "MINOR",
-      "component": "tech-demo-ui:src/pages/login/LoginForm.tsx",
-      "project": "tech-demo-ui",
-      "line": 30,
-      "hash": "30dc71eebdc36cc68d2b4a6e98944942",
-      "textRange": {
-        "startLine": 30,
-        "endLine": 32,
-        "startOffset": 10,
-        "endOffset": 9
-      },
-      "flows": [],
-      "status": "OPEN",
-      "message": "Handle this exception or don't catch it at all.",
-      "effort": "1h",
-      "debt": "1h",
-      "author": "antony@foundation.sk",
-      "tags": [
-        "cwe",
-        "error-handling",
-        "suspicious"
-      ],
-      "creationDate": "2024-08-13T10:58:41+0000",
-      "updateDate": "2026-05-27T10:02:35+0000",
-      "type": "CODE_SMELL",
-      "scope": "MAIN",
-      "quickFixAvailable": false,
-      "messageFormattings": [],
-      "codeVariants": [],
-      "cleanCodeAttribute": "CLEAR",
-      "cleanCodeAttributeCategory": "INTENTIONAL",
-      "impacts": [
-        {
-          "softwareQuality": "MAINTAINABILITY",
-          "severity": "LOW"
         }
       ],
       "issueStatus": "OPEN",

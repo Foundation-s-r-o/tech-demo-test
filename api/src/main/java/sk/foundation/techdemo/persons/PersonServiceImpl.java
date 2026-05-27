@@ -13,6 +13,9 @@ import sk.foundation.techdemo.persons.api.PersonModifyRequestDTO;
 @RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService {
 
+	private static final String TRACE_ID_LOG = "Trace Id: {}";
+	private static final String SPAN_ID_LOG = "Span Id: {}";
+
 	private final PersonRepository personRepository;
 	private final Logger log;
 
@@ -24,8 +27,8 @@ public class PersonServiceImpl implements PersonService {
 
 		updateFromDTO(dto, person);
 		personRepository.persist(person);
-		log.info("Trace Id: {}", Span.current().getSpanContext().getTraceId());
-		log.info("Span Id: {}", Span.current().getSpanContext().getSpanId());
+		log.info(TRACE_ID_LOG, Span.current().getSpanContext().getTraceId());
+		log.info(SPAN_ID_LOG, Span.current().getSpanContext().getSpanId());
 		return person;
 	}
 
@@ -36,8 +39,8 @@ public class PersonServiceImpl implements PersonService {
 		Person person = personRepository.getReferenceById(id);
 
 		updateFromDTO(dto, person);
-		log.info("Trace Id: {}", Span.current().getSpanContext().getTraceId());
-		log.info("Span Id: {}", Span.current().getSpanContext().getSpanId());
+		log.info(TRACE_ID_LOG, Span.current().getSpanContext().getTraceId());
+		log.info(SPAN_ID_LOG, Span.current().getSpanContext().getSpanId());
 		return person;
 	}
 
@@ -45,8 +48,8 @@ public class PersonServiceImpl implements PersonService {
 	@Transactional
 	@CacheEvict(value = { "persondetail", "personlist" }, key = "#id")
 	public void deleteById(Long id) {
-		log.info("Trace Id: {}", Span.current().getSpanContext().getTraceId());
-		log.info("Span Id: {}", Span.current().getSpanContext().getSpanId());
+		log.info(TRACE_ID_LOG, Span.current().getSpanContext().getTraceId());
+		log.info(SPAN_ID_LOG, Span.current().getSpanContext().getSpanId());
 		personRepository.deleteById(id);
 	}
 

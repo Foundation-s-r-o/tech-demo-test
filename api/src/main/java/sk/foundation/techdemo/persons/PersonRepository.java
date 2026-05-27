@@ -14,13 +14,13 @@ public interface PersonRepository
 
 	@Query("""
 			select new sk.foundation.techdemo.persons.api.PersonDetailResponseDTO(
-				p.id,
-				p.firstName,
-				p.lastName,
-				p.email,
-				p.address,
-				p.state,
-				p.phoneNumber
+			p.id,
+			p.firstName,
+			p.lastName,
+			p.email,
+			p.address,
+			p.state,
+			p.phoneNumber
 			)
 			from Person p
 			where p.id = :id
