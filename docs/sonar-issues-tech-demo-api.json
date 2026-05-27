@@ -1,0 +1,545 @@
+{
+  "total": 8,
+  "p": 1,
+  "ps": 500,
+  "paging": {
+    "pageIndex": 1,
+    "pageSize": 500,
+    "total": 8
+  },
+  "effortTotal": 76,
+  "issues": [
+    {
+      "key": "9997d82d-fb05-4a05-998b-fe9264c276d4",
+      "rule": "java:S1125",
+      "severity": "MINOR",
+      "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/infrastructure/db/IdentifiableEntity.java",
+      "project": "tech-demo-api",
+      "line": 81,
+      "hash": "778ec1b2d62a2cb0202257e688d55288",
+      "textRange": {
+        "startLine": 81,
+        "endLine": 81,
+        "startOffset": 32,
+        "endOffset": 37
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove the unnecessary boolean literal.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "clumsy"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:24+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "045c3787-573c-450f-9c57-8c614c8e341a",
+      "rule": "java:S2160",
+      "severity": "MINOR",
+      "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/Person.java",
+      "project": "tech-demo-api",
+      "line": 25,
+      "hash": "8416712a73e0e95767bc62db9091323e",
+      "textRange": {
+        "startLine": 25,
+        "endLine": 25,
+        "startOffset": 13,
+        "endOffset": 19
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Override the \"equals\" method in this class.",
+      "effort": "30min",
+      "debt": "30min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "suspicious"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:24+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "COMPLETE",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "51180d2b-29d2-450f-94a8-025f4c4ba577",
+      "rule": "java:S2479",
+      "severity": "CRITICAL",
+      "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonRepository.java",
+      "project": "tech-demo-api",
+      "line": 15,
+      "hash": "da2059abbfa8cb9c4f0a0bbf74e98436",
+      "textRange": {
+        "startLine": 15,
+        "endLine": 27,
+        "startOffset": 8,
+        "endOffset": 6
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove the non-escaped \\u0009 character from this literal.",
+      "effort": "10min",
+      "debt": "10min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "pitfall"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:24+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "ffd87ad3-d4ca-4f2f-9b15-a77c9ddd34bf",
+      "rule": "java:S1192",
+      "severity": "CRITICAL",
+      "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
+      "project": "tech-demo-api",
+      "line": 27,
+      "hash": "e5311950427f64fce8407d9cd2a0b670",
+      "textRange": {
+        "startLine": 27,
+        "endLine": 27,
+        "startOffset": 11,
+        "endOffset": 25
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
+              "textRange": {
+                "startLine": 27,
+                "endLine": 27,
+                "startOffset": 11,
+                "endOffset": 25
+              },
+              "msg": "Duplication",
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
+              "textRange": {
+                "startLine": 39,
+                "endLine": 39,
+                "startOffset": 11,
+                "endOffset": 25
+              },
+              "msg": "Duplication",
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
+              "textRange": {
+                "startLine": 48,
+                "endLine": 48,
+                "startOffset": 11,
+                "endOffset": 25
+              },
+              "msg": "Duplication",
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Define a constant instead of duplicating this literal \"Trace Id: {}\" 3 times.",
+      "effort": "8min",
+      "debt": "8min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "design"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:24+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "DISTINCT",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "5476d8af-b759-40eb-aa39-a77f0333b4ec",
+      "rule": "java:S1192",
+      "severity": "CRITICAL",
+      "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
+      "project": "tech-demo-api",
+      "line": 28,
+      "hash": "95dc585c594ce198e08a3efd78dc2b93",
+      "textRange": {
+        "startLine": 28,
+        "endLine": 28,
+        "startOffset": 11,
+        "endOffset": 24
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
+              "textRange": {
+                "startLine": 28,
+                "endLine": 28,
+                "startOffset": 11,
+                "endOffset": 24
+              },
+              "msg": "Duplication",
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
+              "textRange": {
+                "startLine": 40,
+                "endLine": 40,
+                "startOffset": 11,
+                "endOffset": 24
+              },
+              "msg": "Duplication",
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
+              "textRange": {
+                "startLine": 49,
+                "endLine": 49,
+                "startOffset": 11,
+                "endOffset": 24
+              },
+              "msg": "Duplication",
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Define a constant instead of duplicating this literal \"Span Id: {}\" 3 times.",
+      "effort": "8min",
+      "debt": "8min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "design"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:24+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "DISTINCT",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "55e9a020-bba4-43d0-beee-f396c126b400",
+      "rule": "java:S3252",
+      "severity": "CRITICAL",
+      "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/api/PersonApiRepositoryImpl.java",
+      "project": "tech-demo-api",
+      "line": 75,
+      "hash": "78d5c327f17a5b7f4ce50fc8d3efea84",
+      "textRange": {
+        "startLine": 75,
+        "endLine": 75,
+        "startOffset": 48,
+        "endOffset": 50
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Use static access with \"sk.foundation.techdemo.infrastructure.db.IdentifiableEntity_\" for \"ID\".",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "confusing"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:24+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "b2bc5be8-a529-4bae-902d-4f936c0a969f",
+      "rule": "java:S1066",
+      "severity": "MAJOR",
+      "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/api/PersonApiServiceImpl.java",
+      "project": "tech-demo-api",
+      "line": 67,
+      "hash": "68333dd50d879c31e8fa480e327e14c6",
+      "textRange": {
+        "startLine": 67,
+        "endLine": 67,
+        "startOffset": 4,
+        "endOffset": 6
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/api/PersonApiServiceImpl.java",
+              "textRange": {
+                "startLine": 66,
+                "endLine": 66,
+                "startOffset": 3,
+                "endOffset": 5
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Merge this if statement with the enclosing one.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "clumsy"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:24+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "8eb4172f-975b-4ea6-a3b3-345746f205af",
+      "rule": "java:S1066",
+      "severity": "MAJOR",
+      "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/api/PersonApiServiceImpl.java",
+      "project": "tech-demo-api",
+      "line": 82,
+      "hash": "68333dd50d879c31e8fa480e327e14c6",
+      "textRange": {
+        "startLine": 82,
+        "endLine": 82,
+        "startOffset": 4,
+        "endOffset": 6
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/api/PersonApiServiceImpl.java",
+              "textRange": {
+                "startLine": 81,
+                "endLine": 81,
+                "startOffset": 3,
+                "endOffset": 5
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Merge this if statement with the enclosing one.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "clumsy"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:24+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    }
+  ],
+  "components": [
+    {
+      "key": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonRepository.java",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "PersonRepository.java",
+      "longName": "src/main/java/sk/foundation/techdemo/persons/PersonRepository.java",
+      "path": "src/main/java/sk/foundation/techdemo/persons/PersonRepository.java"
+    },
+    {
+      "key": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "PersonServiceImpl.java",
+      "longName": "src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java",
+      "path": "src/main/java/sk/foundation/techdemo/persons/PersonServiceImpl.java"
+    },
+    {
+      "key": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/api/PersonApiRepositoryImpl.java",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "PersonApiRepositoryImpl.java",
+      "longName": "src/main/java/sk/foundation/techdemo/persons/api/PersonApiRepositoryImpl.java",
+      "path": "src/main/java/sk/foundation/techdemo/persons/api/PersonApiRepositoryImpl.java"
+    },
+    {
+      "key": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/Person.java",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "Person.java",
+      "longName": "src/main/java/sk/foundation/techdemo/persons/Person.java",
+      "path": "src/main/java/sk/foundation/techdemo/persons/Person.java"
+    },
+    {
+      "key": "tech-demo-api",
+      "enabled": true,
+      "qualifier": "TRK",
+      "name": "tech-demo-api",
+      "longName": "tech-demo-api"
+    },
+    {
+      "key": "tech-demo-api:src/main/java/sk/foundation/techdemo/persons/api/PersonApiServiceImpl.java",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "PersonApiServiceImpl.java",
+      "longName": "src/main/java/sk/foundation/techdemo/persons/api/PersonApiServiceImpl.java",
+      "path": "src/main/java/sk/foundation/techdemo/persons/api/PersonApiServiceImpl.java"
+    },
+    {
+      "key": "tech-demo-api:src/main/java/sk/foundation/techdemo/infrastructure/db/IdentifiableEntity.java",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "IdentifiableEntity.java",
+      "longName": "src/main/java/sk/foundation/techdemo/infrastructure/db/IdentifiableEntity.java",
+      "path": "src/main/java/sk/foundation/techdemo/infrastructure/db/IdentifiableEntity.java"
+    }
+  ],
+  "facets": []
+}

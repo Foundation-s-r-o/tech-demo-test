@@ -1,0 +1,3930 @@
+{
+  "total": 75,
+  "p": 1,
+  "ps": 500,
+  "paging": {
+    "pageIndex": 1,
+    "pageSize": 500,
+    "total": 75
+  },
+  "effortTotal": 439,
+  "issues": [
+    {
+      "key": "b468c1b2-9466-4dfa-9d42-f97b55af6381",
+      "rule": "css:S4667",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/app/App.scss",
+      "project": "tech-demo-ui",
+      "line": 1,
+      "textRange": {
+        "startLine": 1,
+        "endLine": 1,
+        "startOffset": 0,
+        "endOffset": 0
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Unexpected empty source",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "",
+      "tags": [],
+      "creationDate": "2026-05-27T10:02:35+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "607e463a-7109-4859-b633-c4e889412244",
+      "rule": "css:S4667",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/layout/AppLayout.scss",
+      "project": "tech-demo-ui",
+      "line": 1,
+      "textRange": {
+        "startLine": 1,
+        "endLine": 1,
+        "startOffset": 0,
+        "endOffset": 0
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Unexpected empty source",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "",
+      "tags": [],
+      "creationDate": "2026-05-27T10:02:35+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "e8484e60-9eb9-4290-95e3-2c3626965dc0",
+      "rule": "typescript:S6767",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/form/DatePickerField.tsx",
+      "project": "tech-demo-ui",
+      "line": 9,
+      "hash": "ed1e75071417c2e94f6a65fb77f6544b",
+      "textRange": {
+        "startLine": 9,
+        "endLine": 9,
+        "startOffset": 4,
+        "endOffset": 12
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "'onChange' PropType is defined but prop is never used",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "react"
+      ],
+      "creationDate": "2025-02-28T13:14:17+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "fb529b87-f169-43fd-b06d-5faf893fad29",
+      "rule": "typescript:S6598",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/api/api.ts",
+      "project": "tech-demo-ui",
+      "line": 10,
+      "hash": "1a95a1d89797e3d00c3679ba086dec84",
+      "textRange": {
+        "startLine": 10,
+        "endLine": 10,
+        "startOffset": 4,
+        "endOffset": 31
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Interface has only a call signature, you should use a function type instead.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "function",
+        "type"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "faa71b24-7669-4399-824c-d70ef4e90613",
+      "rule": "css:S125",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/assets/sass/bootstrap_variables_override.scss",
+      "project": "tech-demo-ui",
+      "line": 1,
+      "hash": "917d9a4b1f92aeaee3c3b6fe5528f779",
+      "textRange": {
+        "startLine": 1,
+        "endLine": 1,
+        "startOffset": 0,
+        "endOffset": 60
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "d954b15e-fa3f-411a-8708-f8abff03e89e",
+      "rule": "css:S125",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/assets/sass/bootstrap_variables_override.scss",
+      "project": "tech-demo-ui",
+      "line": 13,
+      "hash": "395038354351f0ad69ca1b041c4811e8",
+      "textRange": {
+        "startLine": 13,
+        "endLine": 13,
+        "startOffset": 0,
+        "endOffset": 85
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "7594cdbc-831b-421d-beda-a1f40a01595a",
+      "rule": "css:S125",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/assets/sass/main.scss",
+      "project": "tech-demo-ui",
+      "line": 1,
+      "hash": "01cc8c1c0d9529e94d78fe54b9a403d8",
+      "textRange": {
+        "startLine": 1,
+        "endLine": 1,
+        "startOffset": 0,
+        "endOffset": 18
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "597707b5-c68a-4d8f-8ff1-5c3fd63860bc",
+      "rule": "css:S125",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/assets/sass/main.scss",
+      "project": "tech-demo-ui",
+      "line": 2,
+      "hash": "36789ac1b09750b928758201a19340b6",
+      "textRange": {
+        "startLine": 2,
+        "endLine": 2,
+        "startOffset": 0,
+        "endOffset": 24
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "651e5b01-f078-4bcb-a47a-cf4eda934f06",
+      "rule": "css:S125",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/assets/sass/main.scss",
+      "project": "tech-demo-ui",
+      "line": 3,
+      "hash": "e06acb6272ce876123f37cd59b55a94d",
+      "textRange": {
+        "startLine": 3,
+        "endLine": 3,
+        "startOffset": 0,
+        "endOffset": 23
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "0dcfd368-8405-4ec2-be13-8db2a9eb8224",
+      "rule": "css:S125",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/assets/sass/main.scss",
+      "project": "tech-demo-ui",
+      "line": 13,
+      "hash": "6a19dba96b7432da8f48f4dc3ad35eea",
+      "textRange": {
+        "startLine": 13,
+        "endLine": 13,
+        "startOffset": 0,
+        "endOffset": 57
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "d20581af-e7f1-44cf-abcd-d3085e73e55e",
+      "rule": "typescript:S7724",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/common/api/transformers.ts",
+      "project": "tech-demo-ui",
+      "line": 30,
+      "hash": "0c27889cae463d2974c68f5420ec20fd",
+      "textRange": {
+        "startLine": 30,
+        "endLine": 30,
+        "startOffset": 0,
+        "endOffset": 19
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Specify the rules you want to disable.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "eslint",
+        "linting"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "5c4b8194-1d0a-4ee4-af8d-c4c4c04d65e4",
+      "rule": "typescript:S6759",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/common/auth/AuthProvider.tsx",
+      "project": "tech-demo-ui",
+      "line": 19,
+      "hash": "ca397f89f8ea02407b289340d382748a",
+      "textRange": {
+        "startLine": 19,
+        "endLine": 19,
+        "startOffset": 37,
+        "endOffset": 68
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Mark the props of the component as read-only.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "d9e1c112-ee35-4130-8712-10795d3332a1",
+      "rule": "typescript:S2486",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/common/auth/AuthProvider.tsx",
+      "project": "tech-demo-ui",
+      "line": 77,
+      "hash": "9dcd66fc3d98a347c205c43e822e7ebd",
+      "textRange": {
+        "startLine": 77,
+        "endLine": 85,
+        "startOffset": 14,
+        "endOffset": 13
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Handle this exception or don't catch it at all.",
+      "effort": "1h",
+      "debt": "1h",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "cwe",
+        "error-handling",
+        "suspicious"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "0ec2464d-77b8-4ffe-bdee-975294b4824d",
+      "rule": "typescript:S6759",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/common/auth/RequireAuth.tsx",
+      "project": "tech-demo-ui",
+      "line": 6,
+      "hash": "e9710dd08a8adb65e5f3174549363b6a",
+      "textRange": {
+        "startLine": 6,
+        "endLine": 6,
+        "startOffset": 28,
+        "endOffset": 59
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Mark the props of the component as read-only.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "c0e5194d-78dd-4838-9e89-2dc9f724bca9",
+      "rule": "typescript:S7724",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/common/axiosClient.ts",
+      "project": "tech-demo-ui",
+      "line": 15,
+      "hash": "0c27889cae463d2974c68f5420ec20fd",
+      "textRange": {
+        "startLine": 15,
+        "endLine": 15,
+        "startOffset": 0,
+        "endOffset": 23
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Specify the rules you want to disable.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "eslint",
+        "linting"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "6781f019-d308-4730-8e73-b53f36c7c52c",
+      "rule": "typescript:S1135",
+      "severity": "INFO",
+      "component": "tech-demo-ui:src/common/persistService.ts",
+      "project": "tech-demo-ui",
+      "line": 12,
+      "hash": "ec7581509935401212a0f9dcdb0da3fb",
+      "textRange": {
+        "startLine": 12,
+        "endLine": 12,
+        "startOffset": 19,
+        "endOffset": 23
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Complete the task associated to this \"TODO\" comment.",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "cwe"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "COMPLETE",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "2b87425d-af4f-409d-b34e-19647a2f0b12",
+      "rule": "typescript:S7724",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/common/util.ts",
+      "project": "tech-demo-ui",
+      "line": 4,
+      "hash": "79d76ee0e735e5feb943a9e42aabfb7a",
+      "textRange": {
+        "startLine": 4,
+        "endLine": 4,
+        "startOffset": 0,
+        "endOffset": 41
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Specify the rules you want to disable.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "eslint",
+        "linting"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "e8d0b548-ad47-45cf-a3f3-8d09be5b3a3a",
+      "rule": "typescript:S6644",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/common/util.ts",
+      "project": "tech-demo-ui",
+      "line": 22,
+      "hash": "51b90277ac78d21597bc865dfa1a9ea3",
+      "textRange": {
+        "startLine": 22,
+        "endLine": 22,
+        "startOffset": 29,
+        "endOffset": 82
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Unnecessary use of conditional expression for default assignment.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "94e238f1-a014-4a82-8a29-42e65ccc58ed",
+      "rule": "typescript:S7773",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/common/util.ts",
+      "project": "tech-demo-ui",
+      "line": 29,
+      "hash": "a05267b9be707d53c31520ef05c95a24",
+      "textRange": {
+        "startLine": 29,
+        "endLine": 29,
+        "startOffset": 27,
+        "endOffset": 35
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Prefer `Number.parseInt` over `parseInt`.",
+      "effort": "2min",
+      "debt": "2min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "convention",
+        "es2015"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        },
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "1480e3bc-b4fd-4e0f-a5c2-2516e765f174",
+      "rule": "typescript:S4782",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/form/DatePicker.tsx",
+      "project": "tech-demo-ui",
+      "line": 15,
+      "hash": "22e3a6b450a86b8afcbd82caa0d1ead7",
+      "textRange": {
+        "startLine": 15,
+        "endLine": 15,
+        "startOffset": 13,
+        "endOffset": 14
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/form/DatePicker.tsx",
+              "textRange": {
+                "startLine": 15,
+                "endLine": 15,
+                "startOffset": 25,
+                "endOffset": 34
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Consider removing 'undefined' type or '?' specifier, one of them is redundant.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "redundant"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "5da0f7fd-54f2-4135-a5f6-fe5efe5a327e",
+      "rule": "typescript:S1135",
+      "severity": "INFO",
+      "component": "tech-demo-ui:src/components/form/DatePicker.tsx",
+      "project": "tech-demo-ui",
+      "line": 17,
+      "hash": "39a83a84384ab07293b67344b257eace",
+      "textRange": {
+        "startLine": 17,
+        "endLine": 17,
+        "startOffset": 37,
+        "endOffset": 41
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Complete the task associated to this \"TODO\" comment.",
+      "effort": "0min",
+      "debt": "0min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "cwe"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "COMPLETE",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "INFO"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "3054ea4c-26e4-4f8e-8cb7-39ccd5468fb7",
+      "rule": "typescript:S1301",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/form/FormField.tsx",
+      "project": "tech-demo-ui",
+      "line": 33,
+      "hash": "5aeacecddbdde97ae44ed0363d93f88a",
+      "textRange": {
+        "startLine": 33,
+        "endLine": 33,
+        "startOffset": 8,
+        "endOffset": 14
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Replace this \"switch\" statement by \"if\" statements to increase readability.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "bad-practice"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "05d21947-aedd-4d1a-8eee-02cc42b09ffe",
+      "rule": "typescript:S6644",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/form/FormField.tsx",
+      "project": "tech-demo-ui",
+      "line": 35,
+      "hash": "eb993ab86c4bfc6639fd180278ccfc45",
+      "textRange": {
+        "startLine": 35,
+        "endLine": 35,
+        "startOffset": 23,
+        "endOffset": 61
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Unnecessary use of conditional expression for default assignment.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "56488fa6-b7d6-40a7-8c27-bfb6cd46b285",
+      "rule": "typescript:S7765",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/form/FormField.tsx",
+      "project": "tech-demo-ui",
+      "line": 79,
+      "hash": "52e493fdaad0277563718fa1c8954f7d",
+      "textRange": {
+        "startLine": 79,
+        "endLine": 79,
+        "startOffset": 51,
+        "endOffset": 58
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Use `.includes()`, rather than `.indexOf()`, when checking for existence.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "readability",
+        "es6"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "452a35b2-4bf2-4dee-b062-b1bd7b978f13",
+      "rule": "typescript:S7765",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/form/FormField.tsx",
+      "project": "tech-demo-ui",
+      "line": 82,
+      "hash": "c60d9a59e62d878d4fed140d7c4864ea",
+      "textRange": {
+        "startLine": 82,
+        "endLine": 82,
+        "startOffset": 63,
+        "endOffset": 70
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Use `.includes()`, rather than `.indexOf()`, when checking for existence.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "readability",
+        "es6"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "1a9764ed-0e33-42e5-880a-08e25b9476ba",
+      "rule": "typescript:S7765",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/form/FormField.tsx",
+      "project": "tech-demo-ui",
+      "line": 84,
+      "hash": "804c2a908f9198c30252665304651063",
+      "textRange": {
+        "startLine": 84,
+        "endLine": 84,
+        "startOffset": 59,
+        "endOffset": 66
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Use `.includes()`, rather than `.indexOf()`, when checking for existence.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "readability",
+        "es6"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "cab9de90-2fc3-458f-b5aa-8164f8936ad2",
+      "rule": "typescript:S7781",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/form/InputSegment.tsx",
+      "project": "tech-demo-ui",
+      "line": 29,
+      "hash": "1602350a8f80f0dfe7570438c9466ecd",
+      "textRange": {
+        "startLine": 29,
+        "endLine": 29,
+        "startOffset": 74,
+        "endOffset": 81
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Prefer `String#replaceAll()` over `String#replace()`.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "readability",
+        "es2021"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        },
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "a380638b-8cdb-4412-8d5e-5225bd102cbe",
+      "rule": "typescript:S6644",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/form/InputSegment.tsx",
+      "project": "tech-demo-ui",
+      "line": 38,
+      "hash": "7698671d95e434ae412aca03b5bc0105",
+      "textRange": {
+        "startLine": 38,
+        "endLine": 38,
+        "startOffset": 37,
+        "endOffset": 75
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Unnecessary use of conditional expression for default assignment.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "c7bd0cbb-6f6c-4e8b-9b66-13a81bcc3905",
+      "rule": "typescript:S6644",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/form/InputSegment.tsx",
+      "project": "tech-demo-ui",
+      "line": 39,
+      "hash": "cf42c03b5e7d8de89f98c87efdbd0aa0",
+      "textRange": {
+        "startLine": 39,
+        "endLine": 39,
+        "startOffset": 28,
+        "endOffset": 78
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Unnecessary use of conditional expression for default assignment.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "13e9b03f-5249-466a-a08f-12a1f05083a4",
+      "rule": "typescript:S4782",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/form/Label.tsx",
+      "project": "tech-demo-ui",
+      "line": 9,
+      "hash": "eabacb8eb4d025a29ca28f0db780bf93",
+      "textRange": {
+        "startLine": 9,
+        "endLine": 9,
+        "startOffset": 11,
+        "endOffset": 12
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/form/Label.tsx",
+              "textRange": {
+                "startLine": 9,
+                "endLine": 9,
+                "startOffset": 23,
+                "endOffset": 32
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Consider removing 'undefined' type or '?' specifier, one of them is redundant.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "redundant"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "5f998114-b660-45f8-85a1-8b069c9ff369",
+      "rule": "typescript:S4782",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/form/Label.tsx",
+      "project": "tech-demo-ui",
+      "line": 10,
+      "hash": "22e3a6b450a86b8afcbd82caa0d1ead7",
+      "textRange": {
+        "startLine": 10,
+        "endLine": 10,
+        "startOffset": 13,
+        "endOffset": 14
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/form/Label.tsx",
+              "textRange": {
+                "startLine": 10,
+                "endLine": 10,
+                "startOffset": 25,
+                "endOffset": 34
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Consider removing 'undefined' type or '?' specifier, one of them is redundant.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "redundant"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "5002d1cf-be88-42e8-8200-090b2c8f50cf",
+      "rule": "typescript:S3358",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/form/TextDate.tsx",
+      "project": "tech-demo-ui",
+      "line": 12,
+      "hash": "e2ed7254e24599cdc6140e59d315513c",
+      "textRange": {
+        "startLine": 12,
+        "endLine": 12,
+        "startOffset": 41,
+        "endOffset": 88
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Extract this nested ternary operation into an independent statement.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "confusing"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "27c3bd83-89bb-4172-99f8-6899b14875c3",
+      "rule": "typescript:S6749",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/header/AppHeader.tsx",
+      "project": "tech-demo-ui",
+      "line": 22,
+      "hash": "38559c871fba28d992ead51549367f83",
+      "textRange": {
+        "startLine": 22,
+        "endLine": 60,
+        "startOffset": 8,
+        "endOffset": 11
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "A fragment with only one child is redundant.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "DISTINCT",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "77d1ea47-2b94-4a72-a997-fdd0ba756551",
+      "rule": "typescript:S1077",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/header/AppHeader.tsx",
+      "project": "tech-demo-ui",
+      "line": 34,
+      "hash": "e3fb3d0b0ea5cb24303d989f0e709670",
+      "textRange": {
+        "startLine": 34,
+        "endLine": 34,
+        "startOffset": 29,
+        "endOffset": 32
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "accessibility",
+        "react",
+        "wcag2-a"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "COMPLETE",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "2e45a1ce-e868-45a3-b94c-721e5abfe8dd",
+      "rule": "typescript:S6749",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/header/AppHeader.tsx",
+      "project": "tech-demo-ui",
+      "line": 50,
+      "hash": "38559c871fba28d992ead51549367f83",
+      "textRange": {
+        "startLine": 50,
+        "endLine": 54,
+        "startOffset": 32,
+        "endOffset": 35
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "A fragment with only one child is redundant.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "DISTINCT",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "0cb80de2-081d-42da-89dc-2ed6fe62a9c8",
+      "rule": "typescript:S6759",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/layout/PageControls.tsx",
+      "project": "tech-demo-ui",
+      "line": 3,
+      "hash": "8ca153e0f3b9b6140857dbfc93be1d4a",
+      "textRange": {
+        "startLine": 3,
+        "endLine": 3,
+        "startOffset": 37,
+        "endOffset": 68
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Mark the props of the component as read-only.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "2db0f335-94e4-4ae4-b921-8f78d92fefc1",
+      "rule": "typescript:S6479",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/menu/AppMenu.tsx",
+      "project": "tech-demo-ui",
+      "line": 49,
+      "hash": "62414877981bbf6640e6ef1aed1a1c07",
+      "textRange": {
+        "startLine": 49,
+        "endLine": 49,
+        "startOffset": 53,
+        "endOffset": 63
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Do not use Array index in keys",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "performance",
+        "react",
+        "jsx"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "810ae936-9fae-446e-b62b-ea62475cbb6d",
+      "rule": "typescript:S1082",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/menu/MenuCollapse.tsx",
+      "project": "tech-demo-ui",
+      "line": 12,
+      "hash": "d90c26198ff23a5c54f81269ceed5c01",
+      "textRange": {
+        "startLine": 12,
+        "endLine": 14,
+        "startOffset": 8,
+        "endOffset": 39
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "accessibility",
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "BUG",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "COMPLETE",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "b2f0b8af-5c7d-411d-b10a-8ce55c98d54c",
+      "rule": "typescript:S6848",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/menu/MenuCollapse.tsx",
+      "project": "tech-demo-ui",
+      "line": 12,
+      "hash": "d90c26198ff23a5c54f81269ceed5c01",
+      "textRange": {
+        "startLine": 12,
+        "endLine": 14,
+        "startOffset": 8,
+        "endOffset": 39
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "accessibility",
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        },
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "6b80e8c1-cb7b-40a2-b976-edd40e6eb314",
+      "rule": "typescript:S6479",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/menu/MenuRow.tsx",
+      "project": "tech-demo-ui",
+      "line": 23,
+      "hash": "90704d17c4dd9026dc4be37f2309668c",
+      "textRange": {
+        "startLine": 23,
+        "endLine": 23,
+        "startOffset": 45,
+        "endOffset": 55
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Do not use Array index in keys",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "performance",
+        "react",
+        "jsx"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "6654df1a-698a-4fa0-860b-4ce01118501e",
+      "rule": "typescript:S6848",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/menu/SubMenuRow.tsx",
+      "project": "tech-demo-ui",
+      "line": 11,
+      "hash": "d90c26198ff23a5c54f81269ceed5c01",
+      "textRange": {
+        "startLine": 11,
+        "endLine": 17,
+        "startOffset": 12,
+        "endOffset": 48
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "accessibility",
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        },
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "7b2a8962-ef63-43e5-977d-c4f08596a367",
+      "rule": "typescript:S1082",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/menu/SubMenuRow.tsx",
+      "project": "tech-demo-ui",
+      "line": 11,
+      "hash": "d90c26198ff23a5c54f81269ceed5c01",
+      "textRange": {
+        "startLine": 11,
+        "endLine": 17,
+        "startOffset": 12,
+        "endOffset": 48
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "accessibility",
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "BUG",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "COMPLETE",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "6b2ff6fe-46e0-48ad-b22d-172844786c7c",
+      "rule": "typescript:S6759",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/modals/ModalsProvider.tsx",
+      "project": "tech-demo-ui",
+      "line": 7,
+      "hash": "521bcb9a9b1eaa30ee0860f111528ae3",
+      "textRange": {
+        "startLine": 7,
+        "endLine": 7,
+        "startOffset": 39,
+        "endOffset": 70
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Mark the props of the component as read-only.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "eaaddfe5-0f24-4a6f-8ffc-f4a221510efa",
+      "rule": "typescript:S6749",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/shared/ContextProviders.tsx",
+      "project": "tech-demo-ui",
+      "line": 7,
+      "hash": "38559c871fba28d992ead51549367f83",
+      "textRange": {
+        "startLine": 7,
+        "endLine": 13,
+        "startOffset": 8,
+        "endOffset": 11
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "A fragment with only one child is redundant.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "DISTINCT",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "7429f8ad-28ff-4d2f-8938-428f7406bc74",
+      "rule": "css:S125",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/accordion/Accordion.scss",
+      "project": "tech-demo-ui",
+      "line": 1,
+      "hash": "face3b02c2c67e6c55121ae3996f9931",
+      "textRange": {
+        "startLine": 1,
+        "endLine": 1,
+        "startOffset": 0,
+        "endOffset": 63
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Remove this commented out code.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "unused"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "5c322932-33fe-46db-9353-7d4a775ba47e",
+      "rule": "typescript:S6759",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/shared/alert-modals/ErrorModal.tsx",
+      "project": "tech-demo-ui",
+      "line": 13,
+      "hash": "b83d4c51a46e00c3e49b06367490de24",
+      "textRange": {
+        "startLine": 13,
+        "endLine": 16,
+        "startOffset": 35,
+        "endOffset": 18
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Mark the props of the component as read-only.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "f49570b8-a59a-4adc-9f3b-6eb4d09617a2",
+      "rule": "typescript:S6759",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/shared/alert-modals/InfoModal.tsx",
+      "project": "tech-demo-ui",
+      "line": 13,
+      "hash": "76cfea29f1dad65323a1a00f597fcb4c",
+      "textRange": {
+        "startLine": 13,
+        "endLine": 13,
+        "startOffset": 34,
+        "endOffset": 77
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Mark the props of the component as read-only.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "3f319213-5a7e-4f76-a7a8-e80f518ea7bb",
+      "rule": "typescript:S4782",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+      "project": "tech-demo-ui",
+      "line": 10,
+      "hash": "077147c0217abb45668965226f9f6531",
+      "textRange": {
+        "startLine": 10,
+        "endLine": 10,
+        "startOffset": 8,
+        "endOffset": 9
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+              "textRange": {
+                "startLine": 10,
+                "endLine": 10,
+                "startOffset": 28,
+                "endOffset": 37
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Consider removing 'undefined' type or '?' specifier, one of them is redundant.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "redundant"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "c44e6de0-3a08-48ee-80be-7981e644e056",
+      "rule": "typescript:S4782",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+      "project": "tech-demo-ui",
+      "line": 13,
+      "hash": "0d0e72ab6165eb389a13118716937d33",
+      "textRange": {
+        "startLine": 13,
+        "endLine": 13,
+        "startOffset": 12,
+        "endOffset": 13
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+              "textRange": {
+                "startLine": 13,
+                "endLine": 13,
+                "startOffset": 24,
+                "endOffset": 33
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Consider removing 'undefined' type or '?' specifier, one of them is redundant.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "redundant"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "5e8d3a08-a38e-4c91-aa9a-d3c91e3d8066",
+      "rule": "typescript:S4782",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+      "project": "tech-demo-ui",
+      "line": 14,
+      "hash": "06a525203e72ad150d63bf1a6b36848e",
+      "textRange": {
+        "startLine": 14,
+        "endLine": 14,
+        "startOffset": 8,
+        "endOffset": 9
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+              "textRange": {
+                "startLine": 14,
+                "endLine": 14,
+                "startOffset": 20,
+                "endOffset": 29
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Consider removing 'undefined' type or '?' specifier, one of them is redundant.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "redundant"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "741a7a82-e439-48af-8054-ca951ead4be5",
+      "rule": "typescript:S4782",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+      "project": "tech-demo-ui",
+      "line": 15,
+      "hash": "b1c6483e0bb86acb0aa2c537c8c98848",
+      "textRange": {
+        "startLine": 15,
+        "endLine": 15,
+        "startOffset": 6,
+        "endOffset": 7
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+              "textRange": {
+                "startLine": 15,
+                "endLine": 15,
+                "startOffset": 18,
+                "endOffset": 27
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Consider removing 'undefined' type or '?' specifier, one of them is redundant.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "redundant"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "135c5f84-c7e2-46c8-aa01-abe776269eca",
+      "rule": "typescript:S4782",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+      "project": "tech-demo-ui",
+      "line": 16,
+      "hash": "22e3a6b450a86b8afcbd82caa0d1ead7",
+      "textRange": {
+        "startLine": 16,
+        "endLine": 16,
+        "startOffset": 13,
+        "endOffset": 14
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+              "textRange": {
+                "startLine": 16,
+                "endLine": 16,
+                "startOffset": 25,
+                "endOffset": 34
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Consider removing 'undefined' type or '?' specifier, one of them is redundant.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "redundant"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "f60a2bb5-4ac7-4e74-b47f-07ea012916e0",
+      "rule": "typescript:S4782",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+      "project": "tech-demo-ui",
+      "line": 17,
+      "hash": "264e1a1b894f3431ae40f9c464ce2839",
+      "textRange": {
+        "startLine": 17,
+        "endLine": 17,
+        "startOffset": 10,
+        "endOffset": 11
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+              "textRange": {
+                "startLine": 17,
+                "endLine": 17,
+                "startOffset": 22,
+                "endOffset": 31
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Consider removing 'undefined' type or '?' specifier, one of them is redundant.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "redundant"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "5b5923dd-2a7d-4abe-95a1-903b0a32f3c9",
+      "rule": "typescript:S4782",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+      "project": "tech-demo-ui",
+      "line": 18,
+      "hash": "da28e1deed19bfd6418c91e33c39c48d",
+      "textRange": {
+        "startLine": 18,
+        "endLine": 18,
+        "startOffset": 7,
+        "endOffset": 8
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+              "textRange": {
+                "startLine": 18,
+                "endLine": 18,
+                "startOffset": 19,
+                "endOffset": 28
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Consider removing 'undefined' type or '?' specifier, one of them is redundant.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "redundant"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "08b0b009-47fb-410b-abdf-73655594cffc",
+      "rule": "typescript:S4782",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+      "project": "tech-demo-ui",
+      "line": 19,
+      "hash": "b1def3e575998c7fcbec29d488a600d9",
+      "textRange": {
+        "startLine": 19,
+        "endLine": 19,
+        "startOffset": 19,
+        "endOffset": 20
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+              "textRange": {
+                "startLine": 19,
+                "endLine": 19,
+                "startOffset": 29,
+                "endOffset": 38
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Consider removing 'undefined' type or '?' specifier, one of them is redundant.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "redundant"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "60c65f46-8807-4c96-a2f8-b6b2bf604727",
+      "rule": "typescript:S4782",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+      "project": "tech-demo-ui",
+      "line": 22,
+      "hash": "2b40dc651aa1323cb2e9fc42372ee3bd",
+      "textRange": {
+        "startLine": 22,
+        "endLine": 22,
+        "startOffset": 8,
+        "endOffset": 9
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+              "textRange": {
+                "startLine": 22,
+                "endLine": 22,
+                "startOffset": 28,
+                "endOffset": 37
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Consider removing 'undefined' type or '?' specifier, one of them is redundant.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "redundant"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "091be2ce-1465-4991-88de-d505d7a137d4",
+      "rule": "typescript:S4782",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+      "project": "tech-demo-ui",
+      "line": 23,
+      "hash": "0956dc4635edec7ad8137223a70d05ed",
+      "textRange": {
+        "startLine": 23,
+        "endLine": 23,
+        "startOffset": 12,
+        "endOffset": 13
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+              "textRange": {
+                "startLine": 23,
+                "endLine": 23,
+                "startOffset": 25,
+                "endOffset": 34
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Consider removing 'undefined' type or '?' specifier, one of them is redundant.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "redundant"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "c1f13345-9310-49eb-9d25-4441ad14ba1e",
+      "rule": "typescript:S4782",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+      "project": "tech-demo-ui",
+      "line": 24,
+      "hash": "fc1f168dc44ea4a0bb09e9105a21c6a8",
+      "textRange": {
+        "startLine": 24,
+        "endLine": 24,
+        "startOffset": 10,
+        "endOffset": 11
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/shared/buttons/types.ts",
+              "textRange": {
+                "startLine": 24,
+                "endLine": 24,
+                "startOffset": 23,
+                "endOffset": 32
+              },
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Consider removing 'undefined' type or '?' specifier, one of them is redundant.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "redundant"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "c7483131-313e-4ac5-95f6-0ee90e81ba17",
+      "rule": "typescript:S6759",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/shared/forms/InputRow.tsx",
+      "project": "tech-demo-ui",
+      "line": 3,
+      "hash": "9a0d2a50cdd6964ea652e6eaf9a5187d",
+      "textRange": {
+        "startLine": 3,
+        "endLine": 7,
+        "startOffset": 33,
+        "endOffset": 1
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Mark the props of the component as read-only.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "9a50665b-6006-447d-adef-ccc5f2d5b71d",
+      "rule": "typescript:S6479",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/forms/InputRow.tsx",
+      "project": "tech-demo-ui",
+      "line": 13,
+      "hash": "0dfd4962214954d675377d11fe111fba",
+      "textRange": {
+        "startLine": 13,
+        "endLine": 13,
+        "startOffset": 29,
+        "endOffset": 34
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Do not use Array index in keys",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "performance",
+        "react",
+        "jsx"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "641530ee-3e7f-4198-bec3-fb19bea61852",
+      "rule": "typescript:S6759",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/shared/forms/InputSection.tsx",
+      "project": "tech-demo-ui",
+      "line": 4,
+      "hash": "86f135787a7cd235d41ca88278eed313",
+      "textRange": {
+        "startLine": 4,
+        "endLine": 10,
+        "startOffset": 37,
+        "endOffset": 1
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Mark the props of the component as read-only.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "50db0f09-04c5-4b35-a857-fad0f10ac1a4",
+      "rule": "css:S4658",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/table/Table.scss",
+      "project": "tech-demo-ui",
+      "line": 27,
+      "hash": "2fc2d499383f7c018b4c45ac33fc9b2c",
+      "textRange": {
+        "startLine": 27,
+        "endLine": 27,
+        "startOffset": 0,
+        "endOffset": 16
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Unexpected empty block",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "fca2e06e-1bab-4bfc-97c4-da1f37fc6543",
+      "rule": "css:S4658",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/table/Table.scss",
+      "project": "tech-demo-ui",
+      "line": 36,
+      "hash": "27f1306aded4a6c1b10dbaec06603f6e",
+      "textRange": {
+        "startLine": 36,
+        "endLine": 36,
+        "startOffset": 0,
+        "endOffset": 16
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Unexpected empty block",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "a905225f-908a-408a-8b80-c6da05b43f22",
+      "rule": "typescript:S7735",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/shared/table/TableHeadCell.tsx",
+      "project": "tech-demo-ui",
+      "line": 35,
+      "hash": "a307c7d957eb6821c47a0a4454c0a850",
+      "textRange": {
+        "startLine": 35,
+        "endLine": 35,
+        "startOffset": 12,
+        "endOffset": 24
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Unexpected negated condition.",
+      "effort": "2min",
+      "debt": "2min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "readability"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "c75da5a7-2a7a-4ed6-aa0c-75c00cfef854",
+      "rule": "typescript:S6844",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/table/TableHeadCell.tsx",
+      "project": "tech-demo-ui",
+      "line": 55,
+      "hash": "2518e8d779a92f826f3c8b7a1c062913",
+      "textRange": {
+        "startLine": 55,
+        "endLine": 60,
+        "startOffset": 16,
+        "endOffset": 41
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "accessibility",
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        },
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "a7fe5ab7-a229-4005-b05a-97f3d044d638",
+      "rule": "typescript:S7773",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/shared/table/TablePagination.tsx",
+      "project": "tech-demo-ui",
+      "line": 117,
+      "hash": "eb55d7b4d9aa6c2e93243334312b9c37",
+      "textRange": {
+        "startLine": 117,
+        "endLine": 117,
+        "startOffset": 48,
+        "endOffset": 56
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Prefer `Number.parseInt` over `parseInt`.",
+      "effort": "2min",
+      "debt": "2min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "convention",
+        "es2015"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        },
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "80d1f6fa-76c8-4ba9-9406-77229224b14d",
+      "rule": "typescript:S7773",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/shared/table/TablePagination.tsx",
+      "project": "tech-demo-ui",
+      "line": 150,
+      "hash": "eb55d7b4d9aa6c2e93243334312b9c37",
+      "textRange": {
+        "startLine": 150,
+        "endLine": 150,
+        "startOffset": 44,
+        "endOffset": 52
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Prefer `Number.parseInt` over `parseInt`.",
+      "effort": "2min",
+      "debt": "2min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "convention",
+        "es2015"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        },
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "fec59e8e-811e-464d-9df6-ebe2972ea065",
+      "rule": "typescript:S7773",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/shared/table/TablePagination.tsx",
+      "project": "tech-demo-ui",
+      "line": 152,
+      "hash": "f894da74efb2e8cd77a7f5b9b00be7ab",
+      "textRange": {
+        "startLine": 152,
+        "endLine": 152,
+        "startOffset": 57,
+        "endOffset": 65
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Prefer `Number.parseInt` over `parseInt`.",
+      "effort": "2min",
+      "debt": "2min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "convention",
+        "es2015"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        },
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "fd15d910-8e6e-4d81-a768-0867f5530401",
+      "rule": "typescript:S4822",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/table/TableWrapper.tsx",
+      "project": "tech-demo-ui",
+      "line": 122,
+      "hash": "80d5b17efc16ace990c07580fc3e85eb",
+      "textRange": {
+        "startLine": 122,
+        "endLine": 122,
+        "startOffset": 8,
+        "endOffset": 11
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/shared/table/TableWrapper.tsx",
+              "textRange": {
+                "startLine": 123,
+                "endLine": 147,
+                "startOffset": 12,
+                "endOffset": 18
+              },
+              "msg": "Caught promise",
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "status": "OPEN",
+      "message": "Consider removing this 'try' statement as promise rejection is already captured by '.catch()' method.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "BUG",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "4ed5e32b-2e99-4476-b95e-b20700ed4a00",
+      "rule": "typescript:S2486",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/shared/table/TableWrapper.tsx",
+      "project": "tech-demo-ui",
+      "line": 158,
+      "hash": "550051ee6b000602ffe414172dfff76d",
+      "textRange": {
+        "startLine": 158,
+        "endLine": 165,
+        "startOffset": 10,
+        "endOffset": 9
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Handle this exception or don't catch it at all.",
+      "effort": "1h",
+      "debt": "1h",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "cwe",
+        "error-handling",
+        "suspicious"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "67a1f043-2753-44d8-b694-7ca350068d82",
+      "rule": "typescript:S7722",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/shared/table/reducer.ts",
+      "project": "tech-demo-ui",
+      "line": 41,
+      "hash": "221d6e1b8aa8ccaedf61c21b62d45fbc",
+      "textRange": {
+        "startLine": 41,
+        "endLine": 41,
+        "startOffset": 18,
+        "endOffset": 29
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Pass a message to the `Error` constructor.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "error-handling"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "3ab0c5b9-ef76-4eaf-9c25-67b931ffbbfe",
+      "rule": "typescript:S6627",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/index.tsx",
+      "project": "tech-demo-ui",
+      "line": 7,
+      "hash": "8716759d0cb443c32c91c45b42a206fb",
+      "textRange": {
+        "startLine": 7,
+        "endLine": 7,
+        "startOffset": 0,
+        "endOffset": 66
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Do not use internal APIs of your dependencies",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "gradle"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "MODULAR",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "03f2afc0-713d-46ac-86ed-cb74c8adb35b",
+      "rule": "typescript:S4123",
+      "severity": "CRITICAL",
+      "component": "tech-demo-ui:src/pages/login/LoginForm.tsx",
+      "project": "tech-demo-ui",
+      "line": 25,
+      "hash": "510a052a9bb239a095aed91ba629dfdf",
+      "textRange": {
+        "startLine": 25,
+        "endLine": 28,
+        "startOffset": 12,
+        "endOffset": 14
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Unexpected `await` of a non-Promise (non-\"Thenable\") value.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "confusing"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "7ab32fe1-fff7-4139-8f83-d48d15988ffc",
+      "rule": "typescript:S2486",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/pages/login/LoginForm.tsx",
+      "project": "tech-demo-ui",
+      "line": 30,
+      "hash": "30dc71eebdc36cc68d2b4a6e98944942",
+      "textRange": {
+        "startLine": 30,
+        "endLine": 32,
+        "startOffset": 10,
+        "endOffset": 9
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Handle this exception or don't catch it at all.",
+      "effort": "1h",
+      "debt": "1h",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "cwe",
+        "error-handling",
+        "suspicious"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "276dbee8-c140-4109-b8aa-2fb0a234d203",
+      "rule": "typescript:S6759",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/pages/persons/Form.tsx",
+      "project": "tech-demo-ui",
+      "line": 15,
+      "hash": "755e392e01ad7e3f23a36f81ae2637d0",
+      "textRange": {
+        "startLine": 15,
+        "endLine": 15,
+        "startOffset": 35,
+        "endOffset": 65
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Mark the props of the component as read-only.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "react"
+      ],
+      "creationDate": "2024-08-13T10:58:41+0000",
+      "updateDate": "2026-05-27T10:02:35+0000",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    }
+  ],
+  "components": [
+    {
+      "key": "tech-demo-ui:src/common/persistService.ts",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "persistService.ts",
+      "longName": "src/common/persistService.ts",
+      "path": "src/common/persistService.ts"
+    },
+    {
+      "key": "tech-demo-ui:src/pages/login/LoginForm.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "LoginForm.tsx",
+      "longName": "src/pages/login/LoginForm.tsx",
+      "path": "src/pages/login/LoginForm.tsx"
+    },
+    {
+      "key": "tech-demo-ui",
+      "enabled": true,
+      "qualifier": "TRK",
+      "name": "tech-demo-ui",
+      "longName": "tech-demo-ui"
+    },
+    {
+      "key": "tech-demo-ui:src/components/layout/AppLayout.scss",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "AppLayout.scss",
+      "longName": "src/components/layout/AppLayout.scss",
+      "path": "src/components/layout/AppLayout.scss"
+    },
+    {
+      "key": "tech-demo-ui:src/components/app/App.scss",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "App.scss",
+      "longName": "src/components/app/App.scss",
+      "path": "src/components/app/App.scss"
+    },
+    {
+      "key": "tech-demo-ui:src/components/shared/table/Table.scss",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "Table.scss",
+      "longName": "src/components/shared/table/Table.scss",
+      "path": "src/components/shared/table/Table.scss"
+    },
+    {
+      "key": "tech-demo-ui:src/common/util.ts",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "util.ts",
+      "longName": "src/common/util.ts",
+      "path": "src/common/util.ts"
+    },
+    {
+      "key": "tech-demo-ui:src/components/shared/alert-modals/ErrorModal.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "ErrorModal.tsx",
+      "longName": "src/components/shared/alert-modals/ErrorModal.tsx",
+      "path": "src/components/shared/alert-modals/ErrorModal.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/menu/SubMenuRow.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "SubMenuRow.tsx",
+      "longName": "src/components/menu/SubMenuRow.tsx",
+      "path": "src/components/menu/SubMenuRow.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/common/axiosClient.ts",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "axiosClient.ts",
+      "longName": "src/common/axiosClient.ts",
+      "path": "src/common/axiosClient.ts"
+    },
+    {
+      "key": "tech-demo-ui:src/components/form/FormField.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "FormField.tsx",
+      "longName": "src/components/form/FormField.tsx",
+      "path": "src/components/form/FormField.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/index.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "index.tsx",
+      "longName": "src/index.tsx",
+      "path": "src/index.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/form/TextDate.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "TextDate.tsx",
+      "longName": "src/components/form/TextDate.tsx",
+      "path": "src/components/form/TextDate.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/common/api/transformers.ts",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "transformers.ts",
+      "longName": "src/common/api/transformers.ts",
+      "path": "src/common/api/transformers.ts"
+    },
+    {
+      "key": "tech-demo-ui:src/assets/sass/main.scss",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "main.scss",
+      "longName": "src/assets/sass/main.scss",
+      "path": "src/assets/sass/main.scss"
+    },
+    {
+      "key": "tech-demo-ui:src/assets/sass/bootstrap_variables_override.scss",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "bootstrap_variables_override.scss",
+      "longName": "src/assets/sass/bootstrap_variables_override.scss",
+      "path": "src/assets/sass/bootstrap_variables_override.scss"
+    },
+    {
+      "key": "tech-demo-ui:src/components/header/AppHeader.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "AppHeader.tsx",
+      "longName": "src/components/header/AppHeader.tsx",
+      "path": "src/components/header/AppHeader.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/shared/table/reducer.ts",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "reducer.ts",
+      "longName": "src/components/shared/table/reducer.ts",
+      "path": "src/components/shared/table/reducer.ts"
+    },
+    {
+      "key": "tech-demo-ui:src/components/shared/forms/InputRow.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "InputRow.tsx",
+      "longName": "src/components/shared/forms/InputRow.tsx",
+      "path": "src/components/shared/forms/InputRow.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/form/DatePickerField.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "DatePickerField.tsx",
+      "longName": "src/components/form/DatePickerField.tsx",
+      "path": "src/components/form/DatePickerField.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/pages/persons/Form.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "Form.tsx",
+      "longName": "src/pages/persons/Form.tsx",
+      "path": "src/pages/persons/Form.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/common/auth/RequireAuth.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "RequireAuth.tsx",
+      "longName": "src/common/auth/RequireAuth.tsx",
+      "path": "src/common/auth/RequireAuth.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/api/api.ts",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "api.ts",
+      "longName": "src/api/api.ts",
+      "path": "src/api/api.ts"
+    },
+    {
+      "key": "tech-demo-ui:src/components/shared/table/TableHeadCell.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "TableHeadCell.tsx",
+      "longName": "src/components/shared/table/TableHeadCell.tsx",
+      "path": "src/components/shared/table/TableHeadCell.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/common/auth/AuthProvider.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "AuthProvider.tsx",
+      "longName": "src/common/auth/AuthProvider.tsx",
+      "path": "src/common/auth/AuthProvider.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/menu/MenuCollapse.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "MenuCollapse.tsx",
+      "longName": "src/components/menu/MenuCollapse.tsx",
+      "path": "src/components/menu/MenuCollapse.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/form/InputSegment.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "InputSegment.tsx",
+      "longName": "src/components/form/InputSegment.tsx",
+      "path": "src/components/form/InputSegment.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/menu/AppMenu.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "AppMenu.tsx",
+      "longName": "src/components/menu/AppMenu.tsx",
+      "path": "src/components/menu/AppMenu.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/shared/table/TablePagination.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "TablePagination.tsx",
+      "longName": "src/components/shared/table/TablePagination.tsx",
+      "path": "src/components/shared/table/TablePagination.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/shared/accordion/Accordion.scss",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "Accordion.scss",
+      "longName": "src/components/shared/accordion/Accordion.scss",
+      "path": "src/components/shared/accordion/Accordion.scss"
+    },
+    {
+      "key": "tech-demo-ui:src/components/shared/alert-modals/InfoModal.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "InfoModal.tsx",
+      "longName": "src/components/shared/alert-modals/InfoModal.tsx",
+      "path": "src/components/shared/alert-modals/InfoModal.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/shared/ContextProviders.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "ContextProviders.tsx",
+      "longName": "src/components/shared/ContextProviders.tsx",
+      "path": "src/components/shared/ContextProviders.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/form/DatePicker.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "DatePicker.tsx",
+      "longName": "src/components/form/DatePicker.tsx",
+      "path": "src/components/form/DatePicker.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/shared/buttons/types.ts",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "types.ts",
+      "longName": "src/components/shared/buttons/types.ts",
+      "path": "src/components/shared/buttons/types.ts"
+    },
+    {
+      "key": "tech-demo-ui:src/components/modals/ModalsProvider.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "ModalsProvider.tsx",
+      "longName": "src/components/modals/ModalsProvider.tsx",
+      "path": "src/components/modals/ModalsProvider.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/shared/table/TableWrapper.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "TableWrapper.tsx",
+      "longName": "src/components/shared/table/TableWrapper.tsx",
+      "path": "src/components/shared/table/TableWrapper.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/layout/PageControls.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "PageControls.tsx",
+      "longName": "src/components/layout/PageControls.tsx",
+      "path": "src/components/layout/PageControls.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/shared/forms/InputSection.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "InputSection.tsx",
+      "longName": "src/components/shared/forms/InputSection.tsx",
+      "path": "src/components/shared/forms/InputSection.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/form/Label.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "Label.tsx",
+      "longName": "src/components/form/Label.tsx",
+      "path": "src/components/form/Label.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/menu/MenuRow.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "MenuRow.tsx",
+      "longName": "src/components/menu/MenuRow.tsx",
+      "path": "src/components/menu/MenuRow.tsx"
+    }
+  ],
+  "facets": []
+}

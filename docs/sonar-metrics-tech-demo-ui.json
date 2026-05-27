@@ -1,0 +1,62 @@
+{
+  "component": {
+    "key": "tech-demo-ui",
+    "name": "tech-demo-ui",
+    "qualifier": "TRK",
+    "measures": [
+      {
+        "metric": "coverage",
+        "value": "0.0",
+        "bestValue": false
+      },
+      {
+        "metric": "complexity",
+        "value": "281"
+      },
+      {
+        "metric": "bugs",
+        "value": "3",
+        "bestValue": false
+      },
+      {
+        "metric": "reliability_rating",
+        "value": "3.0",
+        "bestValue": false
+      },
+      {
+        "metric": "duplicated_lines_density",
+        "value": "0.0",
+        "bestValue": true
+      },
+      {
+        "metric": "code_smells",
+        "value": "72",
+        "bestValue": false
+      },
+      {
+        "metric": "security_rating",
+        "value": "1.0",
+        "bestValue": true
+      },
+      {
+        "metric": "ncloc",
+        "value": "4209"
+      },
+      {
+        "metric": "vulnerabilities",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "security_hotspots",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "sqale_rating",
+        "value": "1.0",
+        "bestValue": true
+      }
+    ]
+  }
+}
