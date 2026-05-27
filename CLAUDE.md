@@ -90,6 +90,71 @@ This is a full-stack Java/Spring Boot + React/TypeScript demo application servin
 - **License scanning**: `fossa analyze` - Scan dependencies for license compliance
 - **Security testing**: `fossa test` - Test for license or security issues
 
+## Verifying Code Changes
+
+Choose verification depth by **total net lines changed** (added + removed across all files — the `git diff --stat` total).
+
+### Small change — ≤ 50 net lines
+ESLint is sufficient for frontend-only changes:
+```bash
+cd ui && npm run lint          # tsc --noEmit + eslint src/ — both must pass
+```
+For backend-only small changes, run `cd api && ./mvnw checkstyle:check test`.
+Fix every error. Warnings are usually fine — **flag any you leave behind** in your summary.
+
+### Big change — > 50 net lines
+Run the full suite and **fix all errors** before reporting done. Warnings are generally acceptable but must be flagged (call out anything new or security-relevant). All scan artifacts go under `docs/`.
+
+```bash
+# 1. Frontend lint + type-check (gate)
+cd ui && npm run lint
+
+# 2. Backend: style + unit tests + coverage
+cd api && ./mvnw clean test            # Checkstyle (validate phase), unit tests, JaCoCo
+#   Integration tests need Docker/Testcontainers; when Docker is available run:
+#   ./mvnw clean verify                # adds Testcontainers integration tests
+#   If Docker is absent, fall back to `./mvnw clean test` and FLAG the skipped IT.
+
+# 3. Playwright smoke tests (see below) — run after major changes
+cd ui && npm run smoke                 # app smoke (auto-starts dev server :8090)
+cd ui && npm run smoke:storybook       # Storybook smoke (auto-starts :6006)
+
+# 4. Trivy — filesystem vuln scan, run in repo ROOT. Reports to docs/.
+trivy fs . --scanners vuln --format table --output docs/trivy-report.txt
+trivy fs . --scanners vuln --format json  --output docs/trivy-report.json
+
+# 5. SonarQube — static analysis. Host: 10.16.35.93:9000 (needs SONAR_TOKEN in env).
+cd api && sonar-scanner -Dsonar.host.url=http://10.16.35.93:9000/ -Dsonar.login=$SONAR_TOKEN
+cd ui  && sonar-scanner -Dsonar.host.url=http://10.16.35.93:9000/ -Dsonar.login=$SONAR_TOKEN
+# Pull issues + gate metrics into docs/ for review (project keys: tech-demo-api, tech-demo-ui):
+curl -s -u "$SONAR_TOKEN:" "http://10.16.35.93:9000/api/issues/search?componentKeys=tech-demo-api" | jq '.' > docs/sonar-issues-tech-demo-api.json
+curl -s -u "$SONAR_TOKEN:" "http://10.16.35.93:9000/api/measures/component?component=tech-demo-api&metricKeys=bugs,vulnerabilities,security_hotspots,code_smells,coverage" | jq '.' > docs/sonar-metrics-tech-demo-api.json
+```
+
+**Then read the outputs and act on them:**
+- ESLint / tsc / Checkstyle: errors → fix; warnings → flag.
+- `docs/trivy-report.txt`: CRITICAL/HIGH CVEs → fix (minimal safe bump; see dependency constraints in `../CLAUDE.md`); MEDIUM/LOW → flag. CVEs with no released fix → flag, don't churn.
+- Sonar: bugs and vulnerabilities → fix; CRITICAL code smells → fix; lesser smells / hotspots → flag and triage. Dashboards: `http://10.16.35.93:9000/dashboard?id=tech-demo-api` (and `...-ui`).
+- Smoke tests: any failure → fix the underlying error, not the test.
+
+Escalate to the full suite regardless of line count when touching: `ui/src/common/auth/*`, `ui/src/common/axiosClient.ts`, `ui/src/api/*`, or backend `auth/` / `infrastructure/`.
+
+### Playwright smoke tests
+
+Lightweight, **backend-free** tests that catch load/render/runtime-console errors. Run after major changes.
+
+- **App smoke** (`ui/tests/smoke.spec.ts`, config `playwright.smoke.config.ts`): auto-starts the webpack dev server on a dedicated port (`:8090`, no overlay), loads the login shell, asserts `#login_username/#login_password/#login_submit` render, types into fields, and **fails on any browser console error / page error**. Does not use the backend (omits the E2E `global_setup` that logs into `:8082`).
+- **Storybook smoke** (`ui/tests/smoke.storybook.spec.ts`, config `playwright.storybook.config.ts`): auto-starts Storybook on `:6006` and renders the `Button` and `Form` stories, failing on console errors.
+
+```bash
+cd ui
+npm run smoke              # app smoke
+npm run smoke:storybook    # storybook smoke
+npx playwright install chromium   # one-time, if the browser binary is missing
+```
+
+**Reading browser console output:** `ui/tests/console-capture.ts` records all `console`, `pageerror`, and `requestfailed` events (filtering out dev-server/HMR noise) and writes them to `docs/smoke-app.log` and `docs/smoke-storybook-*.log` after each run — read these to spot errors. Console errors and page errors fail the test; warnings are logged but do not fail. The Playwright HTML report (with trace + failure screenshot) is at `ui/playwright-report-smoke/` and `ui/playwright-report-storybook/`. The smoke `*.log` files and report dirs are gitignored (regenerated each run).
+
 ## Code Style Guidelines
 
 ### Java

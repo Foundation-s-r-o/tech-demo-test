@@ -29,6 +29,7 @@ export const Form: Story = {
                             id="componentId_fieldName"
                             name="ziadost.cisloZaznamu"
                             value="FndtInput"
+                            readOnly
                         />
                     </InputRow>
                 </div>

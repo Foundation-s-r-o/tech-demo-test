@@ -12,6 +12,8 @@ const FndtInput = ({
     name?: string
     type?: string
     value?: string
+    readOnly?: boolean
+    onChange?: React.ChangeEventHandler<HTMLInputElement>
 }) => {
     return (
         <Form.Control

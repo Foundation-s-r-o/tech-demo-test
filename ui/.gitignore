@@ -2,6 +2,11 @@
 
 # binaries
 /dist
+/storybook-static/
+
+# smoke test artifacts
+/playwright-report-smoke/
+/playwright-report-storybook/
 
 # editors
 *.swp

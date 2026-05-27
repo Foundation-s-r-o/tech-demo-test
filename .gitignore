@@ -6,3 +6,6 @@ api/logs/
 .m2/
 .vscode/
 .scannerwork/
+
+# transient per-run smoke logs (reports live in docs/, these are regenerated each run)
+docs/smoke-*.log
