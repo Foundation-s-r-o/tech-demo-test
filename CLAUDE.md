@@ -2,15 +2,15 @@
 
 ## Stack & Ground Rules (upgrade COMPLETE — 2026-05-27)
 
-The backend upgrade is **done**. Current stack: **Spring Boot 4.0.6 / Java 25 LTS / embedded H2 / Spring Security session login / OpenPDF**. Full history, reasoning, and the Boot-4 migration notes live in [`docs/UPGRADE_PLAN.md`](docs/UPGRADE_PLAN.md).
+The backend upgrade is **done**. Current stack: **Spring Boot 4.0.6 / Java 21 LTS / embedded H2 / Spring Security session login / OpenPDF**. Full history, reasoning, and the Boot-4 migration notes live in [`docs/UPGRADE_PLAN.md`](docs/UPGRADE_PLAN.md).
 
-**Build requirement:** Java 25 must be active before building — `sdk use java 25.0.3-zulu`. (The global SDKMAN default is intentionally left alone; the workspace has Java 8/11/21 projects.)
+**JDK:** the project targets **Java 21 LTS** (default, pinned in `api/.sdkmanrc` → `sdk env`). Boot 4 also builds green on Java 25 if you prefer it; just bump `<java.version>`. The global SDKMAN default is intentionally left alone (the workspace has Java 8/11 projects).
 
 **Fast iteration is paramount.** Keep the local inner loop fast and **flag anything that slows local development** — Docker requirements, slow tests, heavyweight infra. Speed comes from removing infra, not from loosening the build gate.
 
 **Current stack (in place):**
 - **Spring Boot 4.0.6** (stable 4.0 line; do NOT chase 4.1+).
-- **Java 25 LTS** (`sdk use java 25.0.3-zulu` to build).
+- **Java 21 LTS** (project default via `api/.sdkmanrc`; also verified green on Java 25).
 - **DB: embedded H2 file-mode** (`./data/`, gitignored) — no Docker. Flyway migrations in **portable ANSI SQL**. **PostgreSQL is the future production DB (deferred)** — dialect/datasource stay **profile-driven** (never hardcode `H2Dialect` in shared config); avoid vendor-specific SQL/types so the H2→Postgres swap stays a non-event.
 - **Auth: Spring Security session login**, users in DB, BCrypt. Bootstrap user **`admin` / `admin`** (seeded via Flyway `V3`). **Keycloak comes later** — auth is kept dead-simple and swappable; no premature OAuth2 abstraction. CSRF disabled + permissive CORS are **demo-only** (flagged in `SecurityConfig`/`WebConfiguration`); tighten before any real deployment.
 - **PDF: OpenPDF** (`com.github.librepdf:openpdf`) — `GET /api/persons/{id}/pdf`.
@@ -31,7 +31,7 @@ This is a full-stack Java/Spring Boot + React/TypeScript demo application servin
 
 **Backend (Java/Spring Boot)**
 - Entry Point: `TechDemoApplication.java:10` - Standard Spring Boot application
-- Framework: Spring Boot 4.0.6 with Java 25 LTS
+- Framework: Spring Boot 4.0.6 with Java 21 LTS (also builds on Java 25)
 - Database: embedded H2 (file-mode) with JPA/Hibernate 7, Flyway migrations
 - Key Features:
   - Person CRUD operations (`persons/` package)

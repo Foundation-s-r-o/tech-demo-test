@@ -22,7 +22,9 @@
 		</license>
 	</licenses>
 	<properties>
-		<java.version>25</java.version>
+		<!-- Java 21 LTS. Boot 4 supports 17-25; the build is verified green on 25 too,
+		     but 21 is the project default (broadly installed, see .sdkmanrc). -->
+		<java.version>21</java.version>
 		<!-- Override Boot-managed Tomcat 11.0.21 -> 11.0.22 to clear CVE-2026-41293 et al. -->
 		<tomcat.version>11.0.22</tomcat.version>
 	</properties>

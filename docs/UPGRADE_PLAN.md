@@ -9,7 +9,7 @@
 
 ## 0. Status — COMPLETE (2026-05-27)
 
-Phases 0–7 executed and green. Backend now runs **Spring Boot 4.0.6 on Java 25 LTS**, embedded **H2** (no Docker), **Spring Security** session login (`admin/admin`), and **OpenPDF**. Final gate: `./mvnw clean verify` → **20 tests pass** (7 unit + 13 integration), 0 Checkstyle violations; Trivy → **0 HIGH/CRITICAL** (Tomcat bumped 11.0.21→11.0.22); UI lint + app smoke green.
+Phases 0–7 executed and green. Backend now runs **Spring Boot 4.0.6 on Java 21 LTS** (project default; also verified green on Java 25), embedded **H2** (no Docker), **Spring Security** session login (`admin/admin`), and **OpenPDF**. Final gate: `./mvnw clean verify` → **20 tests pass** (7 unit + 13 integration), 0 Checkstyle violations; Trivy → **0 HIGH/CRITICAL** (Tomcat bumped 11.0.21→11.0.22); UI lint + app smoke green.
 
 | Phase | Result |
 |---|---|
@@ -24,7 +24,7 @@ Phases 0–7 executed and green. Backend now runs **Spring Boot 4.0.6 on Java 25
 | 8 OTel+Prometheus | ⏸ deferred (post-jump, when needed) |
 | 9 PostgreSQL | ⏸ deferred (production) |
 
-**Build requirement:** Java 25 must be active — `sdk use java 25.0.3-zulu` (global default deliberately left unchanged; workspace has Java 8/11/21 projects).
+**Build requirement:** Java 21 LTS — project default pinned in `api/.sdkmanrc` (`sdk env`). Boot 4 also builds on Java 25; bump `<java.version>` to switch. Global SDKMAN default left unchanged (workspace has Java 8/11 projects).
 
 **Boot 4 migration breakages hit & fixed (reference for other projects):**
 - `@EntityScan` → `org.springframework.boot.persistence.autoconfigure`

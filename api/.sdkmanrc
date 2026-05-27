@@ -1,0 +1,3 @@
+# Project JDK — run `sdk env` (or enable sdkman_auto_env) in this directory.
+# Java 21 LTS is the project default; Boot 4 also builds on 25 if you prefer.
+java=21.0.10-zulu
