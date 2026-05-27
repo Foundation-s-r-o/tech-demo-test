@@ -2,7 +2,7 @@ import FndtInput from '@components/form/Input'
 import FndtLabel from '@components/form/Label'
 import FndtText from '@components/form/Text'
 import InputRow from '@components/shared/forms/InputRow'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-webpack5'
 import React from 'react'
 
 export default {

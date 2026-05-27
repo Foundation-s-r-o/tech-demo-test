@@ -10,26 +10,26 @@ module.exports = {
             propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
         },
     },
+
     stories: [
         '../src/**/*.stories.mdx',
         '../src/**/*.stories.@(js|jsx|ts|tsx)',
     ],
+
     addons: [
         '@storybook/addon-links',
-        '@storybook/addon-essentials',
-        '@storybook/addon-interactions',
         'storybook-addon-react-router-v6',
         'storybook-react-i18next',
-        'storybook-addon-paddings',
+        '@storybook/addon-docs'
     ],
+
     framework: {
         name: '@storybook/react-webpack5',
         options: {},
     },
-    docs: {
-        autodocs: true,
-    },
+
     staticDirs: ['../src/assets'],
+
     webpackFinal: async (config) => {
         const envFileVars = dotenv.config({ path: __dirname + '/../../.env' }).parsed
         const apiServerUrl = process?.env?.APP_API_SERVER_URL || envFileVars?.APP_API_SERVER_URL || '/'
@@ -75,5 +75,5 @@ module.exports = {
             config.resolve.extensions.push('.ts', '.tsx')
         }
         return config
-    },
+    }
 }

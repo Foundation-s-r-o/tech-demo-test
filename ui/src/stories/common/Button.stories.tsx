@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-webpack5'
 import { FndtButton } from '@components/shared/buttons/FndtButton'
 import { FndtButtonSize } from '@components/shared/buttons/types'
 

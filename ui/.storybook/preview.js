@@ -15,16 +15,6 @@ export const parameters = {
 
     // Required by the storybook-react-i18next addon (the app's i18next instance).
     i18n,
-
-    paddings: {
-        values: [
-            { name: 'None', value: '0' },
-            { name: 'Small', value: '16px' },
-            { name: 'Medium', value: '32px' },
-            { name: 'Large', value: '64px' },
-        ],
-        default: 'None',
-    },
 }
 
 export const initialGlobals = {
@@ -40,3 +30,4 @@ export const decorators = [
     //     </ContextProviders>
     // ),
 ]
+export const tags = ['autodocs'];
