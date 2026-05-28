@@ -13,7 +13,12 @@ jobs:
           path: ~/project
       - node/install-packages:
           pkg-manager: npm
-          override-ci-command: npm ci --legacy-peer-deps
+          # npm install (not npm ci) — the lockfile only pins the dev-host's
+          # @parcel/watcher native binary; npm ci's strict check fails on Linux
+          # because the other platform variants lack full lockfile entries.
+          # npm install honors the lockfile when accurate and resolves the
+          # missing platform optional at install time.
+          override-ci-command: npm install --legacy-peer-deps --no-audit --no-fund
       - run:
           command: npm run build
       - run:
