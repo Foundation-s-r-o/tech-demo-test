@@ -144,9 +144,10 @@ cd ui && npm run smoke:storybook       # Storybook smoke (auto-starts :6006)
 trivy fs . --scanners vuln --format table --output docs/trivy-report.txt
 trivy fs . --scanners vuln --format json  --output docs/trivy-report.json
 
-# 5. SonarQube — static analysis. Host: 10.16.35.93:9000 (needs SONAR_TOKEN in env).
-cd api && sonar-scanner -Dsonar.host.url=http://10.16.35.93:9000/ -Dsonar.login=$SONAR_TOKEN
-cd ui  && sonar-scanner -Dsonar.host.url=http://10.16.35.93:9000/ -Dsonar.login=$SONAR_TOKEN
+# 5. SonarQube — static analysis. Host: 10.16.35.93:9000 (server v26.x; needs SONAR_TOKEN in env).
+# Use -Dsonar.token (not -Dsonar.login — removed in SonarQube 25+).
+cd api && sonar-scanner -Dsonar.host.url=http://10.16.35.93:9000/ -Dsonar.token=$SONAR_TOKEN
+cd ui  && sonar-scanner -Dsonar.host.url=http://10.16.35.93:9000/ -Dsonar.token=$SONAR_TOKEN
 # Pull issues + gate metrics into docs/ for review (project keys: tech-demo-api, tech-demo-ui):
 curl -s -u "$SONAR_TOKEN:" "http://10.16.35.93:9000/api/issues/search?componentKeys=tech-demo-api" | jq '.' > docs/sonar-issues-tech-demo-api.json
 curl -s -u "$SONAR_TOKEN:" "http://10.16.35.93:9000/api/measures/component?component=tech-demo-api&metricKeys=bugs,vulnerabilities,security_hotspots,code_smells,coverage" | jq '.' > docs/sonar-metrics-tech-demo-api.json
