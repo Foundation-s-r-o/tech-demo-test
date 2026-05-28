@@ -13,6 +13,7 @@ jobs:
           path: ~/project
       - node/install-packages:
           pkg-manager: npm
+          override-ci-command: npm ci --legacy-peer-deps
       - run:
           command: npm run build
       - run:
