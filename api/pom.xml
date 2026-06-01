@@ -54,7 +54,7 @@
 		<dependency>
 			<groupId>com.github.spotbugs</groupId>
 			<artifactId>spotbugs-annotations</artifactId>
-			<version>4.8.4</version>
+			<version>4.9.8</version>
 		</dependency>
 		<!-- Local development DB: embedded H2 (no Docker). Production target is PostgreSQL
 		     via a future 'prod' profile — keep migrations portable (see docs/UPGRADE_PLAN.md Phase 9). -->
