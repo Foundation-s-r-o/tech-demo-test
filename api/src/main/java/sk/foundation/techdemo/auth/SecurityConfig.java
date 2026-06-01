@@ -46,6 +46,11 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
+				// SECURITY: CSRF deliberately disabled for the local demo (JSON API + same-origin SPA,
+				// no production data). Tracked as a demo-mode caveat in SECURITY.md; must be re-enabled
+				// before any real deployment (CSRF token endpoint + header check on state-changing
+				// requests). CodeQL alert java/spring-disabled-csrf-protection is dismissed accordingly.
+				// lgtm[java/spring-disabled-csrf-protection]
 				.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers(PUBLIC_PATHS).permitAll()

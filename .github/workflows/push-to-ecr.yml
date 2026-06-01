@@ -8,7 +8,13 @@ on:
         default: "latest"
       git-ref:
         description: 'The branch, tag or SHA to checkout'
-        default: "master"
+        default: "main"
+
+# Least-privilege GITHUB_TOKEN scope. AWS credentials come from repo secrets,
+# the ECR push uses AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY — the GitHub
+# token only needs to read the repo to check out source.
+permissions:
+  contents: read
 
 jobs:
   

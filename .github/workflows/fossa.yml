@@ -12,6 +12,12 @@ on:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
+# Least-privilege GITHUB_TOKEN scope. FOSSA only needs to read the source tree
+# to scan; it does not write to the repo. Closes the
+# actions/missing-workflow-permissions CodeQL warning.
+permissions:
+  contents: read
+
 jobs:
   fossa-scan:
     runs-on: ubuntu-latest

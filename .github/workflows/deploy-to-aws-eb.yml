@@ -13,11 +13,16 @@ on:
         options:
         - tech-demo
       aws-eb-environment:
-        description: 'AWS Elastic Beanstalk environment'     
+        description: 'AWS Elastic Beanstalk environment'
         required: true
         type: choice
         options:
         - Techdemo-env-2
+
+# Least-privilege GITHUB_TOKEN scope. AWS credentials are passed via repo
+# secrets, not via the workflow token — so contents:read is sufficient.
+permissions:
+  contents: read
 
 jobs:
   deploy:
