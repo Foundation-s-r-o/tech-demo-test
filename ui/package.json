@@ -92,7 +92,7 @@
     "styled-components": "^6.1.15",
     "supports-color": "^10.0.0",
     "tr46": "^6.0.0",
-    "type-fest": "^4.37.0",
+    "type-fest": "^5.7.0",
     "webidl-conversions": "^7.0.0",
     "whatwg-url": "^14.1.1",
     "wrap-ansi": "^9.0.0",
