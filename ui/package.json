@@ -122,7 +122,7 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.6.3",
     "http-server": "^14.1.1",
-    "mini-css-extract-plugin": "^2.9.2",
+    "mini-css-extract-plugin": "^2.10.2",
     "npm-check-updates": "^17.1.15",
     "playwright": "^1.56.1",
     "postcss": "^8.5.15",
