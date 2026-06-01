@@ -115,7 +115,7 @@ Form components wrap Formik+Yup; `shared/table/` is a self-contained reducer-dri
 | Performance | JMeter — `performancetest/TechDemo.jmx` |
 
 ### Documentation
-`README.md` (run instructions, FOSSA), `CLAUDE.md` (dev guidelines), `api/README.md` & `ui/README.md` (per-module), `docs/decisions/` (ADRs using MADR template), `fossa_attribution*.txt`.
+`README.md` (run instructions, stack snapshot, quality tooling), `SECURITY.md` (vulnerability reporting + demo-mode caveats), `CLAUDE.md` (dev guidelines), `docs/UPGRADE_PLAN.md` (Boot 4 / Java 21 upgrade history), `docs/decisions/` (ADRs using MADR template), `fossa_attribution*.txt`.
 
 ### DevOps
 Multi-stage `Dockerfile`, `docker-compose.yml` (9 services), `doctor` script, `run_application.sh`, and 9 GitHub Actions workflows + a CircleCI config.

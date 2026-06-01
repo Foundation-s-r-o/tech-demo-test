@@ -62,6 +62,17 @@ npm start
 
 The dev server runs on `http://localhost:8080` and proxies API calls to `:8082`.
 
+Other useful UI scripts:
+
+| Command | What it does |
+| ------- | ------------ |
+| `npm run storybook` | Storybook on `http://localhost:6006` for component development |
+| `npm run smoke` | Playwright app smoke (login shell, console-error gate) |
+| `npm run smoke:storybook` | Playwright Storybook smoke (Button + Form stories) |
+| `npm run playwright` | Full Playwright E2E suite (installs browsers first) |
+| `npm run build` | Production webpack build |
+| `npm run lint` | `tsc --noEmit` + ESLint |
+
 > **Internal registry note:** if you previously had a TFS-internal npm feed in
 > `~/.npmrc`, this repo's `package-lock.json` is now fully public-registry
 > (`registry.npmjs.org`). Don't reintroduce TFS-resolved URLs — Dependabot
@@ -106,6 +117,18 @@ trivy fs . --scanners vuln --severity HIGH,CRITICAL
 
 Comprehensive health check (build + lint + tests + FOSSA): `./doctor`.
 
+## Editor setup
+
+The Java code style is enforced by Checkstyle (`api/checkstyle/checkstyle.xml`)
+and Maven gates the build on it. For interactive formatting in your IDE, import
+the matching formatter rules from `api/checkstyle/code-formatter-rules.xml`:
+
+- **Eclipse:** *Window → Preferences → Java → Code Style → Formatter → Import*
+- **IntelliJ IDEA:** *Settings → Code Style → Java → Manage → Import* (use the Eclipse XML profile importer)
+
+The TypeScript / React side is enforced by ESLint (`ui/.eslintrc*`) + `tsc --noEmit`
+on `npm run lint`. Most editors pick up the project ESLint config automatically.
+
 ## Working in this repo
 
 | Rule | Why |
@@ -137,8 +160,6 @@ rely on them today:
 | `docker-compose.yml` | Stale | References the removed MariaDB + Redis stack |
 | `run_application.sh` | Stale | Assumes `.env`-driven external services |
 | `.env - Sample` | Stale | Many keys reference deferred services (OpenAI, Redis, Loki) |
-| `ui/README.md` | Stale | Says Node 18.17.0; real requirement is Node ≥ 22.11.0 |
-| `api/README.md` | Stale | Says JDK 17 + MySQL + Docker; real requirement is JDK 21 + H2 |
 
 Tracked under tech-debt in `docs/UPGRADE_PLAN.md`.
 
