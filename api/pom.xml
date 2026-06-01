@@ -72,7 +72,7 @@
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-registry-prometheus</artifactId>
 			<scope>runtime</scope>
-			<version>1.12.5</version>
+			<version>1.16.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
