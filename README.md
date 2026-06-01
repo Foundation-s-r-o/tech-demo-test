@@ -1,184 +1,149 @@
-# Project - Demo / Template Application 
+# tech-demo-test — Foundation reference template
 
-This repository contains a demo application that will be used as a template for a new application. 
+A full-stack demo application that doubles as Foundation s.r.o.'s reference
+template for new projects. It is intentionally **small, dependency-light, and
+Docker-free for local development**, while wired up to a real CI / quality /
+security toolchain so the bar is set the same way every new project will inherit.
 
-The goal is to have a 'standard project stack' we could use as a template for future projects.
+This is a **rolling demo** (one supported branch: `main`), not a released
+product — see [SECURITY.md](./SECURITY.md) for the supported-versions and
+demo-mode caveats policy.
 
-## A Standard Tech Stack Document
+> Tech-stack reference document (Google Drive): [Standard Tech Stack](https://docs.google.com/document/d/16zLZa3JL4DSsK9vqUzfF046CPau5ziO5cJfsdrBqhe8/edit?usp=drive_link).
+> Comment there if you have feedback on direction. The repo's job is to make
+> that document executable; the document's job is to record the why.
 
-The application should implement suggestions defined in the tech stack proposal document:
-https://docs.google.com/document/d/16zLZa3JL4DSsK9vqUzfF046CPau5ziO5cJfsdrBqhe8/edit?usp=drive_link
+## Stack snapshot
 
-This document also contains additional information on development (e.g., tools, dev environment, etc.). These should also be applied here in this repo if it makes sense. 
+| Layer | Version | Notes |
+| ----- | ------- | ----- |
+| Java | **21 LTS** | Pinned in `api/.sdkmanrc`; Boot 4 also builds on 25 |
+| Spring Boot | **4.0.6** | Stable 4.0 line; do not chase 4.1+ |
+| Spring Security | session login + BCrypt | Bootstrap user `admin`/`admin` seeded via Flyway `V3` (demo only) |
+| Hibernate ORM | 7.x | Naming strategy: `PhysicalNamingStrategyStandardImpl` |
+| Jackson | **3.x** (`tools.jackson`) | Boot 4 default |
+| Flyway | portable ANSI SQL migrations | H2 today, PostgreSQL via `prod` profile later |
+| DB | embedded **H2 file-mode** (`./api/data/`, gitignored) | No Docker required for local dev |
+| PDF | OpenPDF 2.0.3 | `GET /api/persons/{id}/pdf` |
+| React | **19.2.x** | Classic JSX transform |
+| TypeScript | 5.8.x | Strict mode |
+| Node | **≥ 22.11.0** | Enforced via `ui/package.json` `engines` |
+| Bundler | webpack 5 | sass-loader 17, modern Sass API |
 
-Please comment on the document if you have any feedback.
+Full upgrade history and deferred items (Keycloak, PostgreSQL, OTel/Prometheus,
+Docker as production target): [`docs/UPGRADE_PLAN.md`](./docs/UPGRADE_PLAN.md).
 
-## TODO
-This repository must be updated to become an app usable as a starting template for new projects.
+## Quick start (no Docker, no `.env` required)
 
-The app must also include things like telemetry, logging, etc., everything mentioned in that ideal tech stack, including infrastructure (Docker, etc.) and development tools (CD/CI - GitHub Actions, Linter/SonarQube, etc.).
+The default local dev path is **two terminals**, embedded H2, no external services.
 
-The project must be continuously updated to new versions, security issues must be fixed, etc. See also https://github.com/Foundation-s-r-o/tech-demo/security/dependabot
-
-## Issues
-Make changes to the project only through tasks created in [Issues](https://github.com/Foundation-s-r-o/tech-demo/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc).
-
-- Anything done in the repo should have a task in Issues, 
-- Issues should be assigned to a person
-- The tasks/issues must be small, so that they can be finished in 1-2 days
-- Rule of thumb - if the PR has 100s of lines of code, it is too big. Use small PRs. There are exceptions, but they must be justified.
-- All commits must reference the specific task/Issue
-
-## Metrics
-
-This repo is connected to [LinearB](https://app.linearb.io/dashboard?isOrgSettings=true) that tracks engineering metrics. Use your GitHub credentials to log in. 
-
-LinearB tracks DORA metrics. These metrics are for internal use only! The team can use them to gauge how it compares to other teams; see
-
-- [DORA 2023 report](https://services.google.com/fh/files/misc/2023_final_report_sodr.pdf)
-- [DORA Quick Check](https://dora.dev/quickcheck/)
-
-## MVP
-
-Minimum Viable Product: you do not have to include everything in the project. Certainly, you do not have to have it all in the beginning. For simplicity, start with the minimal configuration, add more features later.
-
-The rule of thumb is to use minimal tools so you can run, test, and deploy functional application
-
-What is needed at the beginning:
-
-- Static code checking is probably needed very early
-- Docker (?)
-
-What is NOT needed at the beginning:
-
-- Telemetry
-- Storybook
-- Microservices are not needed, but modularity is
-- TBD ...
-
-## Private info
-
-Store all private keys and values in the local environment variables. Please do not put them into the code repo.
-
-## Running the application locally
-
->You can run whole app via script from root of the project.
-### Both API and UI via Script
-```
-1. Copy '.env - Sample' to '.env'
-2. Edit '.env' file & fill in the missing values
-3. Open Git Bash terminal
-4. ./run_application.sh
-5. you can choose between running app locally on your machine(l/L), in docker(d/D) or both(b/B)
-```
-**if you have any issues, please read outputs from terminal and ensure that you have right values in .env file + you are using right versions metioned in UI [here](ui/README.md) and API [here](api/README.md).**
-
-### Just UI locally
-```
-1. Copy '.env - Sample' to '.env'
-2. Edit '.env' file & fill in missing values
-3. cd ui
-4. npm install
-5. npm run start
-6. The UI will be running on port 8080 by default.
-```
-
-For more details and all required version see UI Documentation [here](ui/README.md)
-
-### Just API locally
-
-If you didn´t do it already in previous UI Step then:
-```
-1. Copy '.env - Sample' to '.env'
-2. Edit '.env' file & fill in missing values
-```
-else run just those commands:
-```
-3. cd api
-4. ./mvnw spring-boot:run -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:mysql://localhost:3306/tech-demo --spring.datasource.username=[db user] --spring.datasource.password=[db pwd]"
-```
-
-For more details and all required version see API Documentation [here](api/README.md)
-
-## Running the application in Docker
-1. Copy '.env - Sample' to '.env'
-2. Edit '.env' file & fill in missing values
-3. Run
-```
-docker compose up --build -d
-```
-
-## Notes
-1. Redis is disabled by default as it is not available during building and unit-tests in GitHub.
-
-   To enable it (currently will work in local environment) in application.properties:
-```
-   caching.enabled=true 
-```   
-2. Loki appender is disabled by default as it is not available during building and unit-tests in GitHub.
-
-   To enable it (currently will work in local environment) in application.properties:
-```
-   loki.enabled=true
-```
-
-## Project Health Checks
-
-Run a comprehensive project health check (build, lint, tests, and FOSSA scans):
+### Backend (`api/`)
 
 ```bash
-./doctor
+cd api
+sdk env                # picks up Java 21 from .sdkmanrc
+./mvnw spring-boot:run
 ```
 
-## Code Quality
+The API comes up on `http://localhost:8082`. Bootstrap login is **`admin` /
+`admin`** (seeded via Flyway migration `V3`, BCrypt-hashed). The H2 data file
+lives under `api/data/` and is gitignored.
 
-Results from Sonar and CodeClimate analysis can be found in ReadMe file for backend in /api folder and for frontend in /ui folder. 
-# FOSSA License Scanning
+OpenAPI / Swagger UI: `http://localhost:8082/swagger-ui.html`
+H2 console: `http://localhost:8082/h2-console` (JDBC URL: `jdbc:h2:file:./data/techdemo`)
 
-This project uses FOSSA for license scanning and dependency vulnerability detection.
+### Frontend (`ui/`)
 
-## Current Status
+```bash
+cd ui
+npm install --legacy-peer-deps     # Storybook addon pulls a React-18-peer lib, hence legacy-peer-deps
+npm start
+```
 
-[\![FOSSA Status](https://app.fossa.com/api/projects/custom%2B46919%2Fgithub.com%2FFoundation-s-r-o%2Ftech-demo-test.git.svg?type=shield)](https://app.fossa.com/projects/custom%2B46919%2Fgithub.com%2FFoundation-s-r-o%2Ftech-demo-test.git?ref=badge_shield)
+The dev server runs on `http://localhost:8080` and proxies API calls to `:8082`.
 
-## How to Run FOSSA Scans
+> **Internal registry note:** if you previously had a TFS-internal npm feed in
+> `~/.npmrc`, this repo's `package-lock.json` is now fully public-registry
+> (`registry.npmjs.org`). Don't reintroduce TFS-resolved URLs — Dependabot
+> will break on the next run.
 
-1. Install the FOSSA CLI:
-   ```bash
-   curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | bash
-   ```
+## Quality & security tooling
 
-2. Set your FOSSA API key as an environment variable (NEVER commit this to source control):
-   ```bash
-   export FOSSA_API_KEY=your-api-key
-   ```
+The full table with gate behaviour lives in [SECURITY.md](./SECURITY.md). Quick reference:
 
-3. Run a scan:
-   ```bash
-   fossa analyze
-   ```
+| Scanner | Where | Gate |
+| ------- | ----- | ---- |
+| **GitGuardian** | GitHub PR check | Blocks PR on detected secrets |
+| **Dependabot** | Weekly schedule | Opens PRs; humans review/merge |
+| **FOSSA** | GitHub Action `fossa-scan` on push/PR to `main` | Scan-only (non-blocking, see SECURITY.md for why) |
+| **Checkstyle** | `./mvnw validate` | Hard gate (`failOnViolation=true`) |
+| **JaCoCo** | `./mvnw verify` | Report only (no minimum yet) |
+| **ESLint + `tsc --noEmit`** | `npm run lint` (local + CI) | Hard gate on errors |
+| **Trivy (`fs`)** | On-demand | HIGH/CRITICAL maintained at 0 on `main` |
+| **SonarQube** (internal `10.16.35.93:9000`) | On-demand | Dashboard only |
+| **CircleCI** | Every push | Hard gate (backend `mvn verify` + frontend webpack build) |
 
-4. Test for license or security issues:
-   ```bash
-   fossa test
-   ```
+FOSSA shield badge:
 
-## Viewing Reports
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B46919%2Fgithub.com%2FFoundation-s-r-o%2Ftech-demo-test.git.svg?type=shield)](https://app.fossa.com/projects/custom%2B46919%2Fgithub.com%2FFoundation-s-r-o%2Ftech-demo-test.git?ref=badge_shield)
 
-After running a scan, you can view the results in the [FOSSA dashboard](https://app.fossa.com/projects/custom%2B46919%2Fgithub.com%2FFoundation-s-r-o%2Ftech-demo-test.git).
+## Verification commands
 
-## CI/CD Integration
+See [`CLAUDE.md`](./CLAUDE.md#verifying-code-changes) for the full small-vs-large-change verification recipe. Headlines:
 
-This project includes a GitHub Actions workflow in `.github/workflows/fossa.yml` that automatically runs FOSSA scans on pushes to the main branch and on pull requests.
+```bash
+# Small UI change
+cd ui && npm run lint
 
-## Suggested Security Improvements
+# Small API change
+cd api && ./mvnw checkstyle:check test
 
-Based on recent FOSSA reports, here are recommended improvements:
+# Bigger change — run the lot
+cd ui && npm run lint && npm run smoke && npm run smoke:storybook
+cd api && ./mvnw clean verify
+trivy fs . --scanners vuln --severity HIGH,CRITICAL
+```
 
-1. Add a declared license to your project (currently shows "No declared license found")
-2. Continue regular dependency updates (good progress with recent Tomcat and Spring Cloud updates)
-3. Set up automated FOSSA scans in CI/CD pipeline for early detection
-4. Create a security policy document describing vulnerability handling procedures
-5. Consider implementing a dependency update schedule rather than reactive updates
+Comprehensive health check (build + lint + tests + FOSSA): `./doctor`.
 
-For more information on FOSSA, visit [the FOSSA documentation](https://docs.fossa.com/).
+## Working in this repo
+
+| Rule | Why |
+| ---- | --- |
+| Track work in [Issues](https://github.com/Foundation-s-r-o/tech-demo-test/issues) | One issue per piece of work; reference it in commits |
+| Small PRs — 100s of lines is too big (exceptions must be justified) | Reviewable in one sitting; keeps blast radius small |
+| Keep `main` releasable | If `./mvnw verify` + `npm run lint` + smoke don't pass, the PR isn't ready |
+| Secrets via env vars only | Never in code, never in `.env` committed files — see CLAUDE.md |
+
+## Engineering metrics
+
+This repo is connected to [LinearB](https://app.linearb.io/dashboard?isOrgSettings=true) (GitHub SSO) — tracks DORA metrics for **internal team-level gauging only**, not individual performance.
+
+Reference: [DORA 2023 report](https://services.google.com/fh/files/misc/2023_final_report_sodr.pdf) · [DORA Quick Check](https://dora.dev/quickcheck/).
+
+## Reporting security issues
+
+Use GitHub Private Vulnerability Reporting — see [SECURITY.md](./SECURITY.md).
+
+## Deferred / stale scaffolding (not the current path)
+
+The following files are kept in-tree as forward scaffolding for the future
+`prod` profile / Keycloak / PostgreSQL phase. **They do not reflect the current
+local dev path** and may be removed or rewritten when that phase lands. Do not
+rely on them today:
+
+| Path | Status | Why kept |
+| ---- | ------ | -------- |
+| `docker-compose.yml` | Stale | References the removed MariaDB + Redis stack |
+| `run_application.sh` | Stale | Assumes `.env`-driven external services |
+| `.env - Sample` | Stale | Many keys reference deferred services (OpenAI, Redis, Loki) |
+| `ui/README.md` | Stale | Says Node 18.17.0; real requirement is Node ≥ 22.11.0 |
+| `api/README.md` | Stale | Says JDK 17 + MySQL + Docker; real requirement is JDK 21 + H2 |
+
+Tracked under tech-debt in `docs/UPGRADE_PLAN.md`.
+
+## Further reading
+
+- [SECURITY.md](./SECURITY.md) — vulnerability reporting, demo-mode caveats, hardening checklist
+- [CLAUDE.md](./CLAUDE.md) — development guidelines (stack rules, verification recipe, code style)
+- [docs/UPGRADE_PLAN.md](./docs/UPGRADE_PLAN.md) — Spring Boot 4 / Java 21 upgrade history and deferred phases
