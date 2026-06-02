@@ -54,24 +54,28 @@ This is a full-stack Java/Spring Boot + React/TypeScript demo application servin
 - Backend: Maven with comprehensive plugin setup (Checkstyle, JaCoCo, Failsafe)
 - Frontend: Webpack with TypeScript, ESLint, Playwright testing
 
-**Containerization**
-- Full Docker Compose stack with 9 services:
-  - Application (API + UI), MariaDB, Redis
-  - Observability: Prometheus, Grafana, Jaeger, Loki, OpenTelemetry Collector
-  - Redis Commander, New Relic agent
+**Containerization (deferred, do not rely on)**
+- The repo retains `docker-compose.yml`, `run_application.sh`, and `.env - Sample` as
+  forward scaffolding for the future PostgreSQL + Keycloak phase. They reference the
+  **removed** MariaDB + Redis + OpenAI + OTel-collector stack and are not the current
+  local-dev path. Local dev is two terminals: `./mvnw spring-boot:run` + `npm start`.
 
-**Security & Quality**
-- FOSSA license scanning and vulnerability detection
-- Checkstyle code style enforcement  
-- Dependabot automated dependency updates
-- Bouncy Castle cryptography libraries
-- Explicit security patches (Tomcat, okio)
+**Security & Quality (current — see `SECURITY.md` for full posture)**
+- FOSSA license + vuln scan via `.github/workflows/fossa.yml` (scan-only, see SECURITY.md
+  for why `run-tests` is off).
+- GitHub CodeQL via default setup (categories `java-kotlin`, `javascript-typescript`,
+  `actions`).
+- GitGuardian secret scanning on PRs; GitHub secret scanning + push protection enabled.
+- Dependabot weekly Maven + npm; lockfile **must stay on `registry.npmjs.org/`** —
+  internal TFS-resolved URLs break Dependabot npm runs (see tripwire below).
+- Checkstyle on `./mvnw validate` (hard gate, `failOnViolation=true`).
+- Bouncy Castle for cryptography; explicit Tomcat 11.0.22 / okio 3.17.0 pins for CVE fixes.
 
-**Observability**
-- Distributed tracing with OpenTelemetry and Jaeger
-- Metrics collection with Prometheus
-- Centralized logging with Loki
-- Grafana dashboards
+**Observability (deferred)**
+- Wired today: Spring Boot Actuator + Micrometer only.
+- Deferred to a later phase (Boot-4-stable versions, when needed): OpenTelemetry,
+  Prometheus, Loki, Jaeger, Grafana. The old Docker Compose scaffolding still references
+  these but they are not running.
 
 ### Key Architectural Patterns
 - Clean architecture with separate domain/API layers
@@ -101,10 +105,11 @@ This is a full-stack Java/Spring Boot + React/TypeScript demo application servin
 - Run specific test: `npx playwright test tests/path/to/test.spec.ts`
 - Generate API client: `npm run generate-openapi-services`
 
-### Docker Commands
-- Start all services: `docker-compose up -d`
-- Run tests in container: `docker-compose exec api ./mvnw test`
-- View logs: `docker-compose logs -f [service_name]`
+### Docker Commands (deferred)
+Docker is not used in the current local-dev path. The `docker-compose.yml` is kept as
+forward scaffolding for the future PostgreSQL + Keycloak phase but **references the old
+MariaDB / Redis / OTel stack and will not work as-is**. Don't run `docker-compose up`
+expecting a functional app today.
 
 ### Project Health & Quality
 - **Comprehensive health check**: `./doctor` - Runs build, lint, tests, and FOSSA scans
@@ -130,11 +135,11 @@ Run the full suite and **fix all errors** before reporting done. Warnings are ge
 # 1. Frontend lint + type-check (gate)
 cd ui && npm run lint
 
-# 2. Backend: style + unit tests + coverage
-cd api && ./mvnw clean test            # Checkstyle (validate phase), unit tests, JaCoCo
-#   Integration tests need Docker/Testcontainers; when Docker is available run:
-#   ./mvnw clean verify                # adds Testcontainers integration tests
-#   If Docker is absent, fall back to `./mvnw clean test` and FLAG the skipped IT.
+# 2. Backend: style + unit tests + integration tests + coverage
+cd api && ./mvnw clean verify          # Checkstyle (validate phase), 7 unit + 13 IT, JaCoCo.
+#   Current ITs run on in-memory H2 only — NO Docker / Testcontainers required.
+#   Today: BUILD SUCCESS in ~12s on Java 21. If anything tries to start a Docker
+#   container, that's a regression — flag it.
 
 # 3. Playwright smoke tests (see below) — run after major changes
 cd ui && npm run smoke                 # app smoke (auto-starts dev server :8090)
@@ -199,26 +204,138 @@ npx playwright install chromium   # one-time, if the browser binary is missing
 - Styling: React Bootstrap with SCSS using BEM convention
 - ESLint: Enhanced configuration with `@typescript-eslint/no-unsafe-argument` error enforcement
 
+## CI / Workflows (current — `.github/workflows/`)
+
+Active workflows after the 2026-06-01 cleanup (9 → 3 files):
+
+| File | Trigger | What it does |
+| ---- | ------- | ------------ |
+| `fossa.yml` | push/PR on `main` | FOSSA license + vuln scan (scan-only, no test gate) |
+| `deploy-to-aws-eb.yml` | manual (`workflow_dispatch`) | Elastic Beanstalk deploy scaffold |
+| `push-to-ecr.yml` | manual (`workflow_dispatch`) | Docker → ECR push scaffold |
+
+GitHub-managed (not in `.github/workflows/`):
+- **CodeQL default setup** — runs on push/PR/weekly across `java-kotlin`,
+  `javascript-typescript`, `actions` categories. **This is the real CodeQL coverage**;
+  do not add a custom `code-scan.yml` (the previous one was deleted as redundant +
+  missing `init` step → wouldn't run anyway).
+- **Dependabot Updates** — `.github/dependabot.yml` schedules weekly Maven (`/api`)
+  and npm (`/ui`) bumps.
+
+**CircleCI** runs the actual build gate: backend `./mvnw verify` + frontend webpack
+build. Key config notes in `.circleci/config.yml`:
+- `cimg/openjdk:21.0` (matches project Java 21 LTS — NOT JDK 17).
+- `override-ci-command: npm install --legacy-peer-deps --no-audit --no-fund` — NOT
+  `npm ci`. The lockfile only pins the dev-host's `@parcel/watcher-darwin-arm64`
+  binary; the other 12 platform variants lack full lockfile entries, so strict
+  `npm ci` fails on Linux. `npm install` honors the lockfile when accurate and
+  fills the missing optional binaries at install time.
+
+All workflows have least-privilege `permissions: contents: read` (closes CodeQL
+`actions/missing-workflow-permissions` warning).
+
+## Dependency / lockfile tripwires (hard-learned)
+
+1. **`ui/package-lock.json` must stay on `registry.npmjs.org/`.** No `tfs-app1:8080`
+   URLs in `resolved` fields. If they creep back in, Dependabot npm runs blow up
+   (Server error 500 reaching the unreachable internal feed). Sanity check:
+   `grep -c 'tfs-app1' ui/package-lock.json` → must return `0`.
+
+2. **Cross-platform `@parcel/watcher` lockfile gotcha.** `sass@1.x → @parcel/watcher@2.x`
+   ships a different native binary per OS/arch. `npm install` on macOS only writes
+   the `darwin-arm64` entry. Don't fight this on a Mac dev machine; let CircleCI
+   resolve the Linux entry via `npm install` (not `npm ci`). See CircleCI note above.
+
+3. **`--legacy-peer-deps` is required** at every npm install: `storybook-addon-react-router-v6`
+   pulls `react-inspector@6.0.2` which still lists React 16-18 in peers, conflicting
+   with our React 19 tree. `npm install --legacy-peer-deps` papers over it.
+
+4. **Public-only npm registry locally.** If your global `~/.npmrc` points at the
+   internal TFS feed (or anything else), pass `--registry=https://registry.npmjs.org/`
+   explicitly when regenerating the lockfile. Don't edit `.npmrc` (other workspace
+   projects need it).
+
+## Documenting deliberate suppressions (CodeQL pattern)
+
+When a finding is *deliberately* allowed (e.g. CSRF disabled for the demo), do two things:
+
+1. **Add a `// SECURITY:` comment at the line** explaining what, why, and when it
+   must be re-evaluated. Include the rule id (`// lgtm[java/spring-disabled-csrf-protection]`)
+   so future re-scans link back. Example in `SecurityConfig.java:48-53`.
+2. **Dismiss the alert via API or UI** with a short reason pointing at SECURITY.md:
+   ```bash
+   gh api -X PATCH /repos/<org>/<repo>/code-scanning/alerts/<N> \
+     -f state=dismissed -f dismissed_reason="won't fix" \
+     -f dismissed_comment='Deliberately disabled for demo — see SECURITY.md'
+   # 280-char limit on dismissed_comment
+   ```
+
+Don't leave deliberate-by-design findings in `open` state — they hide real issues.
+Don't silently dismiss without the source comment — the next reader won't know why.
+
 ## Security
-- No hardcoded credentials or secrets in code
-- Use environment variables for sensitive data
-- Follow OWASP secure coding practices
-- Run FOSSA scans to check dependencies
+- No hardcoded credentials or secrets in code.
+- Use environment variables for sensitive data.
+- Follow OWASP secure coding practices.
+- Run FOSSA scans to check dependencies.
+- **Vulnerability reporting + demo-mode caveats + supported-versions policy live in
+  [`SECURITY.md`](SECURITY.md).** Update SECURITY.md whenever a demo-mode caveat
+  changes (CSRF re-enabled, CORS tightened, H2 console removed from `PUBLIC_PATHS`, etc.).
 
-## Recent Updates (Updated: 2026-05-27)
+## Recent Updates (Updated: 2026-06-02)
 
-### Stack upgrade (Spring Boot 3.4 → 4.0.6, Java 17 → 25) — see `docs/UPGRADE_PLAN.md`
-- **Spring Boot 4.0.6 / Java 25 LTS**; Hibernate 7; Jackson 3 (`tools.jackson`).
-- **Database**: MariaDB → embedded **H2 file-mode** (no Docker); portable ANSI Flyway migrations; integration tests run Docker-free.
-- **Auth**: replaced the in-memory mock with **Spring Security** session login backed by a Flyway-seeded `USERS` table (`admin/admin`, BCrypt).
-- **PDF**: added **OpenPDF** — `GET /api/persons/{id}/pdf`.
-- **Removed**: Redis/Redisson, OpenAI `ai/` package, `spring-cloud-sleuth-otel`, legacy `hibernate-types-60`.
-- **Security**: Tomcat 11.0.22 (CVE fixes), JaCoCo 0.8.14 (Java 25), Trivy HIGH/CRITICAL = 0.
+### Stack upgrade (Spring Boot 3.4 → 4.0.6, Java 17 → 21 LTS) — see `docs/UPGRADE_PLAN.md`
+- **Spring Boot 4.0.6 / Java 21 LTS** (project default); also builds on Java 25.
+  Hibernate 7; Jackson 3 (`tools.jackson`).
+- **Database**: MariaDB → embedded **H2 file-mode** (no Docker); portable ANSI Flyway
+  migrations; integration tests run Docker-free (`./mvnw verify`: 7 unit + 13 IT).
+- **Auth**: replaced the in-memory mock with **Spring Security** session login backed
+  by a Flyway-seeded `USERS` table (`admin/admin`, BCrypt).
+- **PDF**: added **OpenPDF 2.0.3** — `GET /api/persons/{id}/pdf`. (3.x major bump
+  deliberately deferred — namespace `com.lowagie.text` → `org.openpdf`; not worth the
+  migration churn yet.)
+- **Removed**: Redis/Redisson, OpenAI `ai/` package, `spring-cloud-sleuth-otel`,
+  legacy `hibernate-types-60`.
+
+### Frontend / tooling (2026-05-31 → 2026-06-01)
+- **React 19.0 → 19.2.x**; dropped `react-helmet` (React 19 hoists `<title>` natively).
+- **Node engine raised to ≥ 22.11.0** (forced by sass-loader 17 peer requirement).
+- **Lockfile rewritten against public `registry.npmjs.org/`** — removed 304 leftover
+  TFS-feed `resolved` URLs that were breaking Dependabot npm runs.
+- **Checkstyle 10.16 → 13.5**, **sass-loader 16 → 17**, **type-fest 4 → 5**, plus
+  3 backend minors (spotbugs-annotations, okio, micrometer-prometheus).
+
+### Workflow / CI cleanup (2026-06-01)
+- Deleted 6 dead workflows (`maven.yml`, `npm.yml`, `sonarcloud.yml`, `goodparts.yml`,
+  `goodparts_lint.yml`, `code-scan.yml`). Kept + permissions-hardened: `fossa.yml`,
+  `deploy-to-aws-eb.yml`, `push-to-ecr.yml`.
+- CircleCI: `cimg/openjdk:17.0 → 21.0`; install command flipped from `npm ci` to
+  `npm install --legacy-peer-deps` (see Tripwires above).
+- FOSSA workflow modernised: `actions/checkout@v2 → @v4`,
+  `fossas/fossa-action@v1 → @v1.9.0` + `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24` for
+  the June-2 GitHub Actions Node 24 cutover.
+
+### Security (2026-06-01)
+- New `SECURITY.md`: GitHub Private Vulnerability Reporting, demo-mode caveats table,
+  stack baseline, future hardening. **Private Vulnerability Reporting must still be
+  enabled in repo settings — admin-UI only**, not configurable from git.
+- CodeQL alert #14 (`java/spring-disabled-csrf-protection`) dismissed with reason;
+  in-source `// SECURITY:` + `lgtm[...]` comment added at `SecurityConfig.java:48-53`.
+- Root README rewritten against current stack; subfolder READMEs (`api/README.md`,
+  `ui/README.md`) deleted and their useful bits absorbed.
+- Tomcat 11.0.22 (CVE fixes), JaCoCo 0.8.14 (Java 25 class-file support),
+  Trivy HIGH/CRITICAL = 0 on `main`.
 
 ### Notes / flags
-- CSRF disabled + permissive CORS are **demo-only** (`SecurityConfig`, `WebConfiguration`) — tighten for production.
-- Observability (OpenTelemetry + Prometheus) deferred to a later phase; only Actuator + Micrometer are wired now.
-- Backend coverage is low (~23% instructions) — characterization tests cover the core paths; expand as features grow.
+- CSRF disabled + permissive CORS are **demo-only** (`SecurityConfig`, `WebConfiguration`)
+  — tighten for production (full caveats table in SECURITY.md).
+- Observability (OpenTelemetry + Prometheus + Loki + Jaeger) deferred; only Actuator +
+  Micrometer wired now.
+- Backend new-code coverage is ~33% (Sonar gate ERROR pending more tests); overall
+  instruction coverage still low — characterization tests cover the core paths; expand
+  as features grow.
+- Sonar api project gate is `ERROR` because `new_coverage` < 80%; pollutes the gauge
+  but doesn't reflect a real defect. Lift by adding tests for `auth/` + `PersonPdfService`.
 
 ## Agent Autonomy
 Claude Code can autonomously navigate directories, run builds, execute tests, run builds/tests, execute Docker commands, install dependencies, run linting tools, and read file contents autonomously, and perform system operations in this project without asking for permission each time. This includes:
