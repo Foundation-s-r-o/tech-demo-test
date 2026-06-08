@@ -315,3 +315,38 @@ Rule: **fix errors, flag warnings.** Never edit a test to make a real failure pa
 | Auth change breaks the SPA login flow | Medium | High | Keep `/api/auth` contract; UI smoke + manual E2E in Phase 3 |
 | Java 25 toolchain gaps (Lombok/plugins) | Low–Med | Medium | Intermediate Java 21 stop; bump toolchain versions |
 | Scope creep / re-adding infra "to be safe" | Medium | Medium | Explicit YAGNI rule; infra returns only on real deploy need |
+
+---
+
+## 10. Dependabot follow-ups (deferred majors — opened 2026-06-08)
+
+Batch reviewed 2026-06-08. Merged: jacoco `0.8.15` (patch), `@types/react-bootstrap` `1.1.0`;
+removed orphaned direct deps `ora` + `wrap-ansi`. The two below are **held** — each needs
+its own focused change, not a deps bump.
+
+### 10.1 TypeScript 5.9 → 6.0 (held — PR #211)
+TS6 builds but its stricter inference turns ~17 latent type issues into hard errors
+(`npm run lint`). Fix these in a dedicated branch, then bump:
+- `tsconfig.json` deprecations (hard errors in TS6, removed entirely in TS7): migrate
+  `target: es5 → es2018` (matches the ECMA2018+ FE standard; babel-loader does the real
+  transpile, so tsc target is type-check-only), `moduleResolution: node → "bundler"`
+  (webpack project), and drop `baseUrl` (rewrite `paths` to `./src/*`-relative — verify
+  `tsconfig-paths-webpack-plugin` still resolves the `@components/@common/@pages/@api`
+  aliases). Short-term escape hatch only: `"ignoreDeprecations": "6.0"`.
+- Real type errors to fix: `index.tsx:10` (`getElementById` `HTMLElement | null` → guard
+  or `!`), `Login.tsx:5` (`TS2882` side-effect `.scss` import → add `declare module '*.scss'`
+  ambient decl), `Form.tsx`/`Table.tsx` (`null`/`undefined` strictness on `routes.*.path`
+  and DTO arrays), and the Playwright `tests/` specs (`string | undefined` env args).
+- Escalation: touches `tests/` auth specs → run the full suite per CLAUDE.md.
+
+### 10.2 Remove `@types/react-bootstrap` entirely (follow-up to PR #207)
+Bumped to `1.1.0`, which npm flags as a **stub**: *"react-bootstrap provides its own type
+definitions, so you do not need this installed."* We use react-bootstrap v2 (ships its own
+types), so this `@types` package is vestigial. Next step: delete the `@types/react-bootstrap`
+dependency, `npm install --legacy-peer-deps`, and confirm `npm run lint` (tsc) still passes
+on the 12 `from 'react-bootstrap'` import sites.
+
+### 10.3 react-i18next 15 → 17 (held — PR #209)
+v17 peer-requires `i18next >= 26.2.0`; we're on i18next `24`. Merging alone breaks the peer
+tree. Do as **one coupled major upgrade** (i18next 24 → 26 **+** react-i18next 15 → 17),
+check `storybook-react-i18next` compatibility, then full verify.
