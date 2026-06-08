@@ -32,6 +32,11 @@ export const FndtTableHeadCell = (props: FndtTableHeadCellProps) => {
     const handleSort = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault()
 
+        // Only the sortable branch (props.sort truthy) wires up this handler.
+        if (!props.sort) {
+            return
+        }
+
         if (!isCurrent()) {
             tableData.onSort(props.sort, SortDir.Desc)
         } else {

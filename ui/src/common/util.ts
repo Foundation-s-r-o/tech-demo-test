@@ -14,7 +14,7 @@ export function enumToSelectOptions(
 
 export function arrayToSelectOptions(
     arrayToTransfer: string[],
-    translationPrefix: string = null
+    translationPrefix?: string
 ): Array<{ value: string; label: string }> {
     return arrayToTransfer.map((val) => {
         return {

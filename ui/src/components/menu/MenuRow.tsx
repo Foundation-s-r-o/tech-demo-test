@@ -18,7 +18,7 @@ const MenuRow = (props: MenuRowPropsType) => {
                         </MenuCollapse>
                         <Accordion.Collapse eventKey={`c${i}`}>
                             <div>
-                                {child.items.map((row, iter) => (
+                                {child.items?.map((row, iter) => (
                                     <SubMenuRow
                                         key={`b${iter}`}
                                         name={row.name}
@@ -35,7 +35,7 @@ const MenuRow = (props: MenuRowPropsType) => {
         return (
             <SubMenuRow
                 name={child.name}
-                link={child.link}
+                link={child.link ?? ''}
             />
         )
     }

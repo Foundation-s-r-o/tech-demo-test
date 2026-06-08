@@ -7,7 +7,7 @@ const authStateReducer: Reducer<AuthStateType, AuthStateReducerAction> = (
 ): AuthStateType => {
     switch (action.type) {
         case AuthStateReducerActionType.INIT: {
-            const { isAuthenticated, user } = action.payload
+            const { isAuthenticated = false, user = null } = action.payload ?? {}
 
             return {
                 ...state,
@@ -17,7 +17,7 @@ const authStateReducer: Reducer<AuthStateType, AuthStateReducerAction> = (
             }
         }
         case AuthStateReducerActionType.LOGIN: {
-            const { user } = action.payload
+            const { user = null } = action.payload ?? {}
 
             return {
                 ...state,

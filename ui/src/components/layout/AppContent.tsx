@@ -8,7 +8,7 @@ type Props = PropsWithChildren & {
     contentClassName?: string
 }
 
-const AppContent = ({ title, children, contentClassName = null }: Props) => {
+const AppContent = ({ title, children, contentClassName }: Props) => {
     return (
         <div id="app-content">
             {title && (

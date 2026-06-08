@@ -7,7 +7,7 @@ export const oneOfMultipleRequiredErrorMsg = (fieldsNameKeys: string[]) =>
             .join(', '),
     })
 export const oneOfMultipleRequiredTestFn = function (fieldsToCheck: string[]) {
-    return function (item: unknown) {
+    return function (this: { parent: Record<string, unknown> }, item: unknown) {
         if (item) {
             let isAnyValid = false
             fieldsToCheck.forEach((fieldKey) => {

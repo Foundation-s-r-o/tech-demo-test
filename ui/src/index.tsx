@@ -7,7 +7,11 @@ import ContextProviders from './components/shared/ContextProviders'
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'
 import './assets/sass/main.scss'
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
+const container = document.getElementById('root')
+if (!container) {
+    throw new Error('Root element #root not found')
+}
+const root = ReactDOM.createRoot(container)
 
 root.render(
     // <React.StrictMode>

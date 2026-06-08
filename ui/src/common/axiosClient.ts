@@ -45,6 +45,7 @@ axiosClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 
             return QueryString.stringify(params, { arrayFormat: 'repeat' })
         }
+        return ''
     }
     /*eslint-enable */
     return config

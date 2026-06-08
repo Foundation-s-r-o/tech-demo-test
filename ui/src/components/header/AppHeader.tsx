@@ -35,9 +35,9 @@ const AppHeader = () => {
                             {auth.isAuthenticated ? (
                                 <>
                                     <div id="app_header_user_fullname">
-                                        {auth.user.firstName +
+                                        {(auth.user?.firstName ?? '') +
                                             ' ' +
-                                            auth.user.lastName}
+                                            (auth.user?.lastName ?? '')}
                                     </div>
                                     <span>{' | '}</span>
                                     <button

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-const PageInfo = ({ title = null }: { title?: string }) => {
+const PageInfo = ({ title }: { title?: string }) => {
     const { t } = useTranslation()
 
     // React 19 hoists <title> rendered anywhere in the tree to <head> — no react-helmet needed.

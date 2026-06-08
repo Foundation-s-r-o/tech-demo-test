@@ -19,7 +19,7 @@ export default function ModalsProvider({ children }: PropsWithChildren) {
             ? (React.cloneElement(modal, {
                 ...modal.props,
                 key: modalKey,
-            }) as unknown as React.ReactElement)
+            }) as unknown as React.ReactElement<PropsWithChildren>)
             : null
 
         if (newModal) {

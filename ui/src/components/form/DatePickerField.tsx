@@ -17,7 +17,7 @@ const DatePickerField = (props: CustomDatePickerProps) => {
         <FndtDatePicker
             className={props.className}
             selected={(props.value && new Date(props.value)) || null}
-            onChange={(val: Date) => {
+            onChange={(val: Date | null) => {
                 if (props.name) {
                     setFieldValue(props.name, val)
                 }

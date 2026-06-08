@@ -22,7 +22,7 @@ export const FndtTable = <T extends IdentifiableItemResponse>({
             <tr>{HeadRow}</tr>
             </thead>
             <tbody>
-            {tableData.entries.length ? tableData.entries.map((item: T) => (
+            {tableData.entries.length ? (tableData.entries as T[]).map((item) => (
                 <FndtTableBodyRow key={keyExtractor(item)}>
                     {renderRow(item)}
                 </FndtTableBodyRow>

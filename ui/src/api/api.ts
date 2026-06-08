@@ -5,9 +5,10 @@ import {
 } from './generated'
 import { BaseAPI } from './generated/base'
 import axiosClient from '@common/axiosClient'
+import { AxiosInstance } from 'axios'
 
 interface Constructable<T> {
-    new (...args: unknown[]): T
+    new (configuration?: Configuration, basePath?: string, axios?: AxiosInstance): T
 }
 
 const config = new Configuration()

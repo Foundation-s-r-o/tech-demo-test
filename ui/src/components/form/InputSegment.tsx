@@ -14,13 +14,13 @@ const FndtInputSegment = ({
   options,
   namePrefix = null,
   label = null,
-  labelElement = null,
-  onChange = null,
-  defaultValue = null,
+  labelElement,
+  onChange,
+  defaultValue,
   isDisabled = false,
   isClearable = false,
-  fieldElement = null,
-  inputWrapperClassName = null,
+  fieldElement,
+  inputWrapperClassName,
   datePickerProps = null,
   children,
 }: PropsWithChildren<SegmentInputCombined>) => {
@@ -35,7 +35,7 @@ const FndtInputSegment = ({
 
     return (
         <InputRow>
-            <FndtLabel htmlFor={id}>{labelElement ? labelElement : t(label)}</FndtLabel>
+            <FndtLabel htmlFor={id}>{labelElement ? labelElement : t(label ?? '')}</FndtLabel>
             <div className={inputWrapperClassName ? inputWrapperClassName : ''}>
                 {children ? (
                     <div {...{ id, className: 'form-value' }}>{children}</div>

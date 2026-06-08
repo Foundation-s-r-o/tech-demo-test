@@ -4,11 +4,11 @@ const dotenv = require('dotenv')
 
 module.exports = {
     typescript: {
-        reactDocgen: 'react-docgen-typescript',
-        reactDocgenTypescriptOptions: {
-            shouldExtractLiteralValuesFromEnum: true,
-            propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
-        },
+        // Babel-based docgen (Storybook 9 default). The TS-compiler variant
+        // (react-docgen-typescript) instantiates a ts.Program from tsconfig and
+        // crashes on baseUrl-less `paths` (TS6 modernization); react-docgen parses
+        // per-file via babel and avoids tsconfig path resolution entirely.
+        reactDocgen: 'react-docgen',
     },
 
     stories: [
