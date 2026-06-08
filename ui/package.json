@@ -95,7 +95,7 @@
     "type-fest": "^5.7.0",
     "webidl-conversions": "^7.0.0",
     "whatwg-url": "^14.1.1",
-    "wrap-ansi": "^9.0.0",
+    "wrap-ansi": "^10.0.0",
     "yup": "^1.6.1"
   },
   "devDependencies": {
