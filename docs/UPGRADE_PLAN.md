@@ -324,20 +324,22 @@ Batch reviewed 2026-06-08. Merged: jacoco `0.8.15` (patch), `@types/react-bootst
 removed orphaned direct deps `ora` + `wrap-ansi`. The two below are **held** — each needs
 its own focused change, not a deps bump.
 
-### 10.1 TypeScript 5.9 → 6.0 (held — PR #211)
-TS6 builds but its stricter inference turns ~17 latent type issues into hard errors
-(`npm run lint`). Fix these in a dedicated branch, then bump:
-- `tsconfig.json` deprecations (hard errors in TS6, removed entirely in TS7): migrate
-  `target: es5 → es2018` (matches the ECMA2018+ FE standard; babel-loader does the real
-  transpile, so tsc target is type-check-only), `moduleResolution: node → "bundler"`
-  (webpack project), and drop `baseUrl` (rewrite `paths` to `./src/*`-relative — verify
-  `tsconfig-paths-webpack-plugin` still resolves the `@components/@common/@pages/@api`
-  aliases). Short-term escape hatch only: `"ignoreDeprecations": "6.0"`.
-- Real type errors to fix: `index.tsx:10` (`getElementById` `HTMLElement | null` → guard
-  or `!`), `Login.tsx:5` (`TS2882` side-effect `.scss` import → add `declare module '*.scss'`
-  ambient decl), `Form.tsx`/`Table.tsx` (`null`/`undefined` strictness on `routes.*.path`
-  and DTO arrays), and the Playwright `tests/` specs (`string | undefined` env args).
-- Escalation: touches `tests/` auth specs → run the full suite per CLAUDE.md.
+### 10.1 TypeScript 5.9 → 6.0 — ✅ DONE (PR #213, 2026-06-09)
+Adopted as a full migration (not the `ignoreDeprecations` escape hatch). The real driver
+was TS6's `strict: true` default (we only had `noImplicitAny`), which surfaced **54** errors
+across 26 files — fixed all with no `any`/`@ts-ignore`/strict-downgrade.
+- `tsconfig.json` modernized: `target es5 → es2018`, `moduleResolution node → "bundler"`,
+  dropped `baseUrl` (`paths` now `./src/*`-relative; `tsconfig-paths-webpack-plugin` v4 and
+  the main build resolve them fine). `strict: true` explicit.
+- Ambient `*.scss`/`*.css` decls for TS6 `noUncheckedSideEffectImports`; typed `dotenv` shim
+  (its package `exports` hide types under `bundler`).
+- Storybook docgen `react-docgen-typescript → react-docgen` (the TS-compiler variant crashes
+  on `baseUrl`-less `paths`).
+- **ES2018 set as the browser baseline** (`package.json` `browserslist`: chrome ≥64 / edge ≥79 /
+  firefox ≥58 / safari ≥12) so babel/autoprefixer align with the es2018 tsc target. Consistent
+  with React 19 (no legacy-browser support).
+- Verified: `tsc` 0 errors, eslint, webpack build, app + storybook smoke all green.
+- Not run: full Playwright E2E (needs backend `:8082`); auth edits are type-level/behavior-preserving.
 
 ### 10.2 Remove `@types/react-bootstrap` entirely (follow-up to PR #207)
 Bumped to `1.1.0`, which npm flags as a **stub**: *"react-bootstrap provides its own type
