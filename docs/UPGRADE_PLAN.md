@@ -348,7 +348,9 @@ types), so this `@types` package is vestigial. Next step: delete the `@types/rea
 dependency, `npm install --legacy-peer-deps`, and confirm `npm run lint` (tsc) still passes
 on the 12 `from 'react-bootstrap'` import sites.
 
-### 10.3 react-i18next 15 → 17 (held — PR #209)
-v17 peer-requires `i18next >= 26.2.0`; we're on i18next `24`. Merging alone breaks the peer
-tree. Do as **one coupled major upgrade** (i18next 24 → 26 **+** react-i18next 15 → 17),
-check `storybook-react-i18next` compatibility, then full verify.
+### 10.3 react-i18next 15 → 17 + i18next 24 → 26 — ✅ DONE (replaces PR #209, 2026-06-09)
+Done as one coupled major upgrade now that TS6 is in (react-i18next 17 peers `typescript ^5||^6`):
+`i18next ^24.2.2 → ^26.3.1` + `react-i18next ^15.4.1 → ^17.0.8`. `storybook-react-i18next@10.1.2`
+already allows i18next ^26 + react-i18next ^17 — no addon bump needed. Verified: lint (TS6
+type-check against the new i18n types), webpack build, app smoke, storybook smoke (Form story
+exercises the addon) all green. PR #209 closed as superseded.
