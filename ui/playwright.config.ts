@@ -4,6 +4,7 @@ import 'dotenv/config'
 
 const config: PlaywrightTestConfig = {
     testDir: './tests',
+    testMatch: /test_.*\.spec\.ts/,
     /* Maximum time one test can run for. */
     timeout: 30 * 1000,
     expect: {
@@ -21,8 +22,8 @@ const config: PlaywrightTestConfig = {
     /* Opt out of parallel tests on CI. */
     workers: process.env.CI ? 1 : undefined,
     reporter: 'html',
-    globalSetup: require.resolve('./tests/global_setup'),
     use: {
+        baseURL: 'http://localhost:8080',
         actionTimeout: 0,
         trace: 'on-first-retry',
         launchOptions: {
@@ -30,8 +31,22 @@ const config: PlaywrightTestConfig = {
                 ? parseInt(process.env.PLAYWRIGHT_SLOW_MO)
                 : 0,
         },
-        // storageState: 'tests/storageState.json',
     },
+    webServer: [
+        {
+            command: './mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=8082',
+            cwd: '../api',
+            url: 'http://localhost:8082/actuator/health',
+            reuseExistingServer: !process.env.CI,
+            timeout: 180 * 1000,
+        },
+        {
+            command: 'npx webpack serve --mode development --port 8080 --no-client-overlay',
+            url: 'http://localhost:8080/bundle.js',
+            reuseExistingServer: !process.env.CI,
+            timeout: 180 * 1000,
+        },
+    ],
     projects: [
         {
             name: 'chromium',
