@@ -32,7 +32,7 @@ export default function PersonsTable() {
                                 return resolve({
                                     hasNextPage: true,
                                     totalElements: response.data.totalElements,
-                                    elements: transformArrayOfT1ToArrayOfT2<PersonListItemResponseDTO, UiPersonListItemResponseDTO>(response.data.elements),
+                                    elements: transformArrayOfT1ToArrayOfT2<PersonListItemResponseDTO, UiPersonListItemResponseDTO>(response.data.elements ?? []),
                                 })
                             })
                     }

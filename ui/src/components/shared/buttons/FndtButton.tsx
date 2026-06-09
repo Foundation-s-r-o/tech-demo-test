@@ -10,7 +10,7 @@ export const FndtButton = ({
     className,
     size = FndtButtonSize.lg,
     variant = 'primary',
-    to = null,
+    to,
     ...props
 }: FndtButtonProps) => {
     const prefix = 'btn'

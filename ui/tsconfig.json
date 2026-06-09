@@ -2,30 +2,30 @@
     "compilerOptions": {
         "outDir": "./dist/",
         "sourceMap": true,
+        "strict": true,
         "noImplicitAny": true,
-        "module": "es6",
-        "target": "es5",
+        "module": "esnext",
+        "target": "es2018",
         "jsx": "react",
         "allowJs": true,
         "esModuleInterop": true,
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "resolveJsonModule": true,
         "skipLibCheck": true,
         "allowSyntheticDefaultImports": true,
-        "baseUrl": "./src",
         "paths": {
             "@components/*": [
-                "components/*"
+                "./src/components/*"
             ],
             "@common/*": [
-                "common/*"
+                "./src/common/*"
             ],
             "@pages/*": [
-                "pages/*"
+                "./src/pages/*"
             ],
             "@api/*": [
-                "api/*"
+                "./src/api/*"
             ]
-        },
+        }
     }
 }

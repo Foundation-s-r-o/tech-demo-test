@@ -8,8 +8,11 @@ import PersonsAddPage from '@pages/persons/AddPage'
 import PersonsEditPage from '@pages/persons/EditPage'
 
 
+// Every app route is statically defined with a concrete path, so narrow RouteObject's
+// optional `path?: string` to a required string — lets callers use routes.x.path.replace(...)
+// without undefined guards under TS6 strictNullChecks.
 export const routes: {
-    [routeName: string]: RouteObject
+    [routeName: string]: RouteObject & { path: string }
 } = {
     login: {
         path: '/login',

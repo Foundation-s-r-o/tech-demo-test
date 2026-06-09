@@ -3,7 +3,7 @@ import { FndtTableContext } from './TableContext'
 
 export const useFndtTable = () => {
     const context = React.useContext(FndtTableContext)
-    if (context === undefined) {
+    if (!context) {
         throw new Error('useFndtTable in not within FndtTableWrapper')
     }
 

@@ -10,7 +10,7 @@ type InfoModalProps = {
     content?: React.ReactNode
 }
 
-export default function InfoModal({ content, onClose = null }: InfoModalProps) {
+export default function InfoModal({ content, onClose }: InfoModalProps) {
     const { t } = useTranslation()
     const [show, setShow] = useState(true)
 

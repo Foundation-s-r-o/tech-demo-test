@@ -12,7 +12,7 @@ type ErrorModalProps = {
 
 export default function ErrorModal({
     text = 'common.error.generic',
-    onClose = null,
+    onClose,
 }: ErrorModalProps) {
     const { t } = useTranslation()
     const [show, setShow] = useState(true)

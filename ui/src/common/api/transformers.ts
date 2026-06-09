@@ -15,9 +15,9 @@ export const transformResponse = <Response, Entity>(
 
 export const transformArrayOfT1ToArrayOfT2 = <T1, T2>(
     arrayToTransform: T1[],
-    customTransformFn: (
+    customTransformFn: ((
         entityToTransform: T1
-    ) => T2 = null
+    ) => T2) | null = null
 ): T2[] => {
     const output: T2[] = []
     arrayToTransform.forEach(i => {

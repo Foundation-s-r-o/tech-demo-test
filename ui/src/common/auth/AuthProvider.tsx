@@ -38,7 +38,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 
     const logout = async (callback: VoidFunction) => {
         try {
-            await authControllerApi.logout({ logoutRequestDTO: { username: state.user.username } })
+            await authControllerApi.logout({ logoutRequestDTO: { username: state.user?.username ?? '' } })
             unsetSession()
             dispatch({ type: AuthStateReducerActionType.LOGOUT })
             callback()

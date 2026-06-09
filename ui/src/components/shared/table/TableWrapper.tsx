@@ -84,7 +84,7 @@ export const FndtTableWrapper = <T extends IdentifiableItemResponse>({
     loadDataFn,
     children,
 }: FndtTableWrapperProps<T>) => {
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState<unknown>({})
     const [state, dispatch] = useReducer(fndtTableReducer, initialFndtTableState)
     const [totalPages, setTotalPages] = useState(0)
     const [currentPage, setCurrentPage] = useState(initialPage)
@@ -102,7 +102,7 @@ export const FndtTableWrapper = <T extends IdentifiableItemResponse>({
     }
 
     function load(
-        pagingParamsOverrides: PagingRequest = null,
+        pagingParamsOverrides: Partial<PagingRequest> | null = null,
         isSilent = false
     ) {
         const pagingParams = {
@@ -132,7 +132,7 @@ export const FndtTableWrapper = <T extends IdentifiableItemResponse>({
                         return
                     }
                     setTotalPages(
-                        Math.ceil(result.totalElements / pagingParams.pageSize)
+                        Math.ceil((result.totalElements ?? 0) / pagingParams.pageSize)
                     )
                     dispatch({
                         type: FndtTableReducerActionType.LOAD_SUCCESS,

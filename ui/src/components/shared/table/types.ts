@@ -35,7 +35,9 @@ export enum FndtTableReducerActionType {
 
 export type FndtTableReducerAction = {
     type: FndtTableReducerActionType
-    payload?: PageableResponse<IdentifiableItemResponse>
+    // Partial: LOAD_SUCCESS may dispatch without hasNextPage; the reducer reads each
+    // field defensively (optional chaining + fallbacks).
+    payload?: Partial<PageableResponse<IdentifiableItemResponse>>
 }
 
 export interface FndtTableContextType extends FndtTableWrapperStateType {
@@ -70,6 +72,6 @@ export type FndtTablePaginationProps = {
     page: number
     pageSize: number
     totalPages: number
-    onPageChange?: (page: number) => void
-    onPageSizeChange?: (pageSize: number) => void
+    onPageChange: (page: number) => void
+    onPageSizeChange: (pageSize: number) => void
 }

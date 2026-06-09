@@ -12,7 +12,7 @@ import { personControllerApi } from '@api/api'
 import { useNavigate } from 'react-router-dom'
 import routes from '@components/router/routes'
 
-export default function PersonForm({ id = null }: { id?: number }) {
+export default function PersonForm({ id }: { id?: number }) {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const idPrefix = 'PersonEditForm'
@@ -43,10 +43,10 @@ export default function PersonForm({ id = null }: { id?: number }) {
                 const response = await personControllerApi.get({ id: id })
                 const person = response.data
                 setDefaultValues({
-                    firstName: person.firstName,
-                    lastName: person.lastName,
-                    address: person.address,
-                    email: person.email,
+                    firstName: person.firstName ?? '',
+                    lastName: person.lastName ?? '',
+                    address: person.address ?? '',
+                    email: person.email ?? '',
                     phoneNumber: person.phoneNumber || '',
                     state: person.state || ''
                 })

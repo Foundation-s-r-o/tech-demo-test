@@ -9,7 +9,7 @@ export interface ModalsContextType {
     openedModals: {
         [modalKey: string]: React.ReactElement<PropsWithChildren>
     }
-    containerRef: React.RefObject<HTMLDivElement>
+    containerRef: React.RefObject<HTMLDivElement | null>
 }
 
 export interface ModalsStackSettings {

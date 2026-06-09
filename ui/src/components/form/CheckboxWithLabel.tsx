@@ -12,7 +12,7 @@ type FndtCheckboxWithLabelProps = {
     id?: string,
 }
 
-const FndtCheckboxWithLabel = ({value, onChange, label, name, className = null, id = null}: FndtCheckboxWithLabelProps) => {
+const FndtCheckboxWithLabel = ({value, onChange, label, name, className, id}: FndtCheckboxWithLabelProps) => {
     const { t } = useTranslation()
     const idAttribute = id || uniqueId('fndtcheckbox')
 

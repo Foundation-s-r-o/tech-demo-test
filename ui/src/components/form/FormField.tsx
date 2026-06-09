@@ -16,7 +16,7 @@ export const FndtFormField = ({
     type,
     name,
     id,
-    fieldElement = null,
+    fieldElement,
     options,
     onChange,
     isClearable,
@@ -42,7 +42,7 @@ export const FndtFormField = ({
             return (
                 <FndtSelect
                     {...{ options, defaultValue, isClearable, isDisabled }}
-                    value={options.find((element) => element.value === field.value) || null}
+                    value={options?.find((element) => element.value === field.value) || null}
                     onChange={(value: OnChangeValue<SelectOption, false>) => {
                         const newVal = value ? value.value : null
                         setFieldValue(name, newVal)
@@ -56,6 +56,9 @@ export const FndtFormField = ({
             )
 
         case FndtInputType.Custom: {
+            if (!fieldElement) {
+                return null
+            }
             const customOnChange = fieldElement.props.onChange
             return React.cloneElement(fieldElement, {
                 name: name,
@@ -73,7 +76,7 @@ export const FndtFormField = ({
         case FndtInputType.MultipleChecbkoxes:
             return (
                 <>
-                    {options.map((item) => {
+                    {options?.map((item) => {
                         const localId = id + '_' + item.value
                         return (
                             <FndtCheckboxWithLabel
