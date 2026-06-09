@@ -60,7 +60,8 @@ npm install --legacy-peer-deps     # Storybook addon pulls a React-18-peer lib, 
 npm start
 ```
 
-The dev server runs on `http://localhost:8080` and proxies API calls to `:8082`.
+The dev server runs on `http://localhost:8080`. The UI reads
+`APP_API_SERVER_URL=http://localhost:8082` from the root `.env` file for API calls.
 
 Other useful UI scripts:
 

@@ -1,7 +1,9 @@
 #!/bin/bash
 
+PROJECT_ROOT="$(cd "$(dirname "$0")" && pwd)"
+
 setup_env() {
-  if [ ! -f .env ]; then
+  if [ ! -f "$PROJECT_ROOT/.env" ]; then
     echo "Please copy .env - Sample into .env file and fill in missing values."
     echo "Exiting..."
     exit 1
@@ -11,7 +13,7 @@ setup_env() {
 }
 
 run_ui() {
-  cd ../ui || { echo "UI directory not found"; exit 1; }
+  cd "$PROJECT_ROOT/ui" || { echo "UI directory not found"; exit 1; }
   if (echo >/dev/tcp/localhost/8080) &>/dev/null ; then
     echo "Port 8080 is already in use. Do you want to kill the process using port 8080? (y/n)"
     read -r choice
@@ -29,7 +31,7 @@ run_ui() {
   fi
 
   echo "Running npm install on UI..."
-  npm install
+  npm install --legacy-peer-deps
   echo "Starting UI server"
   npm run start &
   echo "UI is running on port 8080"
@@ -37,25 +39,15 @@ run_ui() {
 }
 
 run_api() {
-  cd ./api || { echo "API directory not found"; exit 1; }
+  cd "$PROJECT_ROOT/api" || { echo "API directory not found"; exit 1; }
 
-  # Prompt the user for database username and password
-  read -r -p "Enter the database username (press Enter to use .env values): " db_user
-  read -r -s -p "Enter the database password (press Enter to use .env values): " db_pwd
-  echo
-
-  # Retrieve database username and password from .env file if available
-  source ../.env
-  # Use default values if not provided by the user or in the .env file
-  db_user="${db_user:-$MYSQL_DATABASE_USERNAME}"
-  db_pwd="${db_pwd:-$MYSQL_DATABASE_PASSWORD}"
-
-  ./mvnw spring-boot:run -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:mysql://localhost:3306/tech-demo --spring.datasource.username=$db_user --spring.datasource.password=$db_pwd" &
-  echo "API is running"
+  ./mvnw spring-boot:run &
+  echo "API is starting on port 8082 with embedded H2"
   echo "For more details and all required versions, see API Documentation."
 }
 
 run_docker() {
+  cd "$PROJECT_ROOT" || exit 1
   docker-compose up --build -d
   echo "Application is running in Docker"
 }
