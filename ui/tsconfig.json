@@ -11,6 +11,7 @@
         "esModuleInterop": true,
         "moduleResolution": "bundler",
         "resolveJsonModule": true,
+        "types": ["node"],
         "skipLibCheck": true,
         "allowSyntheticDefaultImports": true,
         "paths": {
@@ -27,5 +28,17 @@
                 "./src/api/*"
             ]
         }
-    }
+    },
+    "include": [
+        "src/**/*",
+        "tests/**/*.ts",
+        "playwright*.config.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "storybook-static",
+        "playwright-report*",
+        "test-results"
+    ]
 }

@@ -114,6 +114,7 @@
     "@storybook/addon-docs": "9.1.19",
     "@storybook/addon-links": "9.1.19",
     "@storybook/react-webpack5": "9.1.19",
+    "@types/node": "^22.19.20",
     "@types/react-datepicker": "^7.0.0",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.46.2",
