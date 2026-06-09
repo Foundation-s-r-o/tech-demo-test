@@ -57,7 +57,7 @@
     "@openapitools/openapi-generator-cli": "^2.20.2",
     "@types/lodash": "^4.17.16",
     "@types/react": "^19.2.0",
-    "@types/react-bootstrap": "^0.32.37",
+    "@types/react-bootstrap": "^1.1.0",
     "@types/react-dom": "^19.2.0",
     "@types/react-router-dom": "^5.3.3",
     "ansi-escapes": "^7.0.0",
@@ -78,7 +78,6 @@
     "log-symbols": "^7.0.0",
     "lru-cache": "^11.0.2",
     "minipass": "^7.1.2",
-    "ora": "^8.2.0",
     "path-to-regexp": "^8.4.0",
     "react": "^19.2.0",
     "react-bootstrap": "^2.10.9",
@@ -95,7 +94,6 @@
     "type-fest": "^5.7.0",
     "webidl-conversions": "^7.0.0",
     "whatwg-url": "^14.1.1",
-    "wrap-ansi": "^9.0.0",
     "yup": "^1.6.1"
   },
   "devDependencies": {
