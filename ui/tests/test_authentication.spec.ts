@@ -67,10 +67,9 @@ test.describe('On login page', () => {
         await expect(headerUsername).toContainText(USER_FULLNAME)
     })
 
-    // this terminates session for other tests !!!!
-    // we need a second user to be able to run this !!!!
-    // skip this test for now
-    test.skip('Successfully Logged out', async ({ page }) => {
+    // Each test runs in its own isolated browser context (no shared global session since
+    // global_setup was removed), so logging out here no longer affects other tests.
+    test('Successfully Logged out', async ({ page }) => {
         await page.goto(BASE_URL)
 
         //check
@@ -88,13 +87,15 @@ test.describe('On login page', () => {
         await inputPassword.fill(PASSWORD)
         await btnSubmit.click()
 
-        // find elements
-        const btnOdhlasit = page.locator('button.ms-2')
+        // logged in: land on home, header shows the user
+        await expect(page).toHaveURL(BASE_URL)
+        await expect(page.locator('#app_header_user_fullname')).toContainText(USER_FULLNAME)
 
-        // interact
-        await btnOdhlasit.click()
+        // interact — log out (stable id, not a bootstrap utility class)
+        await page.locator('#app_header_logout').click()
 
-        // find elements
+        // check — logout redirects back to /login and the header reflects the signed-out state
+        await expect(page).toHaveURL(BASE_URL + '/login')
         const headerUsername = page.locator('#app_header_user_fullname')
 
         // check
