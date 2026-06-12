@@ -13,12 +13,13 @@ jobs:
           path: ~/project
       - node/install-packages:
           pkg-manager: npm
-          # npm install (not npm ci) — the lockfile only pins the dev-host's
-          # @parcel/watcher native binary; npm ci's strict check fails on Linux
-          # because the other platform variants lack full lockfile entries.
-          # npm install honors the lockfile when accurate and resolves the
-          # missing platform optional at install time.
-          override-ci-command: npm install --legacy-peer-deps --no-audit --no-fund
+          override-ci-command: npm ci --legacy-peer-deps --no-audit --no-fund
+      - run:
+          name: Audit frontend dependencies
+          command: npm audit --audit-level=high
+      - run:
+          name: Lint and type-check frontend
+          command: npm run lint
       - run:
           command: npm run build
       - run:

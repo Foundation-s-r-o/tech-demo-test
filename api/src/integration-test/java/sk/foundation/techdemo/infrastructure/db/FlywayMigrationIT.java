@@ -1,6 +1,7 @@
 package sk.foundation.techdemo.infrastructure.db;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -40,6 +41,17 @@ class FlywayMigrationIT {
 						"select count(*) from \"flyway_schema_history\" where \"success\" = true")) {
 			resultSet.next();
 			assertTrue(resultSet.getInt(1) >= 1, "expected at least one successful Flyway migration");
+		}
+	}
+
+	@Test
+	void migrationsDoNotLeaveKnownAdminAccount() throws SQLException {
+		try (Connection connection = dataSource.getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery(
+						"select count(*) from USERS where USERNAME = 'admin'")) {
+			resultSet.next();
+			assertEquals(0, resultSet.getInt(1), "migrations must not provision admin/admin");
 		}
 	}
 }

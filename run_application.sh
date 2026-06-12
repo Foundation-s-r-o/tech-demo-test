@@ -2,16 +2,6 @@
 
 PROJECT_ROOT="$(cd "$(dirname "$0")" && pwd)"
 
-setup_env() {
-  if [ ! -f "$PROJECT_ROOT/.env" ]; then
-    echo "Please copy .env - Sample into .env file and fill in missing values."
-    echo "Exiting..."
-    exit 1
-  else
-    echo ".env file already exists. Please secure that you used the correct values"
-  fi
-}
-
 run_ui() {
   cd "$PROJECT_ROOT/ui" || { echo "UI directory not found"; exit 1; }
   if (echo >/dev/tcp/localhost/8080) &>/dev/null ; then
@@ -41,42 +31,15 @@ run_ui() {
 run_api() {
   cd "$PROJECT_ROOT/api" || { echo "API directory not found"; exit 1; }
 
-  ./mvnw spring-boot:run &
-  echo "API is starting on port 8082 with embedded H2"
+  ./mvnw spring-boot:run -Dspring-boot.run.profiles=local &
+  echo "API is starting on port 8082 with embedded H2 and local-only test credentials"
   echo "For more details and all required versions, see API Documentation."
 }
 
-run_docker() {
-  cd "$PROJECT_ROOT" || exit 1
-  docker-compose up --build -d
-  echo "Application is running in Docker"
-}
-
 main() {
-  read -r -p "How do you want to run the application? (l: locally, d: in Docker, b: both) " choice
-  case "$choice" in
-    l|L )
-      echo "Running the application locally..."
-      setup_env
-      run_api
-      run_ui
-      ;;
-    d|D )
-      echo "Running the application in Docker..."
-      setup_env
-      run_docker
-      ;;
-    b|B )
-      echo "Running the application locally and in Docker..."
-      setup_env
-      run_api
-      run_ui
-      run_docker
-      ;;
-    * )
-      echo "Invalid input. Exiting..."
-      ;;
-  esac
+  echo "Running the application locally..."
+  run_api
+  run_ui
 }
 
 # Run the main script

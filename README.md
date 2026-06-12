@@ -19,7 +19,7 @@ demo-mode caveats policy.
 | ----- | ------- | ----- |
 | Java | **21 LTS** | Pinned in `api/.sdkmanrc`; Boot 4 also builds on 25 |
 | Spring Boot | **4.0.6** | Stable 4.0 line; do not chase 4.1+ |
-| Spring Security | session login + BCrypt | Bootstrap user `admin`/`admin` seeded via Flyway `V3` (demo only) |
+| Spring Security | session login + BCrypt + CSRF | `admin`/`admin` exists only in explicit `local` and integration-test profiles |
 | Hibernate ORM | 7.x | Naming strategy: `PhysicalNamingStrategyStandardImpl` |
 | Jackson | **3.x** (`tools.jackson`) | Boot 4 default |
 | Flyway | portable ANSI SQL migrations | H2 today, PostgreSQL via `prod` profile later |
@@ -30,8 +30,8 @@ demo-mode caveats policy.
 | Node | **≥ 22.11.0** | Enforced via `ui/package.json` `engines` |
 | Bundler | webpack 5 | sass-loader 17, modern Sass API |
 
-Full upgrade history and deferred items (Keycloak, PostgreSQL, OTel/Prometheus,
-Docker as production target): [`docs/UPGRADE_PLAN.md`](./docs/UPGRADE_PLAN.md).
+Full upgrade history and deferred items (Keycloak, PostgreSQL, OTel/Prometheus):
+[`docs/UPGRADE_PLAN.md`](./docs/UPGRADE_PLAN.md).
 
 ## Quick start (no Docker, no `.env` required)
 
@@ -42,15 +42,15 @@ The default local dev path is **two terminals**, embedded H2, no external servic
 ```bash
 cd api
 sdk env                # picks up Java 21 from .sdkmanrc
-./mvnw spring-boot:run
+./mvnw spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
-The API comes up on `http://localhost:8082`. Bootstrap login is **`admin` /
-`admin`** (seeded via Flyway migration `V3`, BCrypt-hashed). The H2 data file
-lives under `api/data/` and is gitignored.
+The API comes up on `http://localhost:8082`. The explicit `local` profile creates
+the test-only login **`admin` / `admin`**. Migration `V4` removes the historical
+seeded account from every database; no known account is created in the default or
+`prod` profile. The H2 data file lives under `api/data/` and is gitignored.
 
 OpenAPI / Swagger UI: `http://localhost:8082/swagger-ui.html`
-H2 console: `http://localhost:8082/h2-console` (JDBC URL: `jdbc:h2:file:./data/techdemo`)
 
 ### Frontend (`ui/`)
 
@@ -60,8 +60,8 @@ npm install --legacy-peer-deps     # Storybook addon pulls a React-18-peer lib, 
 npm start
 ```
 
-The dev server runs on `http://localhost:8080`. The UI reads
-`APP_API_SERVER_URL=http://localhost:8082` from the root `.env` file for API calls.
+The dev server runs on `http://localhost:8080` and defaults its API URL to
+`http://localhost:8082`. `APP_API_SERVER_URL` can override it when required.
 
 Other useful UI scripts:
 
@@ -92,6 +92,7 @@ The full table with gate behaviour lives in [SECURITY.md](./SECURITY.md). Quick 
 | **JaCoCo** | `./mvnw verify` | Report only (no minimum yet) |
 | **ESLint + `tsc --noEmit`** | `npm run lint` (local + CI) | Hard gate on errors |
 | **Trivy (`fs`)** | On-demand | HIGH/CRITICAL maintained at 0 on `main` |
+| **Semgrep** | `./scripts/security_scan.sh` | Metrics disabled; security/secrets/OWASP rules |
 | **SonarQube** (internal `10.16.35.93:9000`) | On-demand | Dashboard only |
 | **CircleCI** | Every push | Hard gate (backend `mvn verify` + frontend webpack build) |
 
@@ -113,7 +114,7 @@ cd api && ./mvnw checkstyle:check test
 # Bigger change — run the lot
 cd ui && npm run lint && npm run smoke && npm run smoke:storybook
 cd api && ./mvnw clean verify
-trivy fs . --scanners vuln --severity HIGH,CRITICAL
+./scripts/security_scan.sh
 ```
 
 Comprehensive health check (build + lint + tests + FOSSA): `./doctor`.
@@ -149,20 +150,12 @@ Reference: [DORA 2023 report](https://services.google.com/fh/files/misc/2023_fin
 
 Use GitHub Private Vulnerability Reporting — see [SECURITY.md](./SECURITY.md).
 
-## Deferred / stale scaffolding (not the current path)
+## Deployment status
 
-The following files are kept in-tree as forward scaffolding for the future
-`prod` profile / Keycloak / PostgreSQL phase. **They do not reflect the current
-local dev path** and may be removed or rewritten when that phase lands. Do not
-rely on them today:
-
-| Path | Status | Why kept |
-| ---- | ------ | -------- |
-| `docker-compose.yml` | Stale | References the removed MariaDB + Redis stack |
-| `run_application.sh` | Stale | Assumes `.env`-driven external services |
-| `.env - Sample` | Stale | Many keys reference deferred services (OpenAI, Redis, Loki) |
-
-Tracked under tech-debt in `docs/UPGRADE_PLAN.md`.
+This repository has no supported container or cloud deployment definition. The
+stale Docker, Compose, ECR, and Elastic Beanstalk scaffolding was removed. A real
+deployment must start from a documented threat model, `prod` profile, external
+secret management, TLS, and an explicit identity-provisioning design.
 
 ## Further reading
 

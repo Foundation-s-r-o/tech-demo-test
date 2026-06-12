@@ -2,12 +2,12 @@ const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpack = require('webpack')
-const Dotenv = require('dotenv-webpack')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
 module.exports = (env, argv) => {
     const envFileVars = require('dotenv').config({ path: __dirname + '/../.env' }).parsed;
     const devMode = argv.mode === 'development'
+    const defaultApiUrl = devMode ? 'http://localhost:8082' : '/'
 
     return {
         entry: './src/index.tsx',
@@ -16,9 +16,8 @@ module.exports = (env, argv) => {
             filename: 'bundle.js',
         },
         plugins: [
-            // new Dotenv(),
             new webpack.DefinePlugin({
-                'process.env.APP_API_SERVER_URL': '\'' + (process?.env?.APP_API_SERVER_URL || envFileVars?.APP_API_SERVER_URL || '/') + '\'',
+                'process.env.APP_API_SERVER_URL': '\'' + (process?.env?.APP_API_SERVER_URL || envFileVars?.APP_API_SERVER_URL || defaultApiUrl) + '\'',
             }),
             new HTMLWebpackPlugin({
                 template: './src/index.html',
@@ -28,7 +27,7 @@ module.exports = (env, argv) => {
                 chunkFilename: devMode ? '[id].css' : '[id].[contenthash].css',
             }),
         ],
-        devtool: 'eval-source-map',
+        devtool: devMode ? 'eval-source-map' : false,
         // watchOptions: {
         //     poll: 1000, // Check for changes every second
         // },

@@ -8,7 +8,13 @@ const axiosClient: AxiosInstance = axios.create({
     baseURL: API_SERVER_URL,
     // Send the session cookie on API calls (session-based login).
     withCredentials: true,
+    // Send the X-XSRF-TOKEN header for the configured cross-origin local API.
+    withXSRFToken: true,
 })
+
+export const ensureCsrfToken = async (): Promise<void> => {
+    await axiosClient.get('/api/auth/csrf')
+}
 
 axiosClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     config.headers['Cache-Control'] = 'no-cache'

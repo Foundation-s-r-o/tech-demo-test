@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+export SEMGREP_SEND_METRICS=off
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -21,6 +22,10 @@ echo "### Running API build & tests"
 pushd "$script_dir/api" >/dev/null
 ./mvnw clean verify
 popd >/dev/null
+
+echo
+echo "### Running local security scans"
+"$script_dir/scripts/security_scan.sh"
 
 echo
 echo "### Checking FOSSA CLI"

@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       # Scan only; results are uploaded to the FOSSA project dashboard.
       # The previous step `fossa-action ... run-tests: true` was removed — the
@@ -32,6 +32,6 @@ jobs:
       # September 2017. Until the FOSSA project policy is updated, the test gate produces
       # only false positives. Re-enable run-tests once the policy is corrected.
       - name: Run FOSSA Scan
-        uses: fossas/fossa-action@v1.9.0
+        uses: fossas/fossa-action@a1a2c57355f5e962d8af113a4e2f708f9dd0bff1 # v1.9.0
         with:
           api-key: ${{ secrets.FOSSA_API_KEY }}

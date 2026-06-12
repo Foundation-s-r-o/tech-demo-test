@@ -9,6 +9,8 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +33,13 @@ import sk.foundation.techdemo.auth.exception.UnauthorizedException;
 public class AuthController {
 
 	private final AuthenticationManager authenticationManager;
+	private final SessionAuthenticationStrategy sessionAuthenticationStrategy;
 	private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
+
+	@GetMapping("/csrf")
+	public CsrfToken csrf(CsrfToken csrfToken) {
+		return csrfToken;
+	}
 
 	@PostMapping("/login")
 	public ResponseEntity<UserResponseDTO> login(
@@ -40,6 +48,7 @@ public class AuthController {
 			HttpServletResponse response) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword()));
+		sessionAuthenticationStrategy.onAuthentication(authentication, request, response);
 
 		SecurityContext context = SecurityContextHolder.createEmptyContext();
 		context.setAuthentication(authentication);

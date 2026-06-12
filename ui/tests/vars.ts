@@ -1,7 +1,7 @@
 import { config } from 'dotenv'
 config({ path: __dirname + '/../../.env' })
 
-// Fall back to the Flyway-seeded bootstrap user (admin/admin) so these stay `string`
+// Fall back to the local-profile test user (admin/admin) so these stay `string`
 // (not string | undefined) under TS6 strict mode. Env vars still override when set.
 export const USERNAME = process.env.ADMIN_USERNAME?.trim() || 'admin'
 export const PASSWORD = process.env.ADMIN_PASS?.trim() || 'admin'

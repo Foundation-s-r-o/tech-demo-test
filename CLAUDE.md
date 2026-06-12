@@ -22,10 +22,9 @@ relax it for speed.
 - **DB: embedded H2 file-mode** (`./data/`, gitignored) — no Docker. Flyway migrations in
   **portable ANSI SQL**; datasource + Hibernate dialect are **profile-driven** (never hardcode
   `H2Dialect` in shared config; avoid vendor-specific SQL/types).
-- **Auth: Spring Security session login**, users in DB, BCrypt. Bootstrap user **`admin` / `admin`**
-  (seeded via Flyway `V3`). CORS is configured in the Spring Security filter chain
-  (`SecurityConfig#corsConfigurationSource`). CSRF disabled + permissive CORS are **demo-only**
-  (flagged in source; see [`SECURITY.md`](SECURITY.md)).
+- **Auth: Spring Security session login**, users in DB, BCrypt, CSRF cookie/header flow,
+  exact-origin CORS, and session-ID rotation. The known **`admin` / `admin`** account is created
+  only by explicit `local` and integration-test profiles; see [`SECURITY.md`](SECURITY.md).
 - **PDF: OpenPDF** (`com.github.librepdf:openpdf`) — `GET /api/persons/{id}/pdf`.
 - **JSON: Jackson 3** (`tools.jackson`, via `spring-boot-starter-json`).
 - **Observability:** Spring Boot Actuator + Micrometer.
@@ -64,9 +63,9 @@ projects.
 - Frontend: Webpack with TypeScript, ESLint, Playwright
 
 ### Local development
-Two terminals: `./mvnw spring-boot:run` (API on `:8082`, H2 console at `/h2-console`) +
-`npm start` (UI on `:8080`). Docker is not used; `docker-compose.yml` is stale scaffolding and
-will not run as-is.
+Two terminals: `./mvnw spring-boot:run -Dspring-boot.run.profiles=local` (API on `:8082`) +
+`npm start` (UI on `:8080`). The `local` profile is required for the test-only `admin/admin`
+account. Docker and cloud-deployment scaffolding are intentionally absent.
 
 ### Security & Quality tooling
 - FOSSA license + vuln scan (`.github/workflows/fossa.yml`, scan-only — see `SECURITY.md`).
@@ -86,7 +85,7 @@ will not run as-is.
 - Debug: `./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"`
 - Generate code coverage: `./mvnw jacoco:report`
 - Check code style: `./mvnw checkstyle:check`
-- Start application: `./mvnw spring-boot:run`
+- Start local application: `./mvnw spring-boot:run -Dspring-boot.run.profiles=local`
 
 ### Frontend (React/TypeScript)
 - Install: `npm install --legacy-peer-deps`
@@ -94,8 +93,8 @@ will not run as-is.
 - Build: `npm run build`
 - Lint: `npm run lint`
 - Run E2E tests: `npm run playwright` (Playwright auto-starts **both** app servers via its
-  `webServer` config — API on `:8082`, webpack dev server on `:8080`; `reuseExistingServer`
-  locally. Auth runs as a normal test flow against the managed servers. Test files match
+  `webServer` config — API on `:8082`, webpack dev server on `:8080`; existing servers are
+  never reused. Auth runs as a normal test flow against the managed servers. Test files match
   `test_*.spec.ts`.)
 - Run specific test: `npx playwright test tests/path/to/test.spec.ts`
 - Generate API client: `npm run generate-openapi-services`
@@ -128,7 +127,7 @@ go under `docs/`.
 cd ui && npm run lint
 
 # 2. Backend: style + unit tests + integration tests + coverage
-cd api && ./mvnw clean verify          # Checkstyle (validate phase), 7 unit + 13 IT, JaCoCo.
+cd api && ./mvnw clean verify          # Checkstyle (validate phase), 7 unit + 19 IT, JaCoCo.
 #   ITs run on in-memory H2 only — NO Docker / Testcontainers. If anything tries to start a
 #   Docker container, that's a regression — flag it.
 
@@ -218,8 +217,6 @@ Active workflows (`.github/workflows/`):
 | File | Trigger | What it does |
 | ---- | ------- | ------------ |
 | `fossa.yml` | push/PR on `main` | FOSSA license + vuln scan (scan-only, no test gate) |
-| `deploy-to-aws-eb.yml` | manual (`workflow_dispatch`) | Elastic Beanstalk deploy scaffold |
-| `push-to-ecr.yml` | manual (`workflow_dispatch`) | Docker → ECR push scaffold |
 
 GitHub-managed (not in `.github/workflows/`):
 - **CodeQL default setup** — runs on push/PR/weekly across `java-kotlin`,
@@ -228,7 +225,7 @@ GitHub-managed (not in `.github/workflows/`):
 - **Dependabot Updates** — `.github/dependabot.yml` schedules weekly Maven (`/api`) and npm
   (`/ui`) bumps.
 
-**CircleCI** runs the actual build gate: backend `./mvnw verify` + frontend webpack build. Key
+**CircleCI** runs the actual build gate: backend `./mvnw verify` + frontend audit, lint, and build. Key
 notes in `.circleci/config.yml`:
 - `cimg/openjdk:21.0` (matches project Java 21 LTS).
 - `override-ci-command: npm install --legacy-peer-deps --no-audit --no-fund` — NOT `npm ci`. The
@@ -253,23 +250,11 @@ All workflows use least-privilege `permissions: contents: read`.
    feed, pass `--registry=https://registry.npmjs.org/` explicitly when regenerating the lockfile.
    Don't edit `.npmrc` (other workspace projects need it).
 
-## Documenting deliberate suppressions (CodeQL pattern)
+## Security scans
 
-When a finding is *deliberately* allowed (e.g. CSRF disabled for the demo), do two things:
-
-1. **Add a `// SECURITY:` comment at the line** explaining what, why, and when it must be
-   re-evaluated. Include the rule id (`// lgtm[java/spring-disabled-csrf-protection]`) so re-scans
-   link back. Example in `SecurityConfig.java`.
-2. **Dismiss the alert via API or UI** with a short reason pointing at SECURITY.md:
-   ```bash
-   gh api -X PATCH /repos/<org>/<repo>/code-scanning/alerts/<N> \
-     -f state=dismissed -f dismissed_reason="won't fix" \
-     -f dismissed_comment='Deliberately disabled for demo — see SECURITY.md'
-   # 280-char limit on dismissed_comment
-   ```
-
-Don't leave deliberate-by-design findings in `open` state — they hide real issues. Don't silently
-dismiss without the source comment — the next reader won't know why.
+Run `./scripts/security_scan.sh`. The script exports `SEMGREP_SEND_METRICS=off` and passes both
+`--metrics off` and `--no-trace` before invoking Semgrep. It also runs Trivy plus the npm audit
+gate. Do not run repository Semgrep checks through an unwrapped command that restores telemetry.
 
 ## Security
 - No hardcoded credentials or secrets in code.

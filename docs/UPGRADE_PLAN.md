@@ -5,18 +5,23 @@
 **Date:** 2026-05-27
 **Scope:** `api/` (Spring Boot backend) only. Frontend (`ui/`) touched only where the auth contract changes.
 
+> Security update, 2026-06-12: the historical `admin/admin` migration is neutralized by `V4`.
+> The account is now recreated only by explicit `local` and integration-test profiles. CSRF,
+> exact-origin CORS, session rotation, and health-only public Actuator access are enabled. Treat
+> older implementation notes below as migration history, not current security guidance.
+
 ---
 
 ## 0. Status — COMPLETE (2026-05-27)
 
-Phases 0–7 executed and green. Backend now runs **Spring Boot 4.0.6 on Java 21 LTS** (project default; also verified green on Java 25), embedded **H2** (no Docker), **Spring Security** session login (`admin/admin`), and **OpenPDF**. Final gate: `./mvnw clean verify` → **20 tests pass** (7 unit + 13 integration), 0 Checkstyle violations; Trivy → **0 HIGH/CRITICAL** (Tomcat bumped 11.0.21→11.0.22); UI lint + app smoke green.
+Phases 0–7 executed and green. Backend now runs **Spring Boot 4.0.6 on Java 21 LTS** (project default; also verified green on Java 25), embedded **H2** (no Docker), **Spring Security** session login, and **OpenPDF**. Security re-verification on 2026-06-12: `./mvnw clean verify` → **26 tests pass** (7 unit + 19 integration), 0 Checkstyle violations; Trivy → **0 HIGH/CRITICAL**; UI lint, type checks, production build, and npm audit green. The `admin/admin` account is available only under explicit local and integration-test profiles.
 
 | Phase | Result |
 |---|---|
 | 0 Test net | ✅ characterization tests added; green baseline |
 | 1 Remove Redis/OpenAI/Sleuth | ✅ removed; Actuator+Micrometer only |
 | 2 H2 local DB | ✅ Docker-free ITs; portable migration |
-| 3 Spring Security login | ✅ admin/admin seeded; session auth E2E |
+| 3 Spring Security login | ✅ local/test-only admin initializer; CSRF and session auth tests |
 | 4 OpenPDF | ✅ `/api/persons/{id}/pdf` |
 | 5 Java 21 | ✅ |
 | 6 Boot 4.0.6 + Java 25 | ✅ (see migration notes below) |

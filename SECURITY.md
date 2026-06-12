@@ -73,21 +73,39 @@ Notes:
   September 2017. Re-enable `run-tests: true` once the FOSSA project policy is
   corrected upstream.
 
-## Demo-mode security caveats — do NOT deploy as-is
+## Implemented application controls
 
-The following are deliberately weakened for the local demo. Each is flagged in
-the source. Before any non-demo deployment, every one of these must be revisited.
+- CSRF uses a cookie/header token flow; the SPA obtains a token from `/api/auth/csrf`.
+- Credentialed CORS accepts only exact origins from `app.security.allowed-origins`.
+- Login rotates an existing session ID.
+- Only Actuator health is exposed publicly; operational endpoints require authentication and are
+  not exposed by the endpoint configuration.
+- Session cookies are HttpOnly with explicit SameSite; the `prod` profile also requires Secure.
+- H2 console is disabled in every profile.
+- Swagger/OpenAPI are disabled in the `prod` profile.
+- Semgrep repository scans use `SEMGREP_SEND_METRICS=off`, `--metrics off`, and `--no-trace`
+  through `scripts/security_scan.sh` and `doctor`.
 
-| Caveat | Location | Reason | Required before deploy |
-| ------ | -------- | ------ | ---------------------- |
-| **CSRF disabled** | `api/.../auth/SecurityConfig.java` | Same-origin SPA + JSON API in a local demo with no real data | Re-enable; emit + check CSRF token on state-changing endpoints |
-| **CORS permissive** (`allowedOriginPatterns: "*"` + `allowCredentials: true`) | `api/.../auth/SecurityConfig.java` (`corsConfigurationSource` bean, registered in the security filter chain via `.cors(...)`) | Allow the local dev SPA (`:8080`) to call the API (`:8082`), incl. preflight to authenticated endpoints like logout | Lock down to known origins per environment |
-| **Bootstrap user `admin` / `admin`** seeded via Flyway `V3` | `api/src/main/resources/db/migration/V3__seed_admin_user.sql` | One-step local login | Remove the seed migration; provision real users out-of-band |
-| **H2 console exposed** at `/h2-console` with `sameOrigin` frame options, no auth | `api/.../auth/SecurityConfig.java` (`PUBLIC_PATHS`) | Local DB inspection during development | Drop `/h2-console` from `PUBLIC_PATHS`; or strip the dependency entirely on the prod profile |
-| **All `/actuator/**` endpoints public** | `api/.../auth/SecurityConfig.java` (`PUBLIC_PATHS`) | Easy metrics/health access locally | Restrict to authenticated roles or a management port; expose only `health` publicly |
-| **Embedded H2 file-mode** under `./data/` | `api/pom.xml` + `application.yml` | No Docker needed for local work | Switch DB profile to PostgreSQL; never persist H2 files in deployed environments |
-| **Permissive Spring Boot dev defaults** (verbose stack traces, no rate-limiting, etc.) | Boot 4 defaults | Speed of iteration | Set `server.error.include-stacktrace=never`; add rate-limiting + audit logging |
-| **No TLS at the app layer** | n/a | Local dev only | Front with a reverse proxy doing TLS termination; mark session cookies `Secure` + `SameSite=Lax/Strict` |
+## Local test account and production provisioning
+
+`admin/admin` is strictly local test data. Migration `V4` deletes the historical migration seed
+from every database. `LocalAdminInitializer` recreates it only when the `local` or `it` profile is
+explicitly active. Never activate `local` in a deployed environment.
+
+For production, prefer an external identity provider such as Keycloak/OIDC and provision
+administrators in that system with MFA and auditable role assignment. If database-backed login
+must be used temporarily:
+
+1. Generate a unique random password in the deployment secret manager.
+2. Run a one-time, access-controlled provisioning job inside the trusted environment.
+3. Hash the password with BCrypt (cost 12 or higher) inside that job and insert the administrator;
+   do not pass the plaintext through an image build argument, migration, repository file, or log.
+4. Disable or remove the provisioning job after success and require password rotation/MFA at the
+   identity layer as soon as available.
+5. Start with the `prod` profile and set `APP_ALLOWED_ORIGINS` to exact HTTPS origins.
+
+The repository intentionally does not provide a generic production bootstrap script because such
+a script would become a reusable privileged credential path without a defined deployment platform.
 
 ## Stack baseline
 
@@ -95,7 +113,7 @@ the source. Before any non-demo deployment, every one of these must be revisited
 | ----- | ------- | ----- |
 | Java | **21 LTS** | Pinned in `api/.sdkmanrc`; Boot 4 also builds on 25 |
 | Spring Boot | **4.0.6** | Do not chase 4.1+ until pinned-stable |
-| Spring Security | session login + BCrypt | Bootstrap admin user via Flyway V3 |
+| Spring Security | session login + BCrypt + CSRF | Local test user only under `local` / `it` |
 | Hibernate ORM | 7.x | naming strategy: `PhysicalNamingStrategyStandardImpl` (portable) |
 | Jackson | **3.x** (`tools.jackson`) | Boot 4 default |
 | Flyway | portable ANSI SQL migrations | H2 today, PostgreSQL tomorrow |
@@ -106,15 +124,14 @@ the source. Before any non-demo deployment, every one of these must be revisited
 
 ## Future hardening (deferred — see `docs/UPGRADE_PLAN.md`)
 
-- **Auth → Keycloak** (OIDC). Re-enable CSRF; switch to stateless tokens or a
-  hardened session config; tighten CORS.
+- **Auth → Keycloak** (OIDC) for production identity, MFA, lifecycle, and audit controls.
 - **DB → PostgreSQL** via a `prod` Spring profile. Flyway migrations are already
   portable ANSI SQL so the swap is meant to be a non-event.
 - **Observability → OpenTelemetry + Prometheus + Loki + Jaeger.** Today only
   Actuator + Micrometer are wired.
 - **Secrets** in a vault (HashiCorp Vault / cloud KMS) or SOPS-encrypted files.
   Never in `.env`, never inlined into shell `KEY=value` prefixes.
-- **TLS termination** + `Secure` / `SameSite` cookies.
+- **TLS termination**; the `prod` profile already marks the session cookie Secure.
 - **Backend test coverage** — current new-code coverage is ~33%; lift toward the
   80% Sonar threshold as features grow.
 

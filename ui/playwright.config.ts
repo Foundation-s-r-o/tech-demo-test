@@ -34,16 +34,16 @@ const config: PlaywrightTestConfig = {
     },
     webServer: [
         {
-            command: './mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=8082',
+            command: './mvnw spring-boot:run -Dspring-boot.run.profiles=local,e2e -Dspring-boot.run.arguments=--server.port=8082',
             cwd: '../api',
             url: 'http://localhost:8082/actuator/health',
-            reuseExistingServer: !process.env.CI,
+            reuseExistingServer: false,
             timeout: 180 * 1000,
         },
         {
             command: 'npx webpack serve --mode development --port 8080 --no-client-overlay',
             url: 'http://localhost:8080/bundle.js',
-            reuseExistingServer: !process.env.CI,
+            reuseExistingServer: false,
             timeout: 180 * 1000,
         },
     ],

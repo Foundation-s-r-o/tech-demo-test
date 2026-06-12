@@ -9,3 +9,4 @@ api/logs/
 
 # transient per-run smoke logs (reports live in docs/, these are regenerated each run)
 docs/smoke-*.log
+output/

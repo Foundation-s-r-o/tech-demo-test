@@ -1,5 +1,6 @@
 package sk.foundation.techdemo.persons.api;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -69,7 +70,7 @@ class PersonControllerIT extends BaseIT {
 		dto.setEmail("fn@ln.com");
 		String content = objectMapper.writer().writeValueAsString(dto);
 		mockMvc.perform(
-				post(API_PERSONS).accept(MediaType.APPLICATION_JSON)
+				post(API_PERSONS).with(csrf()).accept(MediaType.APPLICATION_JSON)
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(content))
 				.andExpect(status().isCreated());
@@ -84,7 +85,7 @@ class PersonControllerIT extends BaseIT {
 		dto.setEmail(ADMIN_EMAIL);
 		String content = objectMapper.writer().writeValueAsString(dto);
 		mockMvc.perform(
-				post(API_PERSONS).accept(MediaType.APPLICATION_JSON)
+				post(API_PERSONS).with(csrf()).accept(MediaType.APPLICATION_JSON)
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(content))
 				.andExpect(status().is(409));
@@ -99,7 +100,7 @@ class PersonControllerIT extends BaseIT {
 		dto.setEmail("fn@ln.com");
 		String content = objectMapper.writer().writeValueAsString(dto);
 		mockMvc.perform(
-				put(API_PERSONS_ID, 1).accept(MediaType.APPLICATION_JSON)
+				put(API_PERSONS_ID, 1).with(csrf()).accept(MediaType.APPLICATION_JSON)
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(content))
 				.andExpect(status().isOk());
@@ -114,7 +115,7 @@ class PersonControllerIT extends BaseIT {
 		dto.setEmail(ADMIN_EMAIL);
 		String content = objectMapper.writer().writeValueAsString(dto);
 		mockMvc.perform(
-				put(API_PERSONS_ID, 2).accept(MediaType.APPLICATION_JSON)
+				put(API_PERSONS_ID, 2).with(csrf()).accept(MediaType.APPLICATION_JSON)
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(content))
 				.andExpect(status().is(409));

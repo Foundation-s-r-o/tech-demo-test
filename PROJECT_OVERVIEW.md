@@ -149,7 +149,7 @@ The intended local workflow is Docker-free:
 # Terminal 1
 cd api
 sdk env
-./mvnw spring-boot:run
+./mvnw spring-boot:run -Dspring-boot.run.profiles=local
 
 # Terminal 2
 cd ui
@@ -157,41 +157,23 @@ npm install --legacy-peer-deps
 npm start
 ```
 
-Important current inconsistency: the README and `.env` describe the API at port `8082`, but the active `application.properties` does not set `server.port`. A plain `./mvnw spring-boot:run` therefore uses Spring Boot's default port `8080`, which conflicts with the UI's `npm start` port. Until the configuration is aligned, start the API explicitly on `8082`:
-
-```bash
-cd api
-./mvnw spring-boot:run -Dspring-boot.run.arguments=--server.port=8082
-```
+The explicit `local` profile enables local conveniences and creates the test-only `admin/admin`
+account. The default and `prod` profiles do not create a known user.
 
 ## Security Posture
 
-The API has real database-backed Spring Security session authentication, but several controls are deliberately relaxed for local demo use:
-
-- CSRF is disabled.
-- CORS accepts all origin patterns while allowing credentials.
-- `admin` / `admin` is seeded in the database.
-- H2 console, Swagger, OpenAPI, and all Actuator endpoints are public.
-- H2 is a local development database, not a deployment target.
-- TLS, hardened cookie settings, rate limiting, and production audit controls are not configured.
-
-These are documented hardening requirements in `SECURITY.md`, not production defaults.
+The API uses database-backed Spring Security sessions, CSRF cookie/header protection, exact-origin
+CORS, session-ID rotation, health-only public Actuator access, and explicit cookie settings. H2 and
+the known local account remain development tools, not deployment targets. Rate limiting, production
+identity lifecycle, TLS termination, and audit operations still depend on the selected platform.
 
 ## Active Versus Stale Assets
 
 The source, Maven build, npm build, H2 configuration, and CircleCI checks represent the active application path.
 
-The following root-level assets are stale scaffolding from the previous Java 17 / Spring Boot 3 / MariaDB / Redis / OpenTelemetry architecture and should not be treated as working deployment instructions:
-
-- `Dockerfile`
-- `docker-compose.yml`
-- `aws.docker-compose.yml`
-- `run_application.sh`
-- `.env - Sample`
-- Prometheus, Grafana, Loki, and OTel configuration files
-- `codebase_analysis.md`
-
-Notably, the Dockerfile still builds with Java 17 and Node 18, while the active project requires Java 21 and Node 22. The older `codebase_analysis.md` also describes removed MariaDB, Redis, OpenAI, Testcontainers, and mocked-auth components.
+Unsupported Docker, Compose, ECR, and Elastic Beanstalk scaffolding has been removed. The remaining
+`run_application.sh` is local-only. Observability configuration files are reference inputs and do
+not define a supported deployment.
 
 ## Planned Direction
 
@@ -199,8 +181,8 @@ The documented deferred production path is:
 
 1. Add a PostgreSQL production profile and PostgreSQL-backed integration coverage.
 2. Replace the local session-login layer with Keycloak/OIDC when a real deployment requires it.
-3. Re-enable and harden CSRF, CORS, management endpoints, cookies, and TLS termination.
-4. Reintroduce Docker and fuller observability only when deployment requirements justify them.
+3. Add platform-specific TLS termination, rate limiting, audit logging, and secret management.
+4. Introduce packaging and fuller observability only when deployment requirements justify them.
 5. Increase backend coverage and enforce a meaningful coverage gate as the business surface grows.
 
 ## Recommended Reading Order

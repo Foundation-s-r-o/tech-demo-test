@@ -9,6 +9,7 @@ import {
 } from './types'
 import { User } from './User'
 import { authControllerApi } from '../../api/api'
+import { ensureCsrfToken } from '../axiosClient'
 
 const initialState: AuthStateType = {
     isInitialised: false,
@@ -28,6 +29,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     }
 
     const login = async (loginRequest: LoginRequest) => {
+        await ensureCsrfToken()
         const response = await authControllerApi.login({
             loginRequestDTO: loginRequest,
         })
@@ -38,6 +40,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 
     const logout = async (callback: VoidFunction) => {
         try {
+            await ensureCsrfToken()
             await authControllerApi.logout({ logoutRequestDTO: { username: state.user?.username ?? '' } })
             unsetSession()
             dispatch({ type: AuthStateReducerActionType.LOGOUT })
@@ -52,6 +55,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     useEffect(() => {
         const initAuth = async () => {
             try {
+                await ensureCsrfToken()
                 const storedUser = persistService.get('user')
 
                 if (storedUser) {
@@ -75,6 +79,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
                     })
                 }
             } catch {
+                unsetSession()
                 dispatch({
                     type: AuthStateReducerActionType.INIT,
                     payload: {

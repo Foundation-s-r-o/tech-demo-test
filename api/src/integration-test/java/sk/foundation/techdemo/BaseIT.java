@@ -17,7 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
  */
 @SpringBootTest(
 		classes = TechDemoApplication.class,
-		webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+		webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @ActiveProfiles("it")
 public abstract class BaseIT {
 
