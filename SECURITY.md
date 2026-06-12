@@ -81,7 +81,7 @@ the source. Before any non-demo deployment, every one of these must be revisited
 | Caveat | Location | Reason | Required before deploy |
 | ------ | -------- | ------ | ---------------------- |
 | **CSRF disabled** | `api/.../auth/SecurityConfig.java` | Same-origin SPA + JSON API in a local demo with no real data | Re-enable; emit + check CSRF token on state-changing endpoints |
-| **CORS permissive** (`allowedOriginPatterns: "*"` + `allowCredentials: true`) | `api/.../infrastructure/web/WebConfiguration.java` | Allow the local dev SPA to call the API | Lock down to known origins per environment |
+| **CORS permissive** (`allowedOriginPatterns: "*"` + `allowCredentials: true`) | `api/.../auth/SecurityConfig.java` (`corsConfigurationSource` bean, registered in the security filter chain via `.cors(...)`) | Allow the local dev SPA (`:8080`) to call the API (`:8082`), incl. preflight to authenticated endpoints like logout | Lock down to known origins per environment |
 | **Bootstrap user `admin` / `admin`** seeded via Flyway `V3` | `api/src/main/resources/db/migration/V3__seed_admin_user.sql` | One-step local login | Remove the seed migration; provision real users out-of-band |
 | **H2 console exposed** at `/h2-console` with `sameOrigin` frame options, no auth | `api/.../auth/SecurityConfig.java` (`PUBLIC_PATHS`) | Local DB inspection during development | Drop `/h2-console` from `PUBLIC_PATHS`; or strip the dependency entirely on the prod profile |
 | **All `/actuator/**` endpoints public** | `api/.../auth/SecurityConfig.java` (`PUBLIC_PATHS`) | Easy metrics/health access locally | Restrict to authenticated roles or a management port; expose only `health` publicly |

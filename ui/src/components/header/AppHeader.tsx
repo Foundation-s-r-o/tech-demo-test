@@ -41,6 +41,7 @@ const AppHeader = () => {
                                     </div>
                                     <span>{' | '}</span>
                                     <button
+                                        id="app_header_logout"
                                         onClick={onLogoutSuccess}
                                         className="ms-2">
                                         {t('common.btn.logout')}
