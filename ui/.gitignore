@@ -19,4 +19,6 @@
 /test-results/
 /playwright-report/
 /playwright/.cache/
+# Playwright auth storage-state (generated; never commit — may hold session cookies)
 /tests/storageState*.json
+/storageState*.json

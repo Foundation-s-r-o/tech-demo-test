@@ -59,7 +59,7 @@ template are responsible for their own version policy and security posture.
 | **JaCoCo** | Java coverage | Maven `verify` phase | Reports only (no minimum yet) |
 | **ESLint + `tsc --noEmit`** | TypeScript types + style | `npm run lint` (local + CI) | Hard gate on errors |
 | **Trivy (`fs`)** | OS / dep CVEs | On-demand local + ad-hoc CI | HIGH/CRITICAL = 0 maintained on `main` |
-| **SonarQube** (internal, `10.16.35.93:9000`) | Static analysis (api + ui) | On-demand from dev machines | Dashboard only; api gate currently in `ERROR` for new-code coverage |
+| **SonarQube** (internal, `10.16.35.93:9000`) | Static analysis (api + ui) | On-demand from dev machines | Dashboard only; api gate currently in `ERROR` on two conditions — new-code coverage (33.7% < 80%) and one new violation (> 0) |
 | **CircleCI** | Backend `mvn verify` + frontend webpack build | On every push | Hard gate |
 
 Notes:
@@ -121,6 +121,22 @@ a script would become a reusable privileged credential path without a defined de
 | React | **19.2.x** | classic JSX transform |
 | Node | **>= 22.11.0** | enforced via `ui/package.json` `engines` |
 | Bundler | webpack 5 | sass-loader 17, modern Sass API |
+
+## Known residual gaps
+
+The 2026-06-12 review closed the critical dependency finding and all eight high-severity
+findings (see `security_remediation_2026-06-12_094357.md`). The items below were rated
+medium/low and remain **open**. They must be closed before this template is used as a
+production-ready service; track them here, not only in the dated remediation report.
+
+| Gap | Severity | Status | Note |
+| --- | -------- | ------ | ---- |
+| **Role-based business authorization** | Medium | Open | Endpoints distinguish authenticated from anonymous, but there is no enforced ADMIN/USER operation matrix. Define and test the matrix before provisioning real users. |
+| **Login throttling** | Medium | Open | No per-account or per-source rate limit / progressive delay. Add before exposing login beyond local/demo. |
+| **Content Security Policy** | Medium | Open | `eval`/inline source maps removed from the prod bundle, but no application CSP is enforced. Add a CSP (and HSTS behind the TLS proxy). |
+| **Backend coverage gate** | Medium | Open | JaCoCo reports only; no minimum threshold. New-code coverage ~33.7% vs the 80% Sonar target. See "Future hardening" below. |
+| **Email semantic validation** | Low | Open | Length/null validation exists; semantic email validation does not. |
+| **Playwright storage-state hygiene** | Low | **Closed** | `ui/storageStateFresh.json` untracked and `ui/.gitignore` now covers `storageState*.json` at the `ui` root as well as `tests/`. |
 
 ## Future hardening (deferred — see `docs/UPGRADE_PLAN.md`)
 
