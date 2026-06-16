@@ -136,6 +136,12 @@ cd ui && npm run smoke                 # app smoke (auto-starts dev server :8090
 cd ui && npm run smoke:storybook       # Storybook smoke (auto-starts :6006)
 
 # 4. Trivy — filesystem vuln scan, run in repo ROOT. Reports to docs/.
+#    NOTE: Trivy pulls its vuln DB from a public OCI mirror via the Docker config.
+#    If Docker Desktop is absent the `docker-credential-desktop` helper is missing
+#    and the DB download FATAL-errors — but `--output` leaves the PREVIOUS report
+#    in place, so a stale file looks like a fresh pass. Neutralise the Docker
+#    config first so Trivy does an anonymous pull (security_scan.sh does this too):
+export DOCKER_CONFIG=$(mktemp -d)
 trivy fs . --scanners vuln --format table --output docs/trivy-report.txt
 trivy fs . --scanners vuln --format json  --output docs/trivy-report.json
 

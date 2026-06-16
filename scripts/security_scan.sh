@@ -13,6 +13,14 @@ if [ -z "${SSL_CERT_FILE:-}" ] && [ -f /etc/ssl/cert.pem ]; then
   export SSL_CERT_FILE=/etc/ssl/cert.pem
 fi
 
+# Trivy pulls its vulnerability DB from a public OCI mirror. If the ambient
+# Docker config references a credential helper that isn't installed (e.g.
+# docker-credential-desktop when Docker Desktop is absent), the DB download
+# FATAL-errors. Point Trivy at an empty Docker config so it does an anonymous
+# pull from the public mirror instead of invoking the missing helper.
+export DOCKER_CONFIG="$scan_tmp/docker-config"
+mkdir -p "$DOCKER_CONFIG"
+
 project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 echo "### Security scan started"
