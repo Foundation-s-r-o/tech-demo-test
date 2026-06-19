@@ -80,11 +80,35 @@ Notes:
 - Login rotates an existing session ID.
 - Only Actuator health is exposed publicly; operational endpoints require authentication and are
   not exposed by the endpoint configuration.
+- Role-based authorization is enforced server-side in `SecurityConfig` (see the matrix below).
+- A Content-Security-Policy is set on API-origin responses, alongside Referrer-Policy,
+  Permissions-Policy, and `X-Frame-Options: DENY`.
+- `email` fields are validated for format (`@Email`), not only length.
 - Session cookies are HttpOnly with explicit SameSite; the `prod` profile also requires Secure.
 - H2 console is disabled in every profile.
 - Swagger/OpenAPI are disabled in the `prod` profile.
 - Semgrep repository scans use `SEMGREP_SEND_METRICS=off`, `--metrics off`, and `--no-trace`
   through `scripts/security_scan.sh` and `doctor`.
+
+### Authorization matrix
+
+Enforced by request-matcher rules in `SecurityConfig`; the frontend mirrors these only for UX and
+is never the enforcement point. Authorities are `ROLE_ADMIN` / `ROLE_USER`. The seeded local/it
+account is `ADMIN`; no `USER` is provisioned by default.
+
+| Operation | Endpoint | USER | ADMIN |
+| --------- | -------- | :--: | :---: |
+| List persons | `GET /api/persons` | ✅ | ✅ |
+| Person detail | `GET /api/persons/{id}` | ✅ | ✅ |
+| Create / update / delete | `POST/PUT/DELETE /api/persons/**` | ❌ | ✅ |
+| PDF export | `GET /api/persons/{id}/pdf` | ❌ | ✅ |
+| Operational endpoints | `/actuator/**` (non-health) | ❌ | ✅ |
+| Health | `GET /actuator/health` | public | public |
+| Session/identity | `/api/auth/me`, `/api/auth/logout` | ✅ | ✅ |
+
+Reads are open to any authenticated role; all writes, PDF export, and operational endpoints are
+ADMIN-only. Adjust the matchers and the negative tests in `PersonControllerIT` together if this
+default changes.
 
 ## Local test account and production provisioning
 
@@ -125,17 +149,17 @@ a script would become a reusable privileged credential path without a defined de
 ## Known residual gaps
 
 The 2026-06-12 review closed the critical dependency finding and all eight high-severity
-findings (see `security_remediation_2026-06-12_094357.md`). The items below were rated
-medium/low and remain **open**. They must be closed before this template is used as a
+findings (see `security_remediation_2026-06-12_094357.md`). The medium/low items are tracked
+below. The remaining **open** items must be closed before this template is used as a
 production-ready service; track them here, not only in the dated remediation report.
 
 | Gap | Severity | Status | Note |
 | --- | -------- | ------ | ---- |
-| **Role-based business authorization** | Medium | Open | Endpoints distinguish authenticated from anonymous, but there is no enforced ADMIN/USER operation matrix. Define and test the matrix before provisioning real users. |
 | **Login throttling** | Medium | Open | No per-account or per-source rate limit / progressive delay. Add before exposing login beyond local/demo. |
-| **Content Security Policy** | Medium | Open | `eval`/inline source maps removed from the prod bundle, but no application CSP is enforced. Add a CSP (and HSTS behind the TLS proxy). |
 | **Backend coverage gate** | Medium | Open | JaCoCo reports only; no minimum threshold. New-code coverage ~33.7% vs the 80% Sonar target. See "Future hardening" below. |
-| **Email semantic validation** | Low | Open | Length/null validation exists; semantic email validation does not. |
+| **Role-based business authorization** | Medium | **Closed** | ADMIN/USER matrix enforced in `SecurityConfig` with negative tests in `PersonControllerIT`. See "Authorization matrix" above. |
+| **Content Security Policy** | Medium | **Closed** | CSP set on API-origin responses (`script-src 'self'`, no `unsafe-eval`); Referrer-Policy and Permissions-Policy also present. HSTS still deferred to the TLS proxy. |
+| **Email semantic validation** | Low | **Closed** | `@Email` enforced on `PersonModifyRequestDTO.email`; invalid format returns 400. |
 | **Playwright storage-state hygiene** | Low | **Closed** | `ui/storageStateFresh.json` untracked and `ui/.gitignore` now covers `storageState*.json` at the `ui` root as well as `tests/`. |
 
 ## Future hardening (deferred — see `docs/UPGRADE_PLAN.md`)

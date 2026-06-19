@@ -4,6 +4,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -63,6 +64,7 @@ class PersonControllerIT extends BaseIT {
 
 	@Test
 	@Sql({ "/sql/clearAll.sql", "/sql/data.sql" })	
+	@WithMockUser(roles = "ADMIN")
 	void createPerson_success() throws Exception {
 		PersonModifyRequestDTO dto = new PersonModifyRequestDTO();
 		dto.setFirstName("fn");
@@ -78,6 +80,7 @@ class PersonControllerIT extends BaseIT {
 
 	@Test
 	@Sql({ "/sql/clearAll.sql", "/sql/data.sql" })	
+	@WithMockUser(roles = "ADMIN")
 	void createPerson_conflictingEmail() throws Exception {
 		PersonModifyRequestDTO dto = new PersonModifyRequestDTO();
 		dto.setFirstName("fn");
@@ -93,6 +96,7 @@ class PersonControllerIT extends BaseIT {
 
 	@Test
 	@Sql({ "/sql/clearAll.sql", "/sql/data.sql" })	
+	@WithMockUser(roles = "ADMIN")
 	void updatePerson_success() throws Exception {
 		PersonModifyRequestDTO dto = new PersonModifyRequestDTO();
 		dto.setFirstName("fn#new");
@@ -108,6 +112,7 @@ class PersonControllerIT extends BaseIT {
 
 	@Test
 	@Sql({ "/sql/clearAll.sql", "/sql/data.sql" })	
+	@WithMockUser(roles = "ADMIN")
 	void updatePerson_conflictingEmail() throws Exception {
 		PersonModifyRequestDTO dto = new PersonModifyRequestDTO();
 		dto.setFirstName("fn#new");
@@ -119,6 +124,55 @@ class PersonControllerIT extends BaseIT {
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(content))
 				.andExpect(status().is(409));
+	}
+
+	// --- Authorization matrix (SEC-10): USER is read-only; ADMIN may write and export PDF. ---
+
+	@Test
+	@Sql({ "/sql/clearAll.sql", "/sql/data.sql" })
+	void createPerson_asUser_forbidden() throws Exception {
+		PersonModifyRequestDTO dto = new PersonModifyRequestDTO();
+		dto.setFirstName("fn");
+		dto.setLastName("ln");
+		dto.setEmail("fn@ln.com");
+		String content = objectMapper.writer().writeValueAsString(dto);
+		mockMvc.perform(
+				post(API_PERSONS).with(csrf()).accept(MediaType.APPLICATION_JSON)
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(content))
+				.andExpect(status().isForbidden());
+	}
+
+	@Test
+	@Sql({ "/sql/clearAll.sql", "/sql/data.sql" })
+	@WithMockUser(roles = "ADMIN")
+	void getPdf_asAdmin_success() throws Exception {
+		mockMvc.perform(get(API_PERSONS_ID + "/pdf", 1).accept(MediaType.APPLICATION_PDF))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_PDF));
+	}
+
+	@Test
+	@Sql({ "/sql/clearAll.sql", "/sql/data.sql" })
+	void getPdf_asUser_forbidden() throws Exception {
+		mockMvc.perform(get(API_PERSONS_ID + "/pdf", 1).accept(MediaType.APPLICATION_PDF))
+				.andExpect(status().isForbidden());
+	}
+
+	@Test
+	@Sql({ "/sql/clearAll.sql", "/sql/data.sql" })
+	@WithMockUser(roles = "ADMIN")
+	void createPerson_invalidEmail_badRequest() throws Exception {
+		PersonModifyRequestDTO dto = new PersonModifyRequestDTO();
+		dto.setFirstName("fn");
+		dto.setLastName("ln");
+		dto.setEmail("not-an-email");
+		String content = objectMapper.writer().writeValueAsString(dto);
+		mockMvc.perform(
+				post(API_PERSONS).with(csrf()).accept(MediaType.APPLICATION_JSON)
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(content))
+				.andExpect(status().isBadRequest());
 	}
 
 }

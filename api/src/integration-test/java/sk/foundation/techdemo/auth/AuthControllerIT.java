@@ -94,6 +94,15 @@ class AuthControllerIT extends BaseIT {
 	}
 
 	@Test
+	void securityResponseHeadersIncludeCsp() throws Exception {
+		mockMvc.perform(get("/actuator/health"))
+				.andExpect(status().isOk())
+				.andExpect(header().exists("Content-Security-Policy"))
+				.andExpect(header().string("Content-Security-Policy",
+						org.hamcrest.Matchers.containsString("script-src 'self'")));
+	}
+
+	@Test
 	void corsAllowsOnlyConfiguredLocalOrigin() throws Exception {
 		mockMvc.perform(options("/api/persons")
 				.header("Origin", "http://localhost:8080")

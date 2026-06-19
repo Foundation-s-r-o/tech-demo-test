@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
@@ -40,6 +41,26 @@ public class SecurityConfig {
 		"/swagger-ui.html",
 		"/v3/api-docs/**",
 	};
+
+	// Role names (without the ROLE_ prefix that hasRole/hasAnyRole add automatically).
+	private static final String ROLE_ADMIN = "ADMIN";
+	private static final String ROLE_USER = "USER";
+
+	// Defense-in-depth CSP for API-origin responses (error pages, and swagger-ui outside prod).
+	// The SPA is served from its own origin and ships its own CSP, so this does not govern it.
+	// script-src is 'self' only (no unsafe-eval/inline script — the prod bundle is eval-free,
+	// SEC-13); 'unsafe-inline' is permitted for styles only, which swagger-ui and Bootstrap need.
+	private static final String CSP_POLICY = String.join("; ",
+		"default-src 'self'",
+		"script-src 'self'",
+		"style-src 'self' 'unsafe-inline'",
+		"img-src 'self' data:",
+		"font-src 'self' data:",
+		"connect-src 'self'",
+		"object-src 'none'",
+		"base-uri 'self'",
+		"form-action 'self'",
+		"frame-ancestors 'none'");
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -85,6 +106,13 @@ public class SecurityConfig {
 						.csrfTokenRequestHandler(csrfTokenRequestHandler))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers(PUBLIC_PATHS).permitAll()
+						// Authorization matrix (default): ADMIN = full CRUD + PDF export + ops
+						// endpoints; USER = read-only (list + detail). See SECURITY.md.
+						.requestMatchers(HttpMethod.GET, "/api/persons/*/pdf").hasRole(ROLE_ADMIN)
+						.requestMatchers(HttpMethod.GET, "/api/persons", "/api/persons/**")
+								.hasAnyRole(ROLE_USER, ROLE_ADMIN)
+						.requestMatchers("/api/persons", "/api/persons/**").hasRole(ROLE_ADMIN)
+						.requestMatchers("/actuator/**").hasRole(ROLE_ADMIN)
 						.anyRequest().authenticated())
 				.sessionManagement(session -> session
 						.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
@@ -92,6 +120,7 @@ public class SecurityConfig {
 						.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
 				.headers(headers -> headers
 						.frameOptions(frame -> frame.deny())
+						.contentSecurityPolicy(csp -> csp.policyDirectives(CSP_POLICY))
 						.referrerPolicy(referrer -> referrer
 								.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN))
 						.permissionsPolicyHeader(policy -> policy
