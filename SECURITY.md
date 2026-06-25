@@ -104,7 +104,7 @@ account is `ADMIN`; no `USER` is provisioned by default.
 | PDF export | `GET /api/persons/{id}/pdf` | ❌ | ✅ |
 | Operational endpoints | `/actuator/**` (non-health) | ❌ | ✅ |
 | Health | `GET /actuator/health` | public | public |
-| Session/identity | `/api/auth/me`, `/api/auth/logout` | ✅ | ✅ |
+| Session/identity | `/api/auth/currentuser`, `/api/auth/logout` | ✅ | ✅ |
 
 Reads are open to any authenticated role; all writes, PDF export, and operational endpoints are
 ADMIN-only. Adjust the matchers and the negative tests in `PersonControllerIT` together if this

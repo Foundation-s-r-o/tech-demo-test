@@ -9,10 +9,6 @@ This is a **rolling demo** (one supported branch: `main`), not a released
 product — see [SECURITY.md](./SECURITY.md) for the supported-versions and
 demo-mode caveats policy.
 
-> Tech-stack reference document (Google Drive): [Standard Tech Stack](https://docs.google.com/document/d/16zLZa3JL4DSsK9vqUzfF046CPau5ziO5cJfsdrBqhe8/edit?usp=drive_link).
-> Comment there if you have feedback on direction. The repo's job is to make
-> that document executable; the document's job is to record the why.
-
 ## Stack snapshot
 
 | Layer | Version | Notes |

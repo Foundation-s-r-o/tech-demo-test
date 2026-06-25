@@ -192,4 +192,4 @@ The documented deferred production path is:
 3. `CLAUDE.md` for implementation conventions and verification depth.
 4. `SECURITY.md` for demo caveats and production hardening.
 5. `docs/UPGRADE_PLAN.md` for migration history and deferred phases.
-6. `docs/decisions/` for architecture decision records.
+6. `docs/ADR/` for architecture decision records.

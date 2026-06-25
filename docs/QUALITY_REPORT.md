@@ -1,6 +1,6 @@
 # Quality & Security Scan Report — tech-demo-test
 
-Run: 2026-05-27 · SonarQube host: `http://10.16.35.93:9000` (matrika local instance)
+Run: 2026-05-27 · SonarQube host: `http://10.16.35.93:9000` (internal instance)
 
 Tools: ESLint + tsc (ui), Checkstyle + JaCoCo (api), Trivy (fs vuln), SonarQube (api + ui).
 Raw artifacts in this folder: `eslint-report.txt`, `trivy-report.{txt,json}`, `sonar-metrics-*.json`, `sonar-issues-*.json`.

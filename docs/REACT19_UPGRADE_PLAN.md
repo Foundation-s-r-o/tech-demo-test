@@ -2,7 +2,6 @@
 
 > Status: **EXECUTED 2026-05-27.** React core 19.0.0 → **19.2.6**, react-helmet removed.
 > Verified: lint clean, production build OK, app smoke (1) + storybook smoke (2) pass, Trivy HIGH/CRITICAL = 0.
-> Modeled on `matrika/matrika-demo/docs/IMPLEMENTATION_PLAN.md` → "Plan 8 — React 18.3 → 19".
 > Scope: `ui/` only. Backend untouched.
 
 ## TL;DR
@@ -10,7 +9,7 @@
 tech-demo's UI is **already on React 19** (`react@19.0.0`, `react-dom@19.0.0`, `@types/react@19`),
 already uses `createRoot`, the new JSX transform, functional components only, and **React Router v7**.
 So this is **not an 18→19 migration** — it is a *consolidation to the latest 19.2.x* plus clearing the
-**one library without a React 19 peer** (`react-helmet`). Effort is **S–M (~0.5–1 day)**, not matrika's L (~2–3d).
+**one library without a React 19 peer** (`react-helmet`). Effort is **S–M (~0.5–1 day)**, not a full 18→19 migration's L (~2–3d).
 
 ## Current state (verified 2026-05-27)
 
@@ -27,7 +26,7 @@ So this is **not an 18→19 migration** — it is a *consolidation to the latest
 | `styled-components` | 6.1.15 | yes | none |
 | **`react-helmet`** + `@types/react-helmet` | 6.1.0 | **NO — unmaintained, no React 19 peer** | **remove → React 19 native `<title>`** |
 
-**Already satisfied (no work — same as matrika's "low risk" list):**
+**Already satisfied (no work — the standard React 19 "low risk" list):**
 `createRoot` in `index.tsx`; functional components only; tests are Playwright
 (no `react-test-renderer`/`react-dom/test-utils`).
 Note: this repo uses the **classic JSX transform** (`tsconfig` `jsx: "react"`; every component
@@ -85,7 +84,7 @@ trivy fs . --scanners vuln --severity HIGH,CRITICAL   # peer bumps change the tr
 - **`react-helmet` removal** is the only behavioral change — page-title updates must still work; the app smoke
   + a manual route check are the safety net. Blast radius is tiny (one component).
 - React 19.0 → 19.2 is a patch/minor within the same major — low risk; `tsc` catches the rare typing fallout.
-- Storybook 9 + the smoke suite already exist (unlike matrika, which had to add them first), so the regression
+- Storybook 9 + the smoke suite already exist here, so the regression
   net is in place from the start.
 
 ## Execution order
@@ -94,5 +93,5 @@ Single sitting; each step followed by `npm run lint` before the next.
 
 ## Notes
 - Build requires the public npm registry (TFS feed unreachable) — see Step 3.
-- This plan deliberately avoids the matrika items that don't apply here (react-router v7 move — already done;
+- This plan deliberately omits items that don't apply here (react-router v7 move — already done;
   react-helmet-async — unnecessary for a single title; major datepicker/bootstrap bumps — already 19-ready).
