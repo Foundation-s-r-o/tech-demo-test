@@ -125,7 +125,7 @@
     "babel-loader": "^10.0.0",
     "css-loader": "^7.1.2",
     "dotenv-webpack": "^8.1.0",
-    "eslint": "^9.21.0",
+    "eslint": "^10.5.0",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-storybook": "9.1.19",
     "file-loader": "^6.2.0",
