@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Formik, Form } from 'formik'
 import { PersonModifyRequestDTO } from '@api/generated'
-import { Container, Row } from 'react-bootstrap'
 import InputSection from '@components/shared/forms/InputSection'
 import FndtInputSegment from '@components/form/InputSegment'
 import { FndtInputType } from '@components/form/types'
@@ -72,65 +71,59 @@ export default function PersonForm({ id }: { id?: number }) {
             onSubmit={onSubmit}>
             {({ resetForm }) => (
                 <Form>
-                    <Container>
-                        <Row>
-                            <InputSection>
-                                <FndtInputSegment
-                                    type={FndtInputType.Input}
-                                    idPrefix={idPrefix}
-                                    label="form.input.firstName"
-                                    name="firstName"
-                                />
-                                <FndtInputSegment
-                                    type={FndtInputType.Input}
-                                    idPrefix={idPrefix}
-                                    label="form.input.lastName"
-                                    name="lastName"
-                                />
-                                <FndtInputSegment
-                                    type={FndtInputType.Input}
-                                    idPrefix={idPrefix}
-                                    label="form.input.email"
-                                    name="email"
-                                />
-                                <FndtInputSegment
-                                    type={FndtInputType.Input}
-                                    idPrefix={idPrefix}
-                                    label="form.input.address"
-                                    name="address"
-                                />
-                                <FndtInputSegment
-                                    type={FndtInputType.Input}
-                                    idPrefix={idPrefix}
-                                    label="form.input.phone"
-                                    name="phoneNumber"
-                                />
-                                <FndtInputSegment
-                                    type={FndtInputType.Input}
-                                    idPrefix={idPrefix}
-                                    label="form.input.state"
-                                    name="state"
-                                />
-                            </InputSection>
-                        </Row>
-                        <Row>
-                            <div className="mt-3">
-                                <FndtButton
-                                    variant="primary"
-                                    className="me-2"
-                                    type="submit">
-                                    {t('common.btn.save')}
-                                </FndtButton>
-                                <FndtButton
-                                    variant="secondary"
-                                    onClick={() => {
-                                        resetForm()
-                                    }}>
-                                    {t('common.btn.resetToDefaultValues')}
-                                </FndtButton>
-                            </div>
-                        </Row>
-                    </Container>
+                    <InputSection title={t('form.section.personalData')}>
+                        <FndtInputSegment
+                            type={FndtInputType.Input}
+                            idPrefix={idPrefix}
+                            label="form.input.firstName"
+                            name="firstName"
+                        />
+                        <FndtInputSegment
+                            type={FndtInputType.Input}
+                            idPrefix={idPrefix}
+                            label="form.input.lastName"
+                            name="lastName"
+                        />
+                        <FndtInputSegment
+                            type={FndtInputType.Input}
+                            idPrefix={idPrefix}
+                            label="form.input.email"
+                            name="email"
+                        />
+                        <FndtInputSegment
+                            type={FndtInputType.Input}
+                            idPrefix={idPrefix}
+                            label="form.input.address"
+                            name="address"
+                        />
+                        <FndtInputSegment
+                            type={FndtInputType.Input}
+                            idPrefix={idPrefix}
+                            label="form.input.phone"
+                            name="phoneNumber"
+                        />
+                        <FndtInputSegment
+                            type={FndtInputType.Input}
+                            idPrefix={idPrefix}
+                            label="form.input.state"
+                            name="state"
+                        />
+                    </InputSection>
+                    <div className="mt-3">
+                        <FndtButton
+                            variant="primary"
+                            className="me-2"
+                            type="submit">
+                            {t('common.btn.save')}
+                        </FndtButton>
+                        <FndtButton
+                            variant="secondary"
+                            onClick={() => {
+                                resetForm()
+                            }}>
+                            {t('common.btn.resetToDefaultValues')}
+                        </FndtButton>
+                    </div>
                 </Form>
             )}
         </Formik>

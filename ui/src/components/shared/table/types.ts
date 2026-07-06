@@ -72,6 +72,7 @@ export type FndtTablePaginationProps = {
     page: number
     pageSize: number
     totalPages: number
+    total: number
     onPageChange: (page: number) => void
     onPageSizeChange: (pageSize: number) => void
 }

@@ -1,27 +1,47 @@
 // App-level theme tokens as CSS custom properties, per color mode.
 // Import ONCE from main.scss (after Bootstrap). Component SCSS consumes
 // var(--fndt-*) / var(--bs-*) and never hardcodes colors.
+//
+// Look: "Frost on Polar Night" — dark chrome (header + sidebar) with light
+// text and Frost accents, content on a white canvas (Nord design system
+// reference). The chrome stays dark in BOTH color modes.
 @import './nord';
 
 :root,
 [data-bs-theme='light'] {
     --fndt-surface: #fff;
-    --fndt-surface-alt: #{$nord5};
-    --fndt-header-bg: #{$nord10-deep};
-    --fndt-header-fg: #{$nord6};
-    --fndt-sidebar-bg: #{$nord6};
-    --fndt-hover-bg: #{$nord4};
+    --fndt-surface-alt: #{$nord6};
+    --fndt-hover-bg: #{$nord6};
     --fndt-danger-text: #{$nord11-deep};
+
+    // dark chrome
+    --fndt-header-bg: #{$nord0};
+    --fndt-header-fg: #{$nord6};
+    --fndt-sidebar-bg: #{$nord0};
+    --fndt-sidebar-fg: #{$nord4};
+    --fndt-sidebar-fg-active: #{$nord6};
+    --fndt-sidebar-hover-bg: #{$nord1};
+    --fndt-sidebar-active-bg: #{$nord2};
+    --fndt-sidebar-accent: #{$nord8};
+    --fndt-sidebar-border: transparent;
 }
 
 [data-bs-theme='dark'] {
     --fndt-surface: #{$nord1};
     --fndt-surface-alt: #{$nord2};
+    --fndt-hover-bg: #{$nord2};
+    --fndt-danger-text: #{$nord11-soft};
+
+    // dark chrome (one step off the nord0 body so it reads as chrome)
     --fndt-header-bg: #{$nord1};
     --fndt-header-fg: #{$nord6};
     --fndt-sidebar-bg: #{$nord1};
-    --fndt-hover-bg: #{$nord2};
-    --fndt-danger-text: #{$nord11-soft};
+    --fndt-sidebar-fg: #{$nord4};
+    --fndt-sidebar-fg-active: #{$nord6};
+    --fndt-sidebar-hover-bg: #{$nord2};
+    --fndt-sidebar-active-bg: #{$nord3};
+    --fndt-sidebar-accent: #{$nord8};
+    --fndt-sidebar-border: #{$nord2};
 }
 
 // Theme-aware danger text with AA contrast in both modes; keeps the

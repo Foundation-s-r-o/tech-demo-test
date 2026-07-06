@@ -11,7 +11,7 @@ const FndtLabel = ({
 }) => {
     return (
         <label
-            className={classNames('col-form-label fw-bold', className)}
+            className={classNames('form-label', className)}
             {...props}>
             {children}
         </label>

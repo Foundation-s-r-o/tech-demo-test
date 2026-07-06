@@ -181,6 +181,7 @@ export const FndtTableWrapper = <T extends IdentifiableItemResponse>({
             <FndtTablePagination
                 page={currentPage}
                 totalPages={totalPages}
+                total={state.total}
                 pageSize={currentPageSize}
                 onPageChange={(newPage) => {
                     setCurrentPage(newPage)

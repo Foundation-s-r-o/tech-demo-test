@@ -14,8 +14,9 @@ $info: $nord8;
 $light: $nord5;
 $dark: $nord0;
 
-// Light mode
-$body-bg: $nord6;
+// Light mode — white canvas (Nord design system look); Snow Storm tints are
+// reserved for bands/surfaces via the --fndt-* tokens.
+$body-bg: #fff;
 $body-color: $nord0;
 $border-color: $nord4;
 $link-color: $nord10-deep;
@@ -44,4 +45,4 @@ $danger-bg-subtle-dark: shade-color($nord11, 60%);
 $warning-bg-subtle-dark: shade-color($nord13, 60%);
 $info-bg-subtle-dark: shade-color($nord8, 60%);
 
-$h2-font-size: 1.3em;
+$h2-font-size: 1.75rem; // large page titles (Filament-style hierarchy)

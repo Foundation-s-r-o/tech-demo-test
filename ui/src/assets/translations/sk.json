@@ -39,6 +39,8 @@
             "noResults": "Žiadne výsledky",
             "pageNo": "Stránka č.",
             "ofTotalPages": "z {{totalPages}}",
+            "showingResults": "Zobrazuje sa {{from}} až {{to}} z {{total}} výsledkov",
+            "pagination": "Stránkovanie",
             "pageSize": "Veľkosť stránky",
             "lastPage": "Posledná stránka",
             "firstPage": "Prvá stránka",
@@ -62,6 +64,9 @@
         }
     },
     "form": {
+        "section": {
+            "personalData": "Osobné údaje"
+        },
         "input": {
             "id": "ID",
             "username": "Meno",

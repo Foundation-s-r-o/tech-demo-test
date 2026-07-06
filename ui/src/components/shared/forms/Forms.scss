@@ -1,3 +1,27 @@
+// Form section card + stacked label-above fields (Filament-style)
+.inputs-section {
+    background-color: var(--fndt-surface);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+
+    .inputs-section-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 14px;
+    }
+}
+
+.fndt_field {
+    label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 4px;
+    }
+}
+
 table.inputs-table {
     label {
         padding-right: 15px;

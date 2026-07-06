@@ -1,13 +1,49 @@
 #app-content {
     #app-content-title {
-        min-height: 40px;
+        padding-top: 20px;
 
-        h2 {
-            padding-top: 6px;
+        .app-breadcrumbs {
+            ol {
+                display: flex;
+                gap: 4px;
+                list-style: none;
+                margin: 0 0 2px;
+                padding: 0;
+                font-size: 0.875rem;
+                color: var(--bs-secondary-color);
+            }
+
+            li + li::before {
+                content: '\203A'; // ›
+                padding-right: 4px;
+                color: var(--bs-secondary-color);
+            }
+
+            a {
+                color: var(--bs-secondary-color);
+                text-decoration: none;
+
+                &:hover {
+                    color: var(--bs-link-color);
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .app-page-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+
+            h2 {
+                font-weight: 600;
+                margin: 0;
+            }
         }
     }
 
     #app-content-frame {
-        min-height: calc(100vh - 120px); // 100% viewport height - height of header - height of title - height of footer
+        min-height: calc(100vh - 150px); // viewport - header - title block - footer
     }
 }

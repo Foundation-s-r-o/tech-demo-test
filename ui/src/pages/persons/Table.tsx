@@ -11,11 +11,10 @@ import {
 } from '@common/api/transformers'
 import { UiPersonListItemResponseDTO } from '@api/types'
 import { useTranslation } from 'react-i18next'
-import {
-    FndtRowActionItem,
-    FndtRowActions
-} from '@components/shared/table/RowActions'
+import { PencilSquareIcon } from '@heroicons/react/24/outline'
+import FndtIcon from '@components/shared/icons/FndtIcon'
 import routes from '@components/router/routes'
+import { Link } from 'react-router-dom'
 
 export default function PersonsTable() {
     const { t } = useTranslation()
@@ -68,12 +67,15 @@ export default function PersonsTable() {
                             <td>{item.lastName}</td>
                             <td>{item.email}</td>
                             <td className="text-end">
-                                <FndtRowActions id={`person_actions_${item.id}`}>
-                                    <FndtRowActionItem
-                                        to={routes.personsEdit.path.replace(':id', String(item.id))}>
-                                        {t('common.btn.edit')}
-                                    </FndtRowActionItem>
-                                </FndtRowActions>
+                                <Link
+                                    id={`person_edit_${item.id}`}
+                                    className="fndt_row_action"
+                                    to={routes.personsEdit.path.replace(':id', String(item.id))}>
+                                    <FndtIcon
+                                        icon={PencilSquareIcon}
+                                        size="sm" />
+                                    {t('common.btn.edit')}
+                                </Link>
                             </td>
                         </>
                     )

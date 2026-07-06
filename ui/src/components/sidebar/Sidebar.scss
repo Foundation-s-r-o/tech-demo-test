@@ -7,16 +7,18 @@ $footer-height: 30px;
     width: $sidebar-width;
     flex-shrink: 0;
     background-color: var(--fndt-sidebar-bg);
-    border-right: 1px solid var(--bs-border-color);
+    border-right: 1px solid var(--fndt-sidebar-border);
     padding: 10px 0 ($footer-height + 10px); // bottom clears the fixed footer
     transition: width 0.15s ease-in-out;
+
+    font-size: 0.9rem;
 
     .sidebar-nav {
         position: sticky;
         top: 10px;
         list-style: none;
         margin: 0;
-        padding: 0;
+        padding: 0 8px;
     }
 
     .sidebar-group-toggle,
@@ -25,15 +27,18 @@ $footer-height: 30px;
         align-items: center;
         gap: 8px;
         width: 100%;
-        padding: 8px 14px;
+        padding: 8px 12px;
         border: none;
+        border-radius: 8px; // pill highlight (Filament-style)
         background: none;
-        color: var(--bs-body-color);
+        color: var(--fndt-sidebar-fg);
         text-decoration: none;
         text-align: left;
+        margin-bottom: 2px;
 
         &:hover {
-            background-color: var(--fndt-hover-bg);
+            background-color: var(--fndt-sidebar-hover-bg);
+            color: var(--fndt-sidebar-fg-active);
             cursor: pointer;
         }
     }
@@ -48,16 +53,15 @@ $footer-height: 30px;
         padding: 0;
 
         .sidebar-item {
-            padding-left: 42px;
+            padding-left: 38px;
         }
     }
 
-    // Active route: hover surface + inset accent bar; text color stays
-    // --bs-body-color so contrast holds in both themes.
+    // Active route: rounded pill with brightened text.
     .sidebar-item--active {
-        background-color: var(--fndt-hover-bg);
+        background-color: var(--fndt-sidebar-active-bg);
+        color: var(--fndt-sidebar-fg-active);
         font-weight: 600;
-        box-shadow: inset 3px 0 0 var(--bs-primary);
     }
 }
 
