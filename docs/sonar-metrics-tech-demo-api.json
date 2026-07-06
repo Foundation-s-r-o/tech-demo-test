@@ -1,1 +1,38 @@
-{"component":{"key":"tech-demo-api","name":"tech-demo-api","qualifier":"TRK","measures":[{"metric":"coverage","value":"20.1","bestValue":false},{"metric":"bugs","value":"0","bestValue":true},{"metric":"duplicated_lines_density","value":"0.0","bestValue":true},{"metric":"code_smells","value":"5","bestValue":false},{"metric":"ncloc","value":"1032"},{"metric":"vulnerabilities","value":"0","bestValue":true},{"metric":"security_hotspots","value":"0","bestValue":true}]}}
+{
+  "component": {
+    "key": "tech-demo-api",
+    "name": "tech-demo-api",
+    "qualifier": "TRK",
+    "measures": [
+      {
+        "metric": "coverage",
+        "value": "71.8",
+        "bestValue": false
+      },
+      {
+        "metric": "bugs",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "code_smells",
+        "value": "5",
+        "bestValue": false
+      },
+      {
+        "metric": "ncloc",
+        "value": "1135"
+      },
+      {
+        "metric": "vulnerabilities",
+        "value": "0",
+        "bestValue": true
+      },
+      {
+        "metric": "security_hotspots",
+        "value": "0",
+        "bestValue": true
+      }
+    ]
+  }
+}
