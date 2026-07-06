@@ -1,14 +1,60 @@
 {
-  "total": 57,
+  "total": 56,
   "p": 1,
   "ps": 500,
   "paging": {
     "pageIndex": 1,
     "pageSize": 500,
-    "total": 57
+    "total": 56
   },
-  "effortTotal": 256,
+  "effortTotal": 257,
   "issues": [
+    {
+      "key": "867f9520-0aa1-4448-96dc-146d54232fb6",
+      "rule": "typescript:S6479",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/table/TablePagination.tsx",
+      "project": "tech-demo-ui",
+      "line": 92,
+      "hash": "dbf9d66b033a7b89f6355d10663f3bba",
+      "textRange": {
+        "startLine": 92,
+        "endLine": 92,
+        "startOffset": 41,
+        "endOffset": 50
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Do not use Array index in keys",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "",
+      "tags": [
+        "performance",
+        "react",
+        "jsx"
+      ],
+      "creationDate": "2026-07-06T15:37:36+0200",
+      "updateDate": "2026-07-06T15:37:36+0200",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
     {
       "key": "259983c9-ad00-4337-9079-2c0462ccd5c8",
       "rule": "typescript:S6749",
@@ -28,12 +74,12 @@
       "message": "A fragment with only one child is redundant.",
       "effort": "5min",
       "debt": "5min",
-      "author": "",
+      "author": "antony@foundation.sk",
       "tags": [
         "react"
       ],
       "creationDate": "2026-07-06T14:01:25+0200",
-      "updateDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T15:25:23+0200",
       "type": "CODE_SMELL",
       "scope": "MAIN",
       "quickFixAvailable": true,
@@ -72,12 +118,12 @@
       "message": "A fragment with only one child is redundant.",
       "effort": "5min",
       "debt": "5min",
-      "author": "",
+      "author": "antony@foundation.sk",
       "tags": [
         "react"
       ],
       "creationDate": "2026-07-06T14:01:25+0200",
-      "updateDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T15:25:23+0200",
       "type": "CODE_SMELL",
       "scope": "MAIN",
       "quickFixAvailable": true,
@@ -116,12 +162,12 @@
       "message": "A fragment with only one child is redundant.",
       "effort": "5min",
       "debt": "5min",
-      "author": "",
+      "author": "antony@foundation.sk",
       "tags": [
         "react"
       ],
       "creationDate": "2026-07-06T14:01:25+0200",
-      "updateDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T15:25:23+0200",
       "type": "CODE_SMELL",
       "scope": "MAIN",
       "quickFixAvailable": true,
@@ -160,12 +206,12 @@
       "message": "Unexpected negated condition.",
       "effort": "2min",
       "debt": "2min",
-      "author": "",
+      "author": "antony@foundation.sk",
       "tags": [
         "readability"
       ],
       "creationDate": "2026-07-06T14:01:25+0200",
-      "updateDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T15:25:23+0200",
       "type": "CODE_SMELL",
       "scope": "MAIN",
       "quickFixAvailable": true,
@@ -204,13 +250,13 @@
       "message": "Anchor used as a button. Anchors are primarily expected to navigate. Use the button element instead.",
       "effort": "5min",
       "debt": "5min",
-      "author": "",
+      "author": "antony@foundation.sk",
       "tags": [
         "accessibility",
         "react"
       ],
       "creationDate": "2026-07-06T14:01:25+0200",
-      "updateDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T15:25:23+0200",
       "type": "CODE_SMELL",
       "scope": "MAIN",
       "quickFixAvailable": false,
@@ -253,13 +299,13 @@
       "message": "Prefer `String#replaceAll()` over `String#replace()`.",
       "effort": "5min",
       "debt": "5min",
-      "author": "",
+      "author": "antony@foundation.sk",
       "tags": [
         "readability",
         "es2021"
       ],
       "creationDate": "2026-07-06T14:01:25+0200",
-      "updateDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T15:25:23+0200",
       "type": "CODE_SMELL",
       "scope": "MAIN",
       "quickFixAvailable": true,
@@ -302,14 +348,14 @@
       "message": "Handle this exception or don't catch it at all.",
       "effort": "1h",
       "debt": "1h",
-      "author": "",
+      "author": "antony@foundation.sk",
       "tags": [
         "cwe",
         "error-handling",
         "suspicious"
       ],
       "creationDate": "2026-07-06T14:01:25+0200",
-      "updateDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T15:25:23+0200",
       "type": "CODE_SMELL",
       "scope": "MAIN",
       "quickFixAvailable": false,
@@ -348,13 +394,13 @@
       "message": "Prefer `globalThis` over `window`.",
       "effort": "2min",
       "debt": "2min",
-      "author": "",
+      "author": "antony@foundation.sk",
       "tags": [
         "portability",
         "es2020"
       ],
       "creationDate": "2026-07-06T14:01:25+0200",
-      "updateDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T15:25:23+0200",
       "type": "CODE_SMELL",
       "scope": "MAIN",
       "quickFixAvailable": true,
@@ -393,14 +439,14 @@
       "message": "Prefer `.dataset` over `setAttribute(…)`.",
       "effort": "5min",
       "debt": "5min",
-      "author": "",
+      "author": "antony@foundation.sk",
       "tags": [
         "dom",
         "html",
         "api"
       ],
       "creationDate": "2026-07-06T14:01:25+0200",
-      "updateDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T15:25:23+0200",
       "type": "CODE_SMELL",
       "scope": "MAIN",
       "quickFixAvailable": true,
@@ -649,11 +695,11 @@
       "severity": "MINOR",
       "component": "tech-demo-ui:src/pages/persons/Form.tsx",
       "project": "tech-demo-ui",
-      "line": 17,
+      "line": 16,
       "hash": "dd552166a1488458c7e279b033919c6d",
       "textRange": {
-        "startLine": 17,
-        "endLine": 17,
+        "startLine": 16,
+        "endLine": 16,
         "startOffset": 35,
         "endOffset": 58
       },
@@ -2429,11 +2475,11 @@
       "severity": "MINOR",
       "component": "tech-demo-ui:src/components/shared/forms/InputRow.tsx",
       "project": "tech-demo-ui",
-      "line": 3,
+      "line": 5,
       "hash": "9a0d2a50cdd6964ea652e6eaf9a5187d",
       "textRange": {
-        "startLine": 3,
-        "endLine": 7,
+        "startLine": 5,
+        "endLine": 9,
         "startOffset": 33,
         "endOffset": 1
       },
@@ -2475,12 +2521,12 @@
       "component": "tech-demo-ui:src/components/shared/forms/InputRow.tsx",
       "project": "tech-demo-ui",
       "line": 13,
-      "hash": "0dfd4962214954d675377d11fe111fba",
+      "hash": "636eb1567fa43b1bb2ab27d630744fe5",
       "textRange": {
         "startLine": 13,
         "endLine": 13,
-        "startOffset": 29,
-        "endOffset": 34
+        "startOffset": 33,
+        "endOffset": 38
       },
       "flows": [],
       "status": "OPEN",
@@ -2520,11 +2566,11 @@
       "severity": "MINOR",
       "component": "tech-demo-ui:src/components/shared/forms/InputSection.tsx",
       "project": "tech-demo-ui",
-      "line": 4,
+      "line": 7,
       "hash": "86f135787a7cd235d41ca88278eed313",
       "textRange": {
-        "startLine": 4,
-        "endLine": 10,
+        "startLine": 7,
+        "endLine": 15,
         "startOffset": 37,
         "endOffset": 1
       },
@@ -2560,116 +2606,18 @@
       "linkedTicketStatus": "NOT_LINKED"
     },
     {
-      "key": "9dfabaa1-2446-49e1-83c9-1c33268cd391",
-      "rule": "typescript:S7773",
-      "severity": "MINOR",
-      "component": "tech-demo-ui:src/components/shared/table/TablePagination.tsx",
-      "project": "tech-demo-ui",
-      "line": 117,
-      "hash": "eb55d7b4d9aa6c2e93243334312b9c37",
-      "textRange": {
-        "startLine": 117,
-        "endLine": 117,
-        "startOffset": 48,
-        "endOffset": 56
-      },
-      "flows": [],
-      "status": "OPEN",
-      "message": "Prefer `Number.parseInt` over `parseInt`.",
-      "effort": "2min",
-      "debt": "2min",
-      "author": "antony@foundation.sk",
-      "tags": [
-        "convention",
-        "es2015"
-      ],
-      "creationDate": "2024-08-13T12:58:41+0200",
-      "updateDate": "2026-07-06T14:01:25+0200",
-      "type": "CODE_SMELL",
-      "scope": "MAIN",
-      "quickFixAvailable": true,
-      "messageFormattings": [],
-      "codeVariants": [],
-      "cleanCodeAttribute": "CONVENTIONAL",
-      "cleanCodeAttributeCategory": "CONSISTENT",
-      "impacts": [
-        {
-          "softwareQuality": "MAINTAINABILITY",
-          "severity": "LOW"
-        },
-        {
-          "softwareQuality": "RELIABILITY",
-          "severity": "MEDIUM"
-        }
-      ],
-      "issueStatus": "OPEN",
-      "prioritizedRule": false,
-      "fromSonarQubeUpdate": false,
-      "internalTags": [],
-      "linkedTicketStatus": "NOT_LINKED"
-    },
-    {
-      "key": "aca33b84-72b7-4a3d-9d19-8b49ad8afc24",
-      "rule": "typescript:S7773",
-      "severity": "MINOR",
-      "component": "tech-demo-ui:src/components/shared/table/TablePagination.tsx",
-      "project": "tech-demo-ui",
-      "line": 150,
-      "hash": "eb55d7b4d9aa6c2e93243334312b9c37",
-      "textRange": {
-        "startLine": 150,
-        "endLine": 150,
-        "startOffset": 44,
-        "endOffset": 52
-      },
-      "flows": [],
-      "status": "OPEN",
-      "message": "Prefer `Number.parseInt` over `parseInt`.",
-      "effort": "2min",
-      "debt": "2min",
-      "author": "antony@foundation.sk",
-      "tags": [
-        "convention",
-        "es2015"
-      ],
-      "creationDate": "2024-08-13T12:58:41+0200",
-      "updateDate": "2026-07-06T14:01:25+0200",
-      "type": "CODE_SMELL",
-      "scope": "MAIN",
-      "quickFixAvailable": true,
-      "messageFormattings": [],
-      "codeVariants": [],
-      "cleanCodeAttribute": "CONVENTIONAL",
-      "cleanCodeAttributeCategory": "CONSISTENT",
-      "impacts": [
-        {
-          "softwareQuality": "MAINTAINABILITY",
-          "severity": "LOW"
-        },
-        {
-          "softwareQuality": "RELIABILITY",
-          "severity": "MEDIUM"
-        }
-      ],
-      "issueStatus": "OPEN",
-      "prioritizedRule": false,
-      "fromSonarQubeUpdate": false,
-      "internalTags": [],
-      "linkedTicketStatus": "NOT_LINKED"
-    },
-    {
       "key": "77e740fd-2fbf-467b-86fd-edf59155aff3",
       "rule": "typescript:S7773",
       "severity": "MINOR",
       "component": "tech-demo-ui:src/components/shared/table/TablePagination.tsx",
       "project": "tech-demo-ui",
-      "line": 152,
+      "line": 63,
       "hash": "f894da74efb2e8cd77a7f5b9b00be7ab",
       "textRange": {
-        "startLine": 152,
-        "endLine": 152,
-        "startOffset": 57,
-        "endOffset": 65
+        "startLine": 63,
+        "endLine": 63,
+        "startOffset": 45,
+        "endOffset": 53
       },
       "flows": [],
       "status": "OPEN",

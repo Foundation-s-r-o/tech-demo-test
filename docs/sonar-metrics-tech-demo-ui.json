@@ -16,12 +16,12 @@
       },
       {
         "metric": "code_smells",
-        "value": "57",
+        "value": "56",
         "bestValue": false
       },
       {
         "metric": "ncloc",
-        "value": "3554"
+        "value": "3593"
       },
       {
         "metric": "vulnerabilities",
