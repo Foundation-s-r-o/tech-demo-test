@@ -22,7 +22,7 @@ export interface AuthStateType {
 }
 
 export interface AuthContextType extends AuthStateType {
-    login: (LoginRequest: LoginRequest) => void
+    login: (loginRequest: LoginRequest) => Promise<void>
     logout: (callback: VoidFunction) => void
 }
 

@@ -119,8 +119,11 @@ export const FndtTableWrapper = <T extends IdentifiableItemResponse>({
             })
         }
 
-        try {
-            loadDataFn(pagingParams)
+        // Promise.resolve().then(...) routes a synchronous throw from a
+        // misbehaving loadDataFn into the same .catch as async rejections
+        // (loadDataFn must return a promise of {elements, totalElements}).
+        Promise.resolve()
+                .then(() => loadDataFn(pagingParams))
                 .then((result) => {
                     if (
                         isSilent &&
@@ -155,14 +158,6 @@ export const FndtTableWrapper = <T extends IdentifiableItemResponse>({
                         e
                     )
                 })
-        } catch {
-            dispatch({
-                type: FndtTableReducerActionType.LOAD_ERROR,
-            })
-            console.error(
-                'Error in Fndt Table Load Data function. It must return a promise with object of {elements: Array<any>,  totalElements: Number}'
-            )
-        }
     }
 
     const fndtTableApi = {
