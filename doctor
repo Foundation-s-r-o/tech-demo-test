@@ -66,9 +66,9 @@ echo "### Running local security scans"
 
 echo
 echo "### Running SonarQube analysis"
-# Project-pinned host (see CLAUDE.md / sonar-project.properties). Deliberately NOT
-# read from $SONAR_HOST_URL — the workspace-wide env points at a different instance.
-sonar_host="http://10.16.35.93:9000"
+# Project-pinned host (see CLAUDE.md). Deliberately NOT read from $SONAR_HOST_URL —
+# that env var carries a bare IP without scheme/port, which curl can't use.
+sonar_host="http://10.16.35.113:9000"
 if ! command -v sonar-scanner >/dev/null; then
   echo "WARNING: SKIPPED — sonar-scanner CLI not installed."
 elif [[ -z "${SONAR_TOKEN:-}" ]]; then

@@ -85,11 +85,11 @@ The full table with gate behaviour lives in [SECURITY.md](./SECURITY.md). Quick 
 | **Dependabot** | Weekly schedule | Opens PRs; humans review/merge |
 | **FOSSA** | GitHub Action `fossa-scan` on push/PR to `main` | Scan-only (non-blocking, see SECURITY.md for why) |
 | **Checkstyle** | `./mvnw validate` | Hard gate (`failOnViolation=true`) |
-| **JaCoCo** | `./mvnw verify` | Report only (no minimum yet) |
+| **JaCoCo** | `./mvnw verify` | Hard gate: merged unit+IT line coverage ≥ 70% |
 | **ESLint + `tsc --noEmit`** | `npm run lint` (local + CI) | Hard gate on errors |
 | **Trivy (`fs`)** | On-demand | HIGH/CRITICAL maintained at 0 on `main` |
 | **Semgrep** | `./scripts/security_scan.sh` | Metrics disabled; security/secrets/OWASP rules |
-| **SonarQube** (internal `10.16.35.93:9000`) | On-demand | Dashboard only |
+| **SonarQube** (internal `10.16.35.113:9000`) | On-demand | Dashboard only |
 | **CircleCI** | Every push | Hard gate (backend `mvn verify` + frontend webpack build) |
 
 FOSSA shield badge:

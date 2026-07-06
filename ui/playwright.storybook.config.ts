@@ -11,6 +11,8 @@ import 'dotenv/config'
 const config: PlaywrightTestConfig = {
     testDir: './tests',
     testMatch: /smoke\.storybook\.spec\.ts/,
+    // Own artifact dir — must not wipe the E2E suite's test-results/e2e.
+    outputDir: 'test-results/storybook',
     timeout: 120 * 1000,
     expect: { timeout: 30 * 1000 },
     forbidOnly: !!process.env.CI,

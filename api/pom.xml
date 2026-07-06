@@ -29,6 +29,8 @@
 		<tomcat.version>11.0.22</tomcat.version>
 		<!-- Override Boot-managed Jackson 3 BOM 3.1.2 -> 3.1.4 to clear CVE-2026-54512/54513. -->
 		<jackson-bom.version>3.1.4</jackson-bom.version>
+		<!-- Override Boot-managed Logback 1.5.32 -> 1.5.33 to clear CVE-2026-9828. -->
+		<logback.version>1.5.33</logback.version>
 		<!-- Merged unit+IT line-coverage floor enforced by jacoco:check on verify.
 		     Regression guard, not a target — ratchet toward 0.80 (SECURITY.md). -->
 		<jacoco.line-coverage.minimum>0.70</jacoco.line-coverage.minimum>
@@ -36,7 +38,11 @@
 	<dependencyManagement>
 		<dependencies>
 			<!-- Flyway still pulls the legacy Jackson 2 line transitively; pin its BOM to
-			     2.21.4 to clear CVE-2026-54512/54513 (Boot 4 no longer manages Jackson 2). -->
+			     2.21.4 to clear CVE-2026-54512/54513 (Boot 4 no longer manages Jackson 2).
+			     Known gap: CVE-2026-54515 (MEDIUM) lists fixes 2.21.5/2.22.1, but neither
+			     jackson-bom nor jackson-databind exists at those versions on Maven Central
+			     (verified 404 on 2026-07-06) — bump when actually released. Do NOT pin
+			     2.21.5 before checking: it breaks POM resolution entirely. -->
 			<dependency>
 				<groupId>com.fasterxml.jackson</groupId>
 				<artifactId>jackson-bom</artifactId>

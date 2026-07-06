@@ -1,0 +1,1360 @@
+# =============================================================================
+# Civil Registry API — OpenAPI 3.0.3 contract (specification only)
+#
+# Application layer over schema.sql. Design rules mirrored from the DB design:
+#   * roles: clerk / supervisor / agency / dpo / security_auditor
+#     (OAuth2 scopes; per-operation requirement noted in x-required-roles)
+#   * every read of personal data requires X-Access-Purpose (logged to
+#     audit.access_log) and carries X-Request-Id correlation
+#   * mutable person attributes are bitemporal: writes create new versions,
+#     never in-place updates; history endpoints accept asOfValid/asOfRecorded
+#   * vital records are append-only: corrections go through /amendments
+#   * religion and death medical data (GDPR Art. 9) live on isolated,
+#     stricter-scoped endpoints
+#   * errors are RFC 7807 application/problem+json
+# =============================================================================
+openapi: 3.0.3
+info:
+  title: Civil Registry API
+  version: 0.1.0
+  description: >
+    State civil registry of persons and vital events (births, marriages,
+    deaths) with bitemporal person history, GDPR operations and append-only
+    auditing. Contract for the application layer over the PostgreSQL schema
+    in schema.sql.
+  contact:
+    name: Registry platform team
+servers:
+  - url: https://registry.example.gov.sk/api/v1
+
+security:
+  - oauth2: []
+
+tags:
+  - name: persons
+  - name: births
+  - name: marriages
+  - name: deaths
+  - name: codelists
+  - name: gdpr
+  - name: audit
+
+paths:
+
+  # ------------------------------------------------- citizen self-service
+  /me:
+    get:
+      tags: [persons]
+      summary: Own person data (citizen self-service portal)
+      description: >
+        Resolves the authenticated citizen (eID token) to their person record
+        and returns the full composite view of their own data, including
+        religion and address history references. Backed by DB row-level
+        security — the response can never contain another person's data.
+        The read is logged to the access log with purpose "self_service".
+        Statutory eligibility applies (enforced in the DB): the user must be
+        registered as a living person, be 18 or older, and have no current
+        court-ordered restriction of legal capacity — otherwise 403.
+        A parent may additionally access their minor child's data and a
+        court-appointed guardian the represented person's data, by calling
+        the person/record endpoints with the represented person's UID.
+      x-required-roles: [citizen]
+      operationId: getOwnPerson
+      parameters: [ { $ref: '#/components/parameters/RequestId' } ]
+      responses:
+        '200':
+          description: Own person data
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PersonComposite' }
+        '404':
+          description: The eID identity is not matched to any person in the registry
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /me/access-log:
+    get:
+      tags: [persons]
+      summary: Who accessed my data (citizen transparency, Art. 15)
+      x-required-roles: [citizen]
+      operationId: getOwnAccessLog
+      parameters:
+        - { $ref: '#/components/parameters/RequestId' }
+        - { $ref: '#/components/parameters/Page' }
+        - { $ref: '#/components/parameters/PerPage' }
+      responses:
+        '200':
+          description: Access log entries concerning the authenticated citizen only
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/AccessLogEntry' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  # ---------------------------------------------------------------- persons
+  /persons:
+    post:
+      tags: [persons]
+      summary: Register a new person (identity anchor + initial detail)
+      x-required-roles: [clerk, supervisor]
+      operationId: createPerson
+      parameters: [ { $ref: '#/components/parameters/RequestId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PersonCreate' }
+      responses:
+        '201':
+          description: Person created; opaque person UID generated server-side
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Person' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        default: { $ref: '#/components/responses/Problem' }
+    get:
+      tags: [persons]
+      summary: Search persons (current-belief data only)
+      description: >
+        nationalId is matched exactly via keyed HMAC — the API never accepts
+        or returns the plaintext national identifier in bulk search results.
+      x-required-roles: [clerk, supervisor, agency]
+      operationId: searchPersons
+      parameters:
+        - { $ref: '#/components/parameters/RequestId' }
+        - { $ref: '#/components/parameters/AccessPurpose' }
+        - { name: familyName, in: query, schema: { type: string } }
+        - { name: givenNames, in: query, schema: { type: string } }
+        - { name: dateOfBirth, in: query, schema: { type: string, format: date } }
+        - { name: nationalId, in: query, schema: { type: string }, description: exact match only }
+        - { $ref: '#/components/parameters/Page' }
+        - { $ref: '#/components/parameters/PerPage' }
+      responses:
+        '200':
+          description: Paginated result; agency callers receive the minimal representation
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PersonSearchResult' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /persons/{personUid}:
+    get:
+      tags: [persons]
+      summary: Current composite view of a person
+      description: >
+        Response shape depends on the caller's role: agency receives the
+        minimal view (no religion, no health data, no history); clerk,
+        supervisor and dpo receive the full current-belief view; citizen
+        callers may only address their own personUid (RLS-enforced).
+      x-required-roles: [clerk, supervisor, agency, dpo, citizen]
+      operationId: getPerson
+      parameters:
+        - { $ref: '#/components/parameters/PersonUid' }
+        - { $ref: '#/components/parameters/RequestId' }
+        - { $ref: '#/components/parameters/AccessPurpose' }
+      responses:
+        '200':
+          description: Current person data
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PersonComposite' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /persons/{personUid}/details:
+    get:
+      tags: [persons]
+      summary: Bitemporal history of identity details (citizen — own only)
+      x-required-roles: [clerk, supervisor, dpo, citizen]
+      operationId: listPersonDetails
+      parameters:
+        - { $ref: '#/components/parameters/PersonUid' }
+        - { $ref: '#/components/parameters/RequestId' }
+        - { $ref: '#/components/parameters/AccessPurpose' }
+        - { $ref: '#/components/parameters/AsOfValid' }
+        - { $ref: '#/components/parameters/AsOfRecorded' }
+      responses:
+        '200':
+          description: Detail versions matching the temporal filters
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/PersonDetail' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        default: { $ref: '#/components/responses/Problem' }
+    post:
+      tags: [persons]
+      summary: Record a change or correction of identity details (new bitemporal version)
+      x-required-roles: [clerk, supervisor]
+      operationId: addPersonDetailVersion
+      parameters:
+        - { $ref: '#/components/parameters/PersonUid' }
+        - { $ref: '#/components/parameters/RequestId' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PersonDetailChange' }
+      responses:
+        '201':
+          description: New current-belief version created; previous version superseded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PersonDetail' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /persons/{personUid}/addresses:
+    get:
+      tags: [persons]
+      summary: Address history (bitemporal; citizen — own only)
+      x-required-roles: [clerk, supervisor, dpo, citizen]
+      operationId: listPersonAddresses
+      parameters:
+        - { $ref: '#/components/parameters/PersonUid' }
+        - { $ref: '#/components/parameters/RequestId' }
+        - { $ref: '#/components/parameters/AccessPurpose' }
+        - { name: addressType, in: query, schema: { type: string }, description: codelist.address_type key }
+        - { $ref: '#/components/parameters/AsOfValid' }
+        - { $ref: '#/components/parameters/AsOfRecorded' }
+      responses:
+        '200':
+          description: Address assignments matching the temporal filters
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/PersonAddress' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        default: { $ref: '#/components/responses/Problem' }
+    post:
+      tags: [persons]
+      summary: Register an address change (closes previous validity, opens new)
+      x-required-roles: [clerk, supervisor]
+      operationId: addPersonAddress
+      parameters:
+        - { $ref: '#/components/parameters/PersonUid' }
+        - { $ref: '#/components/parameters/RequestId' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PersonAddressChange' }
+      responses:
+        '201':
+          description: Address assignment created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PersonAddress' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /persons/{personUid}/religion:
+    get:
+      tags: [persons]
+      summary: Religion record (GDPR Art. 9 — restricted; citizen — own only)
+      x-required-roles: [clerk, supervisor, dpo, citizen]
+      operationId: getPersonReligion
+      parameters:
+        - { $ref: '#/components/parameters/PersonUid' }
+        - { $ref: '#/components/parameters/RequestId' }
+        - { $ref: '#/components/parameters/AccessPurpose' }
+      responses:
+        '200':
+          description: Current religion record, or 204 when none is registered
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PersonReligion' }
+        '204': { description: No religion registered }
+        default: { $ref: '#/components/responses/Problem' }
+    put:
+      tags: [persons]
+      summary: Set or change religion (requires Art. 9(2) legal basis)
+      x-required-roles: [clerk, supervisor]
+      operationId: setPersonReligion
+      parameters:
+        - { $ref: '#/components/parameters/PersonUid' }
+        - { $ref: '#/components/parameters/RequestId' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PersonReligionChange' }
+      responses:
+        '200':
+          description: New religion version recorded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PersonReligion' }
+        '422':
+          description: Consent basis selected but consentId missing
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+        default: { $ref: '#/components/responses/Problem' }
+    delete:
+      tags: [persons]
+      summary: End validity of the religion record (e.g. consent withdrawn)
+      x-required-roles: [clerk, supervisor]
+      operationId: endPersonReligion
+      parameters:
+        - { $ref: '#/components/parameters/PersonUid' }
+        - { $ref: '#/components/parameters/RequestId' }
+      responses:
+        '204': { description: Validity closed; history is retained (bitemporal) }
+        default: { $ref: '#/components/responses/Problem' }
+
+  # ----------------------------------------------------------------- births
+  /births:
+    post:
+      tags: [births]
+      summary: Register a birth
+      x-required-roles: [clerk, supervisor]
+      operationId: registerBirth
+      parameters: [ { $ref: '#/components/parameters/RequestId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/BirthRecordCreate' }
+      responses:
+        '201':
+          description: Birth record created (registry number assigned)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/BirthRecord' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        default: { $ref: '#/components/responses/Problem' }
+    get:
+      tags: [births]
+      summary: Find birth records by registry number or child
+      x-required-roles: [clerk, supervisor, dpo]
+      operationId: searchBirths
+      parameters:
+        - { $ref: '#/components/parameters/RequestId' }
+        - { $ref: '#/components/parameters/AccessPurpose' }
+        - { name: officeCode, in: query, schema: { type: string } }
+        - { name: bookYear, in: query, schema: { type: integer } }
+        - { name: entryNo, in: query, schema: { type: integer } }
+        - { name: childUid, in: query, schema: { type: string } }
+        - { $ref: '#/components/parameters/Page' }
+        - { $ref: '#/components/parameters/PerPage' }
+      responses:
+        '200':
+          description: Matching current-version records
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/BirthRecord' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /births/{recordId}:
+    get:
+      tags: [births]
+      summary: Get a birth record (any version; citizen — own/participant only)
+      x-required-roles: [clerk, supervisor, dpo, citizen]
+      operationId: getBirth
+      parameters:
+        - { $ref: '#/components/parameters/RecordId' }
+        - { $ref: '#/components/parameters/RequestId' }
+        - { $ref: '#/components/parameters/AccessPurpose' }
+      responses:
+        '200':
+          description: Birth record incl. version chain references
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/BirthRecord' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /births/{recordId}/amendments:
+    post:
+      tags: [births]
+      summary: Amend a birth record (new version; original preserved)
+      description: Requires supervisor approval — the approvedBy identity is taken from the supervisor's token.
+      x-required-roles: [supervisor]
+      operationId: amendBirth
+      parameters:
+        - { $ref: '#/components/parameters/RecordId' }
+        - { $ref: '#/components/parameters/RequestId' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/BirthRecordAmendment' }
+      responses:
+        '201':
+          description: Amended version created; supersedes the given record
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/BirthRecord' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  # -------------------------------------------------------------- marriages
+  /marriages:
+    post:
+      tags: [marriages]
+      summary: Register a marriage
+      x-required-roles: [clerk, supervisor]
+      operationId: registerMarriage
+      parameters: [ { $ref: '#/components/parameters/RequestId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MarriageRecordCreate' }
+      responses:
+        '201':
+          description: Marriage record created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MarriageRecord' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /marriages/{recordId}:
+    get:
+      tags: [marriages]
+      summary: Get a marriage record incl. dissolutions (citizen — own only)
+      x-required-roles: [clerk, supervisor, dpo, citizen]
+      operationId: getMarriage
+      parameters:
+        - { $ref: '#/components/parameters/RecordId' }
+        - { $ref: '#/components/parameters/RequestId' }
+        - { $ref: '#/components/parameters/AccessPurpose' }
+      responses:
+        '200':
+          description: Marriage record
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MarriageRecord' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /marriages/{recordId}/amendments:
+    post:
+      tags: [marriages]
+      summary: Amend a marriage record (new version)
+      x-required-roles: [supervisor]
+      operationId: amendMarriage
+      parameters:
+        - { $ref: '#/components/parameters/RecordId' }
+        - { $ref: '#/components/parameters/RequestId' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MarriageRecordAmendment' }
+      responses:
+        '201':
+          description: Amended version created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MarriageRecord' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /marriages/{recordId}/dissolutions:
+    post:
+      tags: [marriages]
+      summary: Record a marriage dissolution (divorce, annulment, spouse death)
+      x-required-roles: [clerk, supervisor]
+      operationId: recordDissolution
+      parameters:
+        - { $ref: '#/components/parameters/RecordId' }
+        - { $ref: '#/components/parameters/RequestId' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/MarriageDissolution' }
+      responses:
+        '201':
+          description: Dissolution recorded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MarriageDissolution' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  # ----------------------------------------------------------------- deaths
+  /deaths:
+    post:
+      tags: [deaths]
+      summary: Register a death (administrative part)
+      x-required-roles: [clerk, supervisor]
+      operationId: registerDeath
+      parameters: [ { $ref: '#/components/parameters/RequestId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DeathRecordCreate' }
+      responses:
+        '201':
+          description: Death record created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DeathRecord' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /deaths/{recordId}:
+    get:
+      tags: [deaths]
+      summary: Get a death record (administrative part, no medical data; citizen — own only)
+      x-required-roles: [clerk, supervisor, dpo, citizen]
+      operationId: getDeath
+      parameters:
+        - { $ref: '#/components/parameters/RecordId' }
+        - { $ref: '#/components/parameters/RequestId' }
+        - { $ref: '#/components/parameters/AccessPurpose' }
+      responses:
+        '200':
+          description: Death record
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DeathRecord' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /deaths/{recordId}/amendments:
+    post:
+      tags: [deaths]
+      summary: Amend a death record (new version)
+      x-required-roles: [supervisor]
+      operationId: amendDeath
+      parameters:
+        - { $ref: '#/components/parameters/RecordId' }
+        - { $ref: '#/components/parameters/RequestId' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DeathRecordAmendment' }
+      responses:
+        '201':
+          description: Amended version created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DeathRecord' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /deaths/{recordId}/medical:
+    get:
+      tags: [deaths]
+      summary: Medical part of a death record (GDPR Art. 9 health data — restricted)
+      x-required-roles: [clerk, supervisor, dpo]
+      operationId: getDeathMedical
+      parameters:
+        - { $ref: '#/components/parameters/RecordId' }
+        - { $ref: '#/components/parameters/RequestId' }
+        - { $ref: '#/components/parameters/AccessPurpose' }
+      responses:
+        '200':
+          description: Medical data
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DeathMedical' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        default: { $ref: '#/components/responses/Problem' }
+    put:
+      tags: [deaths]
+      summary: Record the medical part (from the death certificate)
+      x-required-roles: [clerk, supervisor]
+      operationId: setDeathMedical
+      parameters:
+        - { $ref: '#/components/parameters/RecordId' }
+        - { $ref: '#/components/parameters/RequestId' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DeathMedical' }
+      responses:
+        '200':
+          description: Medical part stored
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DeathMedical' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  # -------------------------------------------------------------- codelists
+  /codelists:
+    get:
+      tags: [codelists]
+      summary: List available codelists
+      x-required-roles: [clerk, supervisor, agency, dpo, citizen]
+      operationId: listCodelists
+      responses:
+        '200':
+          description: Codelist names with MetaIS source references
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/CodelistInfo' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /codelists/{codelist}/items:
+    get:
+      tags: [codelists]
+      summary: List items of a codelist
+      x-required-roles: [clerk, supervisor, agency, dpo, citizen]
+      operationId: listCodelistItems
+      parameters:
+        - name: codelist
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [country, region, district, municipality, municipality_part,
+                   address_type, sex, marital_status, existence_status,
+                   academic_title, court, family_relation_type, religion,
+                   registry_office]
+        - { name: search, in: query, schema: { type: string } }
+        - { name: effectiveOn, in: query, schema: { type: string, format: date } }
+        - { $ref: '#/components/parameters/Page' }
+        - { $ref: '#/components/parameters/PerPage' }
+      responses:
+        '200':
+          description: Codelist items
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/CodelistItem' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  # ------------------------------------------------------------------- gdpr
+  /gdpr/requests:
+    post:
+      tags: [gdpr]
+      summary: File a data subject request (Art. 15-21; citizen — for self only)
+      x-required-roles: [clerk, dpo, citizen]
+      operationId: createDsr
+      parameters: [ { $ref: '#/components/parameters/RequestId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DataSubjectRequestCreate' }
+      responses:
+        '201':
+          description: Request registered; statutory due date computed (received + 1 month)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DataSubjectRequest' }
+        default: { $ref: '#/components/responses/Problem' }
+    get:
+      tags: [gdpr]
+      summary: List data subject requests
+      x-required-roles: [dpo]
+      operationId: listDsr
+      parameters:
+        - { name: status, in: query, schema: { $ref: '#/components/schemas/DsrStatus' } }
+        - { name: overdueOnly, in: query, schema: { type: boolean } }
+        - { $ref: '#/components/parameters/Page' }
+        - { $ref: '#/components/parameters/PerPage' }
+      responses:
+        '200':
+          description: Requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/DataSubjectRequest' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /gdpr/requests/{requestId}:
+    patch:
+      tags: [gdpr]
+      summary: Progress a data subject request (status transition, resolution)
+      x-required-roles: [dpo]
+      operationId: updateDsr
+      parameters:
+        - { name: requestId, in: path, required: true, schema: { type: integer, format: int64 } }
+        - { $ref: '#/components/parameters/RequestId' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DataSubjectRequestUpdate' }
+      responses:
+        '200':
+          description: Updated request
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DataSubjectRequest' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /gdpr/persons/{personUid}/export:
+    get:
+      tags: [gdpr]
+      summary: Art. 15 data package — everything held about the person
+      description: >
+        Full bitemporal data, vital records, consents, disclosures and the
+        access log concerning the person. Generating the package is itself
+        recorded in the disclosure register.
+      x-required-roles: [dpo]
+      operationId: exportPersonData
+      parameters:
+        - { $ref: '#/components/parameters/PersonUid' }
+        - { $ref: '#/components/parameters/RequestId' }
+        - name: dsrRequestId
+          in: query
+          required: true
+          schema: { type: integer, format: int64 }
+          description: The DSR this export fulfils (links the disclosure record)
+      responses:
+        '200':
+          description: Data package
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PersonDataPackage' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /gdpr/persons/{personUid}/disclosures:
+    get:
+      tags: [gdpr]
+      summary: Disclosure register entries for a person (Art. 30; citizen — own only)
+      x-required-roles: [dpo, citizen]
+      operationId: listDisclosures
+      parameters:
+        - { $ref: '#/components/parameters/PersonUid' }
+        - { $ref: '#/components/parameters/Page' }
+        - { $ref: '#/components/parameters/PerPage' }
+      responses:
+        '200':
+          description: Disclosures
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Disclosure' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /gdpr/consents:
+    post:
+      tags: [gdpr]
+      summary: Record a consent (Art. 7)
+      x-required-roles: [clerk, supervisor]
+      operationId: createConsent
+      parameters: [ { $ref: '#/components/parameters/RequestId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ConsentCreate' }
+      responses:
+        '201':
+          description: Consent recorded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Consent' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /gdpr/consents/{consentId}/withdrawal:
+    post:
+      tags: [gdpr]
+      summary: Withdraw a consent (triggers closing of dependent records)
+      x-required-roles: [clerk, supervisor, dpo]
+      operationId: withdrawConsent
+      parameters:
+        - { name: consentId, in: path, required: true, schema: { type: integer, format: int64 } }
+        - { $ref: '#/components/parameters/RequestId' }
+      responses:
+        '204': { description: Consent withdrawn; dependent religion record validity closed }
+        '409': { $ref: '#/components/responses/Conflict' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  # ------------------------------------------------------------------ audit
+  /audit/events:
+    get:
+      tags: [audit]
+      summary: Row-change audit trail
+      x-required-roles: [dpo, security_auditor]
+      operationId: listAuditEvents
+      parameters:
+        - { name: table, in: query, schema: { type: string } }
+        - { name: actor, in: query, schema: { type: string } }
+        - { name: from, in: query, schema: { type: string, format: date-time } }
+        - { name: to, in: query, schema: { type: string, format: date-time } }
+        - { $ref: '#/components/parameters/Page' }
+        - { $ref: '#/components/parameters/PerPage' }
+      responses:
+        '200':
+          description: Audit entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/AuditEvent' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /audit/access-log:
+    get:
+      tags: [audit]
+      summary: Personal-data read access log (feeds Art. 15 answers)
+      x-required-roles: [dpo]
+      operationId: listAccessLog
+      parameters:
+        - { name: personUid, in: query, required: true, schema: { type: string } }
+        - { name: from, in: query, schema: { type: string, format: date-time } }
+        - { name: to, in: query, schema: { type: string, format: date-time } }
+        - { $ref: '#/components/parameters/Page' }
+        - { $ref: '#/components/parameters/PerPage' }
+      responses:
+        '200':
+          description: Access log entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/AccessLogEntry' }
+        default: { $ref: '#/components/responses/Problem' }
+
+  /audit/chain/verification:
+    get:
+      tags: [audit]
+      summary: Verify the audit hash-chain integrity (NIS2)
+      x-required-roles: [security_auditor]
+      operationId: verifyAuditChain
+      parameters:
+        - { name: from, in: query, schema: { type: string, format: date-time } }
+        - { name: to, in: query, schema: { type: string, format: date-time } }
+      responses:
+        '200':
+          description: Verification result
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ChainVerification' }
+        default: { $ref: '#/components/responses/Problem' }
+
+# =============================================================================
+components:
+
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: >
+        OIDC provider of the public administration (eID). Scopes map 1:1 to
+        DB group roles; the gateway sets app.user_id for the DB session.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://idp.example.gov.sk/oauth2/authorize
+          tokenUrl: https://idp.example.gov.sk/oauth2/token
+          scopes:
+            registry.clerk: Registry office clerk (office-scoped writes)
+            registry.supervisor: Nationwide registrar supervisor
+            registry.agency: State agency minimal read
+            registry.dpo: Data protection officer
+            registry.security_auditor: NIS2 security auditor
+            registry.citizen: >-
+              Citizen self-service portal (eID). Read-only access to own data
+              plus filing own data-subject requests; the gateway resolves the
+              eID identity to person_uid and sets app.person_uid so the DB
+              row-level security policies enforce "own data only".
+
+  parameters:
+    PersonUid:
+      name: personUid
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: '^P-[0-9A-HJKMNP-TV-Z]{5}-[0-9A-HJKMNP-TV-Z]{5}-[0-9A-HJKMNP-TV-Z]$'
+    RecordId:
+      name: recordId
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+    RequestId:
+      name: X-Request-Id
+      in: header
+      required: true
+      schema: { type: string }
+      description: Correlation id; propagated to audit.audit_log.request_id
+    AccessPurpose:
+      name: X-Access-Purpose
+      in: header
+      required: true
+      schema: { type: string }
+      description: Purpose of the personal-data read; logged to audit.access_log
+    AsOfValid:
+      name: asOfValid
+      in: query
+      schema: { type: string, format: date }
+      description: Filter to versions valid in the real world on this date
+    AsOfRecorded:
+      name: asOfRecorded
+      in: query
+      schema: { type: string, format: date-time }
+      description: Reconstruct what the registry believed at this moment
+    Page:
+      name: page
+      in: query
+      schema: { type: integer, minimum: 1, default: 1 }
+    PerPage:
+      name: perPage
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 200, default: 50 }
+
+  responses:
+    Problem:
+      description: Error (RFC 7807)
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+    NotFound:
+      description: Resource not found
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+    Conflict:
+      description: Conflict (duplicate registry number, overlapping validity, superseded version)
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+
+  schemas:
+
+    Problem:
+      type: object
+      properties:
+        type: { type: string, format: uri }
+        title: { type: string }
+        status: { type: integer }
+        detail: { type: string }
+        instance: { type: string }
+
+    # ------------------------------------------------------------- persons
+    Person:
+      type: object
+      required: [personUid]
+      properties:
+        personUid: { type: string, example: P-7K3M9-XQ2F4-8 }
+        anonymized: { type: boolean }
+        createdAt: { type: string, format: date-time }
+
+    PersonCreate:
+      type: object
+      required: [detail]
+      properties:
+        nationalId:
+          type: string
+          description: Encrypted + HMAC-indexed server-side; never returned in plaintext
+        detail: { $ref: '#/components/schemas/PersonDetailChange' }
+        address: { $ref: '#/components/schemas/PersonAddressChange' }
+        religion: { $ref: '#/components/schemas/PersonReligionChange' }
+
+    PersonDetail:
+      type: object
+      required: [givenNames, familyName, sex, dateOfBirth, citizenship, validFrom]
+      properties:
+        detailId: { type: integer, format: int64, readOnly: true }
+        givenNames: { type: string }
+        familyName: { type: string }
+        birthSurname: { type: string, nullable: true }
+        sex: { type: string, enum: [M, F, X] }
+        dateOfBirth: { type: string, format: date }
+        dateOfBirthPrecision:
+          type: string
+          enum: [day, month, year]
+          default: day
+          description: >
+            Partially known birth dates (foreign or historic records):
+            dateOfBirth holds the earliest day of the known period.
+        placeOfBirthMunicipality: { type: string, nullable: true }
+        placeOfBirthForeign: { type: string, nullable: true }
+        citizenship: { type: string, description: codelist.country code }
+        maritalStatus: { type: string, nullable: true }
+        existenceStatus: { type: string, nullable: true }
+        titlesBefore: { type: array, items: { type: string } }
+        titlesAfter: { type: array, items: { type: string } }
+        validFrom: { type: string, format: date }
+        validTo: { type: string, format: date, nullable: true }
+        recordedAt: { type: string, format: date-time, readOnly: true }
+        recordedBy: { type: string, readOnly: true }
+        supersededAt: { type: string, format: date-time, nullable: true, readOnly: true }
+        changeReason: { type: string, nullable: true }
+
+    PersonDetailChange:
+      allOf:
+        - $ref: '#/components/schemas/PersonDetail'
+      description: >
+        New bitemporal version. For corrections set changeReason; the server
+        supersedes the previous current-belief version atomically.
+
+    PersonComposite:
+      type: object
+      properties:
+        personUid: { type: string }
+        detail: { $ref: '#/components/schemas/PersonDetail' }
+        currentAddresses:
+          type: array
+          items: { $ref: '#/components/schemas/PersonAddress' }
+        deceased: { type: boolean }
+        religion:
+          allOf: [ { $ref: '#/components/schemas/PersonReligion' } ]
+          nullable: true
+          description: Present only for clerk/supervisor/dpo callers
+
+    PersonSearchResult:
+      type: object
+      properties:
+        total: { type: integer }
+        page: { type: integer }
+        perPage: { type: integer }
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/PersonComposite' }
+
+    Address:
+      type: object
+      required: [countryCode]
+      properties:
+        street: { type: string, nullable: true }
+        houseNumber: { type: string, nullable: true }
+        postalCode: { type: string, nullable: true }
+        municipalityCode: { type: string, nullable: true }
+        municipalityPartCode: { type: string, nullable: true }
+        countryCode: { type: string }
+        foreignAddress: { type: string, nullable: true }
+
+    PersonAddress:
+      type: object
+      required: [address, addressType, validFrom]
+      properties:
+        personAddressId: { type: integer, format: int64, readOnly: true }
+        address: { $ref: '#/components/schemas/Address' }
+        addressType: { type: string, description: codelist.address_type key, example: permanent }
+        validFrom: { type: string, format: date }
+        validTo: { type: string, format: date, nullable: true }
+        recordedAt: { type: string, format: date-time, readOnly: true }
+        recordedBy: { type: string, readOnly: true }
+        supersededAt: { type: string, format: date-time, nullable: true, readOnly: true }
+        changeReason: { type: string, nullable: true }
+
+    PersonAddressChange:
+      allOf:
+        - $ref: '#/components/schemas/PersonAddress'
+      description: >
+        Registers a new address of the given type from validFrom; the server
+        closes the previous open validity of that type atomically.
+
+    PersonReligion:
+      type: object
+      required: [religionCode, legalBasis, validFrom]
+      properties:
+        religionCode: { type: string, example: RIMKAT }
+        legalBasis:
+          type: string
+          enum: [art9_2a_consent, art9_2g_public_interest, art9_2j_archiving]
+        consentId:
+          type: integer
+          format: int64
+          nullable: true
+          description: Required when legalBasis is art9_2a_consent
+        validFrom: { type: string, format: date }
+        validTo: { type: string, format: date, nullable: true }
+        recordedAt: { type: string, format: date-time, readOnly: true }
+
+    PersonReligionChange:
+      allOf:
+        - $ref: '#/components/schemas/PersonReligion'
+
+    # ------------------------------------------------------- vital records
+    RegistryNumber:
+      type: object
+      required: [officeCode, bookYear, entryNo]
+      properties:
+        officeCode: { type: string, description: codelist.registry_office code }
+        bookYear: { type: integer }
+        entryNo: { type: integer }
+
+    RecordVersionInfo:
+      type: object
+      properties:
+        recordId: { type: string, format: uuid, readOnly: true }
+        recordedAt: { type: string, format: date-time, readOnly: true }
+        recordedBy: { type: string, readOnly: true }
+        supersededAt: { type: string, format: date-time, nullable: true, readOnly: true }
+        supersedesId: { type: string, format: uuid, nullable: true, readOnly: true }
+        amendmentReason: { type: string, nullable: true, readOnly: true }
+        approvedBy: { type: string, nullable: true, readOnly: true }
+
+    BirthRecordCreate:
+      type: object
+      required: [registryNumber, childUid, dateOfBirth]
+      properties:
+        registryNumber: { $ref: '#/components/schemas/RegistryNumber' }
+        childUid: { type: string }
+        dateOfBirth: { type: string, format: date }
+        timeOfBirth: { type: string, nullable: true, example: '13:45' }
+        placeMunicipality: { type: string, nullable: true }
+        placeForeign: { type: string, nullable: true }
+        facility: { type: string, nullable: true }
+        multipleBirthOrder: { type: integer, nullable: true }
+        motherUid: { type: string, nullable: true }
+        fatherUid: { type: string, nullable: true }
+
+    BirthRecord:
+      allOf:
+        - $ref: '#/components/schemas/BirthRecordCreate'
+        - $ref: '#/components/schemas/RecordVersionInfo'
+
+    BirthRecordAmendment:
+      allOf:
+        - $ref: '#/components/schemas/BirthRecordCreate'
+        - type: object
+          required: [amendmentReason]
+          properties:
+            amendmentReason: { type: string }
+
+    MarriageRecordCreate:
+      type: object
+      required: [registryNumber, spouse1Uid, spouse2Uid, marriageDate, marriageForm]
+      properties:
+        registryNumber: { $ref: '#/components/schemas/RegistryNumber' }
+        spouse1Uid: { type: string }
+        spouse2Uid: { type: string }
+        marriageDate: { type: string, format: date }
+        placeMunicipality: { type: string, nullable: true }
+        placeForeign: { type: string, nullable: true }
+        marriageForm: { type: string, enum: [civil, religious] }
+        officiant: { type: string, nullable: true }
+        witness1Name: { type: string, nullable: true }
+        witness2Name: { type: string, nullable: true }
+        surnameAgreement: { type: string, nullable: true }
+
+    MarriageRecord:
+      allOf:
+        - $ref: '#/components/schemas/MarriageRecordCreate'
+        - $ref: '#/components/schemas/RecordVersionInfo'
+        - type: object
+          properties:
+            dissolutions:
+              type: array
+              readOnly: true
+              items: { $ref: '#/components/schemas/MarriageDissolution' }
+
+    MarriageRecordAmendment:
+      allOf:
+        - $ref: '#/components/schemas/MarriageRecordCreate'
+        - type: object
+          required: [amendmentReason]
+          properties:
+            amendmentReason: { type: string }
+
+    MarriageDissolution:
+      type: object
+      required: [dissolutionType, effectiveDate]
+      properties:
+        dissolutionId: { type: string, format: uuid, readOnly: true }
+        dissolutionType: { type: string, enum: [divorce, annulment, spouse_death] }
+        effectiveDate: { type: string, format: date }
+        courtCode: { type: string, nullable: true, description: codelist.court code }
+        courtReference: { type: string, nullable: true, description: case / file number }
+
+    DeathRecordCreate:
+      type: object
+      required: [registryNumber, personUid]
+      properties:
+        registryNumber: { $ref: '#/components/schemas/RegistryNumber' }
+        personUid: { type: string }
+        dateOfDeath: { type: string, format: date, nullable: true }
+        dateFound: { type: string, format: date, nullable: true }
+        declaredByCourt: { type: boolean, default: false }
+        courtCode: { type: string, nullable: true }
+        courtReference: { type: string, nullable: true }
+        placeMunicipality: { type: string, nullable: true }
+        placeForeign: { type: string, nullable: true }
+
+    DeathRecord:
+      allOf:
+        - $ref: '#/components/schemas/DeathRecordCreate'
+        - $ref: '#/components/schemas/RecordVersionInfo'
+
+    DeathRecordAmendment:
+      allOf:
+        - $ref: '#/components/schemas/DeathRecordCreate'
+        - type: object
+          required: [amendmentReason]
+          properties:
+            amendmentReason: { type: string }
+
+    DeathMedical:
+      type: object
+      properties:
+        causeOfDeathIcd10: { type: string, nullable: true }
+        autopsyPerformed: { type: boolean, nullable: true }
+        certifiedBy: { type: string, nullable: true }
+        recordedAt: { type: string, format: date-time, readOnly: true }
+
+    # ----------------------------------------------------------- codelists
+    CodelistInfo:
+      type: object
+      properties:
+        name: { type: string, example: municipality }
+        sourceCodelist: { type: string, nullable: true, example: CL000025 }
+        itemCount: { type: integer }
+
+    CodelistItem:
+      type: object
+      properties:
+        code: { type: string }
+        name: { type: string }
+        sourceCodelist: { type: string, nullable: true }
+        metaisCode: { type: string, nullable: true }
+        itemValidFrom: { type: string, format: date, nullable: true }
+        itemValidTo: { type: string, format: date, nullable: true }
+
+    # ---------------------------------------------------------------- gdpr
+    DsrStatus:
+      type: string
+      enum: [received, identity_check, in_progress, extended, fulfilled, refused]
+
+    DataSubjectRequestCreate:
+      type: object
+      required: [requesterRef, requestType]
+      properties:
+        personUid: { type: string, nullable: true, description: Set after identity verification }
+        requesterRef: { type: string, description: filing / ticket number }
+        requestType:
+          type: string
+          enum: [access, rectification, erasure, restriction, objection, portability]
+        receivedAt: { type: string, format: date, nullable: true }
+
+    DataSubjectRequest:
+      allOf:
+        - $ref: '#/components/schemas/DataSubjectRequestCreate'
+        - type: object
+          properties:
+            requestId: { type: integer, format: int64, readOnly: true }
+            dueAt: { type: string, format: date, readOnly: true }
+            status: { $ref: '#/components/schemas/DsrStatus' }
+            handledBy: { type: string, nullable: true }
+            resolvedAt: { type: string, format: date, nullable: true }
+            resolution: { type: string, nullable: true }
+
+    DataSubjectRequestUpdate:
+      type: object
+      properties:
+        personUid: { type: string, nullable: true }
+        status: { $ref: '#/components/schemas/DsrStatus' }
+        resolution:
+          type: string
+          nullable: true
+          description: Outcome; for erasure refusals cite Art. 17(3)(b)/(d)
+
+    Consent:
+      type: object
+      required: [personUid, purpose, givenAt, givenVia]
+      properties:
+        consentId: { type: integer, format: int64, readOnly: true }
+        personUid: { type: string }
+        purpose: { type: string, example: religion_registration }
+        givenAt: { type: string, format: date-time }
+        givenVia: { type: string, enum: [in_person, written, portal] }
+        withdrawnAt: { type: string, format: date-time, nullable: true, readOnly: true }
+
+    ConsentCreate:
+      allOf:
+        - $ref: '#/components/schemas/Consent'
+
+    Disclosure:
+      type: object
+      properties:
+        disclosureId: { type: integer, format: int64 }
+        personUid: { type: string }
+        recipient: { type: string }
+        recipientType:
+          type: string
+          enum: [state_agency, court, municipality, data_subject, other]
+        legalBasis: { type: string }
+        disclosedFields:
+          type: array
+          items: { type: string }
+        disclosedAt: { type: string, format: date-time }
+        disclosedBy: { type: string }
+        dsrRequestId: { type: integer, format: int64, nullable: true }
+
+    PersonDataPackage:
+      type: object
+      description: Art. 15 export — complete data held about one person
+      properties:
+        person: { $ref: '#/components/schemas/Person' }
+        detailHistory:
+          type: array
+          items: { $ref: '#/components/schemas/PersonDetail' }
+        addressHistory:
+          type: array
+          items: { $ref: '#/components/schemas/PersonAddress' }
+        religionHistory:
+          type: array
+          items: { $ref: '#/components/schemas/PersonReligion' }
+        birthRecords:
+          type: array
+          items: { $ref: '#/components/schemas/BirthRecord' }
+        marriageRecords:
+          type: array
+          items: { $ref: '#/components/schemas/MarriageRecord' }
+        deathRecords:
+          type: array
+          items: { $ref: '#/components/schemas/DeathRecord' }
+        consents:
+          type: array
+          items: { $ref: '#/components/schemas/Consent' }
+        disclosures:
+          type: array
+          items: { $ref: '#/components/schemas/Disclosure' }
+        accessLog:
+          type: array
+          items: { $ref: '#/components/schemas/AccessLogEntry' }
+
+    # --------------------------------------------------------------- audit
+    AuditEvent:
+      type: object
+      properties:
+        auditId: { type: integer, format: int64 }
+        eventTime: { type: string, format: date-time }
+        actor: { type: string }
+        dbRole: { type: string }
+        requestId: { type: string, nullable: true }
+        legalBasis: { type: string, nullable: true }
+        action: { type: string, enum: [INSERT, UPDATE, DELETE] }
+        schemaName: { type: string }
+        tableName: { type: string }
+        oldRow: { type: object, nullable: true }
+        newRow: { type: object, nullable: true }
+
+    AccessLogEntry:
+      type: object
+      properties:
+        accessId: { type: integer, format: int64 }
+        accessedAt: { type: string, format: date-time }
+        actor: { type: string }
+        personUid: { type: string }
+        purpose: { type: string }
+        legalBasis: { type: string, nullable: true }
+        fields:
+          type: array
+          items: { type: string }
+        requestId: { type: string, nullable: true }
+
+    ChainVerification:
+      type: object
+      properties:
+        verifiedFrom: { type: string, format: date-time }
+        verifiedTo: { type: string, format: date-time }
+        entriesChecked: { type: integer, format: int64 }
+        intact: { type: boolean }
+        firstBrokenAuditId: { type: integer, format: int64, nullable: true }

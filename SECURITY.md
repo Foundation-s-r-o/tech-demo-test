@@ -59,7 +59,7 @@ template are responsible for their own version policy and security posture.
 | **JaCoCo** | Java coverage | Maven `verify` phase | Hard gate: merged unit+IT line coverage ≥ 70% (`jacoco.line-coverage.minimum` in `api/pom.xml`; ratchet toward 80%) |
 | **ESLint + `tsc --noEmit`** | TypeScript types + style | `npm run lint` (local + CI) | Hard gate on errors |
 | **Trivy (`fs`)** | OS / dep CVEs | On-demand local + ad-hoc CI | HIGH/CRITICAL = 0 maintained on `main` |
-| **SonarQube** (internal, `10.16.35.93:9000`) | Static analysis (api + ui) | On-demand from dev machines | Dashboard only; api gate currently in `ERROR` on two conditions — new-code coverage (33.7% < 80%) and one new violation (> 0) |
+| **SonarQube** (internal, `10.16.35.113:9000`) | Static analysis (api + ui) | On-demand from dev machines | Dashboard only; api gate currently in `ERROR` on two conditions — new-code coverage (33.7% < 80%) and one new violation (> 0) |
 | **CircleCI** | Backend `mvn verify` + frontend webpack build | On every push | Hard gate |
 
 Notes:

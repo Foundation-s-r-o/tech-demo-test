@@ -5,6 +5,9 @@ import 'dotenv/config'
 const config: PlaywrightTestConfig = {
     testDir: './tests',
     testMatch: /test_.*\.spec\.ts/,
+    // Own artifact dir per suite — smoke/storybook runs must not wipe E2E
+    // screenshots (each Playwright run clears its outputDir on start).
+    outputDir: 'test-results/e2e',
     /* Maximum time one test can run for. */
     timeout: 30 * 1000,
     expect: {
