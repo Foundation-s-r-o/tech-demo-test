@@ -41,7 +41,8 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     const logout = async (callback: VoidFunction) => {
         try {
             await ensureCsrfToken()
-            await authControllerApi.logout({ logoutRequestDTO: { username: state.user?.username ?? '' } })
+            // The server derives the user from the session; logout takes no body.
+            await authControllerApi.logout()
             unsetSession()
             dispatch({ type: AuthStateReducerActionType.LOGOUT })
             callback()

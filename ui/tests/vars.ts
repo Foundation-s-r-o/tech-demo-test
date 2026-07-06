@@ -9,3 +9,8 @@ export const BASE_URL = 'http://localhost:8080'
 export const INCORRECT_PASSWORD = 'IncorrectPassw0rd!'
 export const USER_FULLNAME = 'Admin Admin'
 export const LOGOUT_USER = 'Neprihlásený používateľ'
+// ROLE_USER demo account seeded by LocalAdminInitializer (local | it profiles),
+// used by the authorization-matrix E2E tests.
+export const ROLE_USER_USERNAME = 'user'
+export const ROLE_USER_PASSWORD = 'user'
+export const ROLE_USER_FULLNAME = 'User User'

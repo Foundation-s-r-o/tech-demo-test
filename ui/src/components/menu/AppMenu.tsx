@@ -23,6 +23,7 @@ const AppMenu = () => {
         <div className="d-flex align-items-center">
             <button
                 className="bi-list menu-trigger"
+                aria-label={t('common.layout.menu')}
                 onClick={handleShow}
             />
 

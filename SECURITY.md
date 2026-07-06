@@ -56,7 +56,7 @@ template are responsible for their own version policy and security posture.
 | **Dependabot** | Maven + npm dep bumps | Weekly schedule | Opens PRs; humans review/merge |
 | **FOSSA** | Dependency licences + vulns | GitHub Actions `fossa-scan` on push/PR to `main` | Non-blocking scan (no `run-tests`) — false positives from a stale upstream patent-rights policy are kept out of the gate |
 | **Checkstyle** | Java style + structure | Maven `validate` phase | Hard gate (`failOnViolation=true`) |
-| **JaCoCo** | Java coverage | Maven `verify` phase | Reports only (no minimum yet) |
+| **JaCoCo** | Java coverage | Maven `verify` phase | Hard gate: merged unit+IT line coverage ≥ 70% (`jacoco.line-coverage.minimum` in `api/pom.xml`; ratchet toward 80%) |
 | **ESLint + `tsc --noEmit`** | TypeScript types + style | `npm run lint` (local + CI) | Hard gate on errors |
 | **Trivy (`fs`)** | OS / dep CVEs | On-demand local + ad-hoc CI | HIGH/CRITICAL = 0 maintained on `main` |
 | **SonarQube** (internal, `10.16.35.93:9000`) | Static analysis (api + ui) | On-demand from dev machines | Dashboard only; api gate currently in `ERROR` on two conditions — new-code coverage (33.7% < 80%) and one new violation (> 0) |
@@ -93,8 +93,9 @@ Notes:
 ### Authorization matrix
 
 Enforced by request-matcher rules in `SecurityConfig`; the frontend mirrors these only for UX and
-is never the enforcement point. Authorities are `ROLE_ADMIN` / `ROLE_USER`. The seeded local/it
-account is `ADMIN`; no `USER` is provisioned by default.
+is never the enforcement point. Authorities are `ROLE_ADMIN` / `ROLE_USER`. Two demo accounts are
+seeded under the `local` / `it` profiles: `admin/admin` (`ADMIN`) and `user/user` (`USER`, used by
+the authorization-matrix E2E tests in `ui/tests/test_authz.spec.ts`).
 
 | Operation | Endpoint | USER | ADMIN |
 | --------- | -------- | :--: | :---: |
@@ -112,9 +113,9 @@ default changes.
 
 ## Local test account and production provisioning
 
-`admin/admin` is strictly local test data. Migration `V4` deletes the historical migration seed
-from every database. `LocalAdminInitializer` recreates it only when the `local` or `it` profile is
-explicitly active. Never activate `local` in a deployed environment.
+`admin/admin` and `user/user` are strictly local test data. Migration `V4` deletes the historical
+migration seed from every database. `LocalAdminInitializer` recreates both only when the `local`
+or `it` profile is explicitly active. Never activate `local` in a deployed environment.
 
 For production, prefer an external identity provider such as Keycloak/OIDC and provision
 administrators in that system with MFA and auditable role assignment. If database-backed login
@@ -156,7 +157,7 @@ production-ready service; track them here, not only in the dated remediation rep
 | Gap | Severity | Status | Note |
 | --- | -------- | ------ | ---- |
 | **Login throttling** | Medium | Open | No per-account or per-source rate limit / progressive delay. Add before exposing login beyond local/demo. |
-| **Backend coverage gate** | Medium | Open | JaCoCo reports only; no minimum threshold. New-code coverage ~33.7% vs the 80% Sonar target. See "Future hardening" below. |
+| **Backend coverage gate** | Medium | **Closed** | `jacoco:check` on `verify` enforces merged unit+IT line coverage ≥ 70% (77.9% measured at introduction). Ratchet `jacoco.line-coverage.minimum` toward the 80% Sonar target. |
 | **Role-based business authorization** | Medium | **Closed** | ADMIN/USER matrix enforced in `SecurityConfig` with negative tests in `PersonControllerIT`. See "Authorization matrix" above. |
 | **Content Security Policy** | Medium | **Closed** | CSP set on API-origin responses (`script-src 'self'`, no `unsafe-eval`); Referrer-Policy and Permissions-Policy also present. HSTS still deferred to the TLS proxy. |
 | **Email semantic validation** | Low | **Closed** | `@Email` enforced on `PersonModifyRequestDTO.email`; invalid format returns 400. |
@@ -172,8 +173,9 @@ production-ready service; track them here, not only in the dated remediation rep
 - **Secrets** in a vault (HashiCorp Vault / cloud KMS) or SOPS-encrypted files.
   Never in `.env`, never inlined into shell `KEY=value` prefixes.
 - **TLS termination**; the `prod` profile already marks the session cookie Secure.
-- **Backend test coverage** — current new-code coverage is ~33%; lift toward the
-  80% Sonar threshold as features grow.
+- **Backend test coverage** — merged unit+IT line coverage is gated at ≥ 70%
+  (`jacoco:check` on `verify`); lift the floor toward the 80% Sonar threshold as
+  features grow.
 
 ## Out of scope for this repo
 

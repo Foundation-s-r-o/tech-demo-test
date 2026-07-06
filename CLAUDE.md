@@ -102,9 +102,10 @@ account. Docker and cloud-deployment scaffolding are intentionally absent.
 
 ### Project Health & Quality
 - **Comprehensive health check / single harness entry point**: `./doctor` — UI build + lint,
-  `mvnw clean verify`, Playwright smoke + Storybook smoke + **full E2E suite**, security scans
-  (Semgrep/Trivy/npm audit), SonarQube (skipped with a warning when `SONAR_TOKEN`/host is
-  unavailable), and FOSSA. Slow (starts both app servers for E2E); requires ports 8080/8082 free.
+  `mvnw clean verify` (incl. the JaCoCo coverage gate), Playwright smoke + Storybook smoke +
+  **full E2E suite**, OpenAPI client-drift check, security scans (Semgrep/Trivy/npm audit),
+  SonarQube (skipped with a warning when `SONAR_TOKEN`/host is unavailable), and FOSSA (policy
+  gate advisory). Slow (starts both app servers for E2E); requires ports 8080/8082 free.
   Test-harness strategy: [`docs/ADR/0010`](docs/ADR/0010-test-harness-playwright-e2e.md).
 - **License scanning**: `fossa analyze`
 - **Security testing**: `fossa test`
@@ -135,6 +136,8 @@ cd ui && npm run lint
 cd api && ./mvnw clean verify          # Checkstyle (validate phase), all unit + integration tests, JaCoCo.
 #   ITs run on in-memory H2 only — NO Docker / Testcontainers. If anything tries to start a
 #   Docker container, that's a regression — flag it.
+#   jacoco:check gates merged unit+IT line coverage (floor: jacoco.line-coverage.minimum
+#   in api/pom.xml) — if it trips, add tests; don't lower the floor.
 
 # 3. Playwright smoke tests (see below) — run after major changes
 cd ui && npm run smoke                 # app smoke (auto-starts dev server :8090)
@@ -143,7 +146,9 @@ cd ui && npm run smoke:storybook       # Storybook smoke (auto-starts :6007)
 # 3b. Playwright full E2E suite — run after major changes (and always for auth/API changes).
 #     Auto-starts BOTH servers (API :8082 with profiles local,e2e on in-mem H2; UI :8080);
 #     ports must be free (reuseExistingServer: false). Covers login/failed login/logout,
-#     main page, persons list/create/edit, and client-side validation.
+#     main page, persons list/create/edit, client-side validation, the ROLE_USER
+#     authorization matrix, axe-core accessibility (serious/critical gate), and the
+#     live OpenAPI spec vs committed ui/api-docs.json.
 cd ui && npx playwright test           # or: npm run playwright
 
 # 4. Trivy — filesystem vuln scan, run in repo ROOT. Reports to docs/.
@@ -212,11 +217,17 @@ each run).
 ### Playwright E2E test conventions
 
 - Specs match `test_*.spec.ts` in `ui/tests/`; shared login flow lives in
-  `ui/tests/helpers/auth.ts` — use `login(page)` instead of re-typing the form steps.
+  `ui/tests/helpers/auth.ts` — use `login(page)` (defaults to admin; pass a `Credentials`
+  object for the seeded `user/user` ROLE_USER account) instead of re-typing the form steps.
 - Tests are self-contained: create data through the UI as the `local`-profile admin; the `e2e`
   profile runs on a fresh in-memory H2, so no cleanup/seed fixtures.
 - Use stable `id` selectors (`#login_*`, `#PersonEditForm_*`, `#app_header_*`,
   `#error_dialog_close`) — never text or Bootstrap utility classes.
+- **OpenAPI contract**: after changing controllers/DTOs, refresh the contract — start the API
+  (`local` profile), save `http://localhost:8082/v3/api-docs` over `ui/api-docs.json`, run
+  `npm run generate-openapi-services`, and commit both. `test_openapi.spec.ts` (E2E) and the
+  doctor drift step fail otherwise. springdoc emits OpenAPI 3.0 (`springdoc.api-docs.version`)
+  because the pinned generator CLI 6.0.1 cannot parse 3.1 — bump both together.
 
 ## Code Style Guidelines
 

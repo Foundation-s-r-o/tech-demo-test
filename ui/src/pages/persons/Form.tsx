@@ -11,10 +11,13 @@ import personFormSchema from '@pages/persons/validation'
 import { personControllerApi } from '@api/api'
 import { useNavigate } from 'react-router-dom'
 import routes from '@components/router/routes'
+import { useModals } from '@components/modals/useModals'
+import ErrorModal from '@components/shared/alert-modals/ErrorModal'
 
 export default function PersonForm({ id }: { id?: number }) {
     const { t } = useTranslation()
     const navigate = useNavigate()
+    const { showModal } = useModals()
     const idPrefix = 'PersonEditForm'
     const [defaultValues, setDefaultValues] = useState<PersonModifyRequestDTO>({
         address: '',
@@ -25,14 +28,19 @@ export default function PersonForm({ id }: { id?: number }) {
         state: ''
     })
     const onSubmit = async (values: PersonModifyRequestDTO) => {
-        if (id) {
-            await personControllerApi.update({
-                id: id,
-                personModifyRequestDTO: values
-            })
-        } else {
-            const resp = await personControllerApi.create({ personModifyRequestDTO: values })
-            navigate(routes.personsEdit.path.replace(':id', String(resp.data.id)))
+        try {
+            if (id) {
+                await personControllerApi.update({
+                    id: id,
+                    personModifyRequestDTO: values
+                })
+            } else {
+                const resp = await personControllerApi.create({ personModifyRequestDTO: values })
+                navigate(routes.personsEdit.path.replace(':id', String(resp.data.id)))
+            }
+        } catch {
+            // Server rejected the write (e.g. 403 for non-ADMIN roles, 409 duplicate email).
+            showModal(<ErrorModal text="common.error.generic" />)
         }
     }
 

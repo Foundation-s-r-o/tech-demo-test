@@ -31,7 +31,10 @@ const AppHeader = () => {
                         <div
                             className="d-flex align-items-center pe-2"
                             id="auth-info">
-                            <img src={ReactLogo} />
+                            {/* Decorative avatar — empty alt keeps it out of the accessibility tree. */}
+                            <img
+                                src={ReactLogo}
+                                alt="" />
                             {auth.isAuthenticated ? (
                                 <>
                                     <div id="app_header_user_fullname">

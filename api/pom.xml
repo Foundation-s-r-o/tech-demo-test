@@ -29,6 +29,9 @@
 		<tomcat.version>11.0.22</tomcat.version>
 		<!-- Override Boot-managed Jackson 3 BOM 3.1.2 -> 3.1.4 to clear CVE-2026-54512/54513. -->
 		<jackson-bom.version>3.1.4</jackson-bom.version>
+		<!-- Merged unit+IT line-coverage floor enforced by jacoco:check on verify.
+		     Regression guard, not a target — ratchet toward 0.80 (SECURITY.md). -->
+		<jacoco.line-coverage.minimum>0.70</jacoco.line-coverage.minimum>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -302,13 +305,64 @@
 						</goals>
 					</execution>
 					<execution>
+						<id>prepare-agent-integration</id>
+						<goals>
+							<goal>prepare-agent-integration</goal>
+						</goals>
+					</execution>
+					<!-- Merge unit (jacoco.exec) + IT (jacoco-it.exec) data so the report and
+					     the coverage gate reflect the whole harness, not just unit tests. -->
+					<execution>
+						<id>merge-coverage</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>merge</goal>
+						</goals>
+						<configuration>
+							<destFile>${project.build.directory}/jacoco-merged.exec</destFile>
+							<fileSets>
+								<fileSet>
+									<directory>${project.build.directory}</directory>
+									<includes>
+										<include>jacoco*.exec</include>
+									</includes>
+								</fileSet>
+							</fileSets>
+						</configuration>
+					</execution>
+					<execution>
 						<id>report</id>
-						<phase>test</phase>
+						<phase>verify</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
 						<configuration>
+							<dataFile>${project.build.directory}/jacoco-merged.exec</dataFile>
 							<outputDirectory>target/jacoco-report</outputDirectory>
+						</configuration>
+					</execution>
+					<!-- Coverage gate: regression floor just under the measured merged coverage.
+					     Ratchet the minimum up as coverage grows (target 0.80, see SECURITY.md). -->
+					<execution>
+						<id>check-coverage</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<dataFile>${project.build.directory}/jacoco-merged.exec</dataFile>
+							<rules>
+								<rule>
+									<element>BUNDLE</element>
+									<limits>
+										<limit>
+											<counter>LINE</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>${jacoco.line-coverage.minimum}</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
 						</configuration>
 					</execution>
 				</executions>

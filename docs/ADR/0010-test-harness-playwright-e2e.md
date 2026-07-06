@@ -39,7 +39,9 @@ Chosen option: **layered pyramid + `./doctor` orchestrator**.
 | Backend integration | Failsafe (`*IT`), full Spring context on **in-memory H2**, profile `it` | auth flow, persons CRUD + authz matrix, repository, Flyway |
 | App smoke | Playwright, backend-free, dev server on `:8090` | login shell renders, zero console errors |
 | Storybook smoke | Playwright, Storybook on `:6007` | shared components render clean |
-| Full E2E | Playwright `test_*.spec.ts`; auto-starts API `:8082` (profiles `local,e2e`, in-mem DB) + UI `:8080` | login, failed login, logout, main page, persons list/create/edit, client-side validation |
+| Full E2E | Playwright `test_*.spec.ts`; auto-starts API `:8082` (profiles `local,e2e`, in-mem DB) + UI `:8080` | login, failed login, logout, main page, persons list/create/edit, client-side validation, authorization matrix (ROLE_USER negatives), accessibility (axe-core, serious/critical gate), live-spec contract check |
+| Coverage gate | `jacoco:check` on `verify`, merged unit+IT data | line coverage ≥ `jacoco.line-coverage.minimum` (`api/pom.xml`; ratchet toward 0.80) |
+| Contract drift | E2E live-spec test + `./doctor` client regeneration diff | backend ↔ `ui/api-docs.json` ↔ generated TS client |
 | Security scans | `scripts/security_scan.sh` (Semgrep, Trivy, npm audit) | repo-wide |
 | Static analysis | SonarQube (skipped with a warning when token/host unavailable) | both modules |
 
@@ -55,12 +57,14 @@ Chosen option: **layered pyramid + `./doctor` orchestrator**.
 * Stable `id` selectors (`#login_*`, `#PersonEditForm_*`, `#error_dialog_close`)
   instead of text/CSS-utility locators.
 
-Considered and deliberately **deferred** (recorded so they are conscious calls,
-not omissions): JaCoCo minimum-coverage gate (tracked as an open gap in
-[`SECURITY.md`](../../SECURITY.md)), authz-negative E2E with a second USER-role
-test account, accessibility smoke (`@axe-core/playwright`), OpenAPI
-client-drift check in CI. Rejected as over-engineering for a template:
-mutation testing, performance budgets, visual-regression snapshots.
+Initially deferred, since implemented: JaCoCo minimum-coverage gate (merged
+unit+IT, closes the gap in [`SECURITY.md`](../../SECURITY.md)), authz-negative
+E2E with the seeded `user/user` `ROLE_USER` account, accessibility smoke
+(`@axe-core/playwright`, gating on serious/critical violations), and the
+OpenAPI contract-drift gate (live spec vs `ui/api-docs.json` in E2E; spec vs
+generated client in `./doctor`; springdoc pinned to `openapi_3_0` output while
+the generator CLI is pinned to 6.0.1). Rejected as over-engineering for a
+template: mutation testing, performance budgets, visual-regression snapshots.
 
 ### Consequences
 

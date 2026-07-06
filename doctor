@@ -44,6 +44,23 @@ npx playwright test
 popd >/dev/null
 
 echo
+echo "### Checking OpenAPI client drift (spec -> generated TS client)"
+pushd "$script_dir/ui" >/dev/null
+tmp_gen="$(mktemp -d)"
+npx openapi-generator-cli generate -i api-docs.json -g typescript-axios -o "$tmp_gen" \
+  --additional-properties=useSingleRequestParameter=true,stringEnums=true,supportsES6=true >/dev/null
+# .openapi-generator/ is bookkeeping metadata whose FILES list differs between
+# fresh-dir and in-place generation; only the emitted client code matters.
+if ! diff -r --exclude=.openapi-generator "$tmp_gen" src/api/generated; then
+  echo "ERROR: src/api/generated is out of sync with api-docs.json —"
+  echo "       run 'npm run generate-openapi-services' and commit the result."
+  rm -rf "$tmp_gen"
+  exit 1
+fi
+rm -rf "$tmp_gen"
+popd >/dev/null
+
+echo
 echo "### Running local security scans"
 "$script_dir/scripts/security_scan.sh"
 

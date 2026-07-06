@@ -24,6 +24,31 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 /**
  * 
  * @export
+ * @interface CsrfToken
+ */
+export interface CsrfToken {
+    /**
+     * 
+     * @type {string}
+     * @memberof CsrfToken
+     */
+    'headerName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CsrfToken
+     */
+    'token'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CsrfToken
+     */
+    'parameterName'?: string;
+}
+/**
+ * 
+ * @export
  * @interface IdResponseDTOLong
  */
 export interface IdResponseDTOLong {
@@ -52,19 +77,6 @@ export interface LoginRequestDTO {
      * @memberof LoginRequestDTO
      */
     'password'?: string;
-}
-/**
- * 
- * @export
- * @interface LogoutRequestDTO
- */
-export interface LogoutRequestDTO {
-    /**
-     * 
-     * @type {string}
-     * @memberof LogoutRequestDTO
-     */
-    'username'?: string;
 }
 /**
  * 
@@ -194,7 +206,7 @@ export interface PersonModifyRequestDTO {
      * @type {string}
      * @memberof PersonModifyRequestDTO
      */
-    'address': string;
+    'address'?: string;
     /**
      * 
      * @type {string}
@@ -232,6 +244,12 @@ export interface UserResponseDTO {
      * @memberof UserResponseDTO
      */
     'username'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserResponseDTO
+     */
+    'role'?: string;
 }
 
 /**
@@ -240,6 +258,42 @@ export interface UserResponseDTO {
  */
 export const AuthControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @param {CsrfToken} csrfToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        csrf: async (csrfToken: CsrfToken, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'csrfToken' is not null or undefined
+            assertParamExists('csrf', 'csrfToken', csrfToken)
+            const localVarPath = `/api/auth/csrf`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (csrfToken !== undefined) {
+                localVarQueryParameter['csrfToken'] = csrfToken;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @param {*} [options] Override http request option.
@@ -306,13 +360,10 @@ export const AuthControllerApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {LogoutRequestDTO} logoutRequestDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        logout: async (logoutRequestDTO: LogoutRequestDTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'logoutRequestDTO' is not null or undefined
-            assertParamExists('logout', 'logoutRequestDTO', logoutRequestDTO)
+        logout: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/auth/logout`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -327,12 +378,9 @@ export const AuthControllerApiAxiosParamCreator = function (configuration?: Conf
 
 
     
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(logoutRequestDTO, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -349,6 +397,16 @@ export const AuthControllerApiAxiosParamCreator = function (configuration?: Conf
 export const AuthControllerApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AuthControllerApiAxiosParamCreator(configuration)
     return {
+        /**
+         * 
+         * @param {CsrfToken} csrfToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async csrf(csrfToken: CsrfToken, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CsrfToken>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.csrf(csrfToken, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
         /**
          * 
          * @param {*} [options] Override http request option.
@@ -370,12 +428,11 @@ export const AuthControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {LogoutRequestDTO} logoutRequestDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async logout(logoutRequestDTO: LogoutRequestDTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.logout(logoutRequestDTO, options);
+        async logout(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.logout(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -388,6 +445,15 @@ export const AuthControllerApiFp = function(configuration?: Configuration) {
 export const AuthControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = AuthControllerApiFp(configuration)
     return {
+        /**
+         * 
+         * @param {CsrfToken} csrfToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        csrf(csrfToken: CsrfToken, options?: any): AxiosPromise<CsrfToken> {
+            return localVarFp.csrf(csrfToken, options).then((request) => request(axios, basePath));
+        },
         /**
          * 
          * @param {*} [options] Override http request option.
@@ -407,15 +473,28 @@ export const AuthControllerApiFactory = function (configuration?: Configuration,
         },
         /**
          * 
-         * @param {LogoutRequestDTO} logoutRequestDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        logout(logoutRequestDTO: LogoutRequestDTO, options?: any): AxiosPromise<void> {
-            return localVarFp.logout(logoutRequestDTO, options).then((request) => request(axios, basePath));
+        logout(options?: any): AxiosPromise<void> {
+            return localVarFp.logout(options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for csrf operation in AuthControllerApi.
+ * @export
+ * @interface AuthControllerApiCsrfRequest
+ */
+export interface AuthControllerApiCsrfRequest {
+    /**
+     * 
+     * @type {CsrfToken}
+     * @memberof AuthControllerApiCsrf
+     */
+    readonly csrfToken: CsrfToken
+}
 
 /**
  * Request parameters for login operation in AuthControllerApi.
@@ -432,26 +511,23 @@ export interface AuthControllerApiLoginRequest {
 }
 
 /**
- * Request parameters for logout operation in AuthControllerApi.
- * @export
- * @interface AuthControllerApiLogoutRequest
- */
-export interface AuthControllerApiLogoutRequest {
-    /**
-     * 
-     * @type {LogoutRequestDTO}
-     * @memberof AuthControllerApiLogout
-     */
-    readonly logoutRequestDTO: LogoutRequestDTO
-}
-
-/**
  * AuthControllerApi - object-oriented interface
  * @export
  * @class AuthControllerApi
  * @extends {BaseAPI}
  */
 export class AuthControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {AuthControllerApiCsrfRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthControllerApi
+     */
+    public csrf(requestParameters: AuthControllerApiCsrfRequest, options?: AxiosRequestConfig) {
+        return AuthControllerApiFp(this.configuration).csrf(requestParameters.csrfToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {*} [options] Override http request option.
@@ -475,13 +551,12 @@ export class AuthControllerApi extends BaseAPI {
 
     /**
      * 
-     * @param {AuthControllerApiLogoutRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthControllerApi
      */
-    public logout(requestParameters: AuthControllerApiLogoutRequest, options?: AxiosRequestConfig) {
-        return AuthControllerApiFp(this.configuration).logout(requestParameters.logoutRequestDTO, options).then((request) => request(this.axios, this.basePath));
+    public logout(options?: AxiosRequestConfig) {
+        return AuthControllerApiFp(this.configuration).logout(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -595,16 +670,49 @@ export const PersonControllerApiAxiosParamCreator = function (configuration?: Co
         },
         /**
          * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPdf: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getPdf', 'id', id)
+            const localVarPath = `/api/persons/{id}/pdf`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} [name] 
          * @param {string} [email] 
          * @param {number} [pageStart] 
          * @param {number} [pageSize] 
-         * @param {'NAME' | 'EMAIL'} [sortBy] 
+         * @param {'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL'} [sortBy] 
          * @param {boolean} [sortDesc] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listUsers: async (name?: string, email?: string, pageStart?: number, pageSize?: number, sortBy?: 'NAME' | 'EMAIL', sortDesc?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listUsers: async (name?: string, email?: string, pageStart?: number, pageSize?: number, sortBy?: 'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL', sortDesc?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/persons`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -733,16 +841,26 @@ export const PersonControllerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getPdf(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPdf(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} [name] 
          * @param {string} [email] 
          * @param {number} [pageStart] 
          * @param {number} [pageSize] 
-         * @param {'NAME' | 'EMAIL'} [sortBy] 
+         * @param {'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL'} [sortBy] 
          * @param {boolean} [sortDesc] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listUsers(name?: string, email?: string, pageStart?: number, pageSize?: number, sortBy?: 'NAME' | 'EMAIL', sortDesc?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedResultResponseDTOPersonListItemResponseDTO>> {
+        async listUsers(name?: string, email?: string, pageStart?: number, pageSize?: number, sortBy?: 'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL', sortDesc?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedResultResponseDTOPersonListItemResponseDTO>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listUsers(name, email, pageStart, pageSize, sortBy, sortDesc, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -796,16 +914,25 @@ export const PersonControllerApiFactory = function (configuration?: Configuratio
         },
         /**
          * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPdf(id: number, options?: any): AxiosPromise<string> {
+            return localVarFp.getPdf(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {string} [name] 
          * @param {string} [email] 
          * @param {number} [pageStart] 
          * @param {number} [pageSize] 
-         * @param {'NAME' | 'EMAIL'} [sortBy] 
+         * @param {'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL'} [sortBy] 
          * @param {boolean} [sortDesc] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listUsers(name?: string, email?: string, pageStart?: number, pageSize?: number, sortBy?: 'NAME' | 'EMAIL', sortDesc?: boolean, options?: any): AxiosPromise<PagedResultResponseDTOPersonListItemResponseDTO> {
+        listUsers(name?: string, email?: string, pageStart?: number, pageSize?: number, sortBy?: 'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL', sortDesc?: boolean, options?: any): AxiosPromise<PagedResultResponseDTOPersonListItemResponseDTO> {
             return localVarFp.listUsers(name, email, pageStart, pageSize, sortBy, sortDesc, options).then((request) => request(axios, basePath));
         },
         /**
@@ -864,6 +991,20 @@ export interface PersonControllerApiGetRequest {
 }
 
 /**
+ * Request parameters for getPdf operation in PersonControllerApi.
+ * @export
+ * @interface PersonControllerApiGetPdfRequest
+ */
+export interface PersonControllerApiGetPdfRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof PersonControllerApiGetPdf
+     */
+    readonly id: number
+}
+
+/**
  * Request parameters for listUsers operation in PersonControllerApi.
  * @export
  * @interface PersonControllerApiListUsersRequest
@@ -899,10 +1040,10 @@ export interface PersonControllerApiListUsersRequest {
 
     /**
      * 
-     * @type {'NAME' | 'EMAIL'}
+     * @type {'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL'}
      * @memberof PersonControllerApiListUsers
      */
-    readonly sortBy?: 'NAME' | 'EMAIL'
+    readonly sortBy?: 'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL'
 
     /**
      * 
@@ -971,6 +1112,17 @@ export class PersonControllerApi extends BaseAPI {
      */
     public get(requestParameters: PersonControllerApiGetRequest, options?: AxiosRequestConfig) {
         return PersonControllerApiFp(this.configuration).get(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PersonControllerApiGetPdfRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonControllerApi
+     */
+    public getPdf(requestParameters: PersonControllerApiGetPdfRequest, options?: AxiosRequestConfig) {
+        return PersonControllerApiFp(this.configuration).getPdf(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
