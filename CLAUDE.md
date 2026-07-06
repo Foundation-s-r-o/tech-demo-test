@@ -73,7 +73,8 @@ account. Docker and cloud-deployment scaffolding are intentionally absent.
 - GitGuardian secret scanning on PRs; GitHub secret scanning + push protection enabled.
 - Dependabot weekly Maven + npm.
 - Checkstyle on `./mvnw validate` (hard gate, `failOnViolation=true`).
-- Bouncy Castle for cryptography; explicit Tomcat / okio pins for CVE fixes.
+- Bouncy Castle for cryptography; explicit Tomcat / okio / Jackson (2.x BOM + 3.x
+  `jackson-bom.version`) pins for CVE fixes.
 
 ## Essential Commands
 
@@ -100,7 +101,11 @@ account. Docker and cloud-deployment scaffolding are intentionally absent.
 - Generate API client: `npm run generate-openapi-services`
 
 ### Project Health & Quality
-- **Comprehensive health check**: `./doctor` — build, lint, tests, and FOSSA scans
+- **Comprehensive health check / single harness entry point**: `./doctor` — UI build + lint,
+  `mvnw clean verify`, Playwright smoke + Storybook smoke + **full E2E suite**, security scans
+  (Semgrep/Trivy/npm audit), SonarQube (skipped with a warning when `SONAR_TOKEN`/host is
+  unavailable), and FOSSA. Slow (starts both app servers for E2E); requires ports 8080/8082 free.
+  Test-harness strategy: [`docs/ADR/0010`](docs/ADR/0010-test-harness-playwright-e2e.md).
 - **License scanning**: `fossa analyze`
 - **Security testing**: `fossa test`
 
@@ -127,13 +132,19 @@ go under `docs/`.
 cd ui && npm run lint
 
 # 2. Backend: style + unit tests + integration tests + coverage
-cd api && ./mvnw clean verify          # Checkstyle (validate phase), 7 unit + 19 IT, JaCoCo.
+cd api && ./mvnw clean verify          # Checkstyle (validate phase), all unit + integration tests, JaCoCo.
 #   ITs run on in-memory H2 only — NO Docker / Testcontainers. If anything tries to start a
 #   Docker container, that's a regression — flag it.
 
 # 3. Playwright smoke tests (see below) — run after major changes
 cd ui && npm run smoke                 # app smoke (auto-starts dev server :8090)
-cd ui && npm run smoke:storybook       # Storybook smoke (auto-starts :6006)
+cd ui && npm run smoke:storybook       # Storybook smoke (auto-starts :6007)
+
+# 3b. Playwright full E2E suite — run after major changes (and always for auth/API changes).
+#     Auto-starts BOTH servers (API :8082 with profiles local,e2e on in-mem H2; UI :8080);
+#     ports must be free (reuseExistingServer: false). Covers login/failed login/logout,
+#     main page, persons list/create/edit, and client-side validation.
+cd ui && npx playwright test           # or: npm run playwright
 
 # 4. Trivy — filesystem vuln scan, run in repo ROOT. Reports to docs/.
 #    NOTE: Trivy pulls its vuln DB from a public OCI mirror via the Docker config.
@@ -176,8 +187,8 @@ major changes.
   browser console error / page error**. Backend-free — unlike the full E2E suite, smoke does not
   start the API.
 - **Storybook smoke** (`ui/tests/smoke.storybook.spec.ts`, config `playwright.storybook.config.ts`):
-  auto-starts Storybook on `:6006` and renders the `Button` and `Form` stories, failing on
-  console errors.
+  auto-starts Storybook on `:6007` (dedicated port — not the interactive `:6006`) and renders the
+  `Button` and `Form` stories, failing on console errors.
 
 ```bash
 cd ui
@@ -190,9 +201,22 @@ npx playwright install chromium   # one-time, if the browser binary is missing
 `pageerror`, and `requestfailed` events (filtering out dev-server/HMR noise) and writes them to
 `docs/smoke-app.log` and `docs/smoke-storybook-*.log` after each run — read these to spot errors.
 Console errors and page errors fail the test; warnings are logged but do not fail. The Playwright
-HTML report (with trace + failure screenshot) is at `ui/playwright-report-smoke/` and
-`ui/playwright-report-storybook/`. The smoke `*.log` files and report dirs are gitignored
-(regenerated each run).
+HTML report (with trace + screenshots) is at `ui/playwright-report-smoke/` and
+`ui/playwright-report-storybook/`; the full E2E report is at `ui/playwright-report/`.
+
+**Screenshots:** all Playwright configs set `screenshot: 'on'` — every test, **passed and
+failed**, saves a final-state screenshot under `ui/test-results/<test-name>/` and attaches it to
+the HTML report. The `*.log` files, `test-results/`, and report dirs are gitignored (regenerated
+each run).
+
+### Playwright E2E test conventions
+
+- Specs match `test_*.spec.ts` in `ui/tests/`; shared login flow lives in
+  `ui/tests/helpers/auth.ts` — use `login(page)` instead of re-typing the form steps.
+- Tests are self-contained: create data through the UI as the `local`-profile admin; the `e2e`
+  profile runs on a fresh in-memory H2, so no cleanup/seed fixtures.
+- Use stable `id` selectors (`#login_*`, `#PersonEditForm_*`, `#app_header_*`,
+  `#error_dialog_close`) — never text or Bootstrap utility classes.
 
 ## Code Style Guidelines
 
@@ -234,10 +258,11 @@ GitHub-managed (not in `.github/workflows/`):
 **CircleCI** runs the actual build gate: backend `./mvnw verify` + frontend audit, lint, and build. Key
 notes in `.circleci/config.yml`:
 - `cimg/openjdk:21.0` (matches project Java 21 LTS).
-- `override-ci-command: npm install --legacy-peer-deps --no-audit --no-fund` — NOT `npm ci`. The
-  lockfile only pins the dev-host's `@parcel/watcher-darwin-arm64` binary; the other platform
-  variants lack full lockfile entries, so strict `npm ci` fails on Linux. `npm install` honors
-  the lockfile when accurate and fills the missing optional binaries at install time.
+- `override-ci-command: npm ci --legacy-peer-deps --no-audit --no-fund`. `npm ci` works because
+  the lockfile carries full entries (resolved + integrity) for **all** `@parcel/watcher` platform
+  variants, not just the dev host's `darwin-arm64`. If `npm ci` ever fails on Linux with a missing
+  optional-binary error, the lockfile has regressed — regenerate it against the public registry
+  rather than switching CI to `npm install`.
 
 All workflows use least-privilege `permissions: contents: read`.
 
@@ -250,8 +275,9 @@ All workflows use least-privilege `permissions: contents: read`.
    pulls `react-inspector@6.0.2`, which lists React 16-18 in peers and conflicts with the React 19
    tree.
 3. **Cross-platform `@parcel/watcher` lockfile gotcha.** `sass → @parcel/watcher` ships a
-   different native binary per OS/arch; `npm install` on macOS only writes the `darwin-arm64`
-   entry. Let CircleCI resolve the Linux entry via `npm install` (not `npm ci`).
+   different native binary per OS/arch. The lockfile must keep full entries for **all** platform
+   variants so CircleCI's `npm ci` works on Linux; when regenerating the lockfile, verify with
+   `grep -c 'watcher-linux-x64-glibc' ui/package-lock.json` (must be ≥ 1).
 4. **Public-only npm registry locally.** If your global `~/.npmrc` points at the internal TFS
    feed, pass `--registry=https://registry.npmjs.org/` explicitly when regenerating the lockfile.
    Don't edit `.npmrc` (other workspace projects need it).

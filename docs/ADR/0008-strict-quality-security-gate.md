@@ -79,10 +79,13 @@ per the authority rule):
    runs today*, but this is flagged as a likely defect — either the config
    should move to `npm install`, or the lockfile must carry all platform
    `@parcel/watcher` entries. **Action: reconcile `.circleci/config.yml` and
-   `CLAUDE.md`.**
+   `CLAUDE.md`.** *Resolved 2026-07-06: the lockfile carries full entries for
+   all `@parcel/watcher` platform variants, so `npm ci` is correct;
+   `CLAUDE.md` was updated to match the config.*
 2. **Auth endpoint name.** `SECURITY.md` references `/api/auth/me`; the source
    (`AuthController`) exposes `/api/auth/currentuser`. Source wins; `SECURITY.md`
-   should be corrected.
+   should be corrected. *Resolved: `SECURITY.md` now names
+   `/api/auth/currentuser`.*
 
 ## More Information
 

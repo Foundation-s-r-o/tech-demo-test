@@ -24,8 +24,56 @@ pushd "$script_dir/api" >/dev/null
 popd >/dev/null
 
 echo
+echo "### Running Playwright smoke tests (backend-free)"
+pushd "$script_dir/ui" >/dev/null
+npm run smoke
+npm run smoke:storybook
+popd >/dev/null
+
+echo
+echo "### Running Playwright E2E suite (starts API :8082 + UI :8080)"
+for port in 8080 8082; do
+  if lsof -nP -iTCP:"$port" -sTCP:LISTEN >/dev/null 2>&1; then
+    echo "ERROR: port $port is already in use — stop the running server first."
+    echo "       The E2E suite manages its own app servers (reuseExistingServer: false)."
+    exit 1
+  fi
+done
+pushd "$script_dir/ui" >/dev/null
+npx playwright test
+popd >/dev/null
+
+echo
 echo "### Running local security scans"
 "$script_dir/scripts/security_scan.sh"
+
+echo
+echo "### Running SonarQube analysis"
+# Project-pinned host (see CLAUDE.md / sonar-project.properties). Deliberately NOT
+# read from $SONAR_HOST_URL — the workspace-wide env points at a different instance.
+sonar_host="http://10.16.35.93:9000"
+if ! command -v sonar-scanner >/dev/null; then
+  echo "WARNING: SKIPPED — sonar-scanner CLI not installed."
+elif [[ -z "${SONAR_TOKEN:-}" ]]; then
+  echo "WARNING: SKIPPED — SONAR_TOKEN is not set."
+elif ! curl -sf --max-time 5 "$sonar_host/api/system/status" >/dev/null; then
+  echo "WARNING: SKIPPED — SonarQube host $sonar_host is not reachable."
+elif ! curl -sf --max-time 5 -u "$SONAR_TOKEN:" "$sonar_host/api/authentication/validate" | grep -q '"valid":true'; then
+  echo "WARNING: SKIPPED — SONAR_TOKEN is not valid for $sonar_host (check you exported the token for THIS instance)."
+else
+  mkdir -p "$script_dir/docs"
+  for module in api ui; do
+    pushd "$script_dir/$module" >/dev/null
+    sonar-scanner -Dsonar.host.url="$sonar_host" -Dsonar.token="$SONAR_TOKEN"
+    popd >/dev/null
+  done
+  for key in tech-demo-api tech-demo-ui; do
+    curl -s -u "$SONAR_TOKEN:" "$sonar_host/api/issues/search?componentKeys=$key" \
+      | jq '.' > "$script_dir/docs/sonar-issues-$key.json"
+    curl -s -u "$SONAR_TOKEN:" "$sonar_host/api/measures/component?component=$key&metricKeys=bugs,vulnerabilities,security_hotspots,code_smells,coverage" \
+      | jq '.' > "$script_dir/docs/sonar-metrics-$key.json"
+  done
+fi
 
 echo
 echo "### Checking FOSSA CLI"
@@ -34,7 +82,11 @@ if ! command -v fossa >/dev/null; then
   echo "Please install FOSSA CLI: https://docs.fossa.com/docs/cli/"
 else
   fossa analyze
-  fossa test
+  # FOSSA is scan-only / non-blocking by decision (ADR-0008, SECURITY.md) — surface
+  # policy issues loudly but do not fail the health check on them.
+  if ! fossa test; then
+    echo "WARNING: fossa test reported policy issues — review the FOSSA dashboard (non-blocking)."
+  fi
 fi
 
 echo

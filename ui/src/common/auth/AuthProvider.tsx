@@ -55,10 +55,12 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     useEffect(() => {
         const initAuth = async () => {
             try {
-                await ensureCsrfToken()
                 const storedUser = persistService.get('user')
 
                 if (storedUser) {
+                    // Only touch the API when restoring a session — anonymous visits
+                    // stay fully offline (login()/logout() fetch their own CSRF token).
+                    await ensureCsrfToken()
                     const response = await authControllerApi.currentUser()
                     const user = response.data as User
 

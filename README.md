@@ -66,7 +66,7 @@ Other useful UI scripts:
 | `npm run storybook` | Storybook on `http://localhost:6006` for component development |
 | `npm run smoke` | Playwright app smoke (login shell, console-error gate) |
 | `npm run smoke:storybook` | Playwright Storybook smoke (Button + Form stories) |
-| `npm run playwright` | Full Playwright E2E suite (installs browsers first) |
+| `npm run playwright` | Full Playwright E2E suite — auto-starts API `:8082` + UI `:8080`; covers login/logout, main page, persons CRUD; screenshots every test (one-time `npx playwright install chromium` needed) |
 | `npm run build` | Production webpack build |
 | `npm run lint` | `tsc --noEmit` + ESLint |
 
@@ -109,11 +109,14 @@ cd api && ./mvnw checkstyle:check test
 
 # Bigger change — run the lot
 cd ui && npm run lint && npm run smoke && npm run smoke:storybook
+cd ui && npm run playwright        # full E2E (needs ports 8080/8082 free)
 cd api && ./mvnw clean verify
 ./scripts/security_scan.sh
 ```
 
-Comprehensive health check (build + lint + tests + FOSSA): `./doctor`.
+Single harness entry point (build + lint + tests + smoke + full E2E + security scans +
+SonarQube + FOSSA): `./doctor` — see
+[ADR-0010](./docs/ADR/0010-test-harness-playwright-e2e.md) for the test-harness strategy.
 
 ## Editor setup
 

@@ -19,7 +19,8 @@ const config: PlaywrightTestConfig = {
     use: {
         baseURL: 'http://localhost:6007',
         trace: 'retain-on-failure',
-        screenshot: 'only-on-failure',
+        // Screenshot every test (passed and failed) into test-results/ + HTML report.
+        screenshot: 'on',
     },
     projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
     webServer: {

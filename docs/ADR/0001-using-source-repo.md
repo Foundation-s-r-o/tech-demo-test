@@ -1,3 +1,6 @@
+---
+status: accepted
+---
 # Choosing a Source Repository for Tech-Demo Project
 
 ## Context and Problem Statement

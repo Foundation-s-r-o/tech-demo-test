@@ -41,6 +41,7 @@ export default function ErrorModal({
             </Modal.Body>
             <Modal.Footer>
                 <FndtButton
+                    id="error_dialog_close"
                     variant="secondary"
                     onClick={handleClose}>
                     {t('common.btn.close')}

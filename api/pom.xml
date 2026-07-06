@@ -27,7 +27,22 @@
 		<java.version>21</java.version>
 		<!-- Override Boot-managed Tomcat 11.0.21 -> 11.0.22 to clear CVE-2026-41293 et al. -->
 		<tomcat.version>11.0.22</tomcat.version>
+		<!-- Override Boot-managed Jackson 3 BOM 3.1.2 -> 3.1.4 to clear CVE-2026-54512/54513. -->
+		<jackson-bom.version>3.1.4</jackson-bom.version>
 	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<!-- Flyway still pulls the legacy Jackson 2 line transitively; pin its BOM to
+			     2.21.4 to clear CVE-2026-54512/54513 (Boot 4 no longer manages Jackson 2). -->
+			<dependency>
+				<groupId>com.fasterxml.jackson</groupId>
+				<artifactId>jackson-bom</artifactId>
+				<version>2.21.4</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

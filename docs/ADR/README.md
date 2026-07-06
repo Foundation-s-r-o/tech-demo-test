@@ -37,6 +37,7 @@ General information about architecture decision records is available at
 | [0007](0007-no-supported-deployment.md) | No supported deployment artifact by design | Accepted |
 | [0008](0008-strict-quality-security-gate.md) | Strict quality & security gate; running config is the authority | Accepted |
 | [0009](0009-observability-actuator-micrometer.md) | Observability via Actuator + Micrometer; full stack deferred | Accepted |
+| [0010](0010-test-harness-playwright-e2e.md) | Layered test harness with Playwright E2E and `./doctor` as the single entry point | Accepted |
 
 ## Context
 

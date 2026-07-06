@@ -412,7 +412,19 @@ The gate is the point of the template. The **authoritative, current behaviour**
 - **Blocking** (keeps `main` releasable): CircleCI (`mvn verify` + frontend lint
   & build), Checkstyle, ESLint + `tsc --noEmit`, GitGuardian secret scan.
 - **Advisory / report-only**: FOSSA, CodeQL, Dependabot, Trivy, Semgrep,
-  SonarQube, JaCoCo coverage, Playwright smoke. ([ADR-0008](./ADR/0008-strict-quality-security-gate.md))
+  SonarQube, JaCoCo coverage. ([ADR-0008](./ADR/0008-strict-quality-security-gate.md))
+
+The **test harness** is layered ([ADR-0010](./ADR/0010-test-harness-playwright-e2e.md)):
+backend unit tests (Surefire) and integration tests on in-memory H2 (Failsafe)
+run inside `mvn verify`; Playwright provides a backend-free app smoke, a
+Storybook smoke, and a **full E2E suite** (`ui/tests/test_*.spec.ts`) that
+auto-starts both app servers and covers login/logout, the main page, and the
+persons feature. Every Playwright test saves a screenshot (pass or fail) plus
+console/trace captures. `./doctor` executes the whole harness — build, lint,
+`mvn verify`, all Playwright layers, security scans, SonarQube (skipped with a
+warning when unavailable), FOSSA — and is the single "everything passed"
+command; per-layer commands for the fast inner loop are in
+[`CLAUDE.md`](../CLAUDE.md#verifying-code-changes).
 
 Two gotchas worth keeping in this doc because they have bitten before:
 
@@ -450,6 +462,7 @@ load-bearing decision in this document is backed by an ADR:
 | [0007](./ADR/0007-no-supported-deployment.md) | No supported deployment by design | [Deferred Production Path](#deferred-production-path) |
 | [0008](./ADR/0008-strict-quality-security-gate.md) | Strict quality & security gate | [Quality & Security Gate](#quality--security-gate) |
 | [0009](./ADR/0009-observability-actuator-micrometer.md) | Actuator + Micrometer observability | [Tech Stack](#tech-stack) |
+| [0010](./ADR/0010-test-harness-playwright-e2e.md) | Layered test harness; `./doctor` as entry point | [Quality & Security Gate](#quality--security-gate) |
 
 When you make a decision worth defending later (a stack pin, a security
 relaxation, a deferred phase), record it here rather than only in a commit
@@ -463,10 +476,10 @@ or configuration, **the source / config wins** (consistent with
 [`SECURITY.md`](../SECURITY.md)). The prose is then corrected, or the config is
 fixed if it is the defect — the conflict is never left open. Conflicts found and
 resolved while writing these ADRs are listed in
-[ADR-0008 → Validation](./ADR/0008-strict-quality-security-gate.md); the one
-still needing a code/doc reconciliation is the **CircleCI `npm ci` vs
-`npm install`** mismatch between `.circleci/config.yml` and
-[`CLAUDE.md`](../CLAUDE.md#dependency--lockfile-constraints).
+[ADR-0008 → Validation](./ADR/0008-strict-quality-security-gate.md); both have
+since been resolved in favour of the source (the CircleCI `npm ci` command is
+correct — the lockfile now carries all `@parcel/watcher` platform entries — and
+`CLAUDE.md` was corrected to match).
 
 ---
 

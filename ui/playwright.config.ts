@@ -26,6 +26,9 @@ const config: PlaywrightTestConfig = {
         baseURL: 'http://localhost:8080',
         actionTimeout: 0,
         trace: 'on-first-retry',
+        // Capture a screenshot for every test — passed and failed alike. They land
+        // in test-results/ and are attached to the HTML report (both gitignored).
+        screenshot: 'on',
         launchOptions: {
             slowMo: process.env.PLAYWRIGHT_SLOW_MO
                 ? parseInt(process.env.PLAYWRIGHT_SLOW_MO)

@@ -4,6 +4,13 @@ project:
   name: "tech-demo-test"
   id: "custom+46919/github.com/Foundation-s-r-o/tech-demo-test"
 
+# Exclude generated build artifacts that FOSSA auto-discovery would otherwise
+# treat as projects (storybook-static ships a project.json that fails analysis
+# and is not a real dependency manifest).
+paths:
+  exclude:
+    - ./ui/storybook-static
+
 analyze:
   modules:
     - name: "react-bootstrap"
