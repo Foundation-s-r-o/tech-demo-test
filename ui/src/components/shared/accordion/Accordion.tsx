@@ -1,6 +1,5 @@
 import React, { PropsWithChildren } from 'react'
 import { Accordion } from 'react-bootstrap'
-import './Accordion.scss'
 
 export const FndtAccordionHeader = ({
     children,

@@ -2,13 +2,13 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
-import { FndtButtonProps, FndtButtonSize } from './types'
-import './Button.scss'
+import { FndtButtonProps } from './types'
 
+// No default size: Bootstrap's standard .btn; pass FndtButtonSize.sm/.lg to override.
 export const FndtButton = ({
     children,
     className,
-    size = FndtButtonSize.lg,
+    size,
     variant = 'primary',
     to,
     ...props

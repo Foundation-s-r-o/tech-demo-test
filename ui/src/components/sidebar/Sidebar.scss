@@ -1,0 +1,126 @@
+$sidebar-width: 260px;
+$sidebar-rail-width: 64px;
+$header-height: 50px;
+$footer-height: 30px;
+
+.app-sidebar {
+    width: $sidebar-width;
+    flex-shrink: 0;
+    background-color: var(--fndt-sidebar-bg);
+    border-right: 1px solid var(--bs-border-color);
+    padding: 10px 0 ($footer-height + 10px); // bottom clears the fixed footer
+    transition: width 0.15s ease-in-out;
+
+    .sidebar-nav {
+        position: sticky;
+        top: 10px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .sidebar-group-toggle,
+    .sidebar-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        padding: 8px 14px;
+        border: none;
+        background: none;
+        color: var(--bs-body-color);
+        text-decoration: none;
+        text-align: left;
+
+        &:hover {
+            background-color: var(--fndt-hover-bg);
+            cursor: pointer;
+        }
+    }
+
+    .sidebar-group-chevron {
+        margin-left: auto;
+    }
+
+    .sidebar-group-items {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        .sidebar-item {
+            padding-left: 42px;
+        }
+    }
+
+    // Active route: hover surface + inset accent bar; text color stays
+    // --bs-body-color so contrast holds in both themes.
+    .sidebar-item--active {
+        background-color: var(--fndt-hover-bg);
+        font-weight: 600;
+        box-shadow: inset 3px 0 0 var(--bs-primary);
+    }
+}
+
+// Desktop rail state
+.app-sidebar--collapsed {
+    width: $sidebar-rail-width;
+
+    .sidebar-label,
+    .sidebar-group-chevron {
+        display: none;
+    }
+
+    .sidebar-group-toggle,
+    .sidebar-item {
+        justify-content: center;
+        padding: 10px 0;
+    }
+}
+
+// Mobile: fixed off-canvas overlay; the rail state is ignored.
+@media (max-width: 991.98px) {
+    .app-sidebar,
+    .app-sidebar--collapsed {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1045;
+        width: $sidebar-width;
+        transform: translateX(-100%);
+        transition: transform 0.2s ease-in-out;
+        overflow-y: auto;
+        padding-bottom: 10px;
+
+        .sidebar-label {
+            display: inline;
+        }
+
+        .sidebar-group-chevron {
+            display: inline-block;
+        }
+
+        .sidebar-group-toggle,
+        .sidebar-item {
+            justify-content: flex-start;
+            padding: 8px 14px;
+        }
+
+        .sidebar-group-items .sidebar-item {
+            padding-left: 42px;
+        }
+    }
+
+    .app-sidebar--mobile-open {
+        transform: none;
+    }
+}
+
+.sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1044;
+    border: none;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}

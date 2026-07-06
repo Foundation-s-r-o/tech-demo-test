@@ -1,7 +1,5 @@
-$header-bg-color: #232e64;
-
 .header {
-    background-color: $header-bg-color;
+    background-color: var(--fndt-header-bg);
     width: 100%;
 
     .header-content-wrapper {
@@ -10,26 +8,44 @@ $header-bg-color: #232e64;
 
     h1 {
         font-size: 25px;
-        color: #fff;
+        color: var(--fndt-header-fg);
         margin: 0;
     }
 
     #auth-info {
-        color: #fff;
+        color: var(--fndt-header-fg);
         button {
             background: none;
             border: none;
-            color: #fff;
+            color: var(--fndt-header-fg);
             padding: 0;
             margin: 0;
         }
         a {
-            color: #fff;
+            color: var(--fndt-header-fg);
             text-decoration: none;
         }
         > * {
           padding: 0 5px;
         }
     }
-}
 
+    .theme-toggle svg {
+        width: 20px;
+        height: 20px;
+        display: block;
+    }
+
+    button.menu-trigger {
+        border: none;
+        background: none;
+        color: var(--fndt-header-fg);
+        outline: none;
+
+        svg {
+            width: 25px;
+            height: 25px;
+            display: block;
+        }
+    }
+}

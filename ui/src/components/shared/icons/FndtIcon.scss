@@ -1,0 +1,22 @@
+// Heroicons use currentColor, so icons inherit the surrounding text color
+// (theme-aware for free). Only sizing lives here.
+.fndt_icon {
+    display: inline-block;
+    vertical-align: -0.125em;
+    flex-shrink: 0;
+}
+
+.fndt_icon--sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+.fndt_icon--md {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.fndt_icon--lg {
+    width: 1.5rem;
+    height: 1.5rem;
+}

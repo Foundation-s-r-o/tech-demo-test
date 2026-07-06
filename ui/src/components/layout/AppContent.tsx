@@ -18,7 +18,7 @@ const AppContent = ({ title, children, contentClassName }: Props) => {
                         id={'app-content-title'}
                         className="container-fluid border-bottom border-secondary">
                         <div className="container">
-                            <h2 className="text-primary-light fw-normal">
+                            <h2 className="text-primary-emphasis fw-normal">
                                 {title}
                             </h2>
                         </div>

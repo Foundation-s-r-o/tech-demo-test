@@ -64,6 +64,7 @@
     "@babel/plugin-transform-modules-systemjs": "^7.29.4"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@openapitools/openapi-generator-cli": "^2.20.2",
     "@types/lodash": "^4.17.16",
     "@types/react": "^19.2.0",
@@ -73,7 +74,6 @@
     "ansi-escapes": "^7.0.0",
     "axios": "^1.12.0",
     "bootstrap": "^5.3.3",
-    "bootstrap-icons": "^1.11.3",
     "classnames": "^2.5.1",
     "commander": "^13.1.0",
     "concurrently": "^9.1.2",
@@ -98,7 +98,6 @@
     "react-router-dom": "^7.12.0",
     "react-select": "^5.10.1",
     "string-width": "^7.2.0",
-    "styled-components": "^6.1.15",
     "supports-color": "^10.0.0",
     "tr46": "^6.0.0",
     "type-fest": "^5.7.0",

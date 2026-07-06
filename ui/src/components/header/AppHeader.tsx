@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import ReactLogo from '../../assets/images/login_avatar.svg'
 import { useAuth } from '../../common/auth/useAuth'
-import AppMenu from '../menu/AppMenu'
 import routes from '../router/routes'
+import SidebarTrigger from '../sidebar/SidebarTrigger'
+import ThemeToggle from './ThemeToggle'
 import './AppHeader.scss'
 
 const AppHeader = () => {
@@ -23,7 +24,7 @@ const AppHeader = () => {
             <div className={'header'}>
                 <div className="container">
                     <div className="d-flex header-content-wrapper">
-                        {auth.isAuthenticated && <AppMenu />}
+                        {auth.isAuthenticated && <SidebarTrigger />}
                         <div className="d-flex align-items-center flex-grow-1">
                             <h1>{t('common.layout.headerTitle')}</h1>
                         </div>
@@ -57,6 +58,7 @@ const AppHeader = () => {
                                     </div>
                                 </>
                             )}
+                            <ThemeToggle />
                         </div>
                     </div>
                 </div>

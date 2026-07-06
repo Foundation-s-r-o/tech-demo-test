@@ -1,0 +1,31 @@
+// App-level theme tokens as CSS custom properties, per color mode.
+// Import ONCE from main.scss (after Bootstrap). Component SCSS consumes
+// var(--fndt-*) / var(--bs-*) and never hardcodes colors.
+@import './nord';
+
+:root,
+[data-bs-theme='light'] {
+    --fndt-surface: #fff;
+    --fndt-surface-alt: #{$nord5};
+    --fndt-header-bg: #{$nord10-deep};
+    --fndt-header-fg: #{$nord6};
+    --fndt-sidebar-bg: #{$nord6};
+    --fndt-hover-bg: #{$nord4};
+    --fndt-danger-text: #{$nord11-deep};
+}
+
+[data-bs-theme='dark'] {
+    --fndt-surface: #{$nord1};
+    --fndt-surface-alt: #{$nord2};
+    --fndt-header-bg: #{$nord1};
+    --fndt-header-fg: #{$nord6};
+    --fndt-sidebar-bg: #{$nord1};
+    --fndt-hover-bg: #{$nord2};
+    --fndt-danger-text: #{$nord11-soft};
+}
+
+// Theme-aware danger text with AA contrast in both modes; keeps the
+// .text-danger class itself intact (Playwright test_persons asserts on it).
+.text-danger {
+    color: var(--fndt-danger-text) !important;
+}

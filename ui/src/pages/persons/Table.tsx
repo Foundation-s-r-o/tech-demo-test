@@ -11,10 +11,11 @@ import {
 } from '@common/api/transformers'
 import { UiPersonListItemResponseDTO } from '@api/types'
 import { useTranslation } from 'react-i18next'
-import { FndtButton } from '@components/shared/buttons/FndtButton'
-import { FndtButtonSize } from '@components/shared/buttons/types'
+import {
+    FndtRowActionItem,
+    FndtRowActions
+} from '@components/shared/table/RowActions'
 import routes from '@components/router/routes'
-import { Link } from 'react-router-dom'
 
 export default function PersonsTable() {
     const { t } = useTranslation()
@@ -41,7 +42,7 @@ export default function PersonsTable() {
             <FndtTable<UiPersonListItemResponseDTO>
                 HeadRow={
                     <>
-                        <FndtTableHeadCell>
+                        <FndtTableHeadCell className="text-end">
                             {t('form.input.id')}
                         </FndtTableHeadCell>
                         <FndtTableHeadCell>
@@ -62,17 +63,17 @@ export default function PersonsTable() {
                 renderRow={(item) => {
                     return (
                         <>
-                            <td>{item.id}</td>
+                            <td className="text-end">{item.id}</td>
                             <td>{item.firstName}</td>
                             <td>{item.lastName}</td>
                             <td>{item.email}</td>
                             <td className="text-end">
-                                <Link
-                                    to={routes.personsEdit.path.replace(':id', String(item.id))}>
-                                    <FndtButton
-                                        size={FndtButtonSize.sm}
-                                        variant="secondary">{t('common.btn.edit')}</FndtButton>
-                                </Link>
+                                <FndtRowActions id={`person_actions_${item.id}`}>
+                                    <FndtRowActionItem
+                                        to={routes.personsEdit.path.replace(':id', String(item.id))}>
+                                        {t('common.btn.edit')}
+                                    </FndtRowActionItem>
+                                </FndtRowActions>
                             </td>
                         </>
                     )

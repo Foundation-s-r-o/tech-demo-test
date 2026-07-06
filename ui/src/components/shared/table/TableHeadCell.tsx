@@ -1,5 +1,7 @@
-import classNames from 'classnames'
+import { ChevronUpDownIcon } from '@heroicons/react/24/outline'
+import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/24/solid'
 import React from 'react'
+import FndtIcon, { HeroIcon } from '../icons/FndtIcon'
 import { FndtTableHeadCellProps, SortDir } from './types'
 import { useFndtTable } from './useFndtTable'
 
@@ -19,14 +21,14 @@ export const FndtTableHeadCell = (props: FndtTableHeadCellProps) => {
         return classes.join(' ')
     }
 
-    const sortIcon = () => {
-        return isCurrent() ? getCurrentSortClass() : 'bi-arrow-down-up'
+    const sortIcon = (): HeroIcon => {
+        return isCurrent() ? getCurrentSortIcon() : ChevronUpDownIcon
     }
 
-    const getCurrentSortClass = () => {
+    const getCurrentSortIcon = (): HeroIcon => {
         return tableData.currentSortDir === SortDir.Asc
-            ? 'bi-arrow-up'
-            : 'bi-arrow-down'
+            ? ArrowUpIcon
+            : ArrowDownIcon
     }
 
     const handleSort = (event: React.MouseEvent<HTMLElement>) => {
@@ -65,7 +67,9 @@ export const FndtTableHeadCell = (props: FndtTableHeadCellProps) => {
                     onClick={handleSort}>
                     {props.children}
                     <span> </span>
-                    <i className={classNames('bi', sortIcon())}></i>
+                    <FndtIcon
+                        icon={sortIcon()}
+                        size="sm" />
                 </a>
             </th>
         )

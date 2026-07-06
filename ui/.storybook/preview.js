@@ -20,9 +20,28 @@ export const parameters = {
 export const initialGlobals = {
     locale: 'sk',
     locales: { sk: 'Slovensky' },
+    theme: 'light',
+}
+
+export const globalTypes = {
+    theme: {
+        description: 'Color mode (Bootstrap data-bs-theme)',
+        toolbar: {
+            title: 'Theme',
+            icon: 'mirror',
+            items: ['light', 'dark'],
+            dynamicTitle: true,
+        },
+    },
+}
+
+const withTheme = (Story, context) => {
+    document.documentElement.dataset.bsTheme = context.globals.theme || 'light'
+    return Story()
 }
 
 export const decorators = [
+    withTheme,
     withRouter,
     // (Story) => (
     //     <ContextProviders>

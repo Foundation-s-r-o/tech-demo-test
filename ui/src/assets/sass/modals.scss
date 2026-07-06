@@ -1,8 +1,10 @@
-$modal-title-color: #005ea5;
-$modal-header-bg-color: #ffffff;
-$modal-bg-color: #f7f7f7;
-$error-modal-title-bg-color: #b10e1e;
-$info-modal-title-bg-color: #005ea5;
+@import './nord';
+
+// Regular modals take Bootstrap's Nord-derived defaults; only the alert
+// modals carry a colored header. The fills are constant Nord deep shades in
+// both themes — white title text passes AA on them (raw nord11 would fail).
+$error-modal-title-bg-color: $nord11-deep;
+$info-modal-title-bg-color: $nord10-deep;
 
 // override of backdrop z-index for multiple modals
 @for $i from 1 through 6 {
@@ -21,8 +23,6 @@ $info-modal-title-bg-color: #005ea5;
         width: 360px !important;
 
         .modal-content {
-            background: #ffffff;
-
             .modal-header {
                 padding: 1rem 1rem;
 
@@ -60,18 +60,13 @@ $info-modal-title-bg-color: #005ea5;
         }
 
         .modal-content {
-            border: none;
-            background: $modal-bg-color;
-
             .modal-header {
                 padding: 0.5rem 1rem;
-                background: $modal-header-bg-color;
 
                 .modal-title {
                     width: 100%;
                     font-weight: normal;
                     font-size: 1.2rem;
-                    color: $modal-title-color;
                 }
             }
 

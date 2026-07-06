@@ -46,7 +46,19 @@ projects.
 **Frontend (React/TypeScript)**
 - Entry point: `index.tsx`
 - React 19.2, **TypeScript 6.0 (strict mode)**, React Router v7
-- Bootstrap 5.3 with SCSS
+- Bootstrap 5.3 with SCSS, themed with the **Nord palette** in light + dark mode
+  (`data-bs-theme`, header toggle persisted in localStorage, `prefers-color-scheme` first-visit
+  default set by an inline script in `index.html` to avoid theme flash)
+- **Theme token layer** (rule: component SCSS never hardcodes colors):
+  `src/assets/sass/_nord.scss` (Nord SCSS vars + AA-safe text derivatives) → Bootstrap variable
+  overrides (`bootstrap_variables_override.scss`, incl. `*-dark` vars) → app CSS custom
+  properties `--fndt-*` (`_theme-css-vars.scss`); third-party widget theming (react-select,
+  react-datepicker) in `_vendor-overrides.scss`
+- Icons: **Heroicons** (`@heroicons/react`, outline 24 default, solid for active states) via the
+  `FndtIcon` wrapper (`src/components/shared/icons/`); no icon font
+- Navigation: persistent collapsible left sidebar (`src/components/sidebar/`, menu data in
+  `src/components/menu/AppMenuTree.ts` with per-group Heroicon); collapses to an icon rail on
+  desktop (persisted), off-canvas overlay on mobile; header `.menu-trigger` button toggles it
 - i18n: i18next 26 + react-i18next 17 (Slovak translations in `assets/translations/sk.json`)
 - Features: auth context + protected routes, person management pages, reusable UI components,
   Formik + Yup forms
@@ -147,7 +159,8 @@ cd ui && npm run smoke:storybook       # Storybook smoke (auto-starts :6007)
 #     Auto-starts BOTH servers (API :8082 with profiles local,e2e on in-mem H2; UI :8080);
 #     ports must be free (reuseExistingServer: false). Covers login/failed login/logout,
 #     main page, persons list/create/edit, client-side validation, the ROLE_USER
-#     authorization matrix, axe-core accessibility (serious/critical gate), and the
+#     authorization matrix, axe-core accessibility (serious/critical gate, run in BOTH
+#     Nord color modes + theme-toggle persistence), and the
 #     live OpenAPI spec vs committed ui/api-docs.json.
 cd ui && npx playwright test           # or: npm run playwright
 
@@ -161,13 +174,13 @@ export DOCKER_CONFIG=$(mktemp -d)
 trivy fs . --scanners vuln --format table --output docs/trivy-report.txt
 trivy fs . --scanners vuln --format json  --output docs/trivy-report.json
 
-# 5. SonarQube — static analysis. Host: 10.16.35.93:9000 (needs SONAR_TOKEN in env).
+# 5. SonarQube — static analysis. Host: 10.16.35.113:9000 (needs SONAR_TOKEN in env).
 # Use -Dsonar.token (not -Dsonar.login — removed in SonarQube 25+).
-cd api && sonar-scanner -Dsonar.host.url=http://10.16.35.93:9000/ -Dsonar.token=$SONAR_TOKEN
-cd ui  && sonar-scanner -Dsonar.host.url=http://10.16.35.93:9000/ -Dsonar.token=$SONAR_TOKEN
+cd api && sonar-scanner -Dsonar.host.url=http://10.16.35.113:9000/ -Dsonar.token=$SONAR_TOKEN
+cd ui  && sonar-scanner -Dsonar.host.url=http://10.16.35.113:9000/ -Dsonar.token=$SONAR_TOKEN
 # Pull issues + gate metrics into docs/ for review (project keys: tech-demo-api, tech-demo-ui):
-curl -s -u "$SONAR_TOKEN:" "http://10.16.35.93:9000/api/issues/search?componentKeys=tech-demo-api" | jq '.' > docs/sonar-issues-tech-demo-api.json
-curl -s -u "$SONAR_TOKEN:" "http://10.16.35.93:9000/api/measures/component?component=tech-demo-api&metricKeys=bugs,vulnerabilities,security_hotspots,code_smells,coverage" | jq '.' > docs/sonar-metrics-tech-demo-api.json
+curl -s -u "$SONAR_TOKEN:" "http://10.16.35.113:9000/api/issues/search?componentKeys=tech-demo-api" | jq '.' > docs/sonar-issues-tech-demo-api.json
+curl -s -u "$SONAR_TOKEN:" "http://10.16.35.113:9000/api/measures/component?component=tech-demo-api&metricKeys=bugs,vulnerabilities,security_hotspots,code_smells,coverage" | jq '.' > docs/sonar-metrics-tech-demo-api.json
 ```
 
 **Then read the outputs and act on them:**
@@ -175,7 +188,7 @@ curl -s -u "$SONAR_TOKEN:" "http://10.16.35.93:9000/api/measures/component?compo
 - `docs/trivy-report.txt`: CRITICAL/HIGH CVEs → fix (minimal safe bump; see dependency
   constraints in `../CLAUDE.md`); MEDIUM/LOW → flag. CVEs with no released fix → flag, don't churn.
 - Sonar: bugs and vulnerabilities → fix; CRITICAL code smells → fix; lesser smells / hotspots →
-  flag and triage. Dashboards: `http://10.16.35.93:9000/dashboard?id=tech-demo-api` (and `...-ui`).
+  flag and triage. Dashboards: `http://10.16.35.113:9000/dashboard?id=tech-demo-api` (and `...-ui`).
 - Smoke tests: any failure → fix the underlying error, not the test.
 
 Escalate to the full suite regardless of line count when touching: `ui/src/common/auth/*`,
@@ -210,9 +223,11 @@ HTML report (with trace + screenshots) is at `ui/playwright-report-smoke/` and
 `ui/playwright-report-storybook/`; the full E2E report is at `ui/playwright-report/`.
 
 **Screenshots:** all Playwright configs set `screenshot: 'on'` — every test, **passed and
-failed**, saves a final-state screenshot under `ui/test-results/<test-name>/` and attaches it to
-the HTML report. The `*.log` files, `test-results/`, and report dirs are gitignored (regenerated
-each run).
+failed**, saves a final-state screenshot and attaches it to the HTML report. Each suite has its
+own `outputDir` so runs never wipe each other's images: `ui/test-results/e2e/<test-name>/`
+(full E2E), `ui/test-results/smoke/…`, `ui/test-results/storybook/…`. Review them directly on
+disk or via the HTML reports. The `*.log` files, `test-results/`, and report dirs are gitignored
+(regenerated each run).
 
 ### Playwright E2E test conventions
 

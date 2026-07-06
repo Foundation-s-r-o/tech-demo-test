@@ -1,20 +1,18 @@
-import { PropsWithChildren } from 'react'
+import { HeroIcon } from '../shared/icons/FndtIcon'
 
-export type ListItemType = {
+export type MenuItemType = {
     name: string
     link: string
+    icon?: HeroIcon
 }
 
-export type MenuRowPropsType = {
-    child: {
-        link?: string
-        name: string
-        listItem?: boolean
-        items?: ListItemType[]
-        listItemKey?: string
-    }
-    iter?: number
+export type MenuGroupType = {
+    key: string
+    name: string
+    icon?: HeroIcon
+    children: MenuItemType[]
 }
-export type MenuCollapsePropsType = {
-    eventKey: string
-} & PropsWithChildren
+
+export type MenuTreeType = {
+    items: MenuGroupType[]
+}

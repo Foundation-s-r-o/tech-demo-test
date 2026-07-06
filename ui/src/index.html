@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        // Set the color mode before first paint to avoid a flash of the wrong
+        // theme. Persisted choice wins; system preference is the first-visit
+        // default. persistService JSON-encodes values, hence the quote strip.
+        (function () {
+            var theme
+            try {
+                var stored = localStorage.getItem('fndt-theme')
+                if (stored) {
+                    theme = stored.replace(/"/g, '')
+                }
+            } catch (e) { /* storage unavailable */ }
+            if (theme !== 'light' && theme !== 'dark') {
+                theme = window.matchMedia('(prefers-color-scheme: dark)').matches
+                    ? 'dark'
+                    : 'light'
+            }
+            document.documentElement.setAttribute('data-bs-theme', theme)
+        })()
+    </script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

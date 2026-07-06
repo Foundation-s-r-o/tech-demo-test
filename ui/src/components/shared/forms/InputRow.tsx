@@ -11,9 +11,7 @@ export default function InputRow({
                 return (
                     <div
                         key={index}
-                        className={`col-lg-6 ${
-                            index === 0 ? 'text-lg-end' : ''
-                        }`}>
+                        className={index === 0 ? 'col-lg-2' : 'col-lg-6'}>
                         {child}
                     </div>
                 )

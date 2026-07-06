@@ -13,6 +13,7 @@ const FndtSelect = <
     return (
         <Select
             placeholder={props.placeholder || t('form.option.defaultSelectPlaceholder')}
+            classNamePrefix="fndt-select"
             {...props}
         />
     )

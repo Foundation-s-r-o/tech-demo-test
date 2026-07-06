@@ -1,13 +1,47 @@
-// @import '../../../node_modules/bootstrap/scss/variables';
-$light: rgba(240, 240, 240, 1);
-$blue: #232e64; // primary
+// Bootstrap variable overrides — Nord palette mapping.
+// Imported BEFORE Bootstrap; Bootstrap's _root.scss emits both the :root and
+// [data-bs-theme=dark] CSS variable blocks from these values.
+@import './nord';
+
+// Theme colors. $success/$warning/$info are light Nord tones — Bootstrap's
+// color-contrast() assigns dark button labels automatically (correct Nord style).
+$primary: $nord10-deep;
+$secondary: $nord3;
+$success: $nord14;
+$danger: $nord11;
+$warning: $nord13;
+$info: $nord8;
+$light: $nord5;
+$dark: $nord0;
+
+// Light mode
+$body-bg: $nord6;
+$body-color: $nord0;
+$border-color: $nord4;
+$link-color: $nord10-deep;
+
+// Dark mode (Bootstrap 5.3 built-in *-dark variables)
+$body-bg-dark: $nord0;
+$body-color-dark: $nord4;
+// Bootstrap's default .75 alpha yields 4.41:1 on nord2 surfaces (fails AA);
+// .85 gives ~5.1:1.
+$body-secondary-color-dark: rgba($nord4, .85);
+$body-secondary-bg-dark: $nord1;
+$body-tertiary-bg-dark: $nord1;
+$border-color-dark: $nord2;
+$link-color-dark: $nord8;
+
+// Dark-mode emphasis/subtle tones from tinted/shaded Aurora + Frost
+$primary-text-emphasis-dark: tint-color($nord10, 40%);
+$secondary-text-emphasis-dark: $nord4;
+$success-text-emphasis-dark: tint-color($nord14, 20%);
+$danger-text-emphasis-dark: $nord11-soft;
+$warning-text-emphasis-dark: tint-color($nord13, 20%);
+$info-text-emphasis-dark: tint-color($nord8, 20%);
+$primary-bg-subtle-dark: shade-color($nord10, 60%);
+$success-bg-subtle-dark: shade-color($nord14, 60%);
+$danger-bg-subtle-dark: shade-color($nord11, 60%);
+$warning-bg-subtle-dark: shade-color($nord13, 60%);
+$info-bg-subtle-dark: shade-color($nord8, 60%);
 
 $h2-font-size: 1.3em;
-$accordion-border-width: 0;
-$accordion-border-radius: 10px;
-$accordion-button-active-bg: none;
-$accordion-button-focus-border-color: none;
-$accordion-button-focus-box-shadow: none;
-$accordion-button-padding-x: 10px;
-$accordion-icon-color: #232e64;
-// $accordion-icon-active-color:             $accordion-button-active-color !default;

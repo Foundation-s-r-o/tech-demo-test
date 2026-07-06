@@ -4,7 +4,11 @@
             "footerVersion": "Verzia: {{version}}",
             "headerTitle": "Foundation project",
             "notLoggedInUser": "Neprihlásený používateľ",
-            "menu": "Menu"
+            "menu": "Menu",
+            "themeDark": "Prepnúť na tmavý režim",
+            "themeLight": "Prepnúť na svetlý režim",
+            "sidebarCollapse": "Zbaliť bočné menu",
+            "sidebarExpand": "Rozbaliť bočné menu"
         },
         "helper": {
             "pageTitleDelimiter": " - ",

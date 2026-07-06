@@ -1,0 +1,98 @@
+// Theme overrides for third-party widgets (react-select, react-datepicker).
+// CSS-var based, so both color modes work with no JS theme subscription.
+// Must be imported AFTER the vendor CSS in main.scss.
+
+// --- react-select (classNamePrefix="fndt-select" set in FndtSelect) ---
+.fndt-select__control {
+    background-color: var(--fndt-surface) !important;
+    border-color: var(--bs-border-color) !important;
+    color: var(--bs-body-color);
+
+    &--is-focused {
+        border-color: var(--bs-primary) !important;
+        box-shadow: 0 0 0 1px var(--bs-primary) !important;
+    }
+}
+
+.fndt-select__single-value,
+.fndt-select__input-container {
+    color: var(--bs-body-color) !important;
+}
+
+.fndt-select__placeholder {
+    color: var(--bs-secondary-color) !important;
+}
+
+.fndt-select__indicator-separator {
+    background-color: var(--bs-border-color) !important;
+}
+
+.fndt-select__menu {
+    background-color: var(--fndt-surface) !important;
+    border: 1px solid var(--bs-border-color);
+    color: var(--bs-body-color);
+}
+
+.fndt-select__option {
+    background-color: transparent !important;
+    color: var(--bs-body-color) !important;
+
+    &--is-focused {
+        background-color: var(--fndt-hover-bg) !important;
+    }
+
+    &--is-selected {
+        background-color: var(--bs-primary) !important;
+        color: #fff !important;
+    }
+}
+
+.fndt-select__multi-value {
+    background-color: var(--fndt-surface-alt) !important;
+
+    &__label {
+        color: var(--bs-body-color) !important;
+    }
+}
+
+// --- react-datepicker ---
+.react-datepicker {
+    background-color: var(--fndt-surface) !important;
+    border-color: var(--bs-border-color) !important;
+    color: var(--bs-body-color) !important;
+
+    &__header {
+        background-color: var(--fndt-surface-alt) !important;
+        border-bottom-color: var(--bs-border-color) !important;
+    }
+
+    &__current-month,
+    &__day-name,
+    &__day,
+    &__time-name {
+        color: var(--bs-body-color) !important;
+    }
+
+    &__day {
+        &:hover {
+            background-color: var(--fndt-hover-bg) !important;
+        }
+
+        &--selected,
+        &--keyboard-selected {
+            background-color: var(--bs-primary) !important;
+            color: #fff !important;
+        }
+
+        &--disabled,
+        &--outside-month {
+            color: var(--bs-secondary-color) !important;
+        }
+    }
+
+    &__triangle {
+        fill: var(--fndt-surface-alt) !important;
+        color: var(--fndt-surface-alt) !important;
+        stroke: var(--bs-border-color) !important;
+    }
+}

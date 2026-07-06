@@ -1,6 +1,5 @@
 import React from 'react'
 import { AppRouter } from '../router/AppRouter'
-import './App.scss'
 import AppLayout from '../layout/AppLayout'
 
 const App = () => {

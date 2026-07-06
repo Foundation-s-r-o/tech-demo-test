@@ -1,14 +1,17 @@
 import React, { PropsWithChildren } from 'react'
 import AuthProvider from '../../common/auth/AuthProvider'
 import ModalsProvider from '../modals/ModalsProvider'
+import { SidebarProvider } from '../sidebar/SidebarContext'
 
 const ContextProviders = ({ children }: PropsWithChildren) => {
     return (
         <>
             <AuthProvider>
-                <ModalsProvider>
-                    {children}
-                </ModalsProvider>
+                <SidebarProvider>
+                    <ModalsProvider>
+                        {children}
+                    </ModalsProvider>
+                </SidebarProvider>
             </AuthProvider>
         </>
     )
