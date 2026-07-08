@@ -3,7 +3,7 @@
 Run: 2026-05-27 · SonarQube host: `http://10.16.35.93:9000` (internal instance)
 
 Tools: ESLint + tsc (ui), Checkstyle + JaCoCo (api), Trivy (fs vuln), SonarQube (api + ui).
-Raw artifacts in this folder: `eslint-report.txt`, `trivy-report.{txt,json}`, `sonar-metrics-*.json`, `sonar-issues-*.json`.
+Raw artifacts in this folder: `trivy-report.txt`, `sonar-metrics-*.json`, and compact `sonar-issues-*.json` snapshots filtered to active BLOCKER/CRITICAL legacy severity or BLOCKER/HIGH impact severity.
 
 ## Remediation results (2026-05-27)
 
@@ -65,15 +65,15 @@ Frontend (npm):
 
 Many npm findings are transitive — pin via `"overrides"` in `ui/package.json` (per fndt/CLAUDE.md guidance), then `npm install --legacy-peer-deps`.
 
-## Sonar — notable issues
+## Sonar — active critical/high issues
 
-**api security hotspot:** `auth/UserResponseDTO.java:15` — hardcoded `password` (the mocked `Admin/admin` auth). Expected for the demo, but review before any real use.
+The checked-in `sonar-issues-*.json` snapshots are intentionally compact. They
+include only active issues with legacy severity BLOCKER/CRITICAL or impact
+severity BLOCKER/HIGH.
 
-**api CRITICAL code smells:** tab char in `PersonRepository.java:15`; duplicated log literals "Trace Id: {}" / "Span Id: {}" in `PersonServiceImpl` (extract constants); static-access on `IdentifiableEntity_.ID` in `PersonApiRepositoryImpl.java:75`.
-
-**ui bugs (3):** missing keyboard listeners on clickable `MenuCollapse.tsx:12` / `SubMenuRow.tsx:11` (a11y); redundant `try` in `TableWrapper.tsx:122`.
-
-**ui code smells:** 72 (1 critical, 36 major) — triage on dashboard.
+- api: no active critical/high issues in the current checked-in snapshot.
+- ui: 3 active HIGH-impact code smells remain; see
+  `docs/sonar-issues-tech-demo-ui.json`.
 
 ## Recommendations (priority order)
 
@@ -88,4 +88,4 @@ Many npm findings are transitive — pin via `"overrides"` in `ui/package.json` 
 | 5 | Address api CRITICAL smells (constants, tab char) | ✅ Done — all 4 closed in Sonar |
 | 6 | Raise test coverage (api 5.7%, ui 0%) | ⬜ Deferred (follow-up) |
 
-**Accepted/remaining (no fix within constraints):** 5 Trivy HIGH (spring-boot/actuator 3.4.x, lodash) — see *Remediation results*. Sonar ui still has 3 bugs (a11y keyboard listeners) + 1 pre-existing CRITICAL (`await` non-Promise in `LoginForm.tsx`) — outside the lint/CVE scope, candidates for the coverage follow-up.
+**Accepted/remaining (no fix within constraints):** 5 Trivy HIGH (spring-boot/actuator 3.4.x, lodash) — see *Remediation results*. Current checked-in Sonar issue snapshots contain only active high-priority findings: 3 HIGH-impact UI code smells and no active api critical/high issues.

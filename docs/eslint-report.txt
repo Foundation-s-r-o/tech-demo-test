@@ -1,4 +1,0 @@
-
-> react-typescript-ui-template@1.0.0 lint
-> tsc --noEmit && eslint --ext .ts,.tsx src/
-

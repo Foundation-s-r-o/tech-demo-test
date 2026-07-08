@@ -69,6 +69,28 @@ echo "### Running SonarQube analysis"
 # Project-pinned host (see CLAUDE.md). Deliberately NOT read from $SONAR_HOST_URL —
 # that env var carries a bare IP without scheme/port, which curl can't use.
 sonar_host="http://10.16.35.113:9000"
+sonar_issue_filter='
+  def high_priority:
+    (.severity == "BLOCKER" or .severity == "CRITICAL")
+    or any(.impacts[]?; .severity == "BLOCKER" or .severity == "HIGH");
+  def active:
+    (.status // "OPEN") | IN("OPEN", "CONFIRMED", "REOPENED");
+  def issue_summary:
+    {
+      key,
+      rule,
+      severity,
+      impactSeverities: ([.impacts[]?.severity] | unique),
+      type,
+      component,
+      line,
+      message,
+      effort,
+      status
+    };
+  ([.issues[]? | select(high_priority and active) | issue_summary]) as $issues
+  | {total: ($issues | length), issues: $issues}
+'
 if ! command -v sonar-scanner >/dev/null; then
   echo "WARNING: SKIPPED — sonar-scanner CLI not installed."
 elif [[ -z "${SONAR_TOKEN:-}" ]]; then
@@ -85,8 +107,8 @@ else
     popd >/dev/null
   done
   for key in tech-demo-api tech-demo-ui; do
-    curl -s -u "$SONAR_TOKEN:" "$sonar_host/api/issues/search?componentKeys=$key" \
-      | jq '.' > "$script_dir/docs/sonar-issues-$key.json"
+    curl -s -u "$SONAR_TOKEN:" "$sonar_host/api/issues/search?componentKeys=$key&ps=500&resolved=false" \
+      | jq "$sonar_issue_filter" > "$script_dir/docs/sonar-issues-$key.json"
     curl -s -u "$SONAR_TOKEN:" "$sonar_host/api/measures/component?component=$key&metricKeys=bugs,vulnerabilities,security_hotspots,code_smells,coverage" \
       | jq '.' > "$script_dir/docs/sonar-metrics-$key.json"
   done

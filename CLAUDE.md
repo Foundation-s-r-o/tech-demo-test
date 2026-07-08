@@ -44,7 +44,8 @@ via Lombok `@RequiredArgsConstructor` with `final` fields, and a type-safe front
 generated from the OpenAPI spec (`npm run generate-openapi-services`).
 
 Local run, commands, and the quality/security toolchain live in [`README.md`](README.md) and
-[`SECURITY.md`](SECURITY.md); the per-change verification recipe is below.
+[`SECURITY.md`](SECURITY.md); the per-change verification recipe is below. Periodic
+documentation cleanup follows [`docs/DOCUMENTATION_HYGIENE.md`](docs/DOCUMENTATION_HYGIENE.md).
 
 ## Essential Commands
 
@@ -116,13 +117,12 @@ cd ui && npm run smoke:storybook       # Storybook smoke (auto-starts :6007)
 # 3b. Playwright full E2E suite — run after major changes (and always for auth/API changes).
 #     Auto-starts BOTH servers (API :8082 with profiles local,e2e on in-mem H2; UI :8080);
 #     ports must be free (reuseExistingServer: false). Covers login/failed login/logout,
-#     main page, persons list/create/edit, client-side validation, the ROLE_USER
-#     authorization matrix, axe-core accessibility (serious/critical gate, run in BOTH
-#     Nord color modes + theme-toggle persistence), and the
-#     live OpenAPI spec vs committed ui/api-docs.json.
+#     main/person pages, birth-record office scoping, GDPR DSR, audit-chain verification,
+#     citizen /me, agency authorization, axe-core accessibility (serious/critical gate),
+#     theme-toggle persistence, and the live OpenAPI spec vs committed ui/api-docs.json.
 cd ui && npx playwright test           # or: npm run playwright
 
-# 4. Trivy — filesystem vuln scan, run in repo ROOT. Reports to docs/.
+# 4. Trivy — filesystem vuln scan, run in repo ROOT. Write only the compact text report.
 #    NOTE: Trivy pulls its vuln DB from a public OCI mirror via the Docker config.
 #    If Docker Desktop is absent the `docker-credential-desktop` helper is missing
 #    and the DB download FATAL-errors — but `--output` leaves the PREVIOUS report
@@ -130,15 +130,39 @@ cd ui && npx playwright test           # or: npm run playwright
 #    config first so Trivy does an anonymous pull (security_scan.sh does this too):
 export DOCKER_CONFIG=$(mktemp -d)
 trivy fs . --scanners vuln --format table --output docs/trivy-report.txt
-trivy fs . --scanners vuln --format json  --output docs/trivy-report.json
 
 # 5. SonarQube — static analysis. Host: 10.16.35.113:9000 (needs SONAR_TOKEN in env).
 # Use -Dsonar.token (not -Dsonar.login — removed in SonarQube 25+).
 cd api && sonar-scanner -Dsonar.host.url=http://10.16.35.113:9000/ -Dsonar.token=$SONAR_TOKEN
 cd ui  && sonar-scanner -Dsonar.host.url=http://10.16.35.113:9000/ -Dsonar.token=$SONAR_TOKEN
-# Pull issues + gate metrics into docs/ for review (project keys: tech-demo-api, tech-demo-ui):
-curl -s -u "$SONAR_TOKEN:" "http://10.16.35.113:9000/api/issues/search?componentKeys=tech-demo-api" | jq '.' > docs/sonar-issues-tech-demo-api.json
-curl -s -u "$SONAR_TOKEN:" "http://10.16.35.113:9000/api/measures/component?component=tech-demo-api&metricKeys=bugs,vulnerabilities,security_hotspots,code_smells,coverage" | jq '.' > docs/sonar-metrics-tech-demo-api.json
+# Pull compact issue reports + metrics into docs/ for review. Issue JSON keeps only
+# active legacy BLOCKER/CRITICAL issues or new impact-severity BLOCKER/HIGH issues.
+sonar_issue_filter='
+  def high_priority:
+    (.severity == "BLOCKER" or .severity == "CRITICAL")
+    or any(.impacts[]?; .severity == "BLOCKER" or .severity == "HIGH");
+  def active:
+    (.status // "OPEN") | IN("OPEN", "CONFIRMED", "REOPENED");
+  def issue_summary:
+    {
+      key,
+      rule,
+      severity,
+      impactSeverities: ([.impacts[]?.severity] | unique),
+      type,
+      component,
+      line,
+      message,
+      effort,
+      status
+    };
+  ([.issues[]? | select(high_priority and active) | issue_summary]) as $issues
+  | {total: ($issues | length), issues: $issues}
+'
+for key in tech-demo-api tech-demo-ui; do
+  curl -s -u "$SONAR_TOKEN:" "http://10.16.35.113:9000/api/issues/search?componentKeys=$key&ps=500&resolved=false" | jq "$sonar_issue_filter" > "docs/sonar-issues-$key.json"
+  curl -s -u "$SONAR_TOKEN:" "http://10.16.35.113:9000/api/measures/component?component=$key&metricKeys=bugs,vulnerabilities,security_hotspots,code_smells,coverage" | jq '.' > "docs/sonar-metrics-$key.json"
+done
 ```
 
 **Then read the outputs and act on them:**

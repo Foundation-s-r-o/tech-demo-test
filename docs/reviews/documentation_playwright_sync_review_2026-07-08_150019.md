@@ -236,7 +236,7 @@ These findings remain valid:
 
 1. `PROJECT_OVERVIEW.md` is materially stale and should be replaced or retired.
 2. Generated scanner artifacts under `docs/` are large and tracked:
-   `docs/sonar-issues-*.json`, `docs/trivy-report.json`, metrics JSON, report TXT.
+   `docs/sonar-issues-*.json`, `docs/trivy-report.txt`, metrics JSON.
    Prefer ignored per-run output plus short human summaries.
 3. Root-level `fossa_attribution.md` is a 44k-line generated legal artifact. If it
    must stay tracked, move it under `legal/` and document that agents should not

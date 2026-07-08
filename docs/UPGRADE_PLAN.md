@@ -227,7 +227,7 @@ Each phase: **make change → run gate → commit**. Do not start phase N+1 unti
 - [ ] Re-run the full gate **per sub-step** (do Boot bump and JDK bump as two commits if anything is shaky).
 - [ ] Update `pom.xml` security pins (Tomcat/Netty/etc.) — many may be unnecessary once Boot 4 manages newer versions; remove redundant explicit pins.
 
-**Gate:** `cd api && ./mvnw clean verify` green; `cd ui && npm run lint && npm run smoke && npm run smoke:storybook` green; Trivy scan (`docs/trivy-report.*`) reviewed — CRITICAL/HIGH fixed or flagged; manual end-to-end: login → CRUD → PDF.
+**Gate:** `cd api && ./mvnw clean verify` green; `cd ui && npm run lint && npm run smoke && npm run smoke:storybook` green; Trivy scan (`docs/trivy-report.txt`) reviewed — CRITICAL/HIGH fixed or flagged; manual end-to-end: login → CRUD → PDF.
 **Reasoning:** Last and riskiest. Because Phases 1–5 already removed Sleuth/Redis/MariaDB and built a test net, a failure here is almost certainly framework-localized and bisectable.
 
 ---

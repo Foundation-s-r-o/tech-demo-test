@@ -190,7 +190,7 @@ tech-demo-test/
 │   └── QUALITY_REPORT.md
 ├── scripts/security_scan.sh # Semgrep (metrics off) + Trivy + npm audit
 ├── doctor                   # build + lint + tests + FOSSA health check
-├── README.md  PROJECT_OVERVIEW.md  SECURITY.md  CLAUDE.md  # overview file is a retired pointer
+├── README.md  SECURITY.md  CLAUDE.md
 └── .github/workflows/fossa.yml  +  .circleci/config.yml
 ```
 
