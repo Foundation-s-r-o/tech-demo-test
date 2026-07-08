@@ -7,11 +7,28 @@ export type Credentials = {
     fullName: string
 }
 
-/** The ROLE_ADMIN demo account (admin/admin) — the default for most tests. */
+/** The SUPERVISOR demo account (admin/admin) — the default for most tests. */
 export const ADMIN_CREDENTIALS: Credentials = {
     username: USERNAME,
     password: PASSWORD,
     fullName: USER_FULLNAME,
+}
+
+// One demo account per registry role (seeded by LocalAdminInitializer, local | it profiles).
+export const SUPERVISOR_CREDENTIALS: Credentials = ADMIN_CREDENTIALS
+export const CLERK_CREDENTIALS: Credentials = { username: 'user', password: 'user', fullName: 'User User' }
+export const DPO_CREDENTIALS: Credentials = { username: 'dpo', password: 'dpo', fullName: 'Dpo Officer' }
+export const AUDITOR_CREDENTIALS: Credentials =
+    { username: 'auditor', password: 'auditor', fullName: 'Security Auditor' }
+export const AGENCY_CREDENTIALS: Credentials =
+    { username: 'agency', password: 'agency', fullName: 'Agency Reader' }
+export const CITIZEN_CREDENTIALS: Credentials =
+    { username: 'citizen', password: 'citizen', fullName: 'Citizen Portal' }
+
+/** Logs the current user out and waits for the login page. */
+export async function logout(page: Page): Promise<void> {
+    await page.locator('#app_header_logout').click()
+    await expect(page).toHaveURL(BASE_URL + '/login')
 }
 
 /**

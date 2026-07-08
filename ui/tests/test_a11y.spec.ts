@@ -75,7 +75,7 @@ for (const mode of ['light'] as ColorMode[]) {
         test(`Persons add form has no serious a11y violations (${mode})`, async ({ page }) => {
             await login(page)
             await page.goto(BASE_URL + '/persons/add')
-            await expect(page.locator('#PersonEditForm_firstName')).toBeVisible()
+            await expect(page.locator('#PersonCreateForm_givenNames')).toBeVisible()
             await expectNoSeriousViolations(page, `persons add (${mode})`)
         })
     })
