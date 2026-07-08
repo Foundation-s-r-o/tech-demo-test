@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -30,6 +30,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  */
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
 	private static final String[] PUBLIC_PATHS = {
@@ -42,9 +43,10 @@ public class SecurityConfig {
 		"/v3/api-docs/**",
 	};
 
-	// Role names (without the ROLE_ prefix that hasRole/hasAnyRole add automatically).
-	private static final String ROLE_ADMIN = "ADMIN";
-	private static final String ROLE_USER = "USER";
+	// Registry role name (without the ROLE_ prefix that hasRole adds automatically). The full
+	// per-endpoint matrix (contract x-required-roles) is enforced by method-level @PreAuthorize
+	// on the registry controllers; only infra paths are matched here.
+	private static final String SUPERVISOR = Role.SUPERVISOR.name();
 
 	// Defense-in-depth CSP for API-origin responses (error pages, and swagger-ui outside prod).
 	// The SPA is served from its own origin and ships its own CSP, so this does not govern it.
@@ -87,7 +89,8 @@ public class SecurityConfig {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowedOrigins(allowedOrigins);
 		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-		config.setAllowedHeaders(List.of("Content-Type", "X-XSRF-TOKEN", "Cache-Control", "Pragma", "Expires"));
+		config.setAllowedHeaders(List.of("Content-Type", "X-XSRF-TOKEN", "Cache-Control", "Pragma", "Expires",
+				"X-Access-Purpose", "X-Request-Id"));
 		config.setAllowCredentials(true);
 		config.setMaxAge(3600L);
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -106,13 +109,9 @@ public class SecurityConfig {
 						.csrfTokenRequestHandler(csrfTokenRequestHandler))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers(PUBLIC_PATHS).permitAll()
-						// Authorization matrix (default): ADMIN = full CRUD + PDF export + ops
-						// endpoints; USER = read-only (list + detail). See SECURITY.md.
-						.requestMatchers(HttpMethod.GET, "/api/persons/*/pdf").hasRole(ROLE_ADMIN)
-						.requestMatchers(HttpMethod.GET, "/api/persons", "/api/persons/**")
-								.hasAnyRole(ROLE_USER, ROLE_ADMIN)
-						.requestMatchers("/api/persons", "/api/persons/**").hasRole(ROLE_ADMIN)
-						.requestMatchers("/actuator/**").hasRole(ROLE_ADMIN)
+						// Per-operation registry authorization is enforced by @PreAuthorize on the
+						// controllers (contract x-required-roles). Only infra paths are matched here.
+						.requestMatchers("/actuator/**").hasRole(SUPERVISOR)
 						.anyRequest().authenticated())
 				.sessionManagement(session -> session
 						.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))

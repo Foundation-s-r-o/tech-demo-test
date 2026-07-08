@@ -24,6 +24,8 @@ public class AppUserDetails implements UserDetails {
 	private final String lastName;
 	private final String role;
 	private final boolean enabled;
+	private final String officeCode;
+	private final String personUid;
 
 	public AppUserDetails(User user) {
 		this.username = user.getUsername();
@@ -32,6 +34,8 @@ public class AppUserDetails implements UserDetails {
 		this.lastName = user.getLastName();
 		this.role = user.getRole();
 		this.enabled = user.isEnabled();
+		this.officeCode = user.getOfficeCode();
+		this.personUid = user.getPersonUid();
 	}
 
 	@Override

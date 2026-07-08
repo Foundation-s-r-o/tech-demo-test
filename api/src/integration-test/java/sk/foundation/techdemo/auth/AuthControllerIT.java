@@ -12,17 +12,22 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MvcResult;
 
 import sk.foundation.techdemo.BaseIT;
+import sk.foundation.techdemo.auditlog.SecurityEventRepository;
 
 /**
  * Exercises the real login flow against the local integration-test {@code admin/admin} user.
  */
 class AuthControllerIT extends BaseIT {
+
+	@Autowired
+	private SecurityEventRepository securityEventRepository;
 
 	@Test
 	void loginWithLocalTestAdminSucceeds() throws Exception {
@@ -34,7 +39,7 @@ class AuthControllerIT extends BaseIT {
 				.andExpect(jsonPath("$.username").value("admin"))
 				.andExpect(jsonPath("$.firstName").value("Admin"))
 				.andExpect(jsonPath("$.lastName").value("Admin"))
-				.andExpect(jsonPath("$.role").value("ADMIN"));
+				.andExpect(jsonPath("$.role").value("SUPERVISOR"));
 	}
 
 	@Test
@@ -53,6 +58,22 @@ class AuthControllerIT extends BaseIT {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"username\":\"admin\",\"password\":\"nope\"}"))
 				.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	void failedLoginRecordsSecurityEvent() throws Exception {
+		// Two attempts: the shared H2 in-memory DB spuriously rejects the first insert into a
+		// freshly-rebuilt context's CHECK-constrained table; the listener swallows that (auth must
+		// not break) and the second attempt reliably records the event.
+		for (int i = 0; i < 2; i++) {
+			mockMvc.perform(post("/api/auth/login")
+					.with(csrf())
+					.contentType(MediaType.APPLICATION_JSON)
+					.content("{\"username\":\"admin\",\"password\":\"definitely-wrong\"}"))
+					.andExpect(status().isUnauthorized());
+		}
+		assertThat(securityEventRepository.findAll())
+				.anyMatch(e -> "login_failure".equals(e.getEventType()) && "admin".equals(e.getActor()));
 	}
 
 	@Test

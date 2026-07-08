@@ -43,4 +43,12 @@ public class User extends IdentifiableEntity<Long> {
 	@Column(name = "ENABLED", nullable = false)
 	private boolean enabled;
 
+	/** Registry office scope for CLERK logins (NULL = central authority / non-clerk). */
+	@Column(name = "OFFICE_CODE")
+	private String officeCode;
+
+	/** The person this login represents, for CITIZEN portal logins (NULL otherwise). */
+	@Column(name = "PERSON_UID")
+	private String personUid;
+
 }
