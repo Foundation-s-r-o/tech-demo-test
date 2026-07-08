@@ -153,16 +153,17 @@ Migration `V4` deletes the historical migration seed from every database; `Local
 recreates these accounts only when the `local` or `it` profile is explicitly active. Never activate
 `local` in a deployed environment.
 
-For production, prefer an external identity provider such as Keycloak/OIDC and provision
-administrators in that system with MFA and auditable role assignment. If database-backed login
-must be used temporarily:
+For production, enable **MFA using Spring Security 7's built-in support** (one-time tokens,
+WebAuthn / passkeys, TOTP — no external identity provider required). An external IdP
+(Keycloak/OIDC) is optional, for SSO, federation, and centralized user lifecycle. If
+database-backed login must be used temporarily:
 
 1. Generate a unique random password in the deployment secret manager.
 2. Run a one-time, access-controlled provisioning job inside the trusted environment.
 3. Hash the password with BCrypt (cost 12 or higher) inside that job and insert the administrator;
    do not pass the plaintext through an image build argument, migration, repository file, or log.
-4. Disable or remove the provisioning job after success and require password rotation/MFA at the
-   identity layer as soon as available.
+4. Disable or remove the provisioning job after success and require password rotation plus MFA
+   (native Spring Security 7 MFA, or at the external IdP if one is adopted) as soon as feasible.
 5. Start with the `prod` profile and set `APP_ALLOWED_ORIGINS` to exact HTTPS origins.
 
 The repository intentionally does not provide a generic production bootstrap script because such
@@ -185,10 +186,10 @@ a script would become a reusable privileged credential path without a defined de
 
 ## Known residual gaps
 
-The 2026-06-12 review closed the critical dependency finding and all eight high-severity
-findings (see `security_remediation_2026-06-12_094357.md`). The medium/low items are tracked
-below. The remaining **open** items must be closed before this template is used as a
-production-ready service; track them here, not only in the dated remediation report.
+This table is the single home for the medium/low hardening items. (The initial baseline review's
+critical dependency finding and all eight high-severity findings were closed during security
+hardening.) The remaining **open** items must be closed before this template is used as a
+production-ready service.
 
 | Gap | Severity | Status | Note |
 | --- | -------- | ------ | ---- |
@@ -201,7 +202,9 @@ production-ready service; track them here, not only in the dated remediation rep
 
 ## Future hardening (deferred — see `docs/UPGRADE_PLAN.md`)
 
-- **Auth → Keycloak** (OIDC) for production identity, MFA, lifecycle, and audit controls.
+- **MFA** via Spring Security 7's built-in support (OTT / passkeys / TOTP) — added in-app, no
+  external IdP required. An external IdP (Keycloak / OIDC) is optional, for SSO / federation /
+  lifecycle / audit.
 - **DB → PostgreSQL** via a `prod` Spring profile. Flyway migrations are already
   portable ANSI SQL so the swap is meant to be a non-event.
 - **Observability → OpenTelemetry + Prometheus + Loki + Jaeger.** Today only

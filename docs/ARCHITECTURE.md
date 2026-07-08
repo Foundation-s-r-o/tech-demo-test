@@ -544,8 +544,9 @@ steps (full detail in [`docs/UPGRADE_PLAN.md`](./UPGRADE_PLAN.md) and
 
 1. **DB → PostgreSQL** via a `prod` profile. Migrations are already portable ANSI
    SQL, so the swap is meant to be a non-event.
-2. **Auth → Keycloak / OIDC** for production identity, MFA, lifecycle, and audit
-   — replacing DB-backed session login.
+2. **MFA** via Spring Security 7's built-in support (one-time tokens, passkeys /
+   WebAuthn, TOTP) — added in-app, no external IdP required. An external IdP
+   (Keycloak / OIDC) is optional, for SSO / federation / centralized lifecycle.
 3. **Platform controls** — TLS termination, login throttling / rate limiting,
    audit logging, and secret management (Vault / cloud KMS; never `.env`).
 4. **Observability → OpenTelemetry + Prometheus + Loki + Jaeger.** Today only

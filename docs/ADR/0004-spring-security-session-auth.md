@@ -46,10 +46,25 @@ in `auth/SecurityConfig.java`:
 * **Security headers**: CSP (`script-src 'self'`, no `unsafe-eval`),
   `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`.
 * A 401 entry point — the API never redirects to a login page.
+* **Authorization** is per-operation via `@PreAuthorize` (`@EnableMethodSecurity`)
+  over six domain roles — `CLERK`, `SUPERVISOR`, `AGENCY_READER`, `DPO_OFFICER`,
+  `SECURITY_AUDITOR`, `CITIZEN` (`auth/Role.java`) — with service-layer office
+  scoping for clerks and an own-data predicate for the citizen portal (the
+  app-layer stand-in for PostgreSQL RLS; see
+  [ADR-0011](0011-civil-registry-schema-port.md)). `USERS` is the single
+  credential store; its `OFFICE_CODE` / `PERSON_UID` columns (migration `V7`)
+  carry clerk scope and citizen identity. Authentication failures are recorded to
+  `AUDIT.SECURITY_EVENT` (`auth/SecurityEventListener`). The full role matrix
+  lives in [`SECURITY.md`](../../SECURITY.md).
 
-The **OIDC boundary is kept open**: authorization lives in the app, so a future
-switch to Keycloak/OIDC for production identity, MFA, and lifecycle does not
-require rewriting the authorization logic.
+**MFA does not require an external IdP.** Spring Security 7 (the line Spring Boot
+4 ships) provides built-in multi-factor authentication — one-time tokens,
+WebAuthn / passkeys, and TOTP, modelled as progressive granting of authorities
+via `@EnableMultiFactorAuthentication` — so production MFA is added *in this
+application*, not a reason to adopt Keycloak. The **OIDC boundary is still kept
+open**: authorization lives in the app, so a later switch to an external IdP for
+SSO, federation, or centralized user lifecycle would not require rewriting the
+authorization logic — but it is now optional, not the MFA path.
 
 The known **`admin`/`admin`** account is created **only** under the explicit
 `local` and `it` profiles (`LocalAdminInitializer`, `@Profile("local | it")`).
@@ -60,8 +75,9 @@ default and `prod` profiles provision no known user.
 
 * Good — one fewer stateful service; a single source of truth for users.
 * Good — correct, complete controls demonstrated at the right layer.
-* Good — production identity (Keycloak/OIDC, MFA, audit) is a config-level
-  upgrade, not a rewrite.
+* Good — production MFA is a native Spring Security 7 feature added in-app (no
+  external IdP needed); adopting Keycloak/OIDC later for SSO / federation /
+  lifecycle stays a config-level upgrade, not a rewrite.
 * Bad — the app owns password reset / lockout surface that an IdP would provide;
   mitigated by using only built-in Spring Security mechanisms.
 * Bad — **login throttling / rate limiting is not yet implemented** (open gap in
@@ -70,13 +86,16 @@ default and `prod` profiles provision no known user.
 
 ## Validation
 
-Enforced and tested in source — `SecurityConfig` request matchers plus the
-negative tests in `PersonControllerIT`. Where this ADR and any prose doc
-disagree, the source (`SecurityConfig.java`) is authoritative.
+Enforced and tested in source — `SecurityConfig` request matchers, the six-role
+`@PreAuthorize` matrix, plus the negative/authorization integration tests. Where
+this ADR and any prose doc disagree, the source (`SecurityConfig.java` +
+`@PreAuthorize` annotations) is authoritative.
 
 ## More Information
 
-A production deployment would add mandatory MFA at the identity layer (e.g. for
-regulated data). Deferred production identity is tracked in
-[`docs/UPGRADE_PLAN.md`](../UPGRADE_PLAN.md) and
-[`SECURITY.md`](../../SECURITY.md).
+A production deployment would enable MFA (e.g. for regulated data) with Spring
+Security 7's built-in support — see
+[Multi-Factor Authentication (Spring Security reference)](https://docs.spring.io/spring-security/reference/servlet/authentication/mfa.html)
+and the [Spring Security 7 MFA announcement](https://spring.io/blog/2025/10/21/multi-factor-authentication-in-spring-security-7/).
+An external IdP (optional — SSO / federation / lifecycle) is tracked in
+[`docs/UPGRADE_PLAN.md`](../UPGRADE_PLAN.md) and [`SECURITY.md`](../../SECURITY.md).

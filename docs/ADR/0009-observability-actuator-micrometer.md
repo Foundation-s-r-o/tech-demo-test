@@ -28,7 +28,7 @@ metrics in a way a real stack can attach to later.
 
 Chosen option: **Actuator + Micrometer**. The API exposes Actuator with a
 **health-only public** surface (`management.endpoints.web.exposure.include=health`);
-all other operational endpoints require `ADMIN`
+all other operational endpoints require `SUPERVISOR`
 ([ADR-0004](0004-spring-security-session-auth.md)). The Micrometer Prometheus
 registry is enabled (`micrometer-registry-prometheus`), so a Prometheus scrape
 or a full observability stack is a *configuration* step later, not a rewrite.
@@ -49,6 +49,6 @@ reference inputs, not a supported stack
 ## More Information
 
 Source: `application.properties` (Actuator health-only, Prometheus registry
-enabled), `api/pom.xml` (`micrometer-registry-prometheus`), and the ADMIN gate
-on `/actuator/**` in `SecurityConfig`. Deferred phases in
+enabled), `api/pom.xml` (`micrometer-registry-prometheus`), and the SUPERVISOR
+gate on `/actuator/**` in `SecurityConfig`. Deferred phases in
 [`docs/UPGRADE_PLAN.md`](../UPGRADE_PLAN.md).

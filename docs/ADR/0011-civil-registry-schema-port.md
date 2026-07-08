@@ -57,10 +57,10 @@ Chosen option: **port to the app's Flyway/H2 schema with application-layer enfor
 ### Consequences
 
 * **Positive**: single source of truth; inner loop stays Docker-free; the design is now executable
-  and tested — T1–T13 semantics are ported to integration tests (the punch-list follow-up completed
-  T3 bitemporal-overlap rejection, T4 point-in-time selection, and T9 the minimal AGENCY_READER
-  view). T14 (representative portal access) is **not** ported and remains an accepted deviation
-  (`/me` is own-data-only), recorded in `db/openapi.yaml`.
+  and tested — the `test_schema.sql` semantics T1–T13 (including bitemporal-overlap rejection,
+  point-in-time selection, and the minimal AGENCY_READER view) are ported to integration tests.
+  T14 (representative portal access) is **not** ported — an accepted deviation (`/me` is
+  own-data-only), recorded in `db/openapi.yaml`.
 * **Negative / accepted**: app-layer enforcement is weaker than in-DB RLS — a non-app database
   client bypasses scoping and tamper-evidence. This is explicitly documented with the re-hardening
   path; deviations from the contract (session auth vs OAuth2 scopes, `/api` base path, the retained

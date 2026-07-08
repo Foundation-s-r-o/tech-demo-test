@@ -18,12 +18,7 @@ Which format and structure should these records follow?
 
 ## Decision Outcome
 
-Chosen option: "MADR 3.0.0", because
-
-* Implicit assumptions should be made explicit.
-  Design documentation is important to enable people understanding the decisions later on.
-  See also [A rational design process: How and why to fake it](https://doi.org/10.1109/TSE.1986.6312940).
-* MADR allows for structured capturing of any decision.
-* The MADR format is lean and fits our development style.
-* The MADR structure is comprehensible and facilitates usage & maintenance.
-* The MADR project is vivid.
+Chosen option: **MADR 3.0.0**, because it captures any decision in a lean,
+structured Markdown format that fits our development style and makes implicit
+assumptions explicit — see [A rational design process: How and why to fake
+it](https://doi.org/10.1109/TSE.1986.6312940).

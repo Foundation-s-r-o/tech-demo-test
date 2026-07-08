@@ -17,9 +17,9 @@ General information about architecture decision records is available at
   are not rewritten in place.
 - **Source-gate precedence.** Where an ADR (or any prose doc) and the running
   source / configuration disagree, the source is authoritative — see
-  [`SECURITY.md`](../../SECURITY.md). The prose is then corrected to match, or
-  the config is fixed if it is the defect. See
-  [0008](0008-strict-quality-security-gate.md) for current known conflicts.
+  [`SECURITY.md`](../../SECURITY.md) and
+  [ADR-0008](0008-strict-quality-security-gate.md). The prose is then corrected
+  to match, or the config is fixed if it is the defect.
 - The high-level architecture overview that ties these ADRs together is
   [`docs/ARCHITECTURE.md`](../ARCHITECTURE.md).
 

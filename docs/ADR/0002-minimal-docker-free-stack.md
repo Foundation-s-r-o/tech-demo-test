@@ -63,7 +63,5 @@ Micrometer/Actuator surface a real observability stack can attach to later
 
 Realised by the source: `application.properties` (H2 file-mode, no Docker),
 `api/.sdkmanrc` (Java 21 LTS), and the two-terminal workflow in
-[`README.md`](../../README.md) / [`CLAUDE.md`](../../CLAUDE.md). This premise is
-specific to a template context — a public, GitHub-hosted repo
-([ADR-0001](0001-using-source-repo.md)) with no real-world data; a downstream
-project with different constraints is expected to revisit it.
+[`README.md`](../../README.md) / [`CLAUDE.md`](../../CLAUDE.md). A downstream
+project with different constraints is expected to revisit this premise.

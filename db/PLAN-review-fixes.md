@@ -1,6 +1,10 @@
 # Plan — fix the REVIEW-LOG.md punch list (registry-port completion)
 
-Status: 🔲 not started · Created: 2026-07-08 · Owner: Claude Code (execute on Jozef's go)
+Status: ✅ done (2026-07-08) · Created: 2026-07-08 · Owner: Claude Code
+
+All work packages (WP1–WP7) are implemented, verified, and committed
+(`35587bd`..`8d47f5d`); the working tree is clean. Closure recorded in
+[REVIEW-LOG.md](REVIEW-LOG.md) ("Closing entry — punch list resolved").
 
 ## Context
 

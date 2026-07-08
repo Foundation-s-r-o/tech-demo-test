@@ -747,7 +747,9 @@ corrected (T3/T4/T9 ported, T14 accepted deviation); new
 rewritten to the civil registry; SECURITY.md agency row + security-event note;
 DESIGN.md §12 guard row refined; V6 header count corrected to 6,167.
 
-**Remaining (WP5 client regen + WP7 release checklist):** the OpenAPI client
-regeneration (`ui/api-docs.json` + generated client) and the full release gate
-(`./doctor`, `security_scan.sh`, Sonar both projects, `docs/` artifact refresh,
-commits) run against a live server / network and are executed separately.
+**WP5 client regen + WP7 release checklist — done (2026-07-08).** OpenAPI resynced
+(`ui/api-docs.json` carries `/api/agency/persons/{uid}`; `AgencyControllerApi` +
+`AgencyPersonDTO` regenerated); the release gate ran and `docs/` artifacts were
+refreshed (Sonar both projects, Trivy, smoke logs); the port was committed in
+reviewable chunks (`35587bd`..`8d47f5d`, no push, no `Co-Authored-By`). Working tree
+clean — nothing outstanding.

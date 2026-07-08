@@ -11,7 +11,7 @@ With a deliberately small test surface, the automated gate is the main thing
 keeping `main` releasable and modelling the bar downstream projects inherit. The
 question is which controls are *blocking* versus *advisory*, and — because this
 template is GitHub-hosted ([ADR-0001](0001-using-source-repo.md)) — which
-GitHub-native toolchain implements them.
+toolchain implements them.
 
 ## Decision Drivers
 
@@ -36,10 +36,10 @@ Chosen option: a **GitHub-native, layered gate**. Blocking vs advisory:
 | Checkstyle (`failOnViolation=true`) | Maven `validate` | **Yes** |
 | ESLint + `tsc --noEmit` | `npm run lint` | **Yes** (errors) |
 | GitGuardian secret scan | GitHub PR | **Yes** |
+| JaCoCo coverage (merged unit+IT) | `jacoco:check` on `verify` | **Yes** (≥ floor) |
 | CodeQL default setup | push/PR/weekly | reports |
 | Dependabot (Maven + npm) | weekly | opens PRs |
 | FOSSA (license + vuln) | GitHub Action on `main` | scan-only (non-blocking) |
-| JaCoCo coverage | Maven `verify` | report-only (no minimum yet) |
 | Trivy `fs` | on-demand / `security_scan.sh` | HIGH/CRITICAL kept at 0 |
 | Semgrep | `scripts/security_scan.sh` | metrics off; advisory |
 | SonarQube (internal) | on-demand | dashboard only |
@@ -49,43 +49,21 @@ Integration tests run on **in-memory H2 only — no Docker / Testcontainers**
 `verify` is a regression. Verification depth scales with net lines changed
 (CLAUDE.md → "Verifying Code Changes").
 
-**Authority rule (source-gate precedence).** Where prose documentation and the
-running configuration disagree, **the configuration / source code is
-authoritative** — consistent with [`SECURITY.md`](../../SECURITY.md), which
-treats the implemented controls as the source of truth. Prose is then corrected
-to match the config, or the config is fixed if it is the defect; the
-disagreement is never left unresolved.
+**Authority rule (source-gate precedence).** Where prose and the running
+configuration disagree, **the configuration / source is authoritative** —
+consistent with [`SECURITY.md`](../../SECURITY.md). Prose is then corrected to
+match, or the config is fixed if it is the defect; the disagreement is never left
+unresolved.
 
 ### Consequences
 
 * Good — security is enforced continuously and automatically.
 * Good — clear separation of blocking vs advisory controls.
-* Bad — advisory-only items (coverage, Sonar gate, FOSSA) can regress silently;
-  tracked as open gaps in [`SECURITY.md`](../../SECURITY.md).
+* Bad — advisory-only items (Sonar, FOSSA) can regress silently; tracked as open
+  gaps in [`SECURITY.md`](../../SECURITY.md).
 * Bad — Trivy's `--output` leaves a stale report if its DB pull fails (missing
   `docker-credential-desktop`); neutralise the Docker config first
   (`export DOCKER_CONFIG=$(mktemp -d)`), as `security_scan.sh` does.
-
-## Validation
-
-Known doc-vs-config conflicts at time of writing (resolved in favour of source
-per the authority rule):
-
-1. **CircleCI npm install command.** `.circleci/config.yml` runs
-   `npm ci --legacy-peer-deps --no-audit --no-fund`, but `CLAUDE.md` documents
-   `npm install --legacy-peer-deps …` and explicitly warns that `npm ci` fails
-   on Linux because the lockfile only pins the dev host's
-   `@parcel/watcher-darwin-arm64` binary. The config is authoritative for *what
-   runs today*, but this is flagged as a likely defect — either the config
-   should move to `npm install`, or the lockfile must carry all platform
-   `@parcel/watcher` entries. **Action: reconcile `.circleci/config.yml` and
-   `CLAUDE.md`.** *Resolved 2026-07-06: the lockfile carries full entries for
-   all `@parcel/watcher` platform variants, so `npm ci` is correct;
-   `CLAUDE.md` was updated to match the config.*
-2. **Auth endpoint name.** `SECURITY.md` references `/api/auth/me`; the source
-   (`AuthController`) exposes `/api/auth/currentuser`. Source wins; `SECURITY.md`
-   should be corrected. *Resolved: `SECURITY.md` now names
-   `/api/auth/currentuser`.*
 
 ## More Information
 

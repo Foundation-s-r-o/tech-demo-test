@@ -45,8 +45,14 @@ The lock-in is avoided by hard rules, all enforced in source:
 * `PhysicalNamingStrategyStandardImpl` + `globally_quoted_identifiers=false` keep
   identifiers unquoted and case-portable, so the same DDL runs on PostgreSQL.
 
-The PostgreSQL swap is meant to be a *non-event*: add `prod` datasource +
-dialect, run the existing migrations.
+The PostgreSQL swap is a *near non-event*: add a `prod` datasource + dialect and
+run the existing migrations. It is not entirely free — the civil-registry schema
+([ADR-0011](0011-civil-registry-schema-port.md)) uses PostgreSQL-only mechanisms
+(RLS, `EXCLUDE` bitemporal constraints, partial unique indexes, audit triggers,
+pgcrypto) that H2 cannot express, so they are emulated in the application layer
+and the swap also applies a **re-hardening delta** that re-adds them in the
+database (the `-- PG-delta:` markers in `V5` and
+[`db/DESIGN.md` §12](../../db/DESIGN.md)).
 
 ### Consequences
 
@@ -55,11 +61,12 @@ dialect, run the existing migrations.
 * Bad — H2 and PostgreSQL differ in edge semantics (types, constraints,
   concurrency), so the swap still needs PostgreSQL-backed integration coverage
   before it is trusted. Tracked in [`docs/UPGRADE_PLAN.md`](../UPGRADE_PLAN.md).
-* Bad — features that would benefit from PostgreSQL-only capabilities (e.g.
-  Row-Level Security, JSONB, partial indexes) cannot be used while H2 is in the
-  matrix. Accepted for a template; a downstream project needing them opens a new
-  ADR (a regulated project that mandates PostgreSQL + RLS, for example, cannot
-  make this trade and would choose PostgreSQL everywhere).
+* Bad — the PostgreSQL-only guarantees above (RLS, `EXCLUDE`, partial unique
+  indexes) are enforced in the application layer while H2 is in the matrix
+  (Spring Security + service-layer scoping, `BitemporalGuard`, `AuditService`
+  hash chain), so any non-app DB client bypasses them until the re-hardening
+  delta is applied on the PostgreSQL switch
+  ([ADR-0011](0011-civil-registry-schema-port.md)).
 
 ## More Information
 

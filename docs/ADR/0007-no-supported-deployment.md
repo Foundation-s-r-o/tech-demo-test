@@ -31,10 +31,10 @@ target, so any deployment definition it shipped would be a guess.
 
 ## Decision Outcome
 
-Chosen option: **no supported deployment definition.** The stale Docker /
-Compose / ECR / Elastic Beanstalk scaffolding was removed.
-`run_application.sh` is local-only; the `grafana/`, `loki/`, `prometheus/`, and
-`otel-config.yml` files are reference inputs, not a supported stack.
+Chosen option: **no supported deployment definition** — the stale scaffolding
+above was removed. `run_application.sh` is local-only; the `grafana/`, `loki/`,
+`prometheus/`, and `otel-config.yml` files are reference inputs, not a supported
+stack.
 
 A real deployment must start from a documented threat model, the `prod` profile,
 external secret management, TLS termination, and an explicit

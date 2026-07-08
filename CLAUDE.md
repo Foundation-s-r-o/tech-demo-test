@@ -2,11 +2,13 @@
 
 ## Stack & Ground Rules
 
-Current stack: **Spring Boot 4.0.6 / Java 21 LTS / embedded H2 (file-mode) / Spring Security
-session login / OpenPDF**, with a **React 19.2 + TypeScript 6.0 (strict)** SPA.
+Stack: **Spring Boot 4 / Java 21 LTS / embedded H2 file-mode / Spring Security session login /
+OpenPDF**, with a **React 19 + TypeScript (strict)** SPA. The pinned-version table lives in
+[`README.md`](README.md#stack-snapshot); architecture, layout, and data flows in
+[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — read those rather than restating them here.
 
-**JDK:** Java 21 LTS, pinned in `api/.sdkmanrc` (`sdk env`). The global SDKMAN default is left
-alone (the workspace has Java 8/11 projects).
+**JDK:** `cd api && sdk env` picks up Java 21 from `api/.sdkmanrc`. Leave the global SDKMAN
+default alone — the workspace has Java 8/11 projects.
 
 **Fast iteration is paramount.** Keep the local inner loop fast and **flag anything that slows
 local development** (Docker requirements, slow tests, heavyweight infra). Speed comes from
@@ -16,84 +18,33 @@ removing infra, not from loosening the build gate.
 `verify`. With few tests, the gate is the main safety net — verify before each commit; do not
 relax it for speed.
 
-**Stack details:**
-- **Spring Boot 4.0.6** — stay on the 4.0 line.
-- **Java 21 LTS** (`api/.sdkmanrc`).
-- **DB: embedded H2 file-mode** (`./data/`, gitignored) — no Docker. Flyway migrations in
-  **portable ANSI SQL**; datasource + Hibernate dialect are **profile-driven** (never hardcode
-  `H2Dialect` in shared config; avoid vendor-specific SQL/types).
-- **Auth: Spring Security session login**, users in DB, BCrypt, CSRF cookie/header flow,
-  exact-origin CORS, and session-ID rotation. The known **`admin` / `admin`** account is created
-  only by explicit `local` and integration-test profiles; see [`SECURITY.md`](SECURITY.md).
-- **PDF: OpenPDF** (`com.github.librepdf:openpdf`) — `GET /api/persons/{id}/pdf`.
-- **JSON: Jackson 3** (`tools.jackson`, via `spring-boot-starter-json`).
-- **Observability:** Spring Boot Actuator + Micrometer.
+**Non-negotiable conventions:** Flyway owns the schema in **portable ANSI SQL** — datasource and
+Hibernate dialect are **profile-driven** (never hardcode `H2Dialect` or vendor-specific
+SQL/types). Security is configured completely and **in the correct layer** (CORS in the security
+filter chain, ahead of authorization — not the MVC layer). The known **`admin`/`admin`** account
+exists only under the `local` / `it` profiles ([`SECURITY.md`](SECURITY.md)).
 
 ## Project Overview
 
-Full-stack Java/Spring Boot + React/TypeScript demo application, serving as a template for new
-projects.
+Full-stack Spring Boot + React/TypeScript demo that serves as Foundation's reference template
+for new projects. Its business surface is a **civil registry** — a person aggregate with
+bitemporal detail/address/religion, append-only vital records (births/marriages/deaths), a GDPR
+workflow, a tamper-evident SHA-256 audit hash chain, and six-role session auth — ported from
+`db/DESIGN.md` (see [ADR-0011](docs/ADR/0011-civil-registry-schema-port.md)). PostgreSQL-only
+mechanisms (RLS, triggers, exclusion constraints) are enforced in the application layer; the
+`-- PG-delta:` markers in `V5` and [`db/DESIGN.md` §12](db/DESIGN.md) are the re-hardening path.
 
-### Architecture
+**Architecture, repository layout, HTTP surface, and data flows are documented in
+[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)** — read it before structural changes instead of
+duplicating it here. In short: both backend and frontend are organized **by feature**
+(`registry`, `records`, `gdpr`, `auditlog`, `codelist`, `auth` on the backend; matching `pages/`
+on the frontend) over a shared `infrastructure` / `common` layer. Load-bearing patterns: clean
+layering (controller → API service → domain services + JPA repositories), constructor injection
+via Lombok `@RequiredArgsConstructor` with `final` fields, and a type-safe frontend client
+generated from the OpenAPI spec (`npm run generate-openapi-services`).
 
-**Backend (Java/Spring Boot)**
-- Entry point: `TechDemoApplication.java`
-- Spring Boot 4.0.6 on Java 21 LTS
-- Embedded H2 (file-mode) with JPA/Hibernate 7, Flyway migrations (`V1`..`V8`)
-- Domain: a **civil registry** (ported from `db/DESIGN.md` — see `docs/ADR/0011`): person aggregate
-  with bitemporal detail/address/religion (`registry/`), append-only vital records
-  (`records/` — births/marriages/deaths + amendments/dissolutions/medical), codelists
-  (`codelist/`), GDPR workflow (`gdpr/` — DSR/consent/disclosure/Art. 15 export), tamper-evident
-  audit (`auditlog/` — SHA-256 hash chain), and Spring Security session auth (`auth/`, six roles).
-  PostgreSQL-only mechanisms (RLS, triggers, GiST exclusion) are enforced in the app layer; see the
-  `-- PG-delta:` markers in `V5` and the re-hardening delta in `db/DESIGN.md` §12.
-
-**Frontend (React/TypeScript)**
-- Entry point: `index.tsx`
-- React 19.2, **TypeScript 6.0 (strict mode)**, React Router v7
-- Bootstrap 5.3 with SCSS, themed with the **Nord palette** in light + dark mode
-  (`data-bs-theme`, header toggle persisted in localStorage, `prefers-color-scheme` first-visit
-  default set by an inline script in `index.html` to avoid theme flash)
-- **Theme token layer** (rule: component SCSS never hardcodes colors):
-  `src/assets/sass/_nord.scss` (Nord SCSS vars + AA-safe text derivatives) → Bootstrap variable
-  overrides (`bootstrap_variables_override.scss`, incl. `*-dark` vars) → app CSS custom
-  properties `--fndt-*` (`_theme-css-vars.scss`); third-party widget theming (react-select,
-  react-datepicker) in `_vendor-overrides.scss`
-- Icons: **Heroicons** (`@heroicons/react`, outline 24 default, solid for active states) via the
-  `FndtIcon` wrapper (`src/components/shared/icons/`); no icon font
-- Navigation: persistent collapsible left sidebar (`src/components/sidebar/`, menu data in
-  `src/components/menu/AppMenuTree.ts` with per-group Heroicon); collapses to an icon rail on
-  desktop (persisted), off-canvas overlay on mobile; header `.menu-trigger` button toggles it
-- i18n: i18next 26 + react-i18next 17 (Slovak translations in `assets/translations/sk.json`)
-- Features: auth context + protected routes, **role-gated menu** (`AppSidebar` filters by role),
-  registry pages (person search/create/detail, vital-record registration, GDPR, audit, citizen
-  `/me` portal), reusable UI components, Formik + Yup forms. Typed API client generated from
-  `ui/api-docs.json` via `npm run generate-openapi-services`
-
-### Key Architectural Patterns
-- Clean architecture with separate domain/API layers
-- Constructor injection with Lombok `@RequiredArgsConstructor` and final fields
-- Repository pattern with JPA
-- React functional components with hooks
-- Type-safe API client generated from OpenAPI specs
-
-### Build & Packaging
-- Backend: Maven (Checkstyle, JaCoCo, Failsafe)
-- Frontend: Webpack with TypeScript, ESLint, Playwright
-
-### Local development
-Two terminals: `./mvnw spring-boot:run -Dspring-boot.run.profiles=local` (API on `:8082`) +
-`npm start` (UI on `:8080`). The `local` profile is required for the test-only `admin/admin`
-account. Docker and cloud-deployment scaffolding are intentionally absent.
-
-### Security & Quality tooling
-- FOSSA license + vuln scan (`.github/workflows/fossa.yml`, scan-only — see `SECURITY.md`).
-- GitHub CodeQL default setup (`java-kotlin`, `javascript-typescript`, `actions`).
-- GitGuardian secret scanning on PRs; GitHub secret scanning + push protection enabled.
-- Dependabot weekly Maven + npm.
-- Checkstyle on `./mvnw validate` (hard gate, `failOnViolation=true`).
-- Bouncy Castle for cryptography; explicit Tomcat / okio / Jackson (2.x BOM + 3.x
-  `jackson-bom.version`) pins for CVE fixes.
+Local run, commands, and the quality/security toolchain live in [`README.md`](README.md) and
+[`SECURITY.md`](SECURITY.md); the per-change verification recipe is below.
 
 ## Essential Commands
 
@@ -270,7 +221,9 @@ disk or via the HTML reports. The `*.log` files, `test-results/`, and report dir
 - Types: strong typing with interfaces, avoid `any` type
 - Naming: camelCase for variables/methods, PascalCase for types/components
 - Props: explicit interfaces with proper naming (ComponentProps)
-- Styling: React Bootstrap with SCSS using BEM convention
+- Styling: React Bootstrap + SCSS with BEM. **Never hardcode colors in component SCSS** — use
+  the Nord theme-token layer (`--fndt-*` CSS custom properties); both light and dark
+  (`data-bs-theme`) must render correctly. Icons via the `FndtIcon` wrapper (Heroicons), no icon font
 - ESLint: `@typescript-eslint/no-unsafe-argument` enforced as an error
 
 ## CI / Workflows
