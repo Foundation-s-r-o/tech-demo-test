@@ -6,7 +6,7 @@
     "measures": [
       {
         "metric": "coverage",
-        "value": "71.8",
+        "value": "83.0",
         "bestValue": false
       },
       {
@@ -16,12 +16,8 @@
       },
       {
         "metric": "code_smells",
-        "value": "5",
+        "value": "22",
         "bestValue": false
-      },
-      {
-        "metric": "ncloc",
-        "value": "1135"
       },
       {
         "metric": "vulnerabilities",

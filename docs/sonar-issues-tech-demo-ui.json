@@ -1,14 +1,164 @@
 {
-  "total": 56,
+  "total": 69,
   "p": 1,
-  "ps": 500,
+  "ps": 100,
   "paging": {
     "pageIndex": 1,
-    "pageSize": 500,
-    "total": 56
+    "pageSize": 100,
+    "total": 69
   },
-  "effortTotal": 257,
+  "effortTotal": 310,
   "issues": [
+    {
+      "key": "d121ff66-c242-40b5-8841-c6621682b03f",
+      "rule": "typescript:S7735",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/pages/persons/DetailPage.tsx",
+      "project": "tech-demo-ui",
+      "line": 33,
+      "hash": "acbba0b181e0863f1e75e50c32efeadd",
+      "textRange": {
+        "startLine": 33,
+        "endLine": 33,
+        "startOffset": 13,
+        "endOffset": 20
+      },
+      "flows": [],
+      "status": "OPEN",
+      "message": "Unexpected negated condition.",
+      "effort": "2min",
+      "debt": "2min",
+      "author": "",
+      "tags": [
+        "readability"
+      ],
+      "creationDate": "2026-07-08T13:00:17+0200",
+      "updateDate": "2026-07-08T13:00:17+0200",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "d6b648f9-f1c8-40ad-b86b-214ae6e72884",
+      "rule": "typescript:S2004",
+      "severity": "CRITICAL",
+      "component": "tech-demo-ui:src/pages/persons/Table.tsx",
+      "project": "tech-demo-ui",
+      "hash": "051da5533464e28b454110da6dfc8abc",
+      "textRange": {
+        "startLine": 26,
+        "endLine": 26,
+        "startOffset": 85,
+        "endOffset": 87
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/pages/persons/Table.tsx",
+              "textRange": {
+                "startLine": 14,
+                "endLine": 14,
+                "startOffset": 24,
+                "endOffset": 36
+              },
+              "msg": "Nesting +1",
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/pages/persons/Table.tsx",
+              "textRange": {
+                "startLine": 19,
+                "endLine": 19,
+                "startOffset": 53,
+                "endOffset": 55
+              },
+              "msg": "Nesting +1",
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/pages/persons/Table.tsx",
+              "textRange": {
+                "startLine": 20,
+                "endLine": 20,
+                "startOffset": 80,
+                "endOffset": 82
+              },
+              "msg": "Nesting +1",
+              "msgFormattings": []
+            }
+          ]
+        },
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/pages/persons/Table.tsx",
+              "textRange": {
+                "startLine": 25,
+                "endLine": 25,
+                "startOffset": 39,
+                "endOffset": 41
+              },
+              "msg": "Nesting +1",
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Refactor this code to not nest functions more than 4 levels deep.",
+      "effort": "20min",
+      "debt": "20min",
+      "author": "",
+      "tags": [
+        "brain-overload"
+      ],
+      "creationDate": "2026-07-08T13:00:17+0200",
+      "updateDate": "2026-07-08T13:10:54+0200",
+      "closeDate": "2026-07-08T13:10:54+0200",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "FOCUSED",
+      "cleanCodeAttributeCategory": "ADAPTABLE",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
     {
       "key": "867f9520-0aa1-4448-96dc-146d54232fb6",
       "rule": "typescript:S6479",
@@ -28,14 +178,14 @@
       "message": "Do not use Array index in keys",
       "effort": "5min",
       "debt": "5min",
-      "author": "",
+      "author": "antony@foundation.sk",
       "tags": [
         "performance",
         "react",
         "jsx"
       ],
       "creationDate": "2026-07-06T15:37:36+0200",
-      "updateDate": "2026-07-06T15:37:36+0200",
+      "updateDate": "2026-07-08T13:00:17+0200",
       "type": "CODE_SMELL",
       "scope": "MAIN",
       "quickFixAvailable": false,
@@ -50,6 +200,52 @@
         }
       ],
       "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "18003f78-d375-4663-a5c2-4779066a5513",
+      "rule": "typescript:S7764",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/common/theme/theme.ts",
+      "project": "tech-demo-ui",
+      "hash": "ceb56982c9ce3d1887694221b402d808",
+      "textRange": {
+        "startLine": 12,
+        "endLine": 12,
+        "startOffset": 11,
+        "endOffset": 17
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Prefer `globalThis` over `window`.",
+      "effort": "2min",
+      "debt": "2min",
+      "author": "",
+      "tags": [
+        "portability",
+        "es2020"
+      ],
+      "creationDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T14:06:59+0200",
+      "closeDate": "2026-07-06T14:06:59+0200",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
       "prioritizedRule": false,
       "fromSonarQubeUpdate": false,
       "internalTags": [],
@@ -188,6 +384,92 @@
       "linkedTicketStatus": "NOT_LINKED"
     },
     {
+      "key": "02c76d14-81f2-4516-8a0d-55527060651e",
+      "rule": "css:S4658",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/table/Table.scss",
+      "project": "tech-demo-ui",
+      "hash": "2fc2d499383f7c018b4c45ac33fc9b2c",
+      "textRange": {
+        "startLine": 25,
+        "endLine": 25,
+        "startOffset": 0,
+        "endOffset": 16
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Unexpected empty block",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "",
+      "tags": [],
+      "creationDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T14:48:03+0200",
+      "closeDate": "2026-07-06T14:48:03+0200",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "ce6964d8-463d-4ff5-9eb3-095872ad00bf",
+      "rule": "css:S4658",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/table/Table.scss",
+      "project": "tech-demo-ui",
+      "hash": "27f1306aded4a6c1b10dbaec06603f6e",
+      "textRange": {
+        "startLine": 34,
+        "endLine": 34,
+        "startOffset": 0,
+        "endOffset": 16
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Unexpected empty block",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "",
+      "tags": [],
+      "creationDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T14:48:03+0200",
+      "closeDate": "2026-07-06T14:48:03+0200",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
       "key": "d04291e0-772e-469c-bec3-396353ea12a2",
       "rule": "typescript:S7735",
       "severity": "MINOR",
@@ -275,6 +557,195 @@
         }
       ],
       "issueStatus": "OPEN",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "0a5e34dd-cb78-4b8c-a1b3-f5a70100d408",
+      "rule": "typescript:S1082",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/sidebar/AppSidebar.tsx",
+      "project": "tech-demo-ui",
+      "hash": "d90c26198ff23a5c54f81269ceed5c01",
+      "textRange": {
+        "startLine": 73,
+        "endLine": 75,
+        "startOffset": 16,
+        "endOffset": 44
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "",
+      "tags": [
+        "accessibility",
+        "react"
+      ],
+      "creationDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T14:06:59+0200",
+      "closeDate": "2026-07-06T14:06:59+0200",
+      "type": "BUG",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "COMPLETE",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "623bcc75-b58b-4d8f-ae56-9644a4557011",
+      "rule": "typescript:S6848",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/sidebar/AppSidebar.tsx",
+      "project": "tech-demo-ui",
+      "hash": "d90c26198ff23a5c54f81269ceed5c01",
+      "textRange": {
+        "startLine": 73,
+        "endLine": 75,
+        "startOffset": 16,
+        "endOffset": 44
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "",
+      "tags": [
+        "accessibility",
+        "react"
+      ],
+      "creationDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T14:06:59+0200",
+      "closeDate": "2026-07-06T14:06:59+0200",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        },
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "0093925b-b1c4-4d8f-851d-06ece09833cb",
+      "rule": "typescript:S6481",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/sidebar/SidebarContext.tsx",
+      "project": "tech-demo-ui",
+      "hash": "25d6d8733ce9a3f409f9e31412ea234a",
+      "textRange": {
+        "startLine": 49,
+        "endLine": 49,
+        "startOffset": 19,
+        "endOffset": 80
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "The object passed as the value prop to the Context provider changes every render. To fix this consider wrapping it in a useMemo hook.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "",
+      "tags": [
+        "performance",
+        "react",
+        "jsx"
+      ],
+      "creationDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T14:06:59+0200",
+      "closeDate": "2026-07-06T14:06:59+0200",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "EFFICIENT",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "4da6e902-75f3-48e7-b30b-b5a7daacefe7",
+      "rule": "typescript:S7764",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/sidebar/SidebarContext.tsx",
+      "project": "tech-demo-ui",
+      "hash": "eef0ceacf9479264c99e696f5a628bc0",
+      "textRange": {
+        "startLine": 36,
+        "endLine": 36,
+        "startOffset": 12,
+        "endOffset": 18
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Prefer `globalThis` over `window`.",
+      "effort": "2min",
+      "debt": "2min",
+      "author": "",
+      "tags": [
+        "portability",
+        "es2020"
+      ],
+      "creationDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-06T14:06:59+0200",
+      "closeDate": "2026-07-06T14:06:59+0200",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        }
+      ],
+      "issueStatus": "FIXED",
       "prioritizedRule": false,
       "fromSonarQubeUpdate": false,
       "internalTags": [],
@@ -472,11 +943,11 @@
       "severity": "MINOR",
       "component": "tech-demo-ui:src/api/api.ts",
       "project": "tech-demo-ui",
-      "line": 11,
+      "line": 18,
       "hash": "2a017ab9cb4b489ea01b7262d740594a",
       "textRange": {
-        "startLine": 11,
-        "endLine": 11,
+        "startLine": 18,
+        "endLine": 18,
         "startOffset": 4,
         "endOffset": 84
       },
@@ -690,12 +1161,72 @@
       "linkedTicketStatus": "NOT_LINKED"
     },
     {
+      "key": "91e921ed-16ef-4d60-8ebe-ede1475b86c7",
+      "rule": "typescript:S4822",
+      "severity": "MAJOR",
+      "component": "tech-demo-ui:src/components/shared/table/TableWrapper.tsx",
+      "project": "tech-demo-ui",
+      "hash": "80d5b17efc16ace990c07580fc3e85eb",
+      "textRange": {
+        "startLine": 122,
+        "endLine": 122,
+        "startOffset": 8,
+        "endOffset": 11
+      },
+      "flows": [
+        {
+          "locations": [
+            {
+              "component": "tech-demo-ui:src/components/shared/table/TableWrapper.tsx",
+              "textRange": {
+                "startLine": 123,
+                "endLine": 147,
+                "startOffset": 12,
+                "endOffset": 18
+              },
+              "msg": "Caught promise",
+              "msgFormattings": []
+            }
+          ]
+        }
+      ],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Consider removing this 'try' statement as promise rejection is already captured by '.catch()' method.",
+      "effort": "5min",
+      "debt": "5min",
+      "author": "110164630+antony-foundation@users.noreply.github.com",
+      "tags": [
+        "type-dependent"
+      ],
+      "creationDate": "2026-06-09T11:56:01+0200",
+      "updateDate": "2026-07-06T14:06:59+0200",
+      "closeDate": "2026-07-06T14:06:59+0200",
+      "type": "BUG",
+      "scope": "MAIN",
+      "quickFixAvailable": false,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "LOGICAL",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
       "key": "1d81671c-0afe-4bd6-8de7-aee17821925e",
       "rule": "typescript:S6759",
       "severity": "MINOR",
       "component": "tech-demo-ui:src/pages/persons/Form.tsx",
       "project": "tech-demo-ui",
-      "line": 16,
       "hash": "dd552166a1488458c7e279b033919c6d",
       "textRange": {
         "startLine": 16,
@@ -704,7 +1235,8 @@
         "endOffset": 58
       },
       "flows": [],
-      "status": "OPEN",
+      "resolution": "FIXED",
+      "status": "CLOSED",
       "message": "Mark the props of the component as read-only.",
       "effort": "5min",
       "debt": "5min",
@@ -714,7 +1246,8 @@
         "react"
       ],
       "creationDate": "2026-06-09T11:56:01+0200",
-      "updateDate": "2026-07-06T14:01:25+0200",
+      "updateDate": "2026-07-08T13:00:17+0200",
+      "closeDate": "2026-07-08T13:00:17+0200",
       "type": "CODE_SMELL",
       "scope": "MAIN",
       "quickFixAvailable": true,
@@ -728,7 +1261,7 @@
           "severity": "LOW"
         }
       ],
-      "issueStatus": "OPEN",
+      "issueStatus": "FIXED",
       "prioritizedRule": false,
       "fromSonarQubeUpdate": false,
       "internalTags": [],
@@ -2606,6 +3139,106 @@
       "linkedTicketStatus": "NOT_LINKED"
     },
     {
+      "key": "9dfabaa1-2446-49e1-83c9-1c33268cd391",
+      "rule": "typescript:S7773",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/shared/table/TablePagination.tsx",
+      "project": "tech-demo-ui",
+      "hash": "eb55d7b4d9aa6c2e93243334312b9c37",
+      "textRange": {
+        "startLine": 117,
+        "endLine": 117,
+        "startOffset": 48,
+        "endOffset": 56
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Prefer `Number.parseInt` over `parseInt`.",
+      "effort": "2min",
+      "debt": "2min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "convention",
+        "es2015"
+      ],
+      "creationDate": "2024-08-13T12:58:41+0200",
+      "updateDate": "2026-07-06T15:37:36+0200",
+      "closeDate": "2026-07-06T15:37:36+0200",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        },
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "aca33b84-72b7-4a3d-9d19-8b49ad8afc24",
+      "rule": "typescript:S7773",
+      "severity": "MINOR",
+      "component": "tech-demo-ui:src/components/shared/table/TablePagination.tsx",
+      "project": "tech-demo-ui",
+      "hash": "eb55d7b4d9aa6c2e93243334312b9c37",
+      "textRange": {
+        "startLine": 150,
+        "endLine": 150,
+        "startOffset": 44,
+        "endOffset": 52
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Prefer `Number.parseInt` over `parseInt`.",
+      "effort": "2min",
+      "debt": "2min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "convention",
+        "es2015"
+      ],
+      "creationDate": "2024-08-13T12:58:41+0200",
+      "updateDate": "2026-07-06T15:37:36+0200",
+      "closeDate": "2026-07-06T15:37:36+0200",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CONVENTIONAL",
+      "cleanCodeAttributeCategory": "CONSISTENT",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "LOW"
+        },
+        {
+          "softwareQuality": "RELIABILITY",
+          "severity": "MEDIUM"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
       "key": "77e740fd-2fbf-467b-86fd-edf59155aff3",
       "rule": "typescript:S7773",
       "severity": "MINOR",
@@ -2741,6 +3374,52 @@
       "fromSonarQubeUpdate": false,
       "internalTags": [],
       "linkedTicketStatus": "NOT_LINKED"
+    },
+    {
+      "key": "86100064-a896-49b9-998b-fc36d8122105",
+      "rule": "typescript:S4123",
+      "severity": "CRITICAL",
+      "component": "tech-demo-ui:src/pages/login/LoginForm.tsx",
+      "project": "tech-demo-ui",
+      "hash": "510a052a9bb239a095aed91ba629dfdf",
+      "textRange": {
+        "startLine": 25,
+        "endLine": 28,
+        "startOffset": 12,
+        "endOffset": 14
+      },
+      "flows": [],
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "Unexpected `await` of a non-Promise (non-\"Thenable\") value.",
+      "effort": "1min",
+      "debt": "1min",
+      "author": "antony@foundation.sk",
+      "tags": [
+        "type-dependent",
+        "confusing"
+      ],
+      "creationDate": "2024-08-13T12:58:41+0200",
+      "updateDate": "2026-07-06T14:06:59+0200",
+      "closeDate": "2026-07-06T14:06:59+0200",
+      "type": "CODE_SMELL",
+      "scope": "MAIN",
+      "quickFixAvailable": true,
+      "messageFormattings": [],
+      "codeVariants": [],
+      "cleanCodeAttribute": "CLEAR",
+      "cleanCodeAttributeCategory": "INTENTIONAL",
+      "impacts": [
+        {
+          "softwareQuality": "MAINTAINABILITY",
+          "severity": "HIGH"
+        }
+      ],
+      "issueStatus": "FIXED",
+      "prioritizedRule": false,
+      "fromSonarQubeUpdate": false,
+      "internalTags": [],
+      "linkedTicketStatus": "NOT_LINKED"
     }
   ],
   "components": [
@@ -2801,6 +3480,14 @@
       "path": "src/common/api/transformers.ts"
     },
     {
+      "key": "tech-demo-ui:src/pages/persons/DetailPage.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "DetailPage.tsx",
+      "longName": "src/pages/persons/DetailPage.tsx",
+      "path": "src/pages/persons/DetailPage.tsx"
+    },
+    {
       "key": "tech-demo-ui:src/common/auth/RequireAuth.tsx",
       "enabled": true,
       "qualifier": "FIL",
@@ -2817,12 +3504,28 @@
       "path": "src/components/shared/table/TableHeadCell.tsx"
     },
     {
+      "key": "tech-demo-ui:src/components/sidebar/AppSidebar.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "AppSidebar.tsx",
+      "longName": "src/components/sidebar/AppSidebar.tsx",
+      "path": "src/components/sidebar/AppSidebar.tsx"
+    },
+    {
       "key": "tech-demo-ui:src/components/shared/forms/InputSection.tsx",
       "enabled": true,
       "qualifier": "FIL",
       "name": "InputSection.tsx",
       "longName": "src/components/shared/forms/InputSection.tsx",
       "path": "src/components/shared/forms/InputSection.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/pages/login/LoginForm.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "LoginForm.tsx",
+      "longName": "src/pages/login/LoginForm.tsx",
+      "path": "src/pages/login/LoginForm.tsx"
     },
     {
       "key": "tech-demo-ui:src/pages/persons/Form.tsx",
@@ -2847,6 +3550,14 @@
       "name": "DatePicker.tsx",
       "longName": "src/components/form/DatePicker.tsx",
       "path": "src/components/form/DatePicker.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/components/sidebar/SidebarContext.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "SidebarContext.tsx",
+      "longName": "src/components/sidebar/SidebarContext.tsx",
+      "path": "src/components/sidebar/SidebarContext.tsx"
     },
     {
       "key": "tech-demo-ui:src/common/persistService.ts",
@@ -2921,6 +3632,14 @@
       "path": "src/common/auth/AuthProvider.tsx"
     },
     {
+      "key": "tech-demo-ui:src/components/shared/table/TableWrapper.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "TableWrapper.tsx",
+      "longName": "src/components/shared/table/TableWrapper.tsx",
+      "path": "src/components/shared/table/TableWrapper.tsx"
+    },
+    {
       "key": "tech-demo-ui:src/components/modals/ModalsProvider.tsx",
       "enabled": true,
       "qualifier": "FIL",
@@ -2935,6 +3654,30 @@
       "name": "FormField.tsx",
       "longName": "src/components/form/FormField.tsx",
       "path": "src/components/form/FormField.tsx"
+    },
+    {
+      "key": "tech-demo-ui:src/common/theme/theme.ts",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "theme.ts",
+      "longName": "src/common/theme/theme.ts",
+      "path": "src/common/theme/theme.ts"
+    },
+    {
+      "key": "tech-demo-ui:src/components/shared/table/Table.scss",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "Table.scss",
+      "longName": "src/components/shared/table/Table.scss",
+      "path": "src/components/shared/table/Table.scss"
+    },
+    {
+      "key": "tech-demo-ui:src/pages/persons/Table.tsx",
+      "enabled": true,
+      "qualifier": "FIL",
+      "name": "Table.tsx",
+      "longName": "src/pages/persons/Table.tsx",
+      "path": "src/pages/persons/Table.tsx"
     },
     {
       "key": "tech-demo-ui",

@@ -89,33 +89,69 @@ Notes:
 - Swagger/OpenAPI are disabled in the `prod` profile.
 - Semgrep repository scans use `SEMGREP_SEND_METRICS=off`, `--metrics off`, and `--no-trace`
   through `scripts/security_scan.sh` and `doctor`.
+- **Application-layer access control (civil-registry port).** The registry schema's PostgreSQL
+  controls — row-level security, DB group roles/grants, audit + no-delete triggers, the pgcrypto
+  hash chain, and GiST exclusion / partial-unique constraints — are **not** in the H2 schema; they
+  are enforced in the application layer instead (Spring Security `@PreAuthorize`, service-layer
+  office scoping, `BitemporalGuard`, `AuditService` hash chain, `PersonMergeService`). A non-app
+  database client therefore bypasses scoping and tamper-evidence. Re-add the in-DB controls on the
+  PostgreSQL switch — see the **PostgreSQL re-hardening delta** in [`db/DESIGN.md`](db/DESIGN.md).
+- **National-id encryption keys.** The national identifier is stored AES-256-GCM-encrypted with a
+  keyed HMAC for lookup (`NationalIdCryptoService`). Keys are read from configuration
+  (`registry.crypto.national-id.enc-key` / `.hmac-key`); **fixed dev keys ship only with the
+  `local`/`it`/`e2e` profiles** (in the profile property files). In every other profile a blank key
+  fails fast at startup — production must supply real keys via environment/secret manager.
 
 ### Authorization matrix
 
-Enforced by request-matcher rules in `SecurityConfig`; the frontend mirrors these only for UX and
-is never the enforcement point. Authorities are `ROLE_ADMIN` / `ROLE_USER`. Two demo accounts are
-seeded under the `local` / `it` profiles: `admin/admin` (`ADMIN`) and `user/user` (`USER`, used by
-the authorization-matrix E2E tests in `ui/tests/test_authz.spec.ts`).
+Registry authorization is enforced **server-side per operation** by method-level `@PreAuthorize`
+on the controllers (mirroring the contract's `x-required-roles`), plus service-layer office scoping
+for clerks; `SecurityConfig` handles only the public paths, `/actuator/**` (SUPERVISOR), and the
+"authenticated" default. The frontend mirrors this only for UX and is never the enforcement point.
+Authorities are `ROLE_<name>` for the six registry roles.
 
-| Operation | Endpoint | USER | ADMIN |
-| --------- | -------- | :--: | :---: |
-| List persons | `GET /api/persons` | ✅ | ✅ |
-| Person detail | `GET /api/persons/{id}` | ✅ | ✅ |
-| Create / update / delete | `POST/PUT/DELETE /api/persons/**` | ❌ | ✅ |
-| PDF export | `GET /api/persons/{id}/pdf` | ❌ | ✅ |
-| Operational endpoints | `/actuator/**` (non-health) | ❌ | ✅ |
-| Health | `GET /actuator/health` | public | public |
-| Session/identity | `/api/auth/currentuser`, `/api/auth/logout` | ✅ | ✅ |
+| Area | Endpoints | Roles |
+| ---- | --------- | ----- |
+| Persons (write) | `POST /api/persons`, `…/details`, `…/addresses`, `…/religion` | CLERK, SUPERVISOR |
+| Persons (read) | `GET /api/persons`, `/{uid}`, `…/details/addresses/religion`, `/{uid}/pdf` | CLERK, SUPERVISOR, DPO_OFFICER |
+| Vital records (register) | `POST /api/{births,marriages,deaths}` | CLERK (own office), SUPERVISOR |
+| Vital records (amend) | `POST /api/{…}/{id}/amendments` (reason mandatory) | SUPERVISOR |
+| Vital records (read) | `GET /api/{births,marriages,deaths}/{id}` | CLERK (own office), SUPERVISOR, DPO_OFFICER |
+| Death medical (Art. 9) | `POST/GET /api/deaths/{id}/medical` | CLERK, SUPERVISOR, DPO_OFFICER (read) |
+| GDPR workflow | `/api/gdpr/requests`, `/disclosures`, `/persons/{uid}/export` | DPO_OFFICER |
+| Consents | `/api/gdpr/consents`, `…/withdrawal` | CLERK, SUPERVISOR, DPO_OFFICER |
+| Audit trail | `/api/audit/events`, `/access-log`, `/chain/verification` | DPO_OFFICER, SECURITY_AUDITOR |
+| Codelists | `GET /api/codelists`, `…/items` | any authenticated |
+| Agency (minimal view) | `GET /api/agency/persons/{uid}` | AGENCY_READER (current-state projection only — no Art. 9 data, history, or vital records) |
+| Citizen portal | `GET /api/me`, `/me/access-log` | CITIZEN (own data, portal-eligible) |
+| Health | `GET /actuator/health` | public |
 
-Reads are open to any authenticated role; all writes, PDF export, and operational endpoints are
-ADMIN-only. Adjust the matchers and the negative tests in `PersonControllerIT` together if this
-default changes.
+Personal-data reads additionally require an `X-Access-Purpose` header (missing → 400 problem+json)
+and are recorded in the read-access log. Clerks are scoped to their own registry office for vital
+records; supervisors work nationwide.
 
-## Local test account and production provisioning
+Authentication failures are recorded to `AUDIT.SECURITY_EVENT` by `SecurityEventListener`
+(event type `login_failure`, attempted username + source address, **no password or other PII** —
+NIS2 monitoring story). The write is best-effort: a failure to persist the security event is logged
+and swallowed so it can never change the authentication outcome.
 
-`admin/admin` and `user/user` are strictly local test data. Migration `V4` deletes the historical
-migration seed from every database. `LocalAdminInitializer` recreates both only when the `local`
-or `it` profile is explicitly active. Never activate `local` in a deployed environment.
+## Local test accounts and production provisioning
+
+Six demo accounts are seeded **only** under the `local` / `it` profiles (`LocalAdminInitializer`),
+one per role, and are strictly local test data:
+
+| Account | Role | Note |
+| ------- | ---- | ---- |
+| `admin/admin` | SUPERVISOR | central authority |
+| `user/user` | CLERK | scoped to Bratislava office `2957` |
+| `dpo/dpo` | DPO_OFFICER | GDPR workflow |
+| `auditor/auditor` | SECURITY_AUDITOR | audit/security logs |
+| `agency/agency` | AGENCY_READER | minimal current-state view |
+| `citizen/citizen` | CITIZEN | linked to a seeded portal-eligible person |
+
+Migration `V4` deletes the historical migration seed from every database; `LocalAdminInitializer`
+recreates these accounts only when the `local` or `it` profile is explicitly active. Never activate
+`local` in a deployed environment.
 
 For production, prefer an external identity provider such as Keycloak/OIDC and provision
 administrators in that system with MFA and auditable role assignment. If database-backed login

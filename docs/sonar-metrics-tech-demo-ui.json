@@ -20,10 +20,6 @@
         "bestValue": false
       },
       {
-        "metric": "ncloc",
-        "value": "3593"
-      },
-      {
         "metric": "vulnerabilities",
         "value": "0",
         "bestValue": true

@@ -39,9 +39,14 @@ projects.
 **Backend (Java/Spring Boot)**
 - Entry point: `TechDemoApplication.java`
 - Spring Boot 4.0.6 on Java 21 LTS
-- Embedded H2 (file-mode) with JPA/Hibernate 7, Flyway migrations
-- Features: Person CRUD (`persons/`), Spring Security session auth (`auth/`), infrastructure
-  utilities (`infrastructure/`)
+- Embedded H2 (file-mode) with JPA/Hibernate 7, Flyway migrations (`V1`..`V8`)
+- Domain: a **civil registry** (ported from `db/DESIGN.md` — see `docs/ADR/0011`): person aggregate
+  with bitemporal detail/address/religion (`registry/`), append-only vital records
+  (`records/` — births/marriages/deaths + amendments/dissolutions/medical), codelists
+  (`codelist/`), GDPR workflow (`gdpr/` — DSR/consent/disclosure/Art. 15 export), tamper-evident
+  audit (`auditlog/` — SHA-256 hash chain), and Spring Security session auth (`auth/`, six roles).
+  PostgreSQL-only mechanisms (RLS, triggers, GiST exclusion) are enforced in the app layer; see the
+  `-- PG-delta:` markers in `V5` and the re-hardening delta in `db/DESIGN.md` §12.
 
 **Frontend (React/TypeScript)**
 - Entry point: `index.tsx`
@@ -60,8 +65,10 @@ projects.
   `src/components/menu/AppMenuTree.ts` with per-group Heroicon); collapses to an icon rail on
   desktop (persisted), off-canvas overlay on mobile; header `.menu-trigger` button toggles it
 - i18n: i18next 26 + react-i18next 17 (Slovak translations in `assets/translations/sk.json`)
-- Features: auth context + protected routes, person management pages, reusable UI components,
-  Formik + Yup forms
+- Features: auth context + protected routes, **role-gated menu** (`AppSidebar` filters by role),
+  registry pages (person search/create/detail, vital-record registration, GDPR, audit, citizen
+  `/me` portal), reusable UI components, Formik + Yup forms. Typed API client generated from
+  `ui/api-docs.json` via `npm run generate-openapi-services`
 
 ### Key Architectural Patterns
 - Clean architecture with separate domain/API layers

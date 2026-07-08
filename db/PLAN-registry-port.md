@@ -99,7 +99,18 @@ Replace ADMIN/USER with the design roles: `CLERK`, `SUPERVISOR`, `AGENCY_READER`
 Each stage ends green (`cd api && ./mvnw clean verify` + `cd ui && npm run lint`) and is a
 natural commit/PR boundary. No git commits without explicit instruction.
 
-### Stage 1 — Flyway migrations (schema + seed)
+**Progress legend:** ✅ done · 🟡 in progress / partial · 🔲 not started
+
+| Stage | Status |
+|---|---|
+| 1 — Flyway migrations (schema + seed) | ✅ done |
+| 2 — Backend domain + infrastructure | ✅ done |
+| 3 — Registry API | ✅ done (3a + 3b + 3c) |
+| 4 — Remove demo Person feature | 🟡 done early as part of 3a (package + `PERSON` table dropped, PDF retargeted) |
+| 5 — OpenAPI sync + UI rework | ✅ done — client regenerated (clean operationIds); full UI (persons, records, GDPR, audit, citizen `/me`), role-gated menu, routes, i18n; `npm run lint` + smoke green |
+| 6 — E2E suite + docs + retirement | ✅ done — E2E rewritten (23 pass: persons, 6-role authz, records/gdpr/audit/citizen, a11y, openapi drift), docs (DESIGN §12, SECURITY, ADR-0011, CLAUDE.md), SQL retired |
+
+### Stage 1 — Flyway migrations (schema + seed) — ✅ done
 Files: `api/src/main/resources/db/migration/V5__registry_schema.sql`,
 `V6__seed_codelists.sql`, `V7__extend_users.sql`; `db/import_codelists.py`.
 - V5: `CREATE SCHEMA` ×4 + all 38 tables converted per adaptation table (natural PKs as in
@@ -113,7 +124,7 @@ Files: `api/src/main/resources/db/migration/V5__registry_schema.sql`,
 - `PERSON` drop deferred to Stage 4 (code still uses it).
 - IT: extend `FlywayMigrationIT` (schema objects exist, FKs enforced, seeds counted).
 
-### Stage 2 — Backend domain + infrastructure
+### Stage 2 — Backend domain + infrastructure — ✅ done
 New packages under `sk.foundation.techdemo`: `registry/` (person aggregate: person, detail,
 address, religion, representation, capacity restriction, merge), `records/` (birth,
 marriage+dissolution, death+medical), `codelist/`, `gdpr/`, `auditlog/`,
@@ -127,30 +138,52 @@ marriage+dissolution, death+medical), `codelist/`, `gdpr/`, `auditlog/`,
 - Role model + seeds + SecurityConfig rebuild (old `/api/persons` matrix entries stay until Stage 4).
 - Unit tests for UID check digit (port T1), crypto roundtrip, chain hashing; ITs for guards.
 
-### Stage 3 — Registry API (three sub-steps, each verified)
+### Stage 3 — Registry API (three sub-steps, each verified) — ✅ done
 Controllers/DTOs per contract, annotation-light, `@ParameterObject` search objects:
-- 3a persons: `POST/GET /persons`, search, `/details`, `/addresses`, `/religion`,
-  `/me`, `/me/access-log`.
-- 3b vital records: births/marriages/deaths + `/amendments` (supervisor + mandatory reason),
-  `/dissolutions`, `/medical`.
-- 3c codelists (`/codelists`, `/codelists/{codelist}/items`), GDPR (DSR CRUD + statutory
-  due date, consents + withdrawal → supersede religion row, disclosures, Art. 15 export —
-  itself recorded as disclosure), audit (`/audit/events`, `/audit/access-log`,
-  `/audit/chain/verification`).
+- ✅ 3a persons: `POST/GET /persons`, search, `/details`, `/addresses`, `/religion`,
+  `/{uid}/pdf` (registry extract). Access-purpose enforced via required `X-Access-Purpose`
+  header (400 problem+json) rather than a servlet filter. `/me`, `/me/access-log` deferred to
+  the citizen-portal step (needs citizen identity + seeding).
+- ✅ 3b vital records: births/marriages/deaths + `/amendments` (supervisor + mandatory reason),
+  `/dissolutions`, `/medical`. Clerk office-scoping (T8) via `AppUserDetails.officeCode`;
+  registry-number uniqueness among current versions.
+- ✅ 3c codelists (`/codelists`, `/codelists/{codelist}/items` — whitelisted native query, no
+  read-only entities), GDPR (DSR create/list/update + statutory due date, consents + withdrawal →
+  supersede religion row, disclosures, Art. 15 export — itself recorded as disclosure), audit
+  (`/audit/events`, `/audit/access-log`, `/audit/chain/verification`). dpo/auditor/agency accounts
+  seeded in `local|it` (not just e2e) to enable authz ITs.
 - ITs port test_schema.sql semantics: T2 person graph, T3 bitemporal overlap rejection,
   T4 address change + point-in-time, T5 religion consent CHECK, T6 no hard delete,
   T7 chain integrity + tamper detection, T8 office scoping, T9 minimal agency view,
   T10 codelist FKs, T12 retention seed, T13/T14 citizen own-data + eligibility +
   representation, merge guards. Full `@WithMockUser` authz matrix per endpoint.
 
-### Stage 4 — Remove demo Person feature
+### Stage 4 — Remove demo Person feature — 🟡 done early (as part of 3a)
+Completed with 3a to free the `/api/persons` path for the registry API: demo `persons/` package,
+its tests, and `@Sql` fixtures deleted; `V8__drop_person_table.sql` added; `PersonPdfService`
+replaced by `RegistryPersonPdfService`; `SecurityConfig` demo matrix removed. Coverage floor held.
 - Delete `persons/` package (entity, services, controller, DTOs), demo `@Sql` fixtures;
   retarget `PersonPdfService` → registry person extract (`GET /api/persons/{uid}/pdf`,
   clerk/supervisor).
 - `V8__drop_person_table.sql`.
 - SecurityConfig cleanup; remove obsolete unit/ITs, keep coverage ≥ 0.70.
 
-### Stage 5 — OpenAPI sync + UI rework
+### Stage 5 — OpenAPI sync + UI rework — ✅ done
+Done:
+- Citizen `/me` + `/me/access-log` backend (`MeController`, `PortalEligibilityService`-gated);
+  citizen account seeded with a portal-eligible person; `AppUserDetails` carries office/person-uid.
+- **OpenAPI resynced**: `ui/api-docs.json` saved from the live spec (via Python urllib — `curl` is
+  denied in this env), client regenerated with `npm run generate-openapi-services` (9 API classes).
+- **Persons UI reworked to the registry API**: `api.ts` wires all controllers; `Role.ts` = 6 roles;
+  `IdentifiableItemResponse.id` widened to `string | number`; role-gated menu (`AppSidebar` filters
+  by `useAuth().user.role`); routes (`/persons`, `/persons/add`, `/persons/:uid`); person search
+  list, create form, and read-only detail page; `sk.json` registry keys. `npm run lint` (tsc +
+  eslint) and `npm run smoke` are green.
+
+Also done: controllers renamed to unique operationIds (clean generated method names — no
+`get1`/`get2`); records/GDPR/audit UI + citizen `/me` portal; role-gated menu groups (Osoby,
+Matričné záznamy, GDPR, Audit, Portál občana); CORS allow-list extended for `X-Access-Purpose` /
+`X-Request-Id` (browser preflight for personal reads).
 - Start API (`local`), save `http://localhost:8082/v3/api-docs` → `ui/api-docs.json`,
   `npm run generate-openapi-services`, add controller instances to `ui/src/api/api.ts`.
 - `Role.ts` + role-gated menu; `AppMenuTree.ts` groups: Osoby, Matričné záznamy, GDPR,
@@ -164,7 +197,13 @@ Controllers/DTOs per contract, annotation-light, `@ParameterObject` search objec
 - `sk.json`: new sections (full diacritics); every new form field gets `form.input.*` keys.
 - `npm run lint`, `npm run smoke`, `npm run smoke:storybook`.
 
-### Stage 6 — E2E suite + docs + retirement
+### Stage 6 — E2E suite + docs + retirement — ✅ done
+Done: retired `db/schema.sql`, `db/test_schema.sql`, `db/seed_codelists.sql`; appended the
+application-layer port + PostgreSQL re-hardening delta to `db/DESIGN.md` (§12); updated `SECURITY.md`
+(six-role matrix, app-layer-enforcement + dev-crypto-key caveats, seeded accounts); added
+`docs/ADR/0011-civil-registry-schema-port.md`; refreshed the project `CLAUDE.md` overview. E2E
+suite rewritten and green (23 tests: persons, 6-role authz menu + server enforcement,
+records office-scoping, gdpr, audit chain verification, citizen `/me`, a11y, `test_openapi` drift).
 - Rewrite/extend `ui/tests/`: `test_persons` (new flows incl. version history),
   `test_records.spec.ts`, `test_gdpr.spec.ts`, `test_audit.spec.ts`,
   `test_citizen.spec.ts`; `test_authz` → full 6-role matrix (new e2e seeds);

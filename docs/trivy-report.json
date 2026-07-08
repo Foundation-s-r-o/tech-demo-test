@@ -3,16 +3,16 @@
   "Trivy": {
     "Version": "0.72.0"
   },
-  "ReportID": "019f3779-59b5-7975-bd23-cc8c28f08c79",
-  "CreatedAt": "2026-07-06T13:48:47.541621+01:00",
-  "ArtifactID": "sha256:366bab1ddcf227c4fa05717ad0de6ac4706446329596f8beb6d97a94b9ca7e33",
+  "ReportID": "019f416c-ff10-7217-92ef-bb172485b3c6",
+  "CreatedAt": "2026-07-08T12:11:30.064138+01:00",
+  "ArtifactID": "sha256:3e825b35fc7a8b614110ee1ea45aed11f15f479a11845c3a215766176e6f6982",
   "ArtifactName": ".",
   "ArtifactType": "repository",
   "Metadata": {
     "RepoURL": "https://github.com/Foundation-s-r-o/tech-demo-test.git",
     "Branch": "main",
-    "Commit": "f3af1fab8d7d61aab7a31c39a340f18ec979adee",
-    "CommitMsg": "feat(test): coverage gate, authz-negative E2E, a11y smoke, OpenAPI drift gate\n\n- JaCoCo: instrument ITs (prepare-agent-integration), merge unit+IT data, and\n  gate verify on merged line coverage \u003e= 70% (77.9% measured; ratchet toward\n  80% via jacoco.line-coverage.minimum) — closes the SECURITY.md coverage gap\n- authz: seed user/user (ROLE_USER) beside admin/admin in LocalAdminInitializer\n  (local|it only); test_authz.spec.ts asserts USER can read persons but create\n  is rejected server-side; PersonForm now surfaces write failures via ErrorModal\n- a11y: @axe-core/playwright smoke (test_a11y.spec.ts) over login/home/persons\n  pages gating on serious+critical WCAG A/AA violations; fixes: alt on the\n  header avatar, aria-label on the icon-only menu trigger\n- OpenAPI: refresh stale api-docs.json from the live spec and regenerate the TS\n  client (logout no longer takes a body); pin springdoc to openapi_3_0 output\n  (generator CLI 6.0.1 cannot parse 3.1); gate drift both ways —\n  test_openapi.spec.ts compares the live spec to the committed file, doctor\n  diffs a fresh client generation against src/api/generated\n- docs: ADR-0010, CLAUDE.md, SECURITY.md updated (accounts, gates, refresh flow)",
+    "Commit": "35587bddd4b3f2f7f38a070d6d5e94a4baaa92bb",
+    "CommitMsg": "chore(docs): refresh Sonar snapshots after UI restyle\n\nUI: 0 bugs, 56 smells, gate ERROR on new_coverage (0% vs 80% on new code) —\nknown gap: no UI unit-test coverage feeds Sonar; Playwright E2E coverage is\nnot exported. Triage pending.",
     "Author": "antony \u003cantony@foundation.sk\u003e",
     "Committer": "antony \u003cantony@foundation.sk\u003e"
   },
@@ -2543,7 +2543,7 @@
             "Name": "GitHub Security Advisory Maven",
             "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Amaven"
           },
-          "Fingerprint": "sha256:746200f5fa53e0e53d91bb395239ee4ce503f2cf38e4ba11516a1a1190bc6be4",
+          "Fingerprint": "sha256:1cb4957a8c9f94d9482f4f9d8d67c7166b1626e1d2c68bb875db77db8e4d70fa",
           "Title": "jackson-databind: jackson-databind: Ignored properties can be unexpectedly modified",
           "Description": "jackson-databind contains the general-purpose data-binding functionality and tree-model for Jackson Data Processor. From 2.8.0 until 2.18.9, 2.21.5, and 3.1.4, in BeanDeserializerBase.createContextual(), per-property @JsonIgnoreProperties exclusions are applied by _handleByNameInclusion(), producing a contextual deserializer whose BeanPropertyMap has the ignored properties removed. The subsequent per-property case-insensitivity block (triggered by @JsonFormat(ACCEPT_CASE_INSENSITIVE_PROPERTIES)) rebuilds from this._beanProperties (the original, unfiltered map) instead of contextual._beanProperties, then overwrites the filtered map — restoring every property _handleByNameInclusion had just removed. The ignored property becomes writable again. This vulnerability is fixed in 2.18.9, 2.21.5, and 3.1.4.",
           "Severity": "MEDIUM",

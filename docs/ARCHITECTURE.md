@@ -7,11 +7,13 @@ way. It is the technical companion to the higher-level
 decision records under [`docs/ADR/`](./ADR/).
 
 `tech-demo-test` is Foundation s.r.o.'s **reference template** for new
-backend + frontend projects. Its business surface is intentionally tiny —
-authenticated users manage `Person` records and export a person detail as a
-PDF — so that the repository's real payload is its *shape*: the preferred
-application structure, dependency baseline, testing strategy, and the CI /
-quality / security gate that every new project inherits. It is a **rolling
+backend + frontend projects. Its business surface is a **civil registry**
+(ported from the `db/` design — see [ADR-0011](./ADR/0011-civil-registry-schema-port.md)):
+a person aggregate with bitemporal identity/address/religion history, append-only
+vital records (births, marriages, deaths), a GDPR workflow, and a tamper-evident
+audit hash chain — so that the repository's real payload is its *shape*: the
+preferred application structure, dependency baseline, testing strategy, and the
+CI / quality / security gate that every new project inherits. It is a **rolling
 demo** on one branch (`main`), not a versioned product.
 
 > **Scope & maintenance rule.** This document describes what is *stable* —
@@ -143,18 +145,19 @@ flowchart TD
 
     subgraph API["Spring Boot API"]
         Chain[Security filter chain<br/>CORS → CSRF → authz]
-        Chain --> Ctrl[REST controllers<br/>auth / persons]
-        Ctrl --> ApiSvc[API services<br/>DTO mapping, orchestration]
-        ApiSvc --> DomSvc[domain service +<br/>JPA repositories]
+        Chain --> Ctrl[REST controllers<br/>persons / records / gdpr / audit / agency / me]
+        Ctrl --> ApiSvc[API services<br/>DTO mapping, @PreAuthorize, access log]
+        ApiSvc --> DomSvc[domain services +<br/>JPA repositories]
         DomSvc --> ORM[Hibernate / HikariCP]
         ORM --> DB[(H2 file DB)]
     end
 ```
 
 The decisive split is **API services vs. domain services**: API-facing classes
-(`*ApiService`, `*ApiRepository`) own DTO projection, paging, not-found and
-conflict semantics; domain classes (`*Service`, JPA `*Repository`) own entity
-mutation and persistence. The controller never touches an entity directly.
+(`*ApiService`) own DTO projection, paging, authorization purpose, access-logging
+and not-found/conflict semantics; domain classes (`BitemporalGuard`,
+`AuditService`, `PersonMergeService`, JPA `*Repository`) own the invariants,
+entity mutation and persistence. The controller never touches an entity directly.
 
 ---
 
@@ -166,15 +169,20 @@ tech-demo-test/
 │   ├── .sdkmanrc            # pins Java 21 LTS
 │   ├── checkstyle/          # checkstyle.xml (hard gate) + IDE formatter rules
 │   └── src/main/java/sk/foundation/techdemo/
-│       ├── auth/            # Spring Security session login feature
-│       ├── persons/         # Person CRUD + PDF feature
-│       └── infrastructure/  # cross-cutting: api/, db/, web/, logging/
+│       ├── auth/            # Spring Security session login + six registry roles
+│       ├── registry/        # person aggregate: bitemporal detail/address/religion,
+│       │                   #   BitemporalGuard, merge, agency view, PDF, /me
+│       ├── records/         # append-only vital records (births/marriages/deaths)
+│       ├── gdpr/            # DSR, consent, disclosure register, Art. 15 export
+│       ├── auditlog/        # SHA-256 audit hash chain, access log, security events
+│       ├── codelist/        # reference codelists (read-only)
+│       └── infrastructure/  # cross-cutting: api/ (RFC 7807), db/, crypto/, web/, logging/
 ├── ui/                      # React SPA (webpack/npm)
 │   └── src/
 │       ├── api/             # generated OpenAPI client + shared Axios instance
 │       ├── common/          # auth, axiosClient, i18n, persistence, helpers
-│       ├── components/      # router, layout, form, shared UI primitives, modals
-│       ├── pages/           # login, home, persons (list/add/edit)
+│       ├── components/      # router, layout, sidebar, form, shared UI primitives, modals
+│       ├── pages/           # login, home, persons, records, gdpr, audit, me
 │       └── stories/         # Storybook stories
 ├── docs/
 │   ├── ARCHITECTURE.md      # this document
@@ -187,9 +195,9 @@ tech-demo-test/
 └── .github/workflows/fossa.yml  +  .circleci/config.yml
 ```
 
-Both sides are organized **by feature** (`auth`, `persons`) with a shared
-`infrastructure` / `common` layer for cross-cutting concerns — the layout a new
-project should copy.
+Both sides are organized **by feature** (`registry`, `records`, `gdpr`,
+`auditlog`, `codelist`, `auth`) with a shared `infrastructure` / `common` layer
+for cross-cutting concerns — the layout a new project should copy.
 
 ---
 
@@ -236,39 +244,65 @@ Supporting classes:
 + [`UserRepository`](../api/src/main/java/sk/foundation/techdemo/auth/UserRepository.java)
 (DB-backed users, BCrypt),
 [`LocalAdminInitializer`](../api/src/main/java/sk/foundation/techdemo/auth/LocalAdminInitializer.java)
-(recreates `admin`/`admin` **only** under `local`/`it`).
+(recreates the seeded registry accounts — `admin`, `user`, `dpo`, `auditor`,
+`agency`, `citizen` — **only** under `local`/`it`), and
+[`SecurityEventListener`](../api/src/main/java/sk/foundation/techdemo/auth/SecurityEventListener.java)
+(persists authentication-failure events to `AUDIT.SECURITY_EVENT`; best-effort, so
+an audit-write hiccup never changes the authentication outcome — NIS2 story).
 
-> **Authorization model (stable part):** authorities are `ROLE_ADMIN` /
-> `ROLE_USER`; reads are open to any authenticated role, while **all writes, PDF
-> export, and operational endpoints are ADMIN-only**. The frontend mirrors this
-> for UX only and is never the enforcement point. The exact per-endpoint matrix
-> lives in `SecurityConfig` and [`SECURITY.md`](../SECURITY.md#authorization-matrix);
-> change the matchers and the negative tests in `PersonControllerIT` together.
+> **Authorization model (stable part):** authorities are `ROLE_<name>` for the
+> **six registry roles** (`CLERK`, `SUPERVISOR`, `AGENCY_READER`, `DPO_OFFICER`,
+> `SECURITY_AUDITOR`, `CITIZEN`). Authorization is **per-operation via
+> `@PreAuthorize`** on the controllers (not URL matchers), with service-layer
+> office scoping for clerks; personal-data reads additionally require the
+> `X-Access-Purpose` header and are access-logged. The frontend mirrors the role
+> gating for UX only and is never the enforcement point. The exact per-endpoint
+> matrix lives in the controllers and [`SECURITY.md`](../SECURITY.md#authorization-matrix);
+> change the `@PreAuthorize` expressions and the negative tests in the API
+> integration tests together.
 
-### Person feature (`persons/`)
+### Registry domain (`registry/`, `records/`, `gdpr/`, `auditlog/`, `codelist/`)
 
-The reference layering, top to bottom — the *pattern* is the point; class names
-are illustrative entry points, not an inventory:
+The reference layering is **controller → API service → domain services + JPA
+repositories**; class names below are illustrative entry points, not an
+inventory. The domain follows the ported design ([ADR-0011](./ADR/0011-civil-registry-schema-port.md)),
+with PostgreSQL-only mechanisms (RLS, triggers, GiST exclusion) re-expressed as
+application-layer services.
 
-| Layer | Representative class | Responsibility |
-| ----- | -------------------- | -------------- |
-| Controller | `PersonController` | HTTP surface: CRUD, filter/sort/page, PDF download |
-| API service | `PersonApiServiceImpl` | DTO projection, not-found, duplicate-email conflict |
-| API repository | `PersonApiRepositoryImpl` | JPA **Criteria API** for dynamic filters, ordering, paging, counts, projections |
-| Domain service | `PersonServiceImpl` | Entity mutation + persistence |
-| Domain repository | `PersonRepository` | Spring Data JPA |
-| PDF | `PersonPdfService` | OpenPDF person-detail render |
+| Area | Representative classes | Responsibility |
+| ---- | ---------------------- | -------------- |
+| Person aggregate | `PersonController`, `RegistryPersonApiService` | create + composite/current reads, search, bitemporal writes of detail/address/religion, PDF, agency view |
+| Bitemporal invariant | `BitemporalGuard` | at most one current-belief version per key per point in valid time (app-layer GiST-exclusion replacement) |
+| Identity merge | `PersonMergeService` | duplicate→primary merge under pessimistic person-row locks; single-hop resolution |
+| Vital records | `VitalRecordsApiService` | append-only births/marriages/deaths, amendments (supervisor + reason), dissolution, Art. 9 medical |
+| GDPR | `GdprApiService` | DSR lifecycle, consent + withdrawal, disclosure register, full Art. 15 export |
+| Audit | `AuditService`, `AccessLogService` | SHA-256 hash chain (append + `verifyChain` with a chain-head tail check), read-access log |
+| Codelists | `CodelistService` | whitelisted read-only reference lists |
+| Agency | `AgencyController` (`agencyView`) | minimal current-state projection for `AGENCY_READER` |
+| Citizen portal | `MeController` | own data + own access log, portal-eligible only |
 
-Request/response DTOs keep the wire contract decoupled from the JPA entity;
-their exact fields are part of the [OpenAPI contract](#http-surface). `email` is
-validated for **format** (`@Email`), not just length.
+**Bitemporal write flow (`RegistryPersonApiService`).** Each detail/address/
+religion write is *supersede-and-close* (design §4): under the person-row lock, an
+open-ended insert that starts after the current open row re-records the old belief
+as a bounded copy and transaction-time supersedes the original; `BitemporalGuard`
+then rejects any residual valid-time overlap before the new row is saved. `search`
+uses a valid-time-filtered `searchCurrent` query so stale history copies never
+surface. Every write appends to the audit chain; every personal-data read appends
+to the access log.
+
+Request/response DTOs keep the wire contract decoupled from the JPA entities;
+their exact fields are part of the [OpenAPI contract](#http-surface).
 
 ### Infrastructure (`infrastructure/`)
 
 - `api/` — `ApiExceptionHandler` centralizes application + persistence failures
-  into a consistent `ApiExceptionResponseDTO`, plus `ConflictException` and the
-  paging/sorting request DTOs.
-- `db/` — `IdentifiableEntity`, the shared identity base every JPA entity extends.
+  as **RFC 7807 `application/problem+json`** ([ADR-0012](./ADR/0012-rfc7807-error-contract.md)):
+  `ConflictException`→409, `EntityNotFound`→404, `DataIntegrityViolationException`→400
+  (generic, no SQL internals), auth→401/403.
+- `db/` — the two entity bases every JPA entity extends: `IdentifiableEntity`
+  (surrogate id) and `NaturalKeyEntity` (natural-key tables).
+- `crypto/` — `NationalIdCryptoService` (AES-GCM encryption + HMAC lookup key,
+  Bouncy Castle; dev keys under `local`/`it`, see [`SECURITY.md`](../SECURITY.md)).
 - `web/` — `WebConfiguration` (SPA history fallback resource handler; CORS is
   *not* here — see above).
 - `logging/` — `LoggingConfiguration` + `logback-spring.xml`.
@@ -282,14 +316,16 @@ and session-cookie security. Specific values are not restated here; read the
 properties file.
 
 The schema is defined entirely by **Flyway migrations** in
-[`db/migration/`](../api/src/main/resources/db/migration) — the migration set is
-the authoritative, evolving record, so it is not transcribed here. The
-architecturally relevant invariants: `PERSON.email` and `USERS.username` are
-unique; migrations carry no H2-specific SQL (portability,
-[ADR-0003](./ADR/0003-embedded-h2-postgres-later.md)); and no known account is
-seeded into the schema — the local `admin` exists only at runtime via
-`LocalAdminInitializer` under `local`/`it`. See [`SECURITY.md`](../SECURITY.md)
-for the provisioning rationale.
+[`db/migration/`](../api/src/main/resources/db/migration) (`V1`..`V8`) — the
+migration set is the authoritative, evolving record, so it is not transcribed
+here. The architecturally relevant invariants: natural keys as designed;
+bitemporal `valid_to > valid_from` and one-current-version constraints; the audit
+hash chain; migrations carry no H2-specific SQL (portability,
+[ADR-0003](./ADR/0003-embedded-h2-postgres-later.md)), with each dropped
+PostgreSQL mechanism marked `-- PG-delta:` in `V5`; and no known account is seeded
+into the schema — the registry accounts exist only at runtime via
+`LocalAdminInitializer` under `local`/`it`. See [`db/DESIGN.md` §12](../db/DESIGN.md)
+for the enforcement mapping and [`SECURITY.md`](../SECURITY.md) for provisioning.
 
 ---
 
@@ -302,8 +338,10 @@ Frontend source lives under [`ui/src`](../ui/src).
 [`index.tsx`](../ui/src/index.tsx) mounts the React root and installs
 `BrowserRouter`, the auth context, the modals context, Bootstrap, and global
 SCSS. [`components/router/routes.tsx`](../ui/src/components/router/routes.tsx)
-defines every route statically (login, root/home, persons list/add/edit) and
-wraps the protected ones with `withRequireAuth`.
+defines every route statically (login, root/home, person search/create/detail,
+vital-record registration, GDPR, audit, and the citizen `/me` portal) and wraps
+the protected ones with `withRequireAuth`; a persistent collapsible sidebar
+filters menu entries by the authenticated role.
 
 ```mermaid
 flowchart LR
@@ -340,8 +378,9 @@ redirects unauthenticated users to `/login`. `useAuth`, a reducer, and typed
 - `components/form/` + `components/shared/` — reusable form fields, a generic
   `Table` (with its own context + reducer + `useFndtTable` hook), modals, and
   buttons. These are the components exercised by Storybook (`stories/`).
-- `pages/persons/` — list, add, edit, the Formik+Yup `Form`, the `Table`
-  binding, and `validation.ts`.
+- `pages/` — the registry feature pages: `persons/` (search/create/detail),
+  `records/` (vital-record registration), `gdpr/`, `audit/`, and `me/` — each
+  binding the shared `Table` / Formik+Yup `Form` primitives.
 
 Styling is Bootstrap + SCSS with BEM naming; Slovak strings live in
 `assets/translations/sk.json`.
@@ -357,16 +396,20 @@ controller changes:
 
 - **OpenAPI JSON:** `/v3/api-docs`
 - **Swagger UI:** `/swagger-ui.html` (both disabled under the `prod` profile)
-- **Source of truth:** the springdoc-annotated controllers
-  ([`AuthController`](../api/src/main/java/sk/foundation/techdemo/auth/AuthController.java),
-  [`PersonController`](../api/src/main/java/sk/foundation/techdemo/persons/api/PersonController.java))
+- **Source of truth:** the springdoc-annotated controllers under
+  [`auth/`](../api/src/main/java/sk/foundation/techdemo/auth) and the feature
+  `api/` packages (`registry/api`, `records/api`, `gdpr/api`, `auditlog/api`,
+  `codelist`)
 - The frontend's typed client is generated from this spec
   (`npm run generate-openapi-services`, [ADR-0006](./ADR/0006-rest-openapi-generated-client.md))
 
-Architecturally, the surface is two feature roots — `/api/auth/*` (session
-lifecycle: CSRF, login, current-user, logout) and `/api/persons/*` (CRUD +
-filter/sort/page + PDF) — plus health-only `/actuator/health`. Authorization per
-endpoint is governed by `SecurityConfig` (see [Auth feature](#auth-feature-auth)).
+Architecturally, the surface is the session lifecycle root `/api/auth/*` (CSRF,
+login, current-user, logout) plus the registry feature roots — `/api/persons/*`
+(bitemporal person aggregate + PDF), `/api/{births,marriages,deaths}/*` (vital
+records), `/api/gdpr/*`, `/api/audit/*`, `/api/codelists/*`, `/api/agency/persons/*`
+(minimal agency view), and `/api/me/*` (citizen portal) — plus health-only
+`/actuator/health`. Authorization per endpoint is governed by `@PreAuthorize` on
+the controllers (see [Auth feature](#auth-feature-auth)).
 
 ---
 
@@ -387,18 +430,28 @@ sequenceDiagram
     A-->>U: 200 current user → AuthProvider populates context
 ```
 
-### Person read (list)
+### Person read (search / composite)
 
-`ListPage` → generated client → `PersonController` → `PersonApiServiceImpl` →
-`PersonApiRepositoryImpl` (Criteria API builds the dynamic query + count) →
-paged DTO result. No entity crosses the controller boundary.
+Search/detail page → generated client → `PersonController` (`@PreAuthorize`,
+`X-Access-Purpose` required) → `RegistryPersonApiService` (`searchCurrent` /
+current-in-valid-time composite projection) → paged/composite DTO. The read
+appends one `ACCESS_LOG` row per subject; no entity crosses the controller
+boundary.
 
-### Person write (create/update)
+### Person write (bitemporal versioning)
 
-`Form` (Formik+Yup) → generated client (ADMIN-gated, CSRF header) →
-`PersonApiServiceImpl` (maps DTO, checks duplicate email → `ConflictException`)
-→ `PersonServiceImpl` mutates and persists the entity. Errors funnel through
-`ApiExceptionHandler` into a uniform error DTO.
+`Form` (Formik+Yup) → generated client (role-gated, CSRF header) →
+`RegistryPersonApiService`: acquire the person-row pessimistic lock →
+supersede-and-close the open version → `BitemporalGuard` rejects any residual
+valid-time overlap → save the new version → append an `AUDIT` chain entry. Errors
+funnel through `ApiExceptionHandler` as RFC 7807 problem+json.
+
+### Vital-record amendment
+
+`VitalRecordsApiService` rejects amending an already-superseded version (409) and
+re-checks registry-number uniqueness excluding the amended record's own chain,
+then supersedes the prior version and appends the new one with a mandatory reason
+and supervisor approval.
 
 ---
 

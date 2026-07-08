@@ -1358,3 +1358,40 @@ components:
         entriesChecked: { type: integer, format: int64 }
         intact: { type: boolean }
         firstBrokenAuditId: { type: integer, format: int64, nullable: true }
+
+# =============================================================================
+# Deviations — how the tech-demo-test implementation differs from this contract
+#
+# This file is the canonical design contract. The running application (ported
+# per ADR-0011) intentionally deviates from it as follows. Deviations are
+# accepted for the demo/template context and, where relevant, carry a documented
+# hardening path (see db/DESIGN.md §12 and SECURITY.md).
+#
+# Auth & transport
+#   * Authentication is Spring Security SESSION login (cookie + CSRF), not the
+#     OAuth2 bearer scopes declared under `security:` / `securitySchemes:`.
+#     Per-operation authority is enforced with @PreAuthorize on the controllers
+#     (mirroring x-required-roles), plus service-layer office scoping for clerks.
+#   * Base path is `/api` (e.g. /api/persons), not the `/api/v1` server URL here.
+#   * Errors are RFC 7807 application/problem+json (as designed) — see ADR-0012.
+#
+# Retained / added surface
+#   * GET /api/persons/{id}/pdf (OpenPDF person extract) is retained from the
+#     template and is not part of this contract.
+#   * GET /api/agency/persons/{uid} (T9) exposes the minimal V_PERSON_CURRENT
+#     projection to AGENCY_READER; access-logged, no Art. 9 data.
+#
+# Accepted cuts (not implemented)
+#   * Dissolution amendments are absent (a dissolution is recorded once).
+#   * DSR status transitions are free (no state machine) and there is no
+#     Art. 12(3) extension handling.
+#   * GET /api/audit/events is unpaged (demo scale).
+#   * Delete-by-convention: entities are retired by supersede/anonymize rather
+#     than row DELETE (T6 nuance); no hard-delete endpoints.
+#   * T14 (representative portal access) is not ported — /api/me is
+#     own-data-only.
+#   * UI office/municipality inputs are free-text (codelist typeahead deferred);
+#     academic titles are exposed as a single `academic_title` codelist keyed by
+#     a before/after position discriminator, not separate title_before /
+#     title_after lists.
+# =============================================================================
