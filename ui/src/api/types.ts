@@ -1,4 +1,4 @@
-import { PersonListItemResponseDTO } from '@api/generated'
-import { IdentifiableItemResponse } from '@common/api/types'
+import { PersonSummaryDTO } from '@api/generated'
 
-export type UiPersonListItemResponseDTO = PersonListItemResponseDTO & IdentifiableItemResponse
+// A person search row for FndtTable, keyed by the person UID.
+export type UiPersonSummary = PersonSummaryDTO & { id: string }

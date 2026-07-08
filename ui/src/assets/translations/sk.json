@@ -15,6 +15,7 @@
             "itemTitle": "Položka",
             "action": "Akcia"
         },
+        "yes": "Áno",
         "btn": {
             "save": "Uložiť",
             "confirm": "Potvrdiť",
@@ -60,7 +61,63 @@
             "list": "Zoznam osôb",
             "delete": "Vymazať osobu",
             "edit": "Upraviť osobu",
-            "add": "Pridať osobu"
+            "add": "Pridať osobu",
+            "view": "Zobraziť",
+            "detail": "Detail osoby",
+            "deceased": "Zomretá osoba",
+            "addresses": "Adresy"
+        },
+        "records": {
+            "title": "Matričné záznamy",
+            "birth": "Kniha narodení",
+            "marriage": "Kniha manželstiev",
+            "death": "Kniha úmrtí",
+            "officeCode": "Kód matričného úradu",
+            "bookYear": "Ročník knihy",
+            "entryNo": "Poradové číslo zápisu",
+            "childUid": "Identifikátor dieťaťa",
+            "spouse1": "Identifikátor manžela/ky 1",
+            "spouse2": "Identifikátor manžela/ky 2",
+            "marriageDate": "Dátum uzavretia manželstva",
+            "dateOfDeath": "Dátum úmrtia",
+            "dissolution": "Zánik manželstva",
+            "medical": "Príčina úmrtia (zdravotné údaje)",
+            "cause": "Kód príčiny (ICD-10)",
+            "recordId": "Identifikátor záznamu",
+            "created": "Záznam vytvorený"
+        },
+        "gdpr": {
+            "title": "GDPR",
+            "export": "Export údajov (čl. 15)",
+            "requests": "Žiadosti dotknutých osôb",
+            "requesterRef": "Číslo podania",
+            "due": "Termín",
+            "consents": "Súhlasy",
+            "purpose": "Účel",
+            "withdraw": "Odvolať",
+            "withdrawn": "odvolaný",
+            "disclosures": "Register poskytnutí"
+        },
+        "audit": {
+            "title": "Audit",
+            "chain": "Overenie reťaze",
+            "verify": "Overiť integritu",
+            "chainIntact": "Reťaz je neporušená",
+            "chainBroken": "Reťaz je porušená",
+            "entries": "záznamov",
+            "events": "Auditné udalosti",
+            "time": "Čas",
+            "actor": "Aktér",
+            "action": "Akcia",
+            "table": "Tabuľka",
+            "accessLog": "Log prístupov",
+            "accessedAt": "Čas prístupu",
+            "purpose": "Účel"
+        },
+        "me": {
+            "title": "Portál občana",
+            "myData": "Moje údaje",
+            "accessLog": "Kto pristupoval k mojim údajom"
         }
     },
     "form": {
@@ -76,7 +133,15 @@
             "lastName": "Priezvisko",
             "address": "Adresa",
             "phone": "Telefón",
-            "state": "Štát"
+            "state": "Štát",
+            "uid": "Identifikátor",
+            "givenNames": "Meno",
+            "familyName": "Priezvisko",
+            "birthSurname": "Rodné priezvisko",
+            "sex": "Pohlavie",
+            "dateOfBirth": "Dátum narodenia",
+            "citizenship": "Štátna príslušnosť",
+            "nationalId": "Rodné číslo"
         }
     }
 }

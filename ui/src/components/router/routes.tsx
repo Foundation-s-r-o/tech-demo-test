@@ -5,7 +5,13 @@ import { HomePage } from '../../pages/home/Home'
 import { LoginPage } from '../../pages/login/Login'
 import PersonsListPage from '@pages/persons/ListPage'
 import PersonsAddPage from '@pages/persons/AddPage'
-import PersonsEditPage from '@pages/persons/EditPage'
+import PersonDetailPage from '@pages/persons/DetailPage'
+import BirthPage from '@pages/records/BirthPage'
+import MarriagePage from '@pages/records/MarriagePage'
+import DeathPage from '@pages/records/DeathPage'
+import GdprPage from '@pages/gdpr/GdprPage'
+import AuditPage from '@pages/audit/AuditPage'
+import MePage from '@pages/me/MePage'
 
 
 // Every app route is statically defined with a concrete path, so narrow RouteObject's
@@ -34,9 +40,33 @@ export const routes: {
         path: '/persons/add',
         element: withRequireAuth(<PersonsAddPage />),
     },
-    personsEdit: {
-        path: '/persons/:id',
-        element: withRequireAuth(<PersonsEditPage />),
+    personsDetail: {
+        path: '/persons/:uid',
+        element: withRequireAuth(<PersonDetailPage />),
+    },
+    recordsBirth: {
+        path: '/records/births',
+        element: withRequireAuth(<BirthPage />),
+    },
+    recordsMarriage: {
+        path: '/records/marriages',
+        element: withRequireAuth(<MarriagePage />),
+    },
+    recordsDeath: {
+        path: '/records/deaths',
+        element: withRequireAuth(<DeathPage />),
+    },
+    gdpr: {
+        path: '/gdpr',
+        element: withRequireAuth(<GdprPage />),
+    },
+    audit: {
+        path: '/audit',
+        element: withRequireAuth(<AuditPage />),
+    },
+    me: {
+        path: '/me',
+        element: withRequireAuth(<MePage />),
     }
 }
 

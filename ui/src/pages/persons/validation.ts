@@ -1,13 +1,15 @@
 import * as Yup from 'yup'
 
+// Registry person creation: identity core is required; national id and titles optional.
 const personFormSchema = Yup.object()
     .shape({
-        firstName: Yup.string().nullable().required(),
-        lastName: Yup.string().nullable().required(),
-        address: Yup.string().nullable().required(),
-        email: Yup.string().email().nullable().required(),
-        phoneNumber: Yup.string().nullable(),
-        state: Yup.string().nullable(),
+        givenNames: Yup.string().nullable().required(),
+        familyName: Yup.string().nullable().required(),
+        sex: Yup.string().nullable().required(),
+        dateOfBirth: Yup.string().nullable().required(),
+        citizenship: Yup.string().nullable().required(),
+        birthSurname: Yup.string().nullable(),
+        nationalId: Yup.string().nullable(),
     })
 
 export default personFormSchema

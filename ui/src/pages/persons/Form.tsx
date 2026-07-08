@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Formik, Form } from 'formik'
-import { PersonModifyRequestDTO } from '@api/generated'
+import { PersonCreateRequestDTO } from '@api/generated'
 import InputSection from '@components/shared/forms/InputSection'
 import FndtInputSegment from '@components/form/InputSegment'
 import { FndtInputType } from '@components/form/types'
@@ -13,61 +13,37 @@ import routes from '@components/router/routes'
 import { useModals } from '@components/modals/useModals'
 import ErrorModal from '@components/shared/alert-modals/ErrorModal'
 
-export default function PersonForm({ id }: { id?: number }) {
+const idPrefix = 'PersonCreateForm'
+
+const initialValues: PersonCreateRequestDTO = {
+    givenNames: '',
+    familyName: '',
+    birthSurname: '',
+    sex: '',
+    dateOfBirth: '',
+    citizenship: '',
+    nationalId: '',
+}
+
+export default function PersonForm() {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const { showModal } = useModals()
-    const idPrefix = 'PersonEditForm'
-    const [defaultValues, setDefaultValues] = useState<PersonModifyRequestDTO>({
-        address: '',
-        email: '',
-        firstName: '',
-        lastName: '',
-        phoneNumber: '',
-        state: ''
-    })
-    const onSubmit = async (values: PersonModifyRequestDTO) => {
+
+    const onSubmit = async (values: PersonCreateRequestDTO) => {
         try {
-            if (id) {
-                await personControllerApi.update({
-                    id: id,
-                    personModifyRequestDTO: values
-                })
-            } else {
-                const resp = await personControllerApi.create({ personModifyRequestDTO: values })
-                navigate(routes.personsEdit.path.replace(':id', String(resp.data.id)))
-            }
+            const resp = await personControllerApi.create({ personCreateRequestDTO: values })
+            navigate(routes.personsDetail.path.replace(':uid', String(resp.data.uid ?? '')))
         } catch {
-            // Server rejected the write (e.g. 403 for non-ADMIN roles, 409 duplicate email).
+            // Server rejected the write (e.g. 403 for non-clerk roles, validation).
             showModal(<ErrorModal text="common.error.generic" />)
         }
     }
 
-    useEffect(() => {
-
-        if (id) {
-            const load = async () => {
-                const response = await personControllerApi.get({ id: id })
-                const person = response.data
-                setDefaultValues({
-                    firstName: person.firstName ?? '',
-                    lastName: person.lastName ?? '',
-                    address: person.address ?? '',
-                    email: person.email ?? '',
-                    phoneNumber: person.phoneNumber || '',
-                    state: person.state || ''
-                })
-            }
-
-            load()
-        }
-    }, [id])
-
     return (
         <Formik
             validationSchema={personFormSchema}
-            initialValues={defaultValues}
-            enableReinitialize={true}
+            initialValues={initialValues}
             onSubmit={onSubmit}>
             {({ resetForm }) => (
                 <Form>
@@ -75,38 +51,44 @@ export default function PersonForm({ id }: { id?: number }) {
                         <FndtInputSegment
                             type={FndtInputType.Input}
                             idPrefix={idPrefix}
-                            label="form.input.firstName"
-                            name="firstName"
+                            label="form.input.givenNames"
+                            name="givenNames"
                         />
                         <FndtInputSegment
                             type={FndtInputType.Input}
                             idPrefix={idPrefix}
-                            label="form.input.lastName"
-                            name="lastName"
+                            label="form.input.familyName"
+                            name="familyName"
                         />
                         <FndtInputSegment
                             type={FndtInputType.Input}
                             idPrefix={idPrefix}
-                            label="form.input.email"
-                            name="email"
+                            label="form.input.birthSurname"
+                            name="birthSurname"
                         />
                         <FndtInputSegment
                             type={FndtInputType.Input}
                             idPrefix={idPrefix}
-                            label="form.input.address"
-                            name="address"
+                            label="form.input.sex"
+                            name="sex"
                         />
                         <FndtInputSegment
                             type={FndtInputType.Input}
                             idPrefix={idPrefix}
-                            label="form.input.phone"
-                            name="phoneNumber"
+                            label="form.input.dateOfBirth"
+                            name="dateOfBirth"
                         />
                         <FndtInputSegment
                             type={FndtInputType.Input}
                             idPrefix={idPrefix}
-                            label="form.input.state"
-                            name="state"
+                            label="form.input.citizenship"
+                            name="citizenship"
+                        />
+                        <FndtInputSegment
+                            type={FndtInputType.Input}
+                            idPrefix={idPrefix}
+                            label="form.input.nationalId"
+                            name="nationalId"
                         />
                     </InputSection>
                     <div className="mt-3">
@@ -118,9 +100,7 @@ export default function PersonForm({ id }: { id?: number }) {
                         </FndtButton>
                         <FndtButton
                             variant="secondary"
-                            onClick={() => {
-                                resetForm()
-                            }}>
+                            onClick={() => resetForm()}>
                             {t('common.btn.resetToDefaultValues')}
                         </FndtButton>
                     </div>

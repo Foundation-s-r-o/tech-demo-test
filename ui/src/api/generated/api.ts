@@ -24,6 +24,641 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 /**
  * 
  * @export
+ * @interface AccessLogEntryDTO
+ */
+export interface AccessLogEntryDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof AccessLogEntryDTO
+     */
+    'accessId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessLogEntryDTO
+     */
+    'accessedAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessLogEntryDTO
+     */
+    'actor'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessLogEntryDTO
+     */
+    'personUid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessLogEntryDTO
+     */
+    'purpose'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessLogEntryDTO
+     */
+    'legalBasis'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessLogEntryDTO
+     */
+    'fields'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessLogEntryDTO
+     */
+    'requestId'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface AddressRequestDTO
+ */
+export interface AddressRequestDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressRequestDTO
+     */
+    'street'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressRequestDTO
+     */
+    'houseNumber'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressRequestDTO
+     */
+    'postalCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressRequestDTO
+     */
+    'municipalityCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressRequestDTO
+     */
+    'municipalityPartCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressRequestDTO
+     */
+    'countryCode': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressRequestDTO
+     */
+    'foreignAddress'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressRequestDTO
+     */
+    'addressType': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressRequestDTO
+     */
+    'validFrom': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressRequestDTO
+     */
+    'validTo'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressRequestDTO
+     */
+    'changeReason'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface AddressResponseDTO
+ */
+export interface AddressResponseDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof AddressResponseDTO
+     */
+    'personAddressId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressResponseDTO
+     */
+    'addressType'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressResponseDTO
+     */
+    'street'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressResponseDTO
+     */
+    'houseNumber'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressResponseDTO
+     */
+    'postalCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressResponseDTO
+     */
+    'municipalityCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressResponseDTO
+     */
+    'municipalityPartCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressResponseDTO
+     */
+    'countryCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressResponseDTO
+     */
+    'foreignAddress'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressResponseDTO
+     */
+    'validFrom'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressResponseDTO
+     */
+    'validTo'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddressResponseDTO
+     */
+    'supersededAt'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface AgencyPersonDTO
+ */
+export interface AgencyPersonDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof AgencyPersonDTO
+     */
+    'uid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AgencyPersonDTO
+     */
+    'givenNames'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AgencyPersonDTO
+     */
+    'familyName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AgencyPersonDTO
+     */
+    'dateOfBirth'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AgencyPersonDTO
+     */
+    'sex'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AgencyPersonDTO
+     */
+    'existenceStatusCode'?: string;
+    /**
+     * 
+     * @type {AddressResponseDTO}
+     * @memberof AgencyPersonDTO
+     */
+    'permanentAddress'?: AddressResponseDTO;
+}
+/**
+ * 
+ * @export
+ * @interface AuditEventDTO
+ */
+export interface AuditEventDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof AuditEventDTO
+     */
+    'auditId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuditEventDTO
+     */
+    'eventTime'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuditEventDTO
+     */
+    'actor'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuditEventDTO
+     */
+    'dbRole'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuditEventDTO
+     */
+    'action'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuditEventDTO
+     */
+    'schemaName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuditEventDTO
+     */
+    'tableName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuditEventDTO
+     */
+    'requestId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuditEventDTO
+     */
+    'legalBasis'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuditEventDTO
+     */
+    'rowHash'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface BirthRequestDTO
+ */
+export interface BirthRequestDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthRequestDTO
+     */
+    'officeCode': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof BirthRequestDTO
+     */
+    'bookYear': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof BirthRequestDTO
+     */
+    'entryNo': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthRequestDTO
+     */
+    'childUid': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthRequestDTO
+     */
+    'dateOfBirth': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthRequestDTO
+     */
+    'timeOfBirth'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthRequestDTO
+     */
+    'placeMunicipality'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthRequestDTO
+     */
+    'placeForeign'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthRequestDTO
+     */
+    'facility'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof BirthRequestDTO
+     */
+    'multipleBirthOrder'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthRequestDTO
+     */
+    'motherUid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthRequestDTO
+     */
+    'fatherUid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthRequestDTO
+     */
+    'amendmentReason'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface BirthResponseDTO
+ */
+export interface BirthResponseDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthResponseDTO
+     */
+    'recordId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthResponseDTO
+     */
+    'officeCode'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof BirthResponseDTO
+     */
+    'bookYear'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof BirthResponseDTO
+     */
+    'entryNo'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthResponseDTO
+     */
+    'childUid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthResponseDTO
+     */
+    'dateOfBirth'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthResponseDTO
+     */
+    'timeOfBirth'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthResponseDTO
+     */
+    'placeMunicipality'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthResponseDTO
+     */
+    'placeForeign'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthResponseDTO
+     */
+    'facility'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof BirthResponseDTO
+     */
+    'multipleBirthOrder'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthResponseDTO
+     */
+    'motherUid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthResponseDTO
+     */
+    'fatherUid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthResponseDTO
+     */
+    'recordedAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthResponseDTO
+     */
+    'supersededAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthResponseDTO
+     */
+    'supersedesId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthResponseDTO
+     */
+    'amendmentReason'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthResponseDTO
+     */
+    'approvedBy'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ChainVerificationResult
+ */
+export interface ChainVerificationResult {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ChainVerificationResult
+     */
+    'intact'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ChainVerificationResult
+     */
+    'entriesChecked'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ChainVerificationResult
+     */
+    'firstBrokenId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface CodelistItemDTO
+ */
+export interface CodelistItemDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof CodelistItemDTO
+     */
+    'code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CodelistItemDTO
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ConsentCreateRequestDTO
+ */
+export interface ConsentCreateRequestDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof ConsentCreateRequestDTO
+     */
+    'personUid': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConsentCreateRequestDTO
+     */
+    'purpose': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConsentCreateRequestDTO
+     */
+    'givenVia': string;
+}
+/**
+ * 
+ * @export
+ * @interface ConsentResponseDTO
+ */
+export interface ConsentResponseDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof ConsentResponseDTO
+     */
+    'consentId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConsentResponseDTO
+     */
+    'personUid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConsentResponseDTO
+     */
+    'purpose'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConsentResponseDTO
+     */
+    'givenAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConsentResponseDTO
+     */
+    'givenVia'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ConsentResponseDTO
+     */
+    'withdrawnAt'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CsrfToken
  */
 export interface CsrfToken {
@@ -49,15 +684,618 @@ export interface CsrfToken {
 /**
  * 
  * @export
- * @interface IdResponseDTOLong
+ * @interface DeathRequestDTO
  */
-export interface IdResponseDTOLong {
+export interface DeathRequestDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathRequestDTO
+     */
+    'officeCode': string;
     /**
      * 
      * @type {number}
-     * @memberof IdResponseDTOLong
+     * @memberof DeathRequestDTO
      */
-    'id'?: number;
+    'bookYear': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DeathRequestDTO
+     */
+    'entryNo': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathRequestDTO
+     */
+    'personUid': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathRequestDTO
+     */
+    'dateOfDeath'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathRequestDTO
+     */
+    'dateFound'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeathRequestDTO
+     */
+    'declaredByCourt'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathRequestDTO
+     */
+    'courtCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathRequestDTO
+     */
+    'courtReference'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathRequestDTO
+     */
+    'placeMunicipality'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathRequestDTO
+     */
+    'placeForeign'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathRequestDTO
+     */
+    'amendmentReason'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface DeathResponseDTO
+ */
+export interface DeathResponseDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathResponseDTO
+     */
+    'recordId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathResponseDTO
+     */
+    'officeCode'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof DeathResponseDTO
+     */
+    'bookYear'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DeathResponseDTO
+     */
+    'entryNo'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathResponseDTO
+     */
+    'personUid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathResponseDTO
+     */
+    'dateOfDeath'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathResponseDTO
+     */
+    'dateFound'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeathResponseDTO
+     */
+    'declaredByCourt'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathResponseDTO
+     */
+    'courtCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathResponseDTO
+     */
+    'courtReference'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathResponseDTO
+     */
+    'placeMunicipality'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathResponseDTO
+     */
+    'placeForeign'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathResponseDTO
+     */
+    'recordedAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathResponseDTO
+     */
+    'supersededAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathResponseDTO
+     */
+    'supersedesId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathResponseDTO
+     */
+    'amendmentReason'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathResponseDTO
+     */
+    'approvedBy'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface DetailResponseDTO
+ */
+export interface DetailResponseDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof DetailResponseDTO
+     */
+    'detailId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'givenNames'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'familyName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'birthSurname'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'sex'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'dateOfBirth'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'dateOfBirthPrecision'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'placeOfBirthMunicipality'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'placeOfBirthForeign'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'citizenship'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'maritalStatusCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'existenceStatusCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'titlesBefore'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'titlesAfter'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'validFrom'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'validTo'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'recordedAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DetailResponseDTO
+     */
+    'supersededAt'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface DisclosureCreateRequestDTO
+ */
+export interface DisclosureCreateRequestDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof DisclosureCreateRequestDTO
+     */
+    'personUid': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DisclosureCreateRequestDTO
+     */
+    'recipient': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DisclosureCreateRequestDTO
+     */
+    'recipientType': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DisclosureCreateRequestDTO
+     */
+    'legalBasis': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DisclosureCreateRequestDTO
+     */
+    'disclosedFields': string;
+}
+/**
+ * 
+ * @export
+ * @interface DisclosureResponseDTO
+ */
+export interface DisclosureResponseDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof DisclosureResponseDTO
+     */
+    'disclosureId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof DisclosureResponseDTO
+     */
+    'personUid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DisclosureResponseDTO
+     */
+    'recipient'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DisclosureResponseDTO
+     */
+    'recipientType'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DisclosureResponseDTO
+     */
+    'legalBasis'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DisclosureResponseDTO
+     */
+    'disclosedFields'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DisclosureResponseDTO
+     */
+    'disclosedAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DisclosureResponseDTO
+     */
+    'disclosedBy'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof DisclosureResponseDTO
+     */
+    'dsrRequestId'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface DissolutionRequestDTO
+ */
+export interface DissolutionRequestDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof DissolutionRequestDTO
+     */
+    'dissolutionType': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DissolutionRequestDTO
+     */
+    'effectiveDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DissolutionRequestDTO
+     */
+    'courtCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DissolutionRequestDTO
+     */
+    'courtReference'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface DsrCreateRequestDTO
+ */
+export interface DsrCreateRequestDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof DsrCreateRequestDTO
+     */
+    'personUid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DsrCreateRequestDTO
+     */
+    'requesterRef': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DsrCreateRequestDTO
+     */
+    'requestType': string;
+}
+/**
+ * 
+ * @export
+ * @interface DsrResponseDTO
+ */
+export interface DsrResponseDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof DsrResponseDTO
+     */
+    'requestId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof DsrResponseDTO
+     */
+    'personUid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DsrResponseDTO
+     */
+    'requesterRef'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DsrResponseDTO
+     */
+    'requestType'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DsrResponseDTO
+     */
+    'receivedAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DsrResponseDTO
+     */
+    'dueAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DsrResponseDTO
+     */
+    'status'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DsrResponseDTO
+     */
+    'handledBy'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DsrResponseDTO
+     */
+    'resolvedAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DsrResponseDTO
+     */
+    'resolution'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface DsrUpdateRequestDTO
+ */
+export interface DsrUpdateRequestDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof DsrUpdateRequestDTO
+     */
+    'status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DsrUpdateRequestDTO
+     */
+    'resolution'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ExportResponseDTO
+ */
+export interface ExportResponseDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof ExportResponseDTO
+     */
+    'uid'?: string;
+    /**
+     * 
+     * @type {PersonCompositeResponseDTO}
+     * @memberof ExportResponseDTO
+     */
+    'person'?: PersonCompositeResponseDTO;
+    /**
+     * 
+     * @type {Array<DetailResponseDTO>}
+     * @memberof ExportResponseDTO
+     */
+    'detailHistory'?: Array<DetailResponseDTO>;
+    /**
+     * 
+     * @type {Array<AddressResponseDTO>}
+     * @memberof ExportResponseDTO
+     */
+    'addressHistory'?: Array<AddressResponseDTO>;
+    /**
+     * 
+     * @type {Array<ReligionResponseDTO>}
+     * @memberof ExportResponseDTO
+     */
+    'religionHistory'?: Array<ReligionResponseDTO>;
+    /**
+     * 
+     * @type {Array<BirthResponseDTO>}
+     * @memberof ExportResponseDTO
+     */
+    'births'?: Array<BirthResponseDTO>;
+    /**
+     * 
+     * @type {Array<MarriageResponseDTO>}
+     * @memberof ExportResponseDTO
+     */
+    'marriages'?: Array<MarriageResponseDTO>;
+    /**
+     * 
+     * @type {Array<DeathResponseDTO>}
+     * @memberof ExportResponseDTO
+     */
+    'deaths'?: Array<DeathResponseDTO>;
+    /**
+     * 
+     * @type {Array<ConsentResponseDTO>}
+     * @memberof ExportResponseDTO
+     */
+    'consents'?: Array<ConsentResponseDTO>;
+    /**
+     * 
+     * @type {Array<DisclosureResponseDTO>}
+     * @memberof ExportResponseDTO
+     */
+    'disclosures'?: Array<DisclosureResponseDTO>;
+    /**
+     * 
+     * @type {Array<AccessLogEntryDTO>}
+     * @memberof ExportResponseDTO
+     */
+    'accessLog'?: Array<AccessLogEntryDTO>;
 }
 /**
  * 
@@ -81,144 +1319,681 @@ export interface LoginRequestDTO {
 /**
  * 
  * @export
- * @interface PagedResultResponseDTOPersonListItemResponseDTO
+ * @interface MarriageRequestDTO
  */
-export interface PagedResultResponseDTOPersonListItemResponseDTO {
+export interface MarriageRequestDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageRequestDTO
+     */
+    'officeCode': string;
     /**
      * 
      * @type {number}
-     * @memberof PagedResultResponseDTOPersonListItemResponseDTO
+     * @memberof MarriageRequestDTO
+     */
+    'bookYear': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof MarriageRequestDTO
+     */
+    'entryNo': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageRequestDTO
+     */
+    'spouse1Uid': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageRequestDTO
+     */
+    'spouse2Uid': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageRequestDTO
+     */
+    'marriageDate': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageRequestDTO
+     */
+    'placeMunicipality'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageRequestDTO
+     */
+    'placeForeign'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageRequestDTO
+     */
+    'marriageForm': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageRequestDTO
+     */
+    'officiant'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageRequestDTO
+     */
+    'witness1Name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageRequestDTO
+     */
+    'witness2Name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageRequestDTO
+     */
+    'surnameAgreement'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageRequestDTO
+     */
+    'amendmentReason'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface MarriageResponseDTO
+ */
+export interface MarriageResponseDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'recordId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'officeCode'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof MarriageResponseDTO
+     */
+    'bookYear'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof MarriageResponseDTO
+     */
+    'entryNo'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'spouse1Uid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'spouse2Uid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'marriageDate'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'placeMunicipality'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'placeForeign'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'marriageForm'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'officiant'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'witness1Name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'witness2Name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'surnameAgreement'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'recordedAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'supersededAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'supersedesId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'amendmentReason'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageResponseDTO
+     */
+    'approvedBy'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface MedicalRequestDTO
+ */
+export interface MedicalRequestDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof MedicalRequestDTO
+     */
+    'causeOfDeathIcd10'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MedicalRequestDTO
+     */
+    'autopsyPerformed'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof MedicalRequestDTO
+     */
+    'certifiedBy'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface MedicalResponseDTO
+ */
+export interface MedicalResponseDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof MedicalResponseDTO
+     */
+    'deathRecordId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MedicalResponseDTO
+     */
+    'causeOfDeathIcd10'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MedicalResponseDTO
+     */
+    'autopsyPerformed'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof MedicalResponseDTO
+     */
+    'certifiedBy'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MedicalResponseDTO
+     */
+    'recordedAt'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface PagedResultResponseDTOPersonSummaryDTO
+ */
+export interface PagedResultResponseDTOPersonSummaryDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof PagedResultResponseDTOPersonSummaryDTO
      */
     'totalElements'?: number;
     /**
      * 
-     * @type {Array<PersonListItemResponseDTO>}
-     * @memberof PagedResultResponseDTOPersonListItemResponseDTO
+     * @type {Array<PersonSummaryDTO>}
+     * @memberof PagedResultResponseDTOPersonSummaryDTO
      */
-    'elements'?: Array<PersonListItemResponseDTO>;
+    'elements'?: Array<PersonSummaryDTO>;
 }
 /**
  * 
  * @export
- * @interface PersonDetailResponseDTO
+ * @interface PersonCompositeResponseDTO
  */
-export interface PersonDetailResponseDTO {
+export interface PersonCompositeResponseDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCompositeResponseDTO
+     */
+    'uid'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PersonCompositeResponseDTO
+     */
+    'deceased'?: boolean;
+    /**
+     * 
+     * @type {DetailResponseDTO}
+     * @memberof PersonCompositeResponseDTO
+     */
+    'detail'?: DetailResponseDTO;
+    /**
+     * 
+     * @type {Array<AddressResponseDTO>}
+     * @memberof PersonCompositeResponseDTO
+     */
+    'addresses'?: Array<AddressResponseDTO>;
+}
+/**
+ * 
+ * @export
+ * @interface PersonCreateRequestDTO
+ */
+export interface PersonCreateRequestDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCreateRequestDTO
+     */
+    'nationalId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCreateRequestDTO
+     */
+    'givenNames': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCreateRequestDTO
+     */
+    'familyName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCreateRequestDTO
+     */
+    'birthSurname'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCreateRequestDTO
+     */
+    'sex': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCreateRequestDTO
+     */
+    'dateOfBirth': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCreateRequestDTO
+     */
+    'dateOfBirthPrecision'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCreateRequestDTO
+     */
+    'placeOfBirthMunicipality'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCreateRequestDTO
+     */
+    'placeOfBirthForeign'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCreateRequestDTO
+     */
+    'citizenship': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCreateRequestDTO
+     */
+    'maritalStatusCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCreateRequestDTO
+     */
+    'titlesBefore'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCreateRequestDTO
+     */
+    'titlesAfter'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonCreateRequestDTO
+     */
+    'validFrom'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface PersonDetailRequestDTO
+ */
+export interface PersonDetailRequestDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'givenNames': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'familyName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'birthSurname'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'sex': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'dateOfBirth': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'dateOfBirthPrecision'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'placeOfBirthMunicipality'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'placeOfBirthForeign'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'citizenship': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'maritalStatusCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'existenceStatusCode'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'titlesBefore'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'titlesAfter'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'validFrom': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'validTo'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonDetailRequestDTO
+     */
+    'changeReason'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface PersonSummaryDTO
+ */
+export interface PersonSummaryDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonSummaryDTO
+     */
+    'uid'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonSummaryDTO
+     */
+    'givenNames'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonSummaryDTO
+     */
+    'familyName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonSummaryDTO
+     */
+    'dateOfBirth'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonSummaryDTO
+     */
+    'sex'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface RecordIdResponseDTO
+ */
+export interface RecordIdResponseDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof RecordIdResponseDTO
+     */
+    'recordId'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ReligionRequestDTO
+ */
+export interface ReligionRequestDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReligionRequestDTO
+     */
+    'religionCode': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReligionRequestDTO
+     */
+    'legalBasis': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReligionRequestDTO
+     */
+    'validFrom': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReligionRequestDTO
+     */
+    'validTo'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReligionRequestDTO
+     */
+    'changeReason'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReligionRequestDTO
+     */
+    'consentPurpose'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReligionRequestDTO
+     */
+    'consentGivenVia'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ReligionResponseDTO
+ */
+export interface ReligionResponseDTO {
     /**
      * 
      * @type {number}
-     * @memberof PersonDetailResponseDTO
+     * @memberof ReligionResponseDTO
      */
-    'id'?: number;
+    'personReligionId'?: number;
     /**
      * 
      * @type {string}
-     * @memberof PersonDetailResponseDTO
+     * @memberof ReligionResponseDTO
      */
-    'firstName'?: string;
+    'religionCode'?: string;
     /**
      * 
      * @type {string}
-     * @memberof PersonDetailResponseDTO
+     * @memberof ReligionResponseDTO
      */
-    'lastName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PersonDetailResponseDTO
-     */
-    'email'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PersonDetailResponseDTO
-     */
-    'address'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PersonDetailResponseDTO
-     */
-    'state'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PersonDetailResponseDTO
-     */
-    'phoneNumber'?: string;
-}
-/**
- * 
- * @export
- * @interface PersonListItemResponseDTO
- */
-export interface PersonListItemResponseDTO {
+    'legalBasis'?: string;
     /**
      * 
      * @type {number}
-     * @memberof PersonListItemResponseDTO
+     * @memberof ReligionResponseDTO
      */
-    'id'?: number;
+    'consentId'?: number;
     /**
      * 
      * @type {string}
-     * @memberof PersonListItemResponseDTO
+     * @memberof ReligionResponseDTO
      */
-    'firstName'?: string;
+    'validFrom'?: string;
     /**
      * 
      * @type {string}
-     * @memberof PersonListItemResponseDTO
+     * @memberof ReligionResponseDTO
      */
-    'lastName'?: string;
+    'validTo'?: string;
     /**
      * 
      * @type {string}
-     * @memberof PersonListItemResponseDTO
+     * @memberof ReligionResponseDTO
      */
-    'email'?: string;
+    'supersededAt'?: string;
 }
 /**
  * 
  * @export
- * @interface PersonModifyRequestDTO
+ * @interface UidResponseDTO
  */
-export interface PersonModifyRequestDTO {
+export interface UidResponseDTO {
     /**
      * 
      * @type {string}
-     * @memberof PersonModifyRequestDTO
+     * @memberof UidResponseDTO
      */
-    'firstName': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PersonModifyRequestDTO
-     */
-    'lastName': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PersonModifyRequestDTO
-     */
-    'email': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PersonModifyRequestDTO
-     */
-    'address'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PersonModifyRequestDTO
-     */
-    'state'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PersonModifyRequestDTO
-     */
-    'phoneNumber'?: string;
+    'uid'?: string;
 }
 /**
  * 
@@ -251,6 +2026,381 @@ export interface UserResponseDTO {
      */
     'role'?: string;
 }
+
+/**
+ * AgencyControllerApi - axios parameter creator
+ * @export
+ */
+export const AgencyControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPerson1: async (uid: string, xAccessPurpose: string, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('getPerson1', 'uid', uid)
+            // verify required parameter 'xAccessPurpose' is not null or undefined
+            assertParamExists('getPerson1', 'xAccessPurpose', xAccessPurpose)
+            const localVarPath = `/api/agency/persons/{uid}`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xAccessPurpose !== undefined && xAccessPurpose !== null) {
+                localVarHeaderParameter['X-Access-Purpose'] = String(xAccessPurpose);
+            }
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AgencyControllerApi - functional programming interface
+ * @export
+ */
+export const AgencyControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AgencyControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getPerson1(uid: string, xAccessPurpose: string, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AgencyPersonDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPerson1(uid, xAccessPurpose, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * AgencyControllerApi - factory interface
+ * @export
+ */
+export const AgencyControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AgencyControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPerson1(uid: string, xAccessPurpose: string, xRequestId?: string, options?: any): AxiosPromise<AgencyPersonDTO> {
+            return localVarFp.getPerson1(uid, xAccessPurpose, xRequestId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for getPerson1 operation in AgencyControllerApi.
+ * @export
+ * @interface AgencyControllerApiGetPerson1Request
+ */
+export interface AgencyControllerApiGetPerson1Request {
+    /**
+     * 
+     * @type {string}
+     * @memberof AgencyControllerApiGetPerson1
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof AgencyControllerApiGetPerson1
+     */
+    readonly xAccessPurpose: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof AgencyControllerApiGetPerson1
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * AgencyControllerApi - object-oriented interface
+ * @export
+ * @class AgencyControllerApi
+ * @extends {BaseAPI}
+ */
+export class AgencyControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {AgencyControllerApiGetPerson1Request} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AgencyControllerApi
+     */
+    public getPerson1(requestParameters: AgencyControllerApiGetPerson1Request, options?: AxiosRequestConfig) {
+        return AgencyControllerApiFp(this.configuration).getPerson1(requestParameters.uid, requestParameters.xAccessPurpose, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * AuditControllerApi - axios parameter creator
+ * @export
+ */
+export const AuditControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} personUid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        auditAccessLog: async (personUid: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'personUid' is not null or undefined
+            assertParamExists('auditAccessLog', 'personUid', personUid)
+            const localVarPath = `/api/audit/access-log`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (personUid !== undefined) {
+                localVarQueryParameter['personUid'] = personUid;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        chainVerification: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/audit/chain/verification`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        events: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/audit/events`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AuditControllerApi - functional programming interface
+ * @export
+ */
+export const AuditControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AuditControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} personUid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async auditAccessLog(personUid: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AccessLogEntryDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.auditAccessLog(personUid, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async chainVerification(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChainVerificationResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.chainVerification(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async events(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AuditEventDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.events(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * AuditControllerApi - factory interface
+ * @export
+ */
+export const AuditControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AuditControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} personUid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        auditAccessLog(personUid: string, options?: any): AxiosPromise<Array<AccessLogEntryDTO>> {
+            return localVarFp.auditAccessLog(personUid, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        chainVerification(options?: any): AxiosPromise<ChainVerificationResult> {
+            return localVarFp.chainVerification(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        events(options?: any): AxiosPromise<Array<AuditEventDTO>> {
+            return localVarFp.events(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for auditAccessLog operation in AuditControllerApi.
+ * @export
+ * @interface AuditControllerApiAuditAccessLogRequest
+ */
+export interface AuditControllerApiAuditAccessLogRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AuditControllerApiAuditAccessLog
+     */
+    readonly personUid: string
+}
+
+/**
+ * AuditControllerApi - object-oriented interface
+ * @export
+ * @class AuditControllerApi
+ * @extends {BaseAPI}
+ */
+export class AuditControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {AuditControllerApiAuditAccessLogRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuditControllerApi
+     */
+    public auditAccessLog(requestParameters: AuditControllerApiAuditAccessLogRequest, options?: AxiosRequestConfig) {
+        return AuditControllerApiFp(this.configuration).auditAccessLog(requestParameters.personUid, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuditControllerApi
+     */
+    public chainVerification(options?: AxiosRequestConfig) {
+        return AuditControllerApiFp(this.configuration).chainVerification(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuditControllerApi
+     */
+    public events(options?: AxiosRequestConfig) {
+        return AuditControllerApiFp(this.configuration).events(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
 
 /**
  * AuthControllerApi - axios parameter creator
@@ -562,54 +2712,26 @@ export class AuthControllerApi extends BaseAPI {
 
 
 /**
- * PersonControllerApi - axios parameter creator
+ * BirthControllerApi - axios parameter creator
  * @export
  */
-export const PersonControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+export const BirthControllerApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {number} id 
+         * @param {string} id 
+         * @param {BirthRequestDTO} birthRequestDTO 
+         * @param {string} [xRequestId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        _delete: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        amendBirth: async (id: string, birthRequestDTO: BirthRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('_delete', 'id', id)
-            const localVarPath = `/api/persons/{id}`
+            assertParamExists('amendBirth', 'id', id)
+            // verify required parameter 'birthRequestDTO' is not null or undefined
+            assertParamExists('amendBirth', 'birthRequestDTO', birthRequestDTO)
+            const localVarPath = `/api/births/{id}/amendments`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {PersonModifyRequestDTO} personModifyRequestDTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        create: async (personModifyRequestDTO: PersonModifyRequestDTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'personModifyRequestDTO' is not null or undefined
-            assertParamExists('create', 'personModifyRequestDTO', personModifyRequestDTO)
-            const localVarPath = `/api/persons`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -621,6 +2743,10 @@ export const PersonControllerApiAxiosParamCreator = function (configuration?: Co
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -628,7 +2754,7 @@ export const PersonControllerApiAxiosParamCreator = function (configuration?: Co
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(personModifyRequestDTO, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(birthRequestDTO, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -637,14 +2763,18 @@ export const PersonControllerApiAxiosParamCreator = function (configuration?: Co
         },
         /**
          * 
-         * @param {number} id 
+         * @param {string} id 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getBirth: async (id: string, xAccessPurpose: string, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('get', 'id', id)
-            const localVarPath = `/api/persons/{id}`
+            assertParamExists('getBirth', 'id', id)
+            // verify required parameter 'xAccessPurpose' is not null or undefined
+            assertParamExists('getBirth', 'xAccessPurpose', xAccessPurpose)
+            const localVarPath = `/api/births/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -657,6 +2787,14 @@ export const PersonControllerApiAxiosParamCreator = function (configuration?: Co
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            if (xAccessPurpose !== undefined && xAccessPurpose !== null) {
+                localVarHeaderParameter['X-Access-Purpose'] = String(xAccessPurpose);
+            }
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -670,14 +2808,488 @@ export const PersonControllerApiAxiosParamCreator = function (configuration?: Co
         },
         /**
          * 
-         * @param {number} id 
+         * @param {BirthRequestDTO} birthRequestDTO 
+         * @param {string} [xRequestId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPdf: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        registerBirth: async (birthRequestDTO: BirthRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'birthRequestDTO' is not null or undefined
+            assertParamExists('registerBirth', 'birthRequestDTO', birthRequestDTO)
+            const localVarPath = `/api/births`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(birthRequestDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * BirthControllerApi - functional programming interface
+ * @export
+ */
+export const BirthControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = BirthControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {BirthRequestDTO} birthRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async amendBirth(id: string, birthRequestDTO: BirthRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RecordIdResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.amendBirth(id, birthRequestDTO, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getBirth(id: string, xAccessPurpose: string, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BirthResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getBirth(id, xAccessPurpose, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {BirthRequestDTO} birthRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async registerBirth(birthRequestDTO: BirthRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RecordIdResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.registerBirth(birthRequestDTO, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * BirthControllerApi - factory interface
+ * @export
+ */
+export const BirthControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = BirthControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {BirthRequestDTO} birthRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        amendBirth(id: string, birthRequestDTO: BirthRequestDTO, xRequestId?: string, options?: any): AxiosPromise<RecordIdResponseDTO> {
+            return localVarFp.amendBirth(id, birthRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getBirth(id: string, xAccessPurpose: string, xRequestId?: string, options?: any): AxiosPromise<BirthResponseDTO> {
+            return localVarFp.getBirth(id, xAccessPurpose, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {BirthRequestDTO} birthRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        registerBirth(birthRequestDTO: BirthRequestDTO, xRequestId?: string, options?: any): AxiosPromise<RecordIdResponseDTO> {
+            return localVarFp.registerBirth(birthRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for amendBirth operation in BirthControllerApi.
+ * @export
+ * @interface BirthControllerApiAmendBirthRequest
+ */
+export interface BirthControllerApiAmendBirthRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthControllerApiAmendBirth
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {BirthRequestDTO}
+     * @memberof BirthControllerApiAmendBirth
+     */
+    readonly birthRequestDTO: BirthRequestDTO
+
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthControllerApiAmendBirth
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for getBirth operation in BirthControllerApi.
+ * @export
+ * @interface BirthControllerApiGetBirthRequest
+ */
+export interface BirthControllerApiGetBirthRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthControllerApiGetBirth
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthControllerApiGetBirth
+     */
+    readonly xAccessPurpose: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthControllerApiGetBirth
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for registerBirth operation in BirthControllerApi.
+ * @export
+ * @interface BirthControllerApiRegisterBirthRequest
+ */
+export interface BirthControllerApiRegisterBirthRequest {
+    /**
+     * 
+     * @type {BirthRequestDTO}
+     * @memberof BirthControllerApiRegisterBirth
+     */
+    readonly birthRequestDTO: BirthRequestDTO
+
+    /**
+     * 
+     * @type {string}
+     * @memberof BirthControllerApiRegisterBirth
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * BirthControllerApi - object-oriented interface
+ * @export
+ * @class BirthControllerApi
+ * @extends {BaseAPI}
+ */
+export class BirthControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {BirthControllerApiAmendBirthRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BirthControllerApi
+     */
+    public amendBirth(requestParameters: BirthControllerApiAmendBirthRequest, options?: AxiosRequestConfig) {
+        return BirthControllerApiFp(this.configuration).amendBirth(requestParameters.id, requestParameters.birthRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {BirthControllerApiGetBirthRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BirthControllerApi
+     */
+    public getBirth(requestParameters: BirthControllerApiGetBirthRequest, options?: AxiosRequestConfig) {
+        return BirthControllerApiFp(this.configuration).getBirth(requestParameters.id, requestParameters.xAccessPurpose, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {BirthControllerApiRegisterBirthRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BirthControllerApi
+     */
+    public registerBirth(requestParameters: BirthControllerApiRegisterBirthRequest, options?: AxiosRequestConfig) {
+        return BirthControllerApiFp(this.configuration).registerBirth(requestParameters.birthRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * CodelistControllerApi - axios parameter creator
+ * @export
+ */
+export const CodelistControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} codelist 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        items: async (codelist: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'codelist' is not null or undefined
+            assertParamExists('items', 'codelist', codelist)
+            const localVarPath = `/api/codelists/{codelist}/items`
+                .replace(`{${"codelist"}}`, encodeURIComponent(String(codelist)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        list: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/codelists`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * CodelistControllerApi - functional programming interface
+ * @export
+ */
+export const CodelistControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CodelistControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} codelist 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async items(codelist: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CodelistItemDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.items(codelist, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async list(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.list(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * CodelistControllerApi - factory interface
+ * @export
+ */
+export const CodelistControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CodelistControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} codelist 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        items(codelist: string, options?: any): AxiosPromise<Array<CodelistItemDTO>> {
+            return localVarFp.items(codelist, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        list(options?: any): AxiosPromise<Array<string>> {
+            return localVarFp.list(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for items operation in CodelistControllerApi.
+ * @export
+ * @interface CodelistControllerApiItemsRequest
+ */
+export interface CodelistControllerApiItemsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CodelistControllerApiItems
+     */
+    readonly codelist: string
+}
+
+/**
+ * CodelistControllerApi - object-oriented interface
+ * @export
+ * @class CodelistControllerApi
+ * @extends {BaseAPI}
+ */
+export class CodelistControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {CodelistControllerApiItemsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CodelistControllerApi
+     */
+    public items(requestParameters: CodelistControllerApiItemsRequest, options?: AxiosRequestConfig) {
+        return CodelistControllerApiFp(this.configuration).items(requestParameters.codelist, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CodelistControllerApi
+     */
+    public list(options?: AxiosRequestConfig) {
+        return CodelistControllerApiFp(this.configuration).list(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * DeathControllerApi - axios parameter creator
+ * @export
+ */
+export const DeathControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {DeathRequestDTO} deathRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        amendDeath: async (id: string, deathRequestDTO: DeathRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('getPdf', 'id', id)
-            const localVarPath = `/api/persons/{id}/pdf`
+            assertParamExists('amendDeath', 'id', id)
+            // verify required parameter 'deathRequestDTO' is not null or undefined
+            assertParamExists('amendDeath', 'deathRequestDTO', deathRequestDTO)
+            const localVarPath = `/api/deaths/{id}/amendments`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(deathRequestDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDeath: async (id: string, xAccessPurpose: string, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getDeath', 'id', id)
+            // verify required parameter 'xAccessPurpose' is not null or undefined
+            assertParamExists('getDeath', 'xAccessPurpose', xAccessPurpose)
+            const localVarPath = `/api/deaths/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -690,6 +3302,14 @@ export const PersonControllerApiAxiosParamCreator = function (configuration?: Co
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            if (xAccessPurpose !== undefined && xAccessPurpose !== null) {
+                localVarHeaderParameter['X-Access-Purpose'] = String(xAccessPurpose);
+            }
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -703,17 +3323,19 @@ export const PersonControllerApiAxiosParamCreator = function (configuration?: Co
         },
         /**
          * 
-         * @param {string} [name] 
-         * @param {string} [email] 
-         * @param {number} [pageStart] 
-         * @param {number} [pageSize] 
-         * @param {'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL'} [sortBy] 
-         * @param {boolean} [sortDesc] 
+         * @param {string} id 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listUsers: async (name?: string, email?: string, pageStart?: number, pageSize?: number, sortBy?: 'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL', sortDesc?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/persons`;
+        getMedical: async (id: string, xAccessPurpose: string, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getMedical', 'id', id)
+            // verify required parameter 'xAccessPurpose' is not null or undefined
+            assertParamExists('getMedical', 'xAccessPurpose', xAccessPurpose)
+            const localVarPath = `/api/deaths/{id}/medical`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -725,28 +3347,701 @@ export const PersonControllerApiAxiosParamCreator = function (configuration?: Co
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (name !== undefined) {
-                localVarQueryParameter['name'] = name;
+            if (xAccessPurpose !== undefined && xAccessPurpose !== null) {
+                localVarHeaderParameter['X-Access-Purpose'] = String(xAccessPurpose);
             }
 
-            if (email !== undefined) {
-                localVarQueryParameter['email'] = email;
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
             }
 
-            if (pageStart !== undefined) {
-                localVarQueryParameter['pageStart'] = pageStart;
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {DeathRequestDTO} deathRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        registerDeath: async (deathRequestDTO: DeathRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deathRequestDTO' is not null or undefined
+            assertParamExists('registerDeath', 'deathRequestDTO', deathRequestDTO)
+            const localVarPath = `/api/deaths`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
             }
 
-            if (pageSize !== undefined) {
-                localVarQueryParameter['pageSize'] = pageSize;
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
             }
 
-            if (sortBy !== undefined) {
-                localVarQueryParameter['sortBy'] = sortBy;
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(deathRequestDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {MedicalRequestDTO} medicalRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setMedical: async (id: string, medicalRequestDTO: MedicalRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('setMedical', 'id', id)
+            // verify required parameter 'medicalRequestDTO' is not null or undefined
+            assertParamExists('setMedical', 'medicalRequestDTO', medicalRequestDTO)
+            const localVarPath = `/api/deaths/{id}/medical`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
             }
 
-            if (sortDesc !== undefined) {
-                localVarQueryParameter['sortDesc'] = sortDesc;
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(medicalRequestDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DeathControllerApi - functional programming interface
+ * @export
+ */
+export const DeathControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DeathControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {DeathRequestDTO} deathRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async amendDeath(id: string, deathRequestDTO: DeathRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RecordIdResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.amendDeath(id, deathRequestDTO, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDeath(id: string, xAccessPurpose: string, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeathResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDeath(id, xAccessPurpose, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getMedical(id: string, xAccessPurpose: string, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MedicalResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMedical(id, xAccessPurpose, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {DeathRequestDTO} deathRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async registerDeath(deathRequestDTO: DeathRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RecordIdResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.registerDeath(deathRequestDTO, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {MedicalRequestDTO} medicalRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async setMedical(id: string, medicalRequestDTO: MedicalRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.setMedical(id, medicalRequestDTO, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * DeathControllerApi - factory interface
+ * @export
+ */
+export const DeathControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DeathControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {DeathRequestDTO} deathRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        amendDeath(id: string, deathRequestDTO: DeathRequestDTO, xRequestId?: string, options?: any): AxiosPromise<RecordIdResponseDTO> {
+            return localVarFp.amendDeath(id, deathRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDeath(id: string, xAccessPurpose: string, xRequestId?: string, options?: any): AxiosPromise<DeathResponseDTO> {
+            return localVarFp.getDeath(id, xAccessPurpose, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMedical(id: string, xAccessPurpose: string, xRequestId?: string, options?: any): AxiosPromise<MedicalResponseDTO> {
+            return localVarFp.getMedical(id, xAccessPurpose, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {DeathRequestDTO} deathRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        registerDeath(deathRequestDTO: DeathRequestDTO, xRequestId?: string, options?: any): AxiosPromise<RecordIdResponseDTO> {
+            return localVarFp.registerDeath(deathRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {MedicalRequestDTO} medicalRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        setMedical(id: string, medicalRequestDTO: MedicalRequestDTO, xRequestId?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.setMedical(id, medicalRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for amendDeath operation in DeathControllerApi.
+ * @export
+ * @interface DeathControllerApiAmendDeathRequest
+ */
+export interface DeathControllerApiAmendDeathRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathControllerApiAmendDeath
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {DeathRequestDTO}
+     * @memberof DeathControllerApiAmendDeath
+     */
+    readonly deathRequestDTO: DeathRequestDTO
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathControllerApiAmendDeath
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for getDeath operation in DeathControllerApi.
+ * @export
+ * @interface DeathControllerApiGetDeathRequest
+ */
+export interface DeathControllerApiGetDeathRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathControllerApiGetDeath
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathControllerApiGetDeath
+     */
+    readonly xAccessPurpose: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathControllerApiGetDeath
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for getMedical operation in DeathControllerApi.
+ * @export
+ * @interface DeathControllerApiGetMedicalRequest
+ */
+export interface DeathControllerApiGetMedicalRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathControllerApiGetMedical
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathControllerApiGetMedical
+     */
+    readonly xAccessPurpose: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathControllerApiGetMedical
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for registerDeath operation in DeathControllerApi.
+ * @export
+ * @interface DeathControllerApiRegisterDeathRequest
+ */
+export interface DeathControllerApiRegisterDeathRequest {
+    /**
+     * 
+     * @type {DeathRequestDTO}
+     * @memberof DeathControllerApiRegisterDeath
+     */
+    readonly deathRequestDTO: DeathRequestDTO
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathControllerApiRegisterDeath
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for setMedical operation in DeathControllerApi.
+ * @export
+ * @interface DeathControllerApiSetMedicalRequest
+ */
+export interface DeathControllerApiSetMedicalRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathControllerApiSetMedical
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {MedicalRequestDTO}
+     * @memberof DeathControllerApiSetMedical
+     */
+    readonly medicalRequestDTO: MedicalRequestDTO
+
+    /**
+     * 
+     * @type {string}
+     * @memberof DeathControllerApiSetMedical
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * DeathControllerApi - object-oriented interface
+ * @export
+ * @class DeathControllerApi
+ * @extends {BaseAPI}
+ */
+export class DeathControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {DeathControllerApiAmendDeathRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DeathControllerApi
+     */
+    public amendDeath(requestParameters: DeathControllerApiAmendDeathRequest, options?: AxiosRequestConfig) {
+        return DeathControllerApiFp(this.configuration).amendDeath(requestParameters.id, requestParameters.deathRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {DeathControllerApiGetDeathRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DeathControllerApi
+     */
+    public getDeath(requestParameters: DeathControllerApiGetDeathRequest, options?: AxiosRequestConfig) {
+        return DeathControllerApiFp(this.configuration).getDeath(requestParameters.id, requestParameters.xAccessPurpose, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {DeathControllerApiGetMedicalRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DeathControllerApi
+     */
+    public getMedical(requestParameters: DeathControllerApiGetMedicalRequest, options?: AxiosRequestConfig) {
+        return DeathControllerApiFp(this.configuration).getMedical(requestParameters.id, requestParameters.xAccessPurpose, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {DeathControllerApiRegisterDeathRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DeathControllerApi
+     */
+    public registerDeath(requestParameters: DeathControllerApiRegisterDeathRequest, options?: AxiosRequestConfig) {
+        return DeathControllerApiFp(this.configuration).registerDeath(requestParameters.deathRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {DeathControllerApiSetMedicalRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DeathControllerApi
+     */
+    public setMedical(requestParameters: DeathControllerApiSetMedicalRequest, options?: AxiosRequestConfig) {
+        return DeathControllerApiFp(this.configuration).setMedical(requestParameters.id, requestParameters.medicalRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * GdprControllerApi - axios parameter creator
+ * @export
+ */
+export const GdprControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        _export: async (uid: string, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('_export', 'uid', uid)
+            const localVarPath = `/api/gdpr/persons/{uid}/export`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ConsentCreateRequestDTO} consentCreateRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createConsent: async (consentCreateRequestDTO: ConsentCreateRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'consentCreateRequestDTO' is not null or undefined
+            assertParamExists('createConsent', 'consentCreateRequestDTO', consentCreateRequestDTO)
+            const localVarPath = `/api/gdpr/consents`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(consentCreateRequestDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {DisclosureCreateRequestDTO} disclosureCreateRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createDisclosure: async (disclosureCreateRequestDTO: DisclosureCreateRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'disclosureCreateRequestDTO' is not null or undefined
+            assertParamExists('createDisclosure', 'disclosureCreateRequestDTO', disclosureCreateRequestDTO)
+            const localVarPath = `/api/gdpr/disclosures`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(disclosureCreateRequestDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {DsrCreateRequestDTO} dsrCreateRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createRequest: async (dsrCreateRequestDTO: DsrCreateRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'dsrCreateRequestDTO' is not null or undefined
+            assertParamExists('createRequest', 'dsrCreateRequestDTO', dsrCreateRequestDTO)
+            const localVarPath = `/api/gdpr/requests`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(dsrCreateRequestDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} personUid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listConsents: async (personUid: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'personUid' is not null or undefined
+            assertParamExists('listConsents', 'personUid', personUid)
+            const localVarPath = `/api/gdpr/consents`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (personUid !== undefined) {
+                localVarQueryParameter['personUid'] = personUid;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} personUid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listDisclosures: async (personUid: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'personUid' is not null or undefined
+            assertParamExists('listDisclosures', 'personUid', personUid)
+            const localVarPath = `/api/gdpr/disclosures`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (personUid !== undefined) {
+                localVarQueryParameter['personUid'] = personUid;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} personUid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listRequests: async (personUid: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'personUid' is not null or undefined
+            assertParamExists('listRequests', 'personUid', personUid)
+            const localVarPath = `/api/gdpr/requests`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (personUid !== undefined) {
+                localVarQueryParameter['personUid'] = personUid;
             }
 
 
@@ -763,16 +4058,17 @@ export const PersonControllerApiAxiosParamCreator = function (configuration?: Co
         /**
          * 
          * @param {number} id 
-         * @param {PersonModifyRequestDTO} personModifyRequestDTO 
+         * @param {DsrUpdateRequestDTO} dsrUpdateRequestDTO 
+         * @param {string} [xRequestId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        update: async (id: number, personModifyRequestDTO: PersonModifyRequestDTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateRequest: async (id: number, dsrUpdateRequestDTO: DsrUpdateRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('update', 'id', id)
-            // verify required parameter 'personModifyRequestDTO' is not null or undefined
-            assertParamExists('update', 'personModifyRequestDTO', personModifyRequestDTO)
-            const localVarPath = `/api/persons/{id}`
+            assertParamExists('updateRequest', 'id', id)
+            // verify required parameter 'dsrUpdateRequestDTO' is not null or undefined
+            assertParamExists('updateRequest', 'dsrUpdateRequestDTO', dsrUpdateRequestDTO)
+            const localVarPath = `/api/gdpr/requests/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -785,6 +4081,10 @@ export const PersonControllerApiAxiosParamCreator = function (configuration?: Co
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
 
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -792,7 +4092,1633 @@ export const PersonControllerApiAxiosParamCreator = function (configuration?: Co
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(personModifyRequestDTO, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(dsrUpdateRequestDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        withdrawConsent: async (id: number, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('withdrawConsent', 'id', id)
+            const localVarPath = `/api/gdpr/consents/{id}/withdrawal`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * GdprControllerApi - functional programming interface
+ * @export
+ */
+export const GdprControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = GdprControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async _export(uid: string, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExportResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator._export(uid, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {ConsentCreateRequestDTO} consentCreateRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createConsent(consentCreateRequestDTO: ConsentCreateRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createConsent(consentCreateRequestDTO, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {DisclosureCreateRequestDTO} disclosureCreateRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createDisclosure(disclosureCreateRequestDTO: DisclosureCreateRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createDisclosure(disclosureCreateRequestDTO, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {DsrCreateRequestDTO} dsrCreateRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createRequest(dsrCreateRequestDTO: DsrCreateRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createRequest(dsrCreateRequestDTO, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} personUid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listConsents(personUid: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ConsentResponseDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listConsents(personUid, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} personUid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listDisclosures(personUid: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<DisclosureResponseDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listDisclosures(personUid, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} personUid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listRequests(personUid: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<DsrResponseDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listRequests(personUid, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {DsrUpdateRequestDTO} dsrUpdateRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateRequest(id: number, dsrUpdateRequestDTO: DsrUpdateRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DsrResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateRequest(id, dsrUpdateRequestDTO, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async withdrawConsent(id: number, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.withdrawConsent(id, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * GdprControllerApi - factory interface
+ * @export
+ */
+export const GdprControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = GdprControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        _export(uid: string, xRequestId?: string, options?: any): AxiosPromise<ExportResponseDTO> {
+            return localVarFp._export(uid, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ConsentCreateRequestDTO} consentCreateRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createConsent(consentCreateRequestDTO: ConsentCreateRequestDTO, xRequestId?: string, options?: any): AxiosPromise<number> {
+            return localVarFp.createConsent(consentCreateRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {DisclosureCreateRequestDTO} disclosureCreateRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createDisclosure(disclosureCreateRequestDTO: DisclosureCreateRequestDTO, xRequestId?: string, options?: any): AxiosPromise<number> {
+            return localVarFp.createDisclosure(disclosureCreateRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {DsrCreateRequestDTO} dsrCreateRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createRequest(dsrCreateRequestDTO: DsrCreateRequestDTO, xRequestId?: string, options?: any): AxiosPromise<number> {
+            return localVarFp.createRequest(dsrCreateRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} personUid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listConsents(personUid: string, options?: any): AxiosPromise<Array<ConsentResponseDTO>> {
+            return localVarFp.listConsents(personUid, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} personUid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listDisclosures(personUid: string, options?: any): AxiosPromise<Array<DisclosureResponseDTO>> {
+            return localVarFp.listDisclosures(personUid, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} personUid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listRequests(personUid: string, options?: any): AxiosPromise<Array<DsrResponseDTO>> {
+            return localVarFp.listRequests(personUid, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {DsrUpdateRequestDTO} dsrUpdateRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateRequest(id: number, dsrUpdateRequestDTO: DsrUpdateRequestDTO, xRequestId?: string, options?: any): AxiosPromise<DsrResponseDTO> {
+            return localVarFp.updateRequest(id, dsrUpdateRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        withdrawConsent(id: number, xRequestId?: string, options?: any): AxiosPromise<void> {
+            return localVarFp.withdrawConsent(id, xRequestId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for _export operation in GdprControllerApi.
+ * @export
+ * @interface GdprControllerApiExportRequest
+ */
+export interface GdprControllerApiExportRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof GdprControllerApiExport
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof GdprControllerApiExport
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for createConsent operation in GdprControllerApi.
+ * @export
+ * @interface GdprControllerApiCreateConsentRequest
+ */
+export interface GdprControllerApiCreateConsentRequest {
+    /**
+     * 
+     * @type {ConsentCreateRequestDTO}
+     * @memberof GdprControllerApiCreateConsent
+     */
+    readonly consentCreateRequestDTO: ConsentCreateRequestDTO
+
+    /**
+     * 
+     * @type {string}
+     * @memberof GdprControllerApiCreateConsent
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for createDisclosure operation in GdprControllerApi.
+ * @export
+ * @interface GdprControllerApiCreateDisclosureRequest
+ */
+export interface GdprControllerApiCreateDisclosureRequest {
+    /**
+     * 
+     * @type {DisclosureCreateRequestDTO}
+     * @memberof GdprControllerApiCreateDisclosure
+     */
+    readonly disclosureCreateRequestDTO: DisclosureCreateRequestDTO
+
+    /**
+     * 
+     * @type {string}
+     * @memberof GdprControllerApiCreateDisclosure
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for createRequest operation in GdprControllerApi.
+ * @export
+ * @interface GdprControllerApiCreateRequestRequest
+ */
+export interface GdprControllerApiCreateRequestRequest {
+    /**
+     * 
+     * @type {DsrCreateRequestDTO}
+     * @memberof GdprControllerApiCreateRequest
+     */
+    readonly dsrCreateRequestDTO: DsrCreateRequestDTO
+
+    /**
+     * 
+     * @type {string}
+     * @memberof GdprControllerApiCreateRequest
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for listConsents operation in GdprControllerApi.
+ * @export
+ * @interface GdprControllerApiListConsentsRequest
+ */
+export interface GdprControllerApiListConsentsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof GdprControllerApiListConsents
+     */
+    readonly personUid: string
+}
+
+/**
+ * Request parameters for listDisclosures operation in GdprControllerApi.
+ * @export
+ * @interface GdprControllerApiListDisclosuresRequest
+ */
+export interface GdprControllerApiListDisclosuresRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof GdprControllerApiListDisclosures
+     */
+    readonly personUid: string
+}
+
+/**
+ * Request parameters for listRequests operation in GdprControllerApi.
+ * @export
+ * @interface GdprControllerApiListRequestsRequest
+ */
+export interface GdprControllerApiListRequestsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof GdprControllerApiListRequests
+     */
+    readonly personUid: string
+}
+
+/**
+ * Request parameters for updateRequest operation in GdprControllerApi.
+ * @export
+ * @interface GdprControllerApiUpdateRequestRequest
+ */
+export interface GdprControllerApiUpdateRequestRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof GdprControllerApiUpdateRequest
+     */
+    readonly id: number
+
+    /**
+     * 
+     * @type {DsrUpdateRequestDTO}
+     * @memberof GdprControllerApiUpdateRequest
+     */
+    readonly dsrUpdateRequestDTO: DsrUpdateRequestDTO
+
+    /**
+     * 
+     * @type {string}
+     * @memberof GdprControllerApiUpdateRequest
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for withdrawConsent operation in GdprControllerApi.
+ * @export
+ * @interface GdprControllerApiWithdrawConsentRequest
+ */
+export interface GdprControllerApiWithdrawConsentRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof GdprControllerApiWithdrawConsent
+     */
+    readonly id: number
+
+    /**
+     * 
+     * @type {string}
+     * @memberof GdprControllerApiWithdrawConsent
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * GdprControllerApi - object-oriented interface
+ * @export
+ * @class GdprControllerApi
+ * @extends {BaseAPI}
+ */
+export class GdprControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {GdprControllerApiExportRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GdprControllerApi
+     */
+    public _export(requestParameters: GdprControllerApiExportRequest, options?: AxiosRequestConfig) {
+        return GdprControllerApiFp(this.configuration)._export(requestParameters.uid, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {GdprControllerApiCreateConsentRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GdprControllerApi
+     */
+    public createConsent(requestParameters: GdprControllerApiCreateConsentRequest, options?: AxiosRequestConfig) {
+        return GdprControllerApiFp(this.configuration).createConsent(requestParameters.consentCreateRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {GdprControllerApiCreateDisclosureRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GdprControllerApi
+     */
+    public createDisclosure(requestParameters: GdprControllerApiCreateDisclosureRequest, options?: AxiosRequestConfig) {
+        return GdprControllerApiFp(this.configuration).createDisclosure(requestParameters.disclosureCreateRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {GdprControllerApiCreateRequestRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GdprControllerApi
+     */
+    public createRequest(requestParameters: GdprControllerApiCreateRequestRequest, options?: AxiosRequestConfig) {
+        return GdprControllerApiFp(this.configuration).createRequest(requestParameters.dsrCreateRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {GdprControllerApiListConsentsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GdprControllerApi
+     */
+    public listConsents(requestParameters: GdprControllerApiListConsentsRequest, options?: AxiosRequestConfig) {
+        return GdprControllerApiFp(this.configuration).listConsents(requestParameters.personUid, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {GdprControllerApiListDisclosuresRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GdprControllerApi
+     */
+    public listDisclosures(requestParameters: GdprControllerApiListDisclosuresRequest, options?: AxiosRequestConfig) {
+        return GdprControllerApiFp(this.configuration).listDisclosures(requestParameters.personUid, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {GdprControllerApiListRequestsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GdprControllerApi
+     */
+    public listRequests(requestParameters: GdprControllerApiListRequestsRequest, options?: AxiosRequestConfig) {
+        return GdprControllerApiFp(this.configuration).listRequests(requestParameters.personUid, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {GdprControllerApiUpdateRequestRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GdprControllerApi
+     */
+    public updateRequest(requestParameters: GdprControllerApiUpdateRequestRequest, options?: AxiosRequestConfig) {
+        return GdprControllerApiFp(this.configuration).updateRequest(requestParameters.id, requestParameters.dsrUpdateRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {GdprControllerApiWithdrawConsentRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GdprControllerApi
+     */
+    public withdrawConsent(requestParameters: GdprControllerApiWithdrawConsentRequest, options?: AxiosRequestConfig) {
+        return GdprControllerApiFp(this.configuration).withdrawConsent(requestParameters.id, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * MarriageControllerApi - axios parameter creator
+ * @export
+ */
+export const MarriageControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {MarriageRequestDTO} marriageRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        amendMarriage: async (id: string, marriageRequestDTO: MarriageRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('amendMarriage', 'id', id)
+            // verify required parameter 'marriageRequestDTO' is not null or undefined
+            assertParamExists('amendMarriage', 'marriageRequestDTO', marriageRequestDTO)
+            const localVarPath = `/api/marriages/{id}/amendments`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(marriageRequestDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {DissolutionRequestDTO} dissolutionRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dissolve: async (id: string, dissolutionRequestDTO: DissolutionRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('dissolve', 'id', id)
+            // verify required parameter 'dissolutionRequestDTO' is not null or undefined
+            assertParamExists('dissolve', 'dissolutionRequestDTO', dissolutionRequestDTO)
+            const localVarPath = `/api/marriages/{id}/dissolutions`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(dissolutionRequestDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMarriage: async (id: string, xAccessPurpose: string, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getMarriage', 'id', id)
+            // verify required parameter 'xAccessPurpose' is not null or undefined
+            assertParamExists('getMarriage', 'xAccessPurpose', xAccessPurpose)
+            const localVarPath = `/api/marriages/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xAccessPurpose !== undefined && xAccessPurpose !== null) {
+                localVarHeaderParameter['X-Access-Purpose'] = String(xAccessPurpose);
+            }
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {MarriageRequestDTO} marriageRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        registerMarriage: async (marriageRequestDTO: MarriageRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'marriageRequestDTO' is not null or undefined
+            assertParamExists('registerMarriage', 'marriageRequestDTO', marriageRequestDTO)
+            const localVarPath = `/api/marriages`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(marriageRequestDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * MarriageControllerApi - functional programming interface
+ * @export
+ */
+export const MarriageControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = MarriageControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {MarriageRequestDTO} marriageRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async amendMarriage(id: string, marriageRequestDTO: MarriageRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RecordIdResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.amendMarriage(id, marriageRequestDTO, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {DissolutionRequestDTO} dissolutionRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async dissolve(id: string, dissolutionRequestDTO: DissolutionRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RecordIdResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.dissolve(id, dissolutionRequestDTO, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getMarriage(id: string, xAccessPurpose: string, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MarriageResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMarriage(id, xAccessPurpose, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {MarriageRequestDTO} marriageRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async registerMarriage(marriageRequestDTO: MarriageRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RecordIdResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.registerMarriage(marriageRequestDTO, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * MarriageControllerApi - factory interface
+ * @export
+ */
+export const MarriageControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = MarriageControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {MarriageRequestDTO} marriageRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        amendMarriage(id: string, marriageRequestDTO: MarriageRequestDTO, xRequestId?: string, options?: any): AxiosPromise<RecordIdResponseDTO> {
+            return localVarFp.amendMarriage(id, marriageRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {DissolutionRequestDTO} dissolutionRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        dissolve(id: string, dissolutionRequestDTO: DissolutionRequestDTO, xRequestId?: string, options?: any): AxiosPromise<RecordIdResponseDTO> {
+            return localVarFp.dissolve(id, dissolutionRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMarriage(id: string, xAccessPurpose: string, xRequestId?: string, options?: any): AxiosPromise<MarriageResponseDTO> {
+            return localVarFp.getMarriage(id, xAccessPurpose, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {MarriageRequestDTO} marriageRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        registerMarriage(marriageRequestDTO: MarriageRequestDTO, xRequestId?: string, options?: any): AxiosPromise<RecordIdResponseDTO> {
+            return localVarFp.registerMarriage(marriageRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for amendMarriage operation in MarriageControllerApi.
+ * @export
+ * @interface MarriageControllerApiAmendMarriageRequest
+ */
+export interface MarriageControllerApiAmendMarriageRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageControllerApiAmendMarriage
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {MarriageRequestDTO}
+     * @memberof MarriageControllerApiAmendMarriage
+     */
+    readonly marriageRequestDTO: MarriageRequestDTO
+
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageControllerApiAmendMarriage
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for dissolve operation in MarriageControllerApi.
+ * @export
+ * @interface MarriageControllerApiDissolveRequest
+ */
+export interface MarriageControllerApiDissolveRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageControllerApiDissolve
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {DissolutionRequestDTO}
+     * @memberof MarriageControllerApiDissolve
+     */
+    readonly dissolutionRequestDTO: DissolutionRequestDTO
+
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageControllerApiDissolve
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for getMarriage operation in MarriageControllerApi.
+ * @export
+ * @interface MarriageControllerApiGetMarriageRequest
+ */
+export interface MarriageControllerApiGetMarriageRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageControllerApiGetMarriage
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageControllerApiGetMarriage
+     */
+    readonly xAccessPurpose: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageControllerApiGetMarriage
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for registerMarriage operation in MarriageControllerApi.
+ * @export
+ * @interface MarriageControllerApiRegisterMarriageRequest
+ */
+export interface MarriageControllerApiRegisterMarriageRequest {
+    /**
+     * 
+     * @type {MarriageRequestDTO}
+     * @memberof MarriageControllerApiRegisterMarriage
+     */
+    readonly marriageRequestDTO: MarriageRequestDTO
+
+    /**
+     * 
+     * @type {string}
+     * @memberof MarriageControllerApiRegisterMarriage
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * MarriageControllerApi - object-oriented interface
+ * @export
+ * @class MarriageControllerApi
+ * @extends {BaseAPI}
+ */
+export class MarriageControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {MarriageControllerApiAmendMarriageRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MarriageControllerApi
+     */
+    public amendMarriage(requestParameters: MarriageControllerApiAmendMarriageRequest, options?: AxiosRequestConfig) {
+        return MarriageControllerApiFp(this.configuration).amendMarriage(requestParameters.id, requestParameters.marriageRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {MarriageControllerApiDissolveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MarriageControllerApi
+     */
+    public dissolve(requestParameters: MarriageControllerApiDissolveRequest, options?: AxiosRequestConfig) {
+        return MarriageControllerApiFp(this.configuration).dissolve(requestParameters.id, requestParameters.dissolutionRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {MarriageControllerApiGetMarriageRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MarriageControllerApi
+     */
+    public getMarriage(requestParameters: MarriageControllerApiGetMarriageRequest, options?: AxiosRequestConfig) {
+        return MarriageControllerApiFp(this.configuration).getMarriage(requestParameters.id, requestParameters.xAccessPurpose, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {MarriageControllerApiRegisterMarriageRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MarriageControllerApi
+     */
+    public registerMarriage(requestParameters: MarriageControllerApiRegisterMarriageRequest, options?: AxiosRequestConfig) {
+        return MarriageControllerApiFp(this.configuration).registerMarriage(requestParameters.marriageRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * MeControllerApi - axios parameter creator
+ * @export
+ */
+export const MeControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        me: async (xAccessPurpose: string, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xAccessPurpose' is not null or undefined
+            assertParamExists('me', 'xAccessPurpose', xAccessPurpose)
+            const localVarPath = `/api/me`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xAccessPurpose !== undefined && xAccessPurpose !== null) {
+                localVarHeaderParameter['X-Access-Purpose'] = String(xAccessPurpose);
+            }
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        myAccessLog: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/me/access-log`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * MeControllerApi - functional programming interface
+ * @export
+ */
+export const MeControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = MeControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async me(xAccessPurpose: string, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PersonCompositeResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.me(xAccessPurpose, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async myAccessLog(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AccessLogEntryDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.myAccessLog(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * MeControllerApi - factory interface
+ * @export
+ */
+export const MeControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = MeControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        me(xAccessPurpose: string, xRequestId?: string, options?: any): AxiosPromise<PersonCompositeResponseDTO> {
+            return localVarFp.me(xAccessPurpose, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        myAccessLog(options?: any): AxiosPromise<Array<AccessLogEntryDTO>> {
+            return localVarFp.myAccessLog(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for me operation in MeControllerApi.
+ * @export
+ * @interface MeControllerApiMeRequest
+ */
+export interface MeControllerApiMeRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof MeControllerApiMe
+     */
+    readonly xAccessPurpose: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof MeControllerApiMe
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * MeControllerApi - object-oriented interface
+ * @export
+ * @class MeControllerApi
+ * @extends {BaseAPI}
+ */
+export class MeControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {MeControllerApiMeRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MeControllerApi
+     */
+    public me(requestParameters: MeControllerApiMeRequest, options?: AxiosRequestConfig) {
+        return MeControllerApiFp(this.configuration).me(requestParameters.xAccessPurpose, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MeControllerApi
+     */
+    public myAccessLog(options?: AxiosRequestConfig) {
+        return MeControllerApiFp(this.configuration).myAccessLog(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * PersonControllerApi - axios parameter creator
+ * @export
+ */
+export const PersonControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} uid 
+         * @param {AddressRequestDTO} addressRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addAddress: async (uid: string, addressRequestDTO: AddressRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('addAddress', 'uid', uid)
+            // verify required parameter 'addressRequestDTO' is not null or undefined
+            assertParamExists('addAddress', 'addressRequestDTO', addressRequestDTO)
+            const localVarPath = `/api/persons/{uid}/addresses`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(addressRequestDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} uid 
+         * @param {PersonDetailRequestDTO} personDetailRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addDetail: async (uid: string, personDetailRequestDTO: PersonDetailRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('addDetail', 'uid', uid)
+            // verify required parameter 'personDetailRequestDTO' is not null or undefined
+            assertParamExists('addDetail', 'personDetailRequestDTO', personDetailRequestDTO)
+            const localVarPath = `/api/persons/{uid}/details`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(personDetailRequestDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} uid 
+         * @param {ReligionRequestDTO} religionRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addReligion: async (uid: string, religionRequestDTO: ReligionRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('addReligion', 'uid', uid)
+            // verify required parameter 'religionRequestDTO' is not null or undefined
+            assertParamExists('addReligion', 'religionRequestDTO', religionRequestDTO)
+            const localVarPath = `/api/persons/{uid}/religion`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(religionRequestDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {PersonCreateRequestDTO} personCreateRequestDTO 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        create: async (personCreateRequestDTO: PersonCreateRequestDTO, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'personCreateRequestDTO' is not null or undefined
+            assertParamExists('create', 'personCreateRequestDTO', personCreateRequestDTO)
+            const localVarPath = `/api/persons`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(personCreateRequestDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAddresses: async (uid: string, xAccessPurpose: string, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('getAddresses', 'uid', uid)
+            // verify required parameter 'xAccessPurpose' is not null or undefined
+            assertParamExists('getAddresses', 'xAccessPurpose', xAccessPurpose)
+            const localVarPath = `/api/persons/{uid}/addresses`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xAccessPurpose !== undefined && xAccessPurpose !== null) {
+                localVarHeaderParameter['X-Access-Purpose'] = String(xAccessPurpose);
+            }
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDetails: async (uid: string, xAccessPurpose: string, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('getDetails', 'uid', uid)
+            // verify required parameter 'xAccessPurpose' is not null or undefined
+            assertParamExists('getDetails', 'xAccessPurpose', xAccessPurpose)
+            const localVarPath = `/api/persons/{uid}/details`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xAccessPurpose !== undefined && xAccessPurpose !== null) {
+                localVarHeaderParameter['X-Access-Purpose'] = String(xAccessPurpose);
+            }
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPerson: async (uid: string, xAccessPurpose: string, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('getPerson', 'uid', uid)
+            // verify required parameter 'xAccessPurpose' is not null or undefined
+            assertParamExists('getPerson', 'xAccessPurpose', xAccessPurpose)
+            const localVarPath = `/api/persons/{uid}`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xAccessPurpose !== undefined && xAccessPurpose !== null) {
+                localVarHeaderParameter['X-Access-Purpose'] = String(xAccessPurpose);
+            }
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getReligion: async (uid: string, xAccessPurpose: string, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('getReligion', 'uid', uid)
+            // verify required parameter 'xAccessPurpose' is not null or undefined
+            assertParamExists('getReligion', 'xAccessPurpose', xAccessPurpose)
+            const localVarPath = `/api/persons/{uid}/religion`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xAccessPurpose !== undefined && xAccessPurpose !== null) {
+                localVarHeaderParameter['X-Access-Purpose'] = String(xAccessPurpose);
+            }
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        pdf: async (uid: string, xAccessPurpose: string, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uid' is not null or undefined
+            assertParamExists('pdf', 'uid', uid)
+            // verify required parameter 'xAccessPurpose' is not null or undefined
+            assertParamExists('pdf', 'xAccessPurpose', xAccessPurpose)
+            const localVarPath = `/api/persons/{uid}/pdf`
+                .replace(`{${"uid"}}`, encodeURIComponent(String(uid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xAccessPurpose !== undefined && xAccessPurpose !== null) {
+                localVarHeaderParameter['X-Access-Purpose'] = String(xAccessPurpose);
+            }
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} xAccessPurpose 
+         * @param {string} [familyName] 
+         * @param {number} [pageStart] 
+         * @param {number} [pageSize] 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        search: async (xAccessPurpose: string, familyName?: string, pageStart?: number, pageSize?: number, xRequestId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xAccessPurpose' is not null or undefined
+            assertParamExists('search', 'xAccessPurpose', xAccessPurpose)
+            const localVarPath = `/api/persons`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (familyName !== undefined) {
+                localVarQueryParameter['familyName'] = familyName;
+            }
+
+            if (pageStart !== undefined) {
+                localVarQueryParameter['pageStart'] = pageStart;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['pageSize'] = pageSize;
+            }
+
+            if (xAccessPurpose !== undefined && xAccessPurpose !== null) {
+                localVarHeaderParameter['X-Access-Purpose'] = String(xAccessPurpose);
+            }
+
+            if (xRequestId !== undefined && xRequestId !== null) {
+                localVarHeaderParameter['X-Request-Id'] = String(xRequestId);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -811,68 +5737,123 @@ export const PersonControllerApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {number} id 
+         * @param {string} uid 
+         * @param {AddressRequestDTO} addressRequestDTO 
+         * @param {string} [xRequestId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async _delete(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator._delete(id, options);
+        async addAddress(uid: string, addressRequestDTO: AddressRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addAddress(uid, addressRequestDTO, xRequestId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {PersonModifyRequestDTO} personModifyRequestDTO 
+         * @param {string} uid 
+         * @param {PersonDetailRequestDTO} personDetailRequestDTO 
+         * @param {string} [xRequestId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async create(personModifyRequestDTO: PersonModifyRequestDTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IdResponseDTOLong>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.create(personModifyRequestDTO, options);
+        async addDetail(uid: string, personDetailRequestDTO: PersonDetailRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addDetail(uid, personDetailRequestDTO, xRequestId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} id 
+         * @param {string} uid 
+         * @param {ReligionRequestDTO} religionRequestDTO 
+         * @param {string} [xRequestId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async get(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PersonDetailResponseDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.get(id, options);
+        async addReligion(uid: string, religionRequestDTO: ReligionRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addReligion(uid, religionRequestDTO, xRequestId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} id 
+         * @param {PersonCreateRequestDTO} personCreateRequestDTO 
+         * @param {string} [xRequestId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPdf(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPdf(id, options);
+        async create(personCreateRequestDTO: PersonCreateRequestDTO, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UidResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.create(personCreateRequestDTO, xRequestId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {string} [name] 
-         * @param {string} [email] 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAddresses(uid: string, xAccessPurpose: string, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AddressResponseDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAddresses(uid, xAccessPurpose, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDetails(uid: string, xAccessPurpose: string, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<DetailResponseDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDetails(uid, xAccessPurpose, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getPerson(uid: string, xAccessPurpose: string, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PersonCompositeResponseDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPerson(uid, xAccessPurpose, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getReligion(uid: string, xAccessPurpose: string, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ReligionResponseDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getReligion(uid, xAccessPurpose, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async pdf(uid: string, xAccessPurpose: string, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.pdf(uid, xAccessPurpose, xRequestId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} xAccessPurpose 
+         * @param {string} [familyName] 
          * @param {number} [pageStart] 
          * @param {number} [pageSize] 
-         * @param {'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL'} [sortBy] 
-         * @param {boolean} [sortDesc] 
+         * @param {string} [xRequestId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listUsers(name?: string, email?: string, pageStart?: number, pageSize?: number, sortBy?: 'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL', sortDesc?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedResultResponseDTOPersonListItemResponseDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listUsers(name, email, pageStart, pageSize, sortBy, sortDesc, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} id 
-         * @param {PersonModifyRequestDTO} personModifyRequestDTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async update(id: number, personModifyRequestDTO: PersonModifyRequestDTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.update(id, personModifyRequestDTO, options);
+        async search(xAccessPurpose: string, familyName?: string, pageStart?: number, pageSize?: number, xRequestId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PagedResultResponseDTOPersonSummaryDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.search(xAccessPurpose, familyName, pageStart, pageSize, xRequestId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -887,79 +5868,200 @@ export const PersonControllerApiFactory = function (configuration?: Configuratio
     return {
         /**
          * 
-         * @param {number} id 
+         * @param {string} uid 
+         * @param {AddressRequestDTO} addressRequestDTO 
+         * @param {string} [xRequestId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        _delete(id: number, options?: any): AxiosPromise<void> {
-            return localVarFp._delete(id, options).then((request) => request(axios, basePath));
+        addAddress(uid: string, addressRequestDTO: AddressRequestDTO, xRequestId?: string, options?: any): AxiosPromise<number> {
+            return localVarFp.addAddress(uid, addressRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {PersonModifyRequestDTO} personModifyRequestDTO 
+         * @param {string} uid 
+         * @param {PersonDetailRequestDTO} personDetailRequestDTO 
+         * @param {string} [xRequestId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        create(personModifyRequestDTO: PersonModifyRequestDTO, options?: any): AxiosPromise<IdResponseDTOLong> {
-            return localVarFp.create(personModifyRequestDTO, options).then((request) => request(axios, basePath));
+        addDetail(uid: string, personDetailRequestDTO: PersonDetailRequestDTO, xRequestId?: string, options?: any): AxiosPromise<number> {
+            return localVarFp.addDetail(uid, personDetailRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} id 
+         * @param {string} uid 
+         * @param {ReligionRequestDTO} religionRequestDTO 
+         * @param {string} [xRequestId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get(id: number, options?: any): AxiosPromise<PersonDetailResponseDTO> {
-            return localVarFp.get(id, options).then((request) => request(axios, basePath));
+        addReligion(uid: string, religionRequestDTO: ReligionRequestDTO, xRequestId?: string, options?: any): AxiosPromise<number> {
+            return localVarFp.addReligion(uid, religionRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} id 
+         * @param {PersonCreateRequestDTO} personCreateRequestDTO 
+         * @param {string} [xRequestId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPdf(id: number, options?: any): AxiosPromise<string> {
-            return localVarFp.getPdf(id, options).then((request) => request(axios, basePath));
+        create(personCreateRequestDTO: PersonCreateRequestDTO, xRequestId?: string, options?: any): AxiosPromise<UidResponseDTO> {
+            return localVarFp.create(personCreateRequestDTO, xRequestId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {string} [name] 
-         * @param {string} [email] 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAddresses(uid: string, xAccessPurpose: string, xRequestId?: string, options?: any): AxiosPromise<Array<AddressResponseDTO>> {
+            return localVarFp.getAddresses(uid, xAccessPurpose, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDetails(uid: string, xAccessPurpose: string, xRequestId?: string, options?: any): AxiosPromise<Array<DetailResponseDTO>> {
+            return localVarFp.getDetails(uid, xAccessPurpose, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPerson(uid: string, xAccessPurpose: string, xRequestId?: string, options?: any): AxiosPromise<PersonCompositeResponseDTO> {
+            return localVarFp.getPerson(uid, xAccessPurpose, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getReligion(uid: string, xAccessPurpose: string, xRequestId?: string, options?: any): AxiosPromise<Array<ReligionResponseDTO>> {
+            return localVarFp.getReligion(uid, xAccessPurpose, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} uid 
+         * @param {string} xAccessPurpose 
+         * @param {string} [xRequestId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        pdf(uid: string, xAccessPurpose: string, xRequestId?: string, options?: any): AxiosPromise<string> {
+            return localVarFp.pdf(uid, xAccessPurpose, xRequestId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} xAccessPurpose 
+         * @param {string} [familyName] 
          * @param {number} [pageStart] 
          * @param {number} [pageSize] 
-         * @param {'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL'} [sortBy] 
-         * @param {boolean} [sortDesc] 
+         * @param {string} [xRequestId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listUsers(name?: string, email?: string, pageStart?: number, pageSize?: number, sortBy?: 'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL', sortDesc?: boolean, options?: any): AxiosPromise<PagedResultResponseDTOPersonListItemResponseDTO> {
-            return localVarFp.listUsers(name, email, pageStart, pageSize, sortBy, sortDesc, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id 
-         * @param {PersonModifyRequestDTO} personModifyRequestDTO 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        update(id: number, personModifyRequestDTO: PersonModifyRequestDTO, options?: any): AxiosPromise<void> {
-            return localVarFp.update(id, personModifyRequestDTO, options).then((request) => request(axios, basePath));
+        search(xAccessPurpose: string, familyName?: string, pageStart?: number, pageSize?: number, xRequestId?: string, options?: any): AxiosPromise<PagedResultResponseDTOPersonSummaryDTO> {
+            return localVarFp.search(xAccessPurpose, familyName, pageStart, pageSize, xRequestId, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for _delete operation in PersonControllerApi.
+ * Request parameters for addAddress operation in PersonControllerApi.
  * @export
- * @interface PersonControllerApiDeleteRequest
+ * @interface PersonControllerApiAddAddressRequest
  */
-export interface PersonControllerApiDeleteRequest {
+export interface PersonControllerApiAddAddressRequest {
     /**
      * 
-     * @type {number}
-     * @memberof PersonControllerApiDelete
+     * @type {string}
+     * @memberof PersonControllerApiAddAddress
      */
-    readonly id: number
+    readonly uid: string
+
+    /**
+     * 
+     * @type {AddressRequestDTO}
+     * @memberof PersonControllerApiAddAddress
+     */
+    readonly addressRequestDTO: AddressRequestDTO
+
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiAddAddress
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for addDetail operation in PersonControllerApi.
+ * @export
+ * @interface PersonControllerApiAddDetailRequest
+ */
+export interface PersonControllerApiAddDetailRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiAddDetail
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {PersonDetailRequestDTO}
+     * @memberof PersonControllerApiAddDetail
+     */
+    readonly personDetailRequestDTO: PersonDetailRequestDTO
+
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiAddDetail
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for addReligion operation in PersonControllerApi.
+ * @export
+ * @interface PersonControllerApiAddReligionRequest
+ */
+export interface PersonControllerApiAddReligionRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiAddReligion
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {ReligionRequestDTO}
+     * @memberof PersonControllerApiAddReligion
+     */
+    readonly religionRequestDTO: ReligionRequestDTO
+
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiAddReligion
+     */
+    readonly xRequestId?: string
 }
 
 /**
@@ -970,108 +6072,199 @@ export interface PersonControllerApiDeleteRequest {
 export interface PersonControllerApiCreateRequest {
     /**
      * 
-     * @type {PersonModifyRequestDTO}
+     * @type {PersonCreateRequestDTO}
      * @memberof PersonControllerApiCreate
      */
-    readonly personModifyRequestDTO: PersonModifyRequestDTO
-}
-
-/**
- * Request parameters for get operation in PersonControllerApi.
- * @export
- * @interface PersonControllerApiGetRequest
- */
-export interface PersonControllerApiGetRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof PersonControllerApiGet
-     */
-    readonly id: number
-}
-
-/**
- * Request parameters for getPdf operation in PersonControllerApi.
- * @export
- * @interface PersonControllerApiGetPdfRequest
- */
-export interface PersonControllerApiGetPdfRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof PersonControllerApiGetPdf
-     */
-    readonly id: number
-}
-
-/**
- * Request parameters for listUsers operation in PersonControllerApi.
- * @export
- * @interface PersonControllerApiListUsersRequest
- */
-export interface PersonControllerApiListUsersRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof PersonControllerApiListUsers
-     */
-    readonly name?: string
+    readonly personCreateRequestDTO: PersonCreateRequestDTO
 
     /**
      * 
      * @type {string}
-     * @memberof PersonControllerApiListUsers
+     * @memberof PersonControllerApiCreate
      */
-    readonly email?: string
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for getAddresses operation in PersonControllerApi.
+ * @export
+ * @interface PersonControllerApiGetAddressesRequest
+ */
+export interface PersonControllerApiGetAddressesRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiGetAddresses
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiGetAddresses
+     */
+    readonly xAccessPurpose: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiGetAddresses
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for getDetails operation in PersonControllerApi.
+ * @export
+ * @interface PersonControllerApiGetDetailsRequest
+ */
+export interface PersonControllerApiGetDetailsRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiGetDetails
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiGetDetails
+     */
+    readonly xAccessPurpose: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiGetDetails
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for getPerson operation in PersonControllerApi.
+ * @export
+ * @interface PersonControllerApiGetPersonRequest
+ */
+export interface PersonControllerApiGetPersonRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiGetPerson
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiGetPerson
+     */
+    readonly xAccessPurpose: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiGetPerson
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for getReligion operation in PersonControllerApi.
+ * @export
+ * @interface PersonControllerApiGetReligionRequest
+ */
+export interface PersonControllerApiGetReligionRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiGetReligion
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiGetReligion
+     */
+    readonly xAccessPurpose: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiGetReligion
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for pdf operation in PersonControllerApi.
+ * @export
+ * @interface PersonControllerApiPdfRequest
+ */
+export interface PersonControllerApiPdfRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiPdf
+     */
+    readonly uid: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiPdf
+     */
+    readonly xAccessPurpose: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiPdf
+     */
+    readonly xRequestId?: string
+}
+
+/**
+ * Request parameters for search operation in PersonControllerApi.
+ * @export
+ * @interface PersonControllerApiSearchRequest
+ */
+export interface PersonControllerApiSearchRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiSearch
+     */
+    readonly xAccessPurpose: string
+
+    /**
+     * 
+     * @type {string}
+     * @memberof PersonControllerApiSearch
+     */
+    readonly familyName?: string
 
     /**
      * 
      * @type {number}
-     * @memberof PersonControllerApiListUsers
+     * @memberof PersonControllerApiSearch
      */
     readonly pageStart?: number
 
     /**
      * 
      * @type {number}
-     * @memberof PersonControllerApiListUsers
+     * @memberof PersonControllerApiSearch
      */
     readonly pageSize?: number
 
     /**
      * 
-     * @type {'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL'}
-     * @memberof PersonControllerApiListUsers
+     * @type {string}
+     * @memberof PersonControllerApiSearch
      */
-    readonly sortBy?: 'NAME' | 'FIRST_NAME' | 'LAST_NAME' | 'ID' | 'EMAIL'
-
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PersonControllerApiListUsers
-     */
-    readonly sortDesc?: boolean
-}
-
-/**
- * Request parameters for update operation in PersonControllerApi.
- * @export
- * @interface PersonControllerApiUpdateRequest
- */
-export interface PersonControllerApiUpdateRequest {
-    /**
-     * 
-     * @type {number}
-     * @memberof PersonControllerApiUpdate
-     */
-    readonly id: number
-
-    /**
-     * 
-     * @type {PersonModifyRequestDTO}
-     * @memberof PersonControllerApiUpdate
-     */
-    readonly personModifyRequestDTO: PersonModifyRequestDTO
+    readonly xRequestId?: string
 }
 
 /**
@@ -1083,13 +6276,35 @@ export interface PersonControllerApiUpdateRequest {
 export class PersonControllerApi extends BaseAPI {
     /**
      * 
-     * @param {PersonControllerApiDeleteRequest} requestParameters Request parameters.
+     * @param {PersonControllerApiAddAddressRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PersonControllerApi
      */
-    public _delete(requestParameters: PersonControllerApiDeleteRequest, options?: AxiosRequestConfig) {
-        return PersonControllerApiFp(this.configuration)._delete(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public addAddress(requestParameters: PersonControllerApiAddAddressRequest, options?: AxiosRequestConfig) {
+        return PersonControllerApiFp(this.configuration).addAddress(requestParameters.uid, requestParameters.addressRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PersonControllerApiAddDetailRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonControllerApi
+     */
+    public addDetail(requestParameters: PersonControllerApiAddDetailRequest, options?: AxiosRequestConfig) {
+        return PersonControllerApiFp(this.configuration).addDetail(requestParameters.uid, requestParameters.personDetailRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PersonControllerApiAddReligionRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonControllerApi
+     */
+    public addReligion(requestParameters: PersonControllerApiAddReligionRequest, options?: AxiosRequestConfig) {
+        return PersonControllerApiFp(this.configuration).addReligion(requestParameters.uid, requestParameters.religionRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1100,51 +6315,73 @@ export class PersonControllerApi extends BaseAPI {
      * @memberof PersonControllerApi
      */
     public create(requestParameters: PersonControllerApiCreateRequest, options?: AxiosRequestConfig) {
-        return PersonControllerApiFp(this.configuration).create(requestParameters.personModifyRequestDTO, options).then((request) => request(this.axios, this.basePath));
+        return PersonControllerApiFp(this.configuration).create(requestParameters.personCreateRequestDTO, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {PersonControllerApiGetRequest} requestParameters Request parameters.
+     * @param {PersonControllerApiGetAddressesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PersonControllerApi
      */
-    public get(requestParameters: PersonControllerApiGetRequest, options?: AxiosRequestConfig) {
-        return PersonControllerApiFp(this.configuration).get(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public getAddresses(requestParameters: PersonControllerApiGetAddressesRequest, options?: AxiosRequestConfig) {
+        return PersonControllerApiFp(this.configuration).getAddresses(requestParameters.uid, requestParameters.xAccessPurpose, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {PersonControllerApiGetPdfRequest} requestParameters Request parameters.
+     * @param {PersonControllerApiGetDetailsRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PersonControllerApi
      */
-    public getPdf(requestParameters: PersonControllerApiGetPdfRequest, options?: AxiosRequestConfig) {
-        return PersonControllerApiFp(this.configuration).getPdf(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public getDetails(requestParameters: PersonControllerApiGetDetailsRequest, options?: AxiosRequestConfig) {
+        return PersonControllerApiFp(this.configuration).getDetails(requestParameters.uid, requestParameters.xAccessPurpose, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {PersonControllerApiListUsersRequest} requestParameters Request parameters.
+     * @param {PersonControllerApiGetPersonRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PersonControllerApi
      */
-    public listUsers(requestParameters: PersonControllerApiListUsersRequest = {}, options?: AxiosRequestConfig) {
-        return PersonControllerApiFp(this.configuration).listUsers(requestParameters.name, requestParameters.email, requestParameters.pageStart, requestParameters.pageSize, requestParameters.sortBy, requestParameters.sortDesc, options).then((request) => request(this.axios, this.basePath));
+    public getPerson(requestParameters: PersonControllerApiGetPersonRequest, options?: AxiosRequestConfig) {
+        return PersonControllerApiFp(this.configuration).getPerson(requestParameters.uid, requestParameters.xAccessPurpose, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {PersonControllerApiUpdateRequest} requestParameters Request parameters.
+     * @param {PersonControllerApiGetReligionRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PersonControllerApi
      */
-    public update(requestParameters: PersonControllerApiUpdateRequest, options?: AxiosRequestConfig) {
-        return PersonControllerApiFp(this.configuration).update(requestParameters.id, requestParameters.personModifyRequestDTO, options).then((request) => request(this.axios, this.basePath));
+    public getReligion(requestParameters: PersonControllerApiGetReligionRequest, options?: AxiosRequestConfig) {
+        return PersonControllerApiFp(this.configuration).getReligion(requestParameters.uid, requestParameters.xAccessPurpose, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PersonControllerApiPdfRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonControllerApi
+     */
+    public pdf(requestParameters: PersonControllerApiPdfRequest, options?: AxiosRequestConfig) {
+        return PersonControllerApiFp(this.configuration).pdf(requestParameters.uid, requestParameters.xAccessPurpose, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PersonControllerApiSearchRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PersonControllerApi
+     */
+    public search(requestParameters: PersonControllerApiSearchRequest, options?: AxiosRequestConfig) {
+        return PersonControllerApiFp(this.configuration).search(requestParameters.xAccessPurpose, requestParameters.familyName, requestParameters.pageStart, requestParameters.pageSize, requestParameters.xRequestId, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

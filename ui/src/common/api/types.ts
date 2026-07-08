@@ -1,5 +1,6 @@
 export interface IdentifiableItemResponse {
-    id: number
+    // Registry rows are keyed by an opaque string UID; demo rows used a numeric id.
+    id: string | number
 }
 
 export interface PageableResponse<T, > {
