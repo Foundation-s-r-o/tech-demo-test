@@ -2,8 +2,8 @@
 
 Status: ✅ done (2026-07-08) · Created: 2026-07-08 · Owner: Claude Code
 
-All work packages (WP1–WP7) are implemented, verified, and committed
-(`35587bd`..`8d47f5d`); the working tree is clean. Closure recorded in
+All work packages (WP1–WP7) from the original punch list were implemented,
+verified, and committed (`35587bd`..`8d47f5d`). Closure was recorded in
 [REVIEW-LOG.md](REVIEW-LOG.md) ("Closing entry — punch list resolved").
 
 ## Context
@@ -11,10 +11,10 @@ All work packages (WP1–WP7) are implemented, verified, and committed
 The registry port ([PLAN-registry-port.md](PLAN-registry-port.md), Stages 1–6) is functionally
 complete and green on lint/verify/E2E, but the final review in [REVIEW-LOG.md](REVIEW-LOG.md)
 closes with a 12-item punch list: 3 defects, 5 contract/design gaps, 3 doc items claimed done
-but not, and the un-run release checklist. All items were re-verified in the working tree on
-2026-07-08 and **every one is still open** — including ADR-0011 asserting an `openapi.yaml`
-deviations note that doesn't exist, and presenting `BitemporalGuard` as wired while it is dead
-code.
+but not, and the un-run release checklist. At plan creation, all items had been re-verified in the
+working tree on 2026-07-08 and **every one was still open** — including ADR-0011 asserting an
+`openapi.yaml` deviations note that did not exist, and presenting `BitemporalGuard` as wired while
+it was dead code.
 
 Decisions taken by Jozef (2026-07-08):
 
@@ -28,6 +28,20 @@ Decisions taken by Jozef (2026-07-08):
 
 Goal: close the punch list so the port can honestly be called done — code fixed, docs truthful,
 release checklist run, work committed.
+
+## Follow-up documentation sync (2026-07-08)
+
+Progress legend: ✅ done · 🔲 not started
+
+| Item | Status |
+| --- | --- |
+| Retire stale `PROJECT_OVERVIEW.md` into a pointer to canonical docs | ✅ done |
+| Patch `docs/ARCHITECTURE.md` gate classification, Playwright scope, ADR map, and residual-gap wording | ✅ done |
+| Patch `SECURITY.md` business-authorization wording | ✅ done |
+| Patch ADR-0004 title and ADR index to match the Spring Security 7 MFA direction | ✅ done |
+| Patch ADR-0010 to remove the stale persons-edit E2E claim and list current E2E scope | ✅ done |
+| Add the missing Playwright vertical slices identified in `docs/reviews/documentation_playwright_sync_review_2026-07-08_150019.md` | 🔲 not started |
+| Move/archive generated scanner and legal artifacts out of the normal agent context path | 🔲 not started |
 
 ---
 

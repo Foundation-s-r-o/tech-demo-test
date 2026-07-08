@@ -80,10 +80,11 @@ Notes:
 - Login rotates an existing session ID.
 - Only Actuator health is exposed publicly; operational endpoints require authentication and are
   not exposed by the endpoint configuration.
-- Role-based authorization is enforced server-side in `SecurityConfig` (see the matrix below).
+- Business authorization is enforced server-side by controller-level `@PreAuthorize`
+  expressions plus service-layer scoping (see the matrix below); `SecurityConfig`
+  handles public/infra paths and the authenticated default.
 - A Content-Security-Policy is set on API-origin responses, alongside Referrer-Policy,
   Permissions-Policy, and `X-Frame-Options: DENY`.
-- `email` fields are validated for format (`@Email`), not only length.
 - Session cookies are HttpOnly with explicit SameSite; the `prod` profile also requires Secure.
 - H2 console is disabled in every profile.
 - Swagger/OpenAPI are disabled in the `prod` profile.
@@ -195,9 +196,8 @@ production-ready service.
 | --- | -------- | ------ | ---- |
 | **Login throttling** | Medium | Open | No per-account or per-source rate limit / progressive delay. Add before exposing login beyond local/demo. |
 | **Backend coverage gate** | Medium | **Closed** | `jacoco:check` on `verify` enforces merged unit+IT line coverage ≥ 70% (77.9% measured at introduction). Ratchet `jacoco.line-coverage.minimum` toward the 80% Sonar target. |
-| **Role-based business authorization** | Medium | **Closed** | ADMIN/USER matrix enforced in `SecurityConfig` with negative tests in `PersonControllerIT`. See "Authorization matrix" above. |
+| **Role-based business authorization** | Medium | **Closed** | Six-role registry matrix enforced by controller `@PreAuthorize` expressions plus service-layer office/own-data scoping, with negative authorization tests. See "Authorization matrix" above. |
 | **Content Security Policy** | Medium | **Closed** | CSP set on API-origin responses (`script-src 'self'`, no `unsafe-eval`); Referrer-Policy and Permissions-Policy also present. HSTS still deferred to the TLS proxy. |
-| **Email semantic validation** | Low | **Closed** | `@Email` enforced on `PersonModifyRequestDTO.email`; invalid format returns 400. |
 | **Playwright storage-state hygiene** | Low | **Closed** | `ui/storageStateFresh.json` untracked and `ui/.gitignore` now covers `storageState*.json` at the `ui` root as well as `tests/`. |
 
 ## Future hardening (deferred — see `docs/UPGRADE_PLAN.md`)

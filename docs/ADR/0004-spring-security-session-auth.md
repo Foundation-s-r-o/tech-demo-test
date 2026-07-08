@@ -3,7 +3,7 @@ status: accepted
 date: 2026-06-25
 deciders: Foundation engineering + CTO
 ---
-# Identity via Spring Security session login; Keycloak/OIDC deferred
+# Identity via Spring Security session login; MFA in-app, external IdP optional
 
 ## Context and Problem Statement
 

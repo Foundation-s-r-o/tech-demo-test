@@ -1,10 +1,9 @@
 # Architecture
 
 This document describes how `tech-demo-test` is built and why it is built that
-way. It is the technical companion to the higher-level
-[`PROJECT_OVERVIEW.md`](../PROJECT_OVERVIEW.md) and the operational
-[`SECURITY.md`](../SECURITY.md), and it cross-references the architecture
-decision records under [`docs/ADR/`](./ADR/).
+way. It is the technical companion to the setup-focused [`README.md`](../README.md)
+and the operational [`SECURITY.md`](../SECURITY.md), and it cross-references the
+architecture decision records under [`docs/ADR/`](./ADR/).
 
 `tech-demo-test` is Foundation s.r.o.'s **reference template** for new
 backend + frontend projects. Its business surface is a **civil registry**
@@ -26,7 +25,7 @@ demo** on one branch (`main`), not a versioned product.
 > | ------------- | ------------------------------- |
 > | Endpoints, request/response shapes | OpenAPI spec → `/v3/api-docs`, Swagger UI `/swagger-ui.html` |
 > | Exact dependency versions | `api/pom.xml`, `ui/package.json` (+ README stack snapshot) |
-> | Authorization matrix | `SecurityConfig` + [`SECURITY.md`](../SECURITY.md) |
+> | Authorization matrix | controller `@PreAuthorize` expressions + [`SECURITY.md`](../SECURITY.md) |
 > | DB schema / migrations | `api/src/main/resources/db/migration/` |
 > | Tunable config values | `api/src/main/resources/application*.properties` |
 >
@@ -191,7 +190,7 @@ tech-demo-test/
 │   └── QUALITY_REPORT.md
 ├── scripts/security_scan.sh # Semgrep (metrics off) + Trivy + npm audit
 ├── doctor                   # build + lint + tests + FOSSA health check
-├── README.md  PROJECT_OVERVIEW.md  SECURITY.md  CLAUDE.md
+├── README.md  PROJECT_OVERVIEW.md  SECURITY.md  CLAUDE.md  # overview file is a retired pointer
 └── .github/workflows/fossa.yml  +  .circleci/config.yml
 ```
 
@@ -463,17 +462,20 @@ The gate is the point of the template. The **authoritative, current behaviour**
 [`README.md`](../README.md) — not copied here. Architecturally:
 
 - **Blocking** (keeps `main` releasable): CircleCI (`mvn verify` + frontend lint
-  & build), Checkstyle, ESLint + `tsc --noEmit`, GitGuardian secret scan.
+  & build), Checkstyle, JaCoCo coverage check inside `mvn verify`, ESLint +
+  `tsc --noEmit`, GitGuardian secret scan.
 - **Advisory / report-only**: FOSSA, CodeQL, Dependabot, Trivy, Semgrep,
-  SonarQube, JaCoCo coverage. ([ADR-0008](./ADR/0008-strict-quality-security-gate.md))
+  SonarQube. ([ADR-0008](./ADR/0008-strict-quality-security-gate.md))
 
 The **test harness** is layered ([ADR-0010](./ADR/0010-test-harness-playwright-e2e.md)):
 backend unit tests (Surefire) and integration tests on in-memory H2 (Failsafe)
 run inside `mvn verify`; Playwright provides a backend-free app smoke, a
 Storybook smoke, and a **full E2E suite** (`ui/tests/test_*.spec.ts`) that
-auto-starts both app servers and covers login/logout, the main page, and the
-persons feature. Every Playwright test saves a screenshot (pass or fail) plus
-console/trace captures. `./doctor` executes the whole harness — build, lint,
+auto-starts both app servers and covers login/logout, main/person pages,
+birth-record office scoping, GDPR DSR, audit-chain verification, citizen `/me`,
+agency authorization, accessibility smoke, and OpenAPI drift. Every Playwright
+test saves a screenshot (pass or fail) plus console/trace captures. `./doctor`
+executes the whole harness — build, lint,
 `mvn verify`, all Playwright layers, security scans, SonarQube (skipped with a
 warning when unavailable), FOSSA — and is the single "everything passed"
 command; per-layer commands for the fast inner loop are in
@@ -516,6 +518,8 @@ load-bearing decision in this document is backed by an ADR:
 | [0008](./ADR/0008-strict-quality-security-gate.md) | Strict quality & security gate | [Quality & Security Gate](#quality--security-gate) |
 | [0009](./ADR/0009-observability-actuator-micrometer.md) | Actuator + Micrometer observability | [Tech Stack](#tech-stack) |
 | [0010](./ADR/0010-test-harness-playwright-e2e.md) | Layered test harness; `./doctor` as entry point | [Quality & Security Gate](#quality--security-gate) |
+| [0011](./ADR/0011-civil-registry-schema-port.md) | Civil-registry schema port with app-layer enforcement | [System Overview](#system-overview), [Backend](#backend) |
+| [0012](./ADR/0012-rfc7807-error-contract.md) | RFC 7807 API error contract | [Infrastructure](#infrastructure-infrastructure) |
 
 When you make a decision worth defending later (a stack pin, a security
 relaxation, a deferred phase), record it here rather than only in a commit
@@ -553,10 +557,11 @@ steps (full detail in [`docs/UPGRADE_PLAN.md`](./UPGRADE_PLAN.md) and
    Actuator + Micrometer are wired.
 5. **Packaging** and a real deployment definition — only once a threat model and
    target platform exist.
-6. **Coverage gate** — lift backend coverage toward the Sonar target and enforce
-   a minimum as the business surface grows.
+6. **Coverage ratchet** — the backend minimum is already enforced by
+   `jacoco:check`; lift the floor toward the Sonar target as the business surface
+   grows.
 
-Known residual gaps (login throttling, coverage gate) are tracked in
+Known open residual gaps, especially login throttling, are tracked in
 [`SECURITY.md`](../SECURITY.md#known-residual-gaps), not only in dated remediation
 reports.
 
@@ -565,7 +570,6 @@ reports.
 ## Further Reading
 
 - [`README.md`](../README.md) — setup, commands, stack snapshot.
-- [`PROJECT_OVERVIEW.md`](../PROJECT_OVERVIEW.md) — current-state overview and boundaries.
 - [`CLAUDE.md`](../CLAUDE.md) — development guidelines and verification recipe.
 - [`SECURITY.md`](../SECURITY.md) — demo caveats, controls, hardening checklist.
 - [`docs/UPGRADE_PLAN.md`](./UPGRADE_PLAN.md) — migration history and deferred phases.

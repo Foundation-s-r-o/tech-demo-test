@@ -31,7 +31,7 @@ General information about architecture decision records is available at
 | [0001](0001-using-source-repo.md) | Source repository: GitHub | Accepted |
 | [0002](0002-minimal-docker-free-stack.md) | Minimal, Docker-free local stack with an open upgrade path | Accepted |
 | [0003](0003-embedded-h2-postgres-later.md) | Embedded H2 file-mode now, PostgreSQL via a `prod` profile later | Accepted |
-| [0004](0004-spring-security-session-auth.md) | Identity via Spring Security session login; Keycloak/OIDC deferred | Accepted |
+| [0004](0004-spring-security-session-auth.md) | Identity via Spring Security session login; MFA in-app, external IdP optional | Accepted |
 | [0005](0005-react-typescript-spa.md) | Frontend as a React + TypeScript SPA | Accepted |
 | [0006](0006-rest-openapi-generated-client.md) | REST API with code-first OpenAPI and a generated TypeScript client | Accepted |
 | [0007](0007-no-supported-deployment.md) | No supported deployment artifact by design | Accepted |

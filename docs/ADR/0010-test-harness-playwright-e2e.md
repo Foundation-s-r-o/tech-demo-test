@@ -38,7 +38,7 @@ Chosen option: **layered pyramid + `./doctor` orchestrator**.
 | Backend integration | Failsafe (`*IT`), full Spring context on **in-memory H2**, profile `it` | auth flow, persons CRUD + authz matrix, repository, Flyway |
 | App smoke | Playwright, backend-free, dev server on `:8090` | login shell renders, zero console errors |
 | Storybook smoke | Playwright, Storybook on `:6007` | shared components render clean |
-| Full E2E | Playwright `test_*.spec.ts`; auto-starts API `:8082` (profiles `local,e2e`, in-mem DB) + UI `:8080` | login, failed login, logout, main page, persons list/create/edit, client-side validation, authorization matrix (ROLE_USER negatives), accessibility (axe-core, serious/critical gate), live-spec contract check |
+| Full E2E | Playwright `test_*.spec.ts`; auto-starts API `:8082` (profiles `local,e2e`, in-mem DB) + UI `:8080` | login, failed login, logout, main page, persons list/create/detail, client-side validation, birth-record office scoping, GDPR DSR, audit chain verification, citizen `/me`, agency authorization checks, accessibility (axe-core, serious/critical gate), live-spec contract check |
 | Coverage gate | `jacoco:check` on `verify`, merged unit+IT data | line coverage ≥ `jacoco.line-coverage.minimum` (`api/pom.xml`; ratchet toward 0.80) |
 | Contract drift | E2E live-spec test + `./doctor` client regeneration diff | backend ↔ `ui/api-docs.json` ↔ generated TS client |
 | Security scans | `scripts/security_scan.sh` (Semgrep, Trivy, npm audit) | repo-wide |
@@ -53,7 +53,7 @@ Chosen option: **layered pyramid + `./doctor` orchestrator**.
   `./doctor` pre-checks that `:8080`/`:8082` are free.
 * `screenshot: 'on'` in all Playwright configs — every test, passed or failed,
   leaves a screenshot in `test-results/` and the HTML report (gitignored).
-* Stable `id` selectors (`#login_*`, `#PersonEditForm_*`, `#error_dialog_close`)
+* Stable `id` selectors (`#login_*`, `#PersonCreateForm_*`, `#error_dialog_close`)
   instead of text/CSS-utility locators.
 
 Beyond the basics the harness also gates JaCoCo minimum coverage (merged
@@ -68,7 +68,7 @@ budgets, visual-regression snapshots.
 
 * Good — one command (`./doctor`) proves the whole harness; CI (CircleCI) and the
   GitHub scanners cover the push path independently.
-* Good — E2E now covers the primary user journeys, not just auth.
+* Good — E2E now covers several primary user journeys, not just auth.
 * Bad — `./doctor` is slow (full E2E starts both servers); the fast inner loop
   remains the per-layer commands in CLAUDE.md's "Verifying Code Changes".
 
