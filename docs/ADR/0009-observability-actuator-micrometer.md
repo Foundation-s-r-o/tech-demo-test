@@ -33,10 +33,9 @@ all other operational endpoints require `SUPERVISOR`
 registry is enabled (`micrometer-registry-prometheus`), so a Prometheus scrape
 or a full observability stack is a *configuration* step later, not a rewrite.
 
-The full OTel/Prometheus/Grafana/Loki/Jaeger stack is deferred; the
-`grafana/`, `loki/`, `prometheus/`, and `otel-config.yml` assets in the repo are
-reference inputs, not a supported stack
-([ADR-0007](0007-no-supported-deployment.md)).
+The full OTel/Prometheus/Grafana/Loki/Jaeger stack is deferred. Runtime configs
+for that stack are not kept in this repo until a real deployment target owns
+them ([ADR-0007](0007-no-supported-deployment.md)).
 
 ### Consequences
 

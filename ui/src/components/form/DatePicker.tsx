@@ -14,7 +14,8 @@ const FndtDatePicker = ({
 }: {
     className?: string | undefined
 } & DatePickerProps) => {
-    const dateFormat = 'd.M.yyyy' // todo: get from env/db??
+    // TODO: decide whether the date format stays a fixed template default or comes from config.
+    const dateFormat = 'd.M.yyyy'
     return (
         <ReactDatePicker
             locale="sk"

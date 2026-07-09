@@ -1,163 +1,88 @@
-# tech-demo-test — Foundation reference template
+# tech-demo-test
 
-A full-stack demo application that doubles as Foundation s.r.o.'s reference
-template for new projects. It is intentionally **small, dependency-light, and
-Docker-free for local development**, while wired up to a real CI / quality /
-security toolchain so the bar is set the same way every new project will inherit.
+Foundation reference template for a small Spring Boot + React application. The
+repo is a rolling demo on `main`, not a released product.
 
-This is a **rolling demo** (one supported branch: `main`), not a released
-product — see [SECURITY.md](./SECURITY.md) for the supported-versions and
-demo-mode caveats policy.
+The template keeps the local loop Docker-free while retaining the security,
+quality, and documentation habits expected in real projects.
 
-## Stack snapshot
+## Quick Start
 
-| Layer | Version | Notes |
-| ----- | ------- | ----- |
-| Java | **21 LTS** | Pinned in `api/.sdkmanrc`; Boot 4 also builds on 25 |
-| Spring Boot | **4.0.6** | Stable 4.0 line; do not chase 4.1+ |
-| Spring Security | session login + BCrypt + CSRF | `admin`/`admin` exists only in explicit `local` and integration-test profiles |
-| Hibernate ORM | 7.x | Naming strategy: `PhysicalNamingStrategyStandardImpl` |
-| Jackson | **3.x** (`tools.jackson`) | Boot 4 default |
-| Flyway | portable ANSI SQL migrations | H2 today, PostgreSQL via `prod` profile later |
-| DB | embedded **H2 file-mode** (`./api/data/`, gitignored) | No Docker required for local dev |
-| PDF | OpenPDF 2.0.3 | `GET /api/persons/{id}/pdf` |
-| React | **19.2.x** | Classic JSX transform |
-| TypeScript | 5.8.x | Strict mode |
-| Node | **≥ 22.11.0** | Enforced via `ui/package.json` `engines` |
-| Bundler | webpack 5 | sass-loader 17, modern Sass API |
-
-Full upgrade history and deferred items (Keycloak, PostgreSQL, OTel/Prometheus):
-[`docs/UPGRADE_PLAN.md`](./docs/UPGRADE_PLAN.md).
-
-## Quick start (no Docker, no `.env` required)
-
-The default local dev path is **two terminals**, embedded H2, no external services.
-
-### Backend (`api/`)
+Run the backend:
 
 ```bash
 cd api
-sdk env                # picks up Java 21 from .sdkmanrc
+sdk env
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
-The API comes up on `http://localhost:8082`. The explicit `local` profile creates
-the test-only login **`admin` / `admin`**. Migration `V4` removes the historical
-seeded account from every database; no known account is created in the default or
-`prod` profile. The H2 data file lives under `api/data/` and is gitignored.
-
-OpenAPI / Swagger UI: `http://localhost:8082/swagger-ui.html`
-
-### Frontend (`ui/`)
+Run the frontend:
 
 ```bash
 cd ui
-npm install --legacy-peer-deps     # Storybook addon pulls a React-18-peer lib, hence legacy-peer-deps
+npm install --legacy-peer-deps
 npm start
 ```
 
-The dev server runs on `http://localhost:8080` and defaults its API URL to
-`http://localhost:8082`. `APP_API_SERVER_URL` can override it when required.
+Open `http://localhost:8080`. The API runs on `http://localhost:8082`.
 
-Other useful UI scripts:
+The `local` profile creates demo accounts only for local development. See
+[SECURITY.md](./SECURITY.md#local-test-accounts-and-production-provisioning)
+before changing account or profile behavior.
 
-| Command | What it does |
-| ------- | ------------ |
-| `npm run storybook` | Storybook on `http://localhost:6006` for component development |
-| `npm run smoke` | Playwright app smoke (login shell, console-error gate) |
-| `npm run smoke:storybook` | Playwright Storybook smoke (Button + Form stories) |
-| `npm run playwright` | Full Playwright E2E suite — auto-starts API `:8082` + UI `:8080`; covers login/logout, main page, persons CRUD; screenshots every test (one-time `npx playwright install chromium` needed) |
-| `npm run build` | Production webpack build |
-| `npm run lint` | `tsc --noEmit` + ESLint |
+## Stack
 
-> **Internal registry note:** if you previously had a TFS-internal npm feed in
-> `~/.npmrc`, this repo's `package-lock.json` is now fully public-registry
-> (`registry.npmjs.org`). Don't reintroduce TFS-resolved URLs — Dependabot
-> will break on the next run.
+- Backend: Java 21, Spring Boot 4, Spring Security session auth, Flyway, H2.
+- Frontend: React 19, TypeScript, webpack, Axios, generated OpenAPI client.
+- Observability: Spring Boot Actuator + Micrometer only; full runtime stack is
+  deferred.
+- Verification: `./doctor` is the full local health check.
 
-## Quality & security tooling
+Pinned versions live in [api/pom.xml](./api/pom.xml),
+[ui/package.json](./ui/package.json), and [docs/UPGRADE_PLAN.md](./docs/UPGRADE_PLAN.md).
 
-The full table with gate behaviour lives in [SECURITY.md](./SECURITY.md). Quick reference:
-
-| Scanner | Where | Gate |
-| ------- | ----- | ---- |
-| **GitGuardian** | GitHub PR check | Blocks PR on detected secrets |
-| **Dependabot** | Weekly schedule | Opens PRs; humans review/merge |
-| **FOSSA** | GitHub Action `fossa-scan` on push/PR to `main` | Scan-only (non-blocking, see SECURITY.md for why) |
-| **Checkstyle** | `./mvnw validate` | Hard gate (`failOnViolation=true`) |
-| **JaCoCo** | `./mvnw verify` | Hard gate: merged unit+IT line coverage ≥ 70% |
-| **ESLint + `tsc --noEmit`** | `npm run lint` (local + CI) | Hard gate on errors |
-| **Trivy (`fs`)** | On-demand | HIGH/CRITICAL maintained at 0 on `main` |
-| **Semgrep** | `./scripts/security_scan.sh` | Metrics disabled; security/secrets/OWASP rules |
-| **SonarQube** (internal `10.16.35.113:9000`) | On-demand | Dashboard only |
-| **CircleCI** | Every push | Hard gate (backend `mvn verify` + frontend webpack build) |
-
-FOSSA shield badge:
-
-[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B46919%2Fgithub.com%2FFoundation-s-r-o%2Ftech-demo-test.git.svg?type=shield)](https://app.fossa.com/projects/custom%2B46919%2Fgithub.com%2FFoundation-s-r-o%2Ftech-demo-test.git?ref=badge_shield)
-
-## Verification commands
-
-See [`CLAUDE.md`](./CLAUDE.md#verifying-code-changes) for the full small-vs-large-change verification recipe. Headlines:
+## Daily Commands
 
 ```bash
-# Small UI change
-cd ui && npm run lint
-
-# Small API change
+# backend checks
 cd api && ./mvnw checkstyle:check test
 
-# Bigger change — run the lot
-cd ui && npm run lint && npm run smoke && npm run smoke:storybook
-cd ui && npm run playwright        # full E2E (needs ports 8080/8082 free)
-cd api && ./mvnw clean verify
+# frontend checks
+cd ui && npm run lint
+
+# full local gate
+./doctor
+```
+
+Security scan entry point:
+
+```bash
 ./scripts/security_scan.sh
 ```
 
-Single harness entry point (build + lint + tests + smoke + full E2E + security scans +
-SonarQube + FOSSA): `./doctor` — see
-[ADR-0010](./docs/ADR/0010-test-harness-playwright-e2e.md) for the test-harness strategy.
+The script runs Semgrep with metrics/tracing disabled, Trivy, and `npm audit`.
+`doctor` calls the same script.
 
-## Editor setup
+## Verification Rule
 
-The Java code style is enforced by Checkstyle (`api/checkstyle/checkstyle.xml`)
-and Maven gates the build on it. For interactive formatting in your IDE, import
-the matching formatter rules from `api/checkstyle/code-formatter-rules.xml`:
+Use [CLAUDE.md](./CLAUDE.md#verifying-code-changes) as the authoritative
+verification recipe. In short:
 
-- **Eclipse:** *Window → Preferences → Java → Code Style → Formatter → Import*
-- **IntelliJ IDEA:** *Settings → Code Style → Java → Manage → Import* (use the Eclipse XML profile importer)
+- Small frontend changes: `cd ui && npm run lint`.
+- Small backend changes: `cd api && ./mvnw checkstyle:check test`.
+- Broad or risky changes: run `./doctor`.
 
-The TypeScript / React side is enforced by ESLint (`ui/.eslintrc*`) + `tsc --noEmit`
-on `npm run lint`. Most editors pick up the project ESLint config automatically.
+## Documentation Map
 
-## Working in this repo
+- [SECURITY.md](./SECURITY.md) - security policy, controls, caveats, residual gaps.
+- [CLAUDE.md](./CLAUDE.md) - development rules and verification workflow.
+- [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) - architecture, layout, data flows.
+- [docs/ADR/](./docs/ADR/) - architecture decision records.
+- [docs/UPGRADE_PLAN.md](./docs/UPGRADE_PLAN.md) - current baseline and deferred work.
+- [TASKS.md](./TASKS.md) - ordered cleanup and implementation task list.
 
-| Rule | Why |
-| ---- | --- |
-| Track work in [Issues](https://github.com/Foundation-s-r-o/tech-demo-test/issues) | One issue per piece of work; reference it in commits |
-| Small PRs — 100s of lines is too big (exceptions must be justified) | Reviewable in one sitting; keeps blast radius small |
-| Keep `main` releasable | If `./mvnw verify` + `npm run lint` + smoke don't pass, the PR isn't ready |
-| Secrets via env vars only | Never in code, never in `.env` committed files — see CLAUDE.md |
+## Deployment Status
 
-## Engineering metrics
-
-This repo is connected to [LinearB](https://app.linearb.io/dashboard?isOrgSettings=true) (GitHub SSO) — tracks DORA metrics for **internal team-level gauging only**, not individual performance.
-
-Reference: [DORA 2023 report](https://services.google.com/fh/files/misc/2023_final_report_sodr.pdf) · [DORA Quick Check](https://dora.dev/quickcheck/).
-
-## Reporting security issues
-
-Use GitHub Private Vulnerability Reporting — see [SECURITY.md](./SECURITY.md).
-
-## Deployment status
-
-This repository has no supported container or cloud deployment definition. The
-stale Docker, Compose, ECR, and Elastic Beanstalk scaffolding was removed. A real
-deployment must start from a documented threat model, `prod` profile, external
-secret management, TLS, and an explicit identity-provisioning design.
-
-## Further reading
-
-- [SECURITY.md](./SECURITY.md) — vulnerability reporting, demo-mode caveats, hardening checklist
-- [CLAUDE.md](./CLAUDE.md) — development guidelines (stack rules, verification recipe, code style)
-- [docs/UPGRADE_PLAN.md](./docs/UPGRADE_PLAN.md) — Spring Boot 4 / Java 21 upgrade history and deferred phases
+There is no supported deployment artifact in this template. A production fork
+must define its own threat model, `prod` profile, secret management, TLS
+boundary, identity provisioning, and observability runtime.

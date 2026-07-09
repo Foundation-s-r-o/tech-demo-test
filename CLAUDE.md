@@ -24,6 +24,11 @@ SQL/types). Security is configured completely and **in the correct layer** (CORS
 filter chain, ahead of authorization — not the MVC layer). The known **`admin`/`admin`** account
 exists only under the `local` / `it` profiles ([`SECURITY.md`](SECURITY.md)).
 
+**Open-work comments:** use the exact `TODO:` prefix for source comments that mark incomplete,
+deferred, or intentionally missing behavior. State the goal or missing behavior, not the
+implementation steps. Do not leave vague `todo`, `deferred`, `later`, or `not implemented`
+comments in source without a corresponding `TODO:` and task-list entry.
+
 ## Project Overview
 
 Full-stack Spring Boot + React/TypeScript demo that serves as Foundation's reference template

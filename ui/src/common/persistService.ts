@@ -9,7 +9,7 @@ const persistService: {
             try {
                 value = JSON.parse(value)
             } catch {
-                // todo
+                // TODO: define the intended behavior for malformed persisted JSON.
             }
         }
         return value

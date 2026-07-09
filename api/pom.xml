@@ -81,7 +81,7 @@
 			<version>4.9.8</version>
 		</dependency>
 		<!-- Local development DB: embedded H2 (no Docker). Production target is PostgreSQL
-		     via a future 'prod' profile — keep migrations portable (see docs/UPGRADE_PLAN.md Phase 9). -->
+		     via a future prod profile; keep migrations portable (see docs/UPGRADE_PLAN.md). -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>

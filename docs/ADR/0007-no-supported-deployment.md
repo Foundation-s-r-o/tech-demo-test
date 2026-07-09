@@ -32,9 +32,9 @@ target, so any deployment definition it shipped would be a guess.
 ## Decision Outcome
 
 Chosen option: **no supported deployment definition** — the stale scaffolding
-above was removed. `run_application.sh` is local-only; the `grafana/`, `loki/`,
-`prometheus/`, and `otel-config.yml` files are reference inputs, not a supported
-stack.
+above was removed. `run_application.sh` is local-only. Full observability
+runtime assets are intentionally absent until a real deployment target owns
+them.
 
 A real deployment must start from a documented threat model, the `prod` profile,
 external secret management, TLS termination, and an explicit
@@ -51,7 +51,7 @@ reusable privileged-credential path without a defined platform.
   `main`).
 * Bad — there is no one-command deploy; accepted, because a template's job is to
   be cloned and then hardened, not deployed as-is. The hardening checklist and
-  deferred phases live in [`SECURITY.md`](../../SECURITY.md) and
+  deferred work live in [`SECURITY.md`](../../SECURITY.md) and
   [`docs/UPGRADE_PLAN.md`](../UPGRADE_PLAN.md).
 
 ## More Information

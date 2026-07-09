@@ -10,8 +10,8 @@ import lombok.Setter;
 import sk.foundation.techdemo.infrastructure.db.IdentifiableEntity;
 
 /**
- * Application user for simple DB-backed login. This layer is intentionally minimal and
- * swappable — authentication will move to Keycloak later (see docs/UPGRADE_PLAN.md, Phase 7).
+ * Application user for simple DB-backed login. TODO: keep this layer swappable until stronger
+ * identity is implemented; see docs/UPGRADE_PLAN.md.
  */
 @Getter
 @Setter

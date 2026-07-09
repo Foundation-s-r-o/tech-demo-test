@@ -24,7 +24,7 @@ demo** on one branch (`main`), not a versioned product.
 > | Volatile fact | Lives in (authoritative source) |
 > | ------------- | ------------------------------- |
 > | Endpoints, request/response shapes | OpenAPI spec → `/v3/api-docs`, Swagger UI `/swagger-ui.html` |
-> | Exact dependency versions | `api/pom.xml`, `ui/package.json` (+ README stack snapshot) |
+> | Exact dependency versions | `api/pom.xml`, `ui/package.json` (+ README stack summary) |
 > | Authorization matrix | controller `@PreAuthorize` expressions + [`SECURITY.md`](../SECURITY.md) |
 > | DB schema / migrations | `api/src/main/resources/db/migration/` |
 > | Tunable config values | `api/src/main/resources/application*.properties` |
@@ -102,7 +102,7 @@ none of which a template should pretend to ship. See
 The **architectural choices** (major lines) are below; they are decisions, not
 moving targets. **Exact pinned versions are deliberately not restated here** —
 they change with every Dependabot bump. Read them from `api/pom.xml`,
-`ui/package.json`, and the stack snapshot in [`README.md`](../README.md).
+`ui/package.json`, and the stack summary in [`README.md`](../README.md).
 
 | Layer | Choice | Why it's here |
 | ----- | ------ | ------------- |
@@ -186,8 +186,7 @@ tech-demo-test/
 ├── docs/
 │   ├── ARCHITECTURE.md      # this document
 │   ├── ADR/                 # MADR architecture decision records
-│   ├── UPGRADE_PLAN.md      # Boot 4 / Java 21 history + deferred phases
-│   └── QUALITY_REPORT.md
+│   └── UPGRADE_PLAN.md      # current baseline + deferred work
 ├── scripts/security_scan.sh # Semgrep (metrics off) + Trivy + npm audit
 ├── doctor                   # build + lint + tests + FOSSA health check
 ├── README.md  SECURITY.md  CLAUDE.md
@@ -554,7 +553,8 @@ steps (full detail in [`docs/UPGRADE_PLAN.md`](./UPGRADE_PLAN.md) and
 3. **Platform controls** — TLS termination, login throttling / rate limiting,
    audit logging, and secret management (Vault / cloud KMS; never `.env`).
 4. **Observability → OpenTelemetry + Prometheus + Loki + Jaeger.** Today only
-   Actuator + Micrometer are wired.
+   Actuator + Micrometer are wired; full-stack runtime configs are not kept in
+   this repo until a deployment target owns them.
 5. **Packaging** and a real deployment definition — only once a threat model and
    target platform exist.
 6. **Coverage ratchet** — the backend minimum is already enforced by
@@ -569,8 +569,8 @@ reports.
 
 ## Further Reading
 
-- [`README.md`](../README.md) — setup, commands, stack snapshot.
+- [`README.md`](../README.md) — quick start, daily commands, documentation map.
 - [`CLAUDE.md`](../CLAUDE.md) — development guidelines and verification recipe.
 - [`SECURITY.md`](../SECURITY.md) — demo caveats, controls, hardening checklist.
-- [`docs/UPGRADE_PLAN.md`](./UPGRADE_PLAN.md) — migration history and deferred phases.
+- [`docs/UPGRADE_PLAN.md`](./UPGRADE_PLAN.md) — current baseline and deferred work.
 - [`docs/ADR/`](./ADR/) — architecture decision records.

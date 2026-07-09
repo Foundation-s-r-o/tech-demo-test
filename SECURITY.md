@@ -54,12 +54,13 @@ template are responsible for their own version policy and security posture.
 | ------- | ----- | ------------- | -------------- |
 | **GitGuardian** | Secrets in commits | GitHub PR check | Blocks PR on detected secrets |
 | **Dependabot** | Maven + npm dep bumps | Weekly schedule | Opens PRs; humans review/merge |
-| **FOSSA** | Dependency licences + vulns | GitHub Actions `fossa-scan` on push/PR to `main` | Non-blocking scan (no `run-tests`) — false positives from a stale upstream patent-rights policy are kept out of the gate |
+| **FOSSA** | Dependency licences + vulns | GitHub Actions `fossa-scan` on push/PR to `main` | Non-blocking scan; review reported policy/vulnerability issues from the dashboard and local `doctor` output |
 | **Checkstyle** | Java style + structure | Maven `validate` phase | Hard gate (`failOnViolation=true`) |
 | **JaCoCo** | Java coverage | Maven `verify` phase | Hard gate: merged unit+IT line coverage ≥ 70% (`jacoco.line-coverage.minimum` in `api/pom.xml`; ratchet toward 80%) |
 | **ESLint + `tsc --noEmit`** | TypeScript types + style | `npm run lint` (local + CI) | Hard gate on errors |
+| **Semgrep** | Security, secrets, OWASP rules | `scripts/security_scan.sh` and `doctor` | Local gate; metrics and tracing disabled |
 | **Trivy (`fs`)** | OS / dep CVEs | On-demand local + ad-hoc CI | HIGH/CRITICAL = 0 maintained on `main` |
-| **SonarQube** (internal, `10.16.35.113:9000`) | Static analysis (api + ui) | On-demand from dev machines | Dashboard only; api gate currently in `ERROR` on two conditions — new-code coverage (33.7% < 80%) and one new violation (> 0) |
+| **SonarQube** (internal, `10.16.35.113:9000`) | Static analysis (api + ui) | On-demand from dev machines | Dashboard only; checked-in issue snapshots are compacted to active critical/high-priority findings |
 | **CircleCI** | Backend `mvn verify` + frontend webpack build | On every push | Hard gate |
 
 Notes:
@@ -67,11 +68,11 @@ Notes:
 - The Dependabot npm runs require a public-registry lockfile. The `ui/package-lock.json`
   is regenerated against `https://registry.npmjs.org/` (no internal feed URLs in
   `resolved` entries) — keep it that way.
-- The FOSSA workflow runs scan-only because three packages (`react-bootstrap`,
-  `prop-types-extra`, `uncontrollable`) are flagged under FOSSA's legacy
-  `facebook-patent-rights-2` policy even though they have been MIT-licensed since
-  September 2017. Re-enable `run-tests: true` once the FOSSA project policy is
-  corrected upstream.
+- Current local scan artifacts live under `docs/`: `trivy-report.txt`,
+  `sonar-metrics-*.json`, and compact `sonar-issues-*.json`.
+- The FOSSA workflow runs scan-only because policy and dependency findings need
+  human triage before they become a hard gate. Do not ignore them; review the
+  dashboard and `doctor` output during quality-gate cleanup.
 
 ## Implemented application controls
 
@@ -187,34 +188,32 @@ a script would become a reusable privileged credential path without a defined de
 
 ## Known residual gaps
 
-This table is the single home for the medium/low hardening items. (The initial baseline review's
-critical dependency finding and all eight high-severity findings were closed during security
-hardening.) The remaining **open** items must be closed before this template is used as a
-production-ready service.
+This is the implementation plan for real security gaps in the current template.
+Closed historical findings are not kept here.
 
-| Gap | Severity | Status | Note |
-| --- | -------- | ------ | ---- |
-| **Login throttling** | Medium | Open | No per-account or per-source rate limit / progressive delay. Add before exposing login beyond local/demo. |
-| **Backend coverage gate** | Medium | **Closed** | `jacoco:check` on `verify` enforces merged unit+IT line coverage ≥ 70% (77.9% measured at introduction). Ratchet `jacoco.line-coverage.minimum` toward the 80% Sonar target. |
-| **Role-based business authorization** | Medium | **Closed** | Six-role registry matrix enforced by controller `@PreAuthorize` expressions plus service-layer office/own-data scoping, with negative authorization tests. See "Authorization matrix" above. |
-| **Content Security Policy** | Medium | **Closed** | CSP set on API-origin responses (`script-src 'self'`, no `unsafe-eval`); Referrer-Policy and Permissions-Policy also present. HSTS still deferred to the TLS proxy. |
-| **Playwright storage-state hygiene** | Low | **Closed** | `ui/storageStateFresh.json` untracked and `ui/.gitignore` now covers `storageState*.json` at the `ui` root as well as `tests/`. |
+| Priority | Gap | Goal |
+| --- | --- | --- |
+| 1 | **Login throttling** | Add per-account and per-source protection before exposing login beyond local/demo use. |
+| 2 | **Role E2E depth** | Keep server-side authorization covered by meaningful positive and negative Playwright tests for every seeded role. |
+| 3 | **Observability verification** | Ensure the test harness names and verifies the supported observability endpoints so endpoint exposure does not drift silently. |
+
+Current hard gates already cover Checkstyle, backend coverage, ESLint/TypeScript,
+CircleCI, Trivy HIGH/CRITICAL findings, and GitGuardian secret detection. Keep
+those as running configuration, not duplicated status history in this file.
 
 ## Future hardening (deferred — see `docs/UPGRADE_PLAN.md`)
 
-- **MFA** via Spring Security 7's built-in support (OTT / passkeys / TOTP) — added in-app, no
-  external IdP required. An external IdP (Keycloak / OIDC) is optional, for SSO / federation /
-  lifecycle / audit.
-- **DB → PostgreSQL** via a `prod` Spring profile. Flyway migrations are already
-  portable ANSI SQL so the swap is meant to be a non-event.
-- **Observability → OpenTelemetry + Prometheus + Loki + Jaeger.** Today only
-  Actuator + Micrometer are wired.
-- **Secrets** in a vault (HashiCorp Vault / cloud KMS) or SOPS-encrypted files.
-  Never in `.env`, never inlined into shell `KEY=value` prefixes.
-- **TLS termination**; the `prod` profile already marks the session cookie Secure.
-- **Backend test coverage** — merged unit+IT line coverage is gated at ≥ 70%
-  (`jacoco:check` on `verify`); lift the floor toward the 80% Sonar threshold as
-  features grow.
+These items are required before a fork becomes a production service. They are
+deferred for this demo/template until a deployment target exists.
+
+| Work | Goal |
+| --- | --- |
+| MFA / stronger identity | Add Spring Security MFA or an external IdP before real users rely on the service. |
+| PostgreSQL | Add a production database profile and restore database-native controls that H2 cannot enforce. |
+| Secret management | Supply production keys and credentials from a vault, cloud KMS, or deployment-owned secret manager. |
+| TLS termination | Run only behind a defined HTTPS boundary; the `prod` profile already marks the session cookie Secure. |
+| Full observability | Add OTel/Prometheus/Loki/Grafana only when those assets are supported runtime, not local demo weight. |
+| Coverage ratchet | Raise `jacoco.line-coverage.minimum` toward the Sonar target as the business surface grows. |
 
 ## Out of scope for this repo
 

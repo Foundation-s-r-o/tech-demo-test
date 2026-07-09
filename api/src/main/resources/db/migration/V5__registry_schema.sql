@@ -20,7 +20,7 @@
 --
 -- staff_user is absorbed into the existing USERS table (one credential store);
 -- actor columns reference USERS(USERNAME). USERS gains OFFICE_CODE / PERSON_UID
--- in V7 (deferred so those FKs land after this schema exists).
+-- in V7 after this schema exists.
 -- ============================================================================
 
 create schema if not exists CODELIST;
@@ -471,7 +471,7 @@ create table GDPR.CONSENT (
 	RECORDED_BY   varchar(255) not null references PUBLIC.USERS(USERNAME)
 );
 
--- Deferred religion->consent FK + Art. 9(2)(a) consent-required CHECK.
+-- Religion->consent FK + Art. 9(2)(a) consent-required CHECK.
 alter table REGISTRY.PERSON_RELIGION
 	add constraint FK_RELIGION_CONSENT foreign key (CONSENT_ID) references GDPR.CONSENT(CONSENT_ID);
 alter table REGISTRY.PERSON_RELIGION

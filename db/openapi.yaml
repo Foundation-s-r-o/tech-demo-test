@@ -1381,7 +1381,7 @@ components:
 #   * GET /api/agency/persons/{uid} (T9) exposes the minimal V_PERSON_CURRENT
 #     projection to AGENCY_READER; access-logged, no Art. 9 data.
 #
-# Accepted cuts (not implemented)
+# TODO: review accepted cuts before treating this contract as complete production scope.
 #   * Dissolution amendments are absent (a dissolution is recorded once).
 #   * DSR status transitions are free (no state machine) and there is no
 #     Art. 12(3) extension handling.
@@ -1390,7 +1390,8 @@ components:
 #     than row DELETE (T6 nuance); no hard-delete endpoints.
 #   * T14 (representative portal access) is not ported — /api/me is
 #     own-data-only.
-#   * UI office/municipality inputs are free-text (codelist typeahead deferred);
+#   * UI office/municipality inputs are free-text; codelist typeahead belongs to
+#     the accepted-cuts TODO above.
 #     academic titles are exposed as a single `academic_title` codelist keyed by
 #     a before/after position discriminator, not separate title_before /
 #     title_after lists.
