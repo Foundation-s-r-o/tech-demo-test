@@ -3,6 +3,9 @@
 Implement in this order. Keep each item focused on the goal and desired outcome;
 do not preserve historical notes here. Git is the history.
 
+New tasks are derived by applying the discovery rules at the bottom of this file
+to `docs/ARCHITECTURE.md`, the ADRs, and `SECURITY.md`.
+
 1. Run the Playwright harness in CI.
    - Goal: make the E2E suite (auth, authz, GDPR, audit chain, a11y, OpenAPI drift) a push-time
      gate instead of a laptop-only check.
@@ -162,3 +165,41 @@ do not preserve historical notes here. Git is the history.
     - Goal: no undocumented, unwired assets in the repo.
     - How: either document how/when to run it (README or an ADR note) and verify it works
       against the current API, or delete it.
+
+## Task discovery rules
+
+Abstract rules for deriving new tasks from `docs/ARCHITECTURE.md`, the ADRs, and
+`SECURITY.md`. Production readiness is usually not "replace X with a more robust
+Y" — it is a capability that does not exist yet. A task exists wherever a rule
+below finds no answer in the repo.
+
+1. **Claim-enforcer rule.** Every normative claim in architecture docs, ADRs, or
+   SECURITY.md ("X is enforced", "never Y", "Z is the only path") must have a
+   test or gate that fails when the claim breaks. Unenforced claim -> task.
+2. **Deferral-trigger rule.** Every deferred item (`TODO:`, `-- PG-delta:`,
+   accepted cut, "future hardening") must name the condition that activates it
+   and appear in TASKS.md or `docs/UPGRADE_PLAN.md`. Orphan deferral -> task.
+3. **ADR-assumption rule.** Each ADR was decided under constraints (stack
+   version, no deployment target, demo scope). When a constraint changes,
+   re-validate the decision and its consequences. Stale assumption -> task.
+4. **Surface-coverage rule.** Every runtime surface — endpoint, Spring profile,
+   scheduled job, error path, script — must be exercised by the harness at least
+   once. A profile no test ever boots is an untested surface. Uncovered -> task.
+5. **Lifecycle rule.** Every stateful asset (data category, crypto key, session,
+   account, audit log, schema) needs a defined full lifecycle: created -> used ->
+   rotated/archived -> purged/restored. Missing stage -> task.
+6. **Failure-mode rule.** For every dependency (database, disk, clock, session
+   store, downstream consumer), the intended behavior when it is unavailable,
+   slow, or corrupt must be defined and ideally tested. Undefined -> task.
+7. **Human-procedure rule.** Every action a human must perform in production
+   (provision a user, rotate a key, restore a backup, handle an incident, meet a
+   DSR deadline) needs a written, rehearsable procedure. Missing runbook -> task.
+8. **Automation rule.** Every gate that relies on someone remembering to run it
+   must also run automatically (CI or schedule). Memory-dependent gate -> task.
+9. **Duality rule.** Every control implies a dual: write-audit <-> read-audit,
+   backup <-> restore, deploy <-> rollback, provision <-> deprovision,
+   lock <-> unlock. Implemented control with a missing dual -> task.
+10. **Legal-obligation rule.** For a public-sector registry, every applicable
+    obligation (GDPR articles, accessibility act, NIS2, statistical duties) maps
+    to an implemented control, a task, or an explicit accepted cut with a
+    reason. Unmapped obligation -> task.
