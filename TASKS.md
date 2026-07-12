@@ -6,6 +6,13 @@ do not preserve historical notes here. Git is the history.
 New tasks are derived by applying the discovery rules at the bottom of this file
 to `docs/ARCHITECTURE.md`, the ADRs, and `SECURITY.md`.
 
+Reference project: the production registry
+[Matrika/matrika-docs](https://ecu-fe.foundation.sk/git/Matrika/matrika-docs)
+(ADRs in `adr/`) is the operational model this template mimics. When a task
+needs an operational decision — RPO/RTO, log retention, release process,
+deletion policy — mirror the corresponding matrika ADR and record any
+intentional divergence in the task or a local ADR.
+
 1. Run the Playwright harness in CI.
    - Goal: make the E2E suite (auth, authz, GDPR, audit chain, a11y, OpenAPI drift) a push-time
      gate instead of a laptop-only check.
@@ -165,6 +172,118 @@ to `docs/ARCHITECTURE.md`, the ADRs, and `SECURITY.md`.
     - Goal: no undocumented, unwired assets in the repo.
     - How: either document how/when to run it (README or an ADR note) and verify it works
       against the current API, or delete it.
+
+25. Define availability targets and DR posture in an ADR.
+    - Goal: written RTO/RPO assumptions that backup, HA, and deployment decisions can be
+      reasoned against — currently nothing states how much downtime or data loss is acceptable.
+    - Clarification: mimic matrika ADR 0019 + 0013 — phase 1 is a single instance with no
+      failover site; RPO/RTO are defined per deployment (SLA), with the baseline that daily
+      backups + PITR on managed PostgreSQL give RPO in minutes; a failover/B-site variant is
+      documented but conditional on customer-defined RPO/RTO that backups cannot meet.
+    - How: write `docs/ADR/0013-availability-dr-posture.md` mirroring that structure: accepted
+      single-point-of-failure risk for the demo, RPO/RTO as deployment-time SLA parameters,
+      "replication is not backup" noted, and the activation conditions for any HA upgrade.
+
+26. Add a backup and tested-restore procedure.
+    - Goal: a defined, rehearsed path from "database lost" back to a running system — the dual
+      of persistence that does not exist today.
+    - Clarification: mimic matrika ADR 0013: automated daily backups plus WAL/PITR once the
+      PostgreSQL profile (task 6) exists; backups are encrypted (they contain personal data),
+      stored in a second location, kept in the EU region; restore and rollback are tested
+      before any production use. For local H2 the answer is "disposable, recreated by Flyway" —
+      state that explicitly.
+    - How: document the procedure with the PostgreSQL-profile work in task 6 and add a
+      restore rehearsal step (restore a backup into a fresh instance, run the audit-chain
+      verification against it) to the operations runbook from task 30.
+
+27. Adopt the three-category log retention model.
+    - Goal: every log has a category, a retention period, and an enforced deletion — today
+      retention is undefined for all logs.
+    - Clarification: mimic matrika ADR 0018: (1) audit records — who did what with data,
+      including reads/exports/prints — minimum 10 years, append-only in the database;
+      (2) security logs — logins, failures, permission changes, IPs — 2-3 years, separate
+      files/directories; (3) operational/error logs — 14-30 days, separate from security logs.
+      No personal data in readable form in any log file; anonymous IDs only. Extends task 3.
+    - How: map existing surfaces onto the categories (`AUDIT.*` tables = category 1,
+      `SECURITY_EVENT` = category 2, application logs = category 3), configure Logback
+      rotation/retention per category, and record the model + final retention values in the
+      logging note from task 3 and SECURITY.md.
+
+28. Plan audit-trail growth: partitioning and archival.
+    - Goal: the append-only audit chain must survive years of production growth — read-access
+      auditing especially grows fast, and nothing defines archival today.
+    - Clarification: mimic matrika ADR 0017, where time-based partitioning of the audit table
+      is part of the design, not a mitigation, and old partitions are archived per the
+      retention model (task 27). Divergence to record: this template keeps its SHA-256 hash
+      chain (matrika consciously rejected hash chaining as disproportionate at its scale) —
+      archival must therefore preserve chain verifiability across archived segments.
+    - How: design the partition/archive boundary so each archived segment carries the chain
+      anchor needed to verify it independently; implement with the PostgreSQL profile (task 6)
+      via `-- PG-delta:` partitioning; on H2 document the design only.
+
+29. Define versioning, release, and rollback.
+    - Goal: a repeatable release process with a rollback path — the repo currently cuts no
+      versions and has no defined way back from a bad deploy.
+    - Clarification: mimic matrika ADR 0012: `main` always deployable, short feature branches
+      with PR review, conventional commits with scope, one semver tag for the whole product
+      (no per-component versions), release notes compiled from changelogs, and a rollback plan
+      for every production deployment (previous JAR + Flyway-compatible schema reversal).
+    - How: adopt the branching/commit convention in CLAUDE.md, add a tagging + release-notes
+      procedure, and define the Flyway forward-compatibility rule (new migrations must not
+      break the previous app version) so rollback stays possible.
+
+30. Write the operations runbook with incident response.
+    - Goal: every action a human must perform in production has a written, rehearsable
+      procedure; today none exist.
+    - Clarification: mimic matrika ADR 0010's incident protocol: on a personal-data breach the
+      processor notifies the controller without undue delay, at latest within 24 hours of
+      discovery; the controller notifies the supervisory authority within 72 hours; the
+      procedure is a written internal directive, plus an at-least-yearly access review.
+    - How: `docs/OPERATIONS.md` covering start/stop/upgrade, backup/restore (task 26), log and
+      audit handling (tasks 27-28), lockout/security-event response, breach notification
+      timeline with roles, and the periodic access-review checklist.
+
+31. Define the data deletion and retention policy.
+    - Goal: an explicit policy for what may be deleted, what must be retained, and how the
+      GDPR erasure right interacts with statutory registry retention.
+    - Clarification: mimic matrika ADR 0010: locked/registered records are never physically
+      deleted (statutory retention and permanent historical value — Art. 17 does not apply
+      unconditionally); draft or erroneous records are soft-deleted (reversible, audited);
+      physical erasure happens only for an approved Art. 17 request in the scope the
+      controller/DPO defines; every deletion, soft or physical, is audited.
+    - How: verify the current GDPR workflow and person aggregate against this policy, add the
+      soft-delete state where missing, wire physical erasure to the DSR approval flow only,
+      and record the policy in SECURITY.md.
+
+32. Add DSR deadline tracking.
+    - Goal: the GDPR workflow enforces the Art. 12 clock — one month to respond, extensions
+      handled explicitly — instead of leaving deadlines to memory.
+    - Clarification: currently an accepted cut in `db/openapi.yaml`; for production it is a
+      legal obligation, and the DPO needs overdue requests surfaced, not discovered.
+    - How: add due-date + extension fields to the DSR entity, compute status server-side,
+      surface overdue/approaching requests in the DPO view, and cover with a Playwright test.
+      Cross-check against the task 16 triage so the contract moves with it.
+
+33. Add user lifecycle management.
+    - Goal: accounts can be provisioned, disabled, and reset in production — today users exist
+      only as local-profile seeds, so provision/deprovision has no implementation at all.
+    - Clarification: mimic matrika's identity ADRs: password + email reset as the base flow,
+      strong second factor mandatory in production (aligns with task 7), all account and
+      permission changes audited, and roles granted per the authorization matrix.
+    - How: a SUPERVISOR-only admin surface (API + minimal UI) for create/disable/role-assign/
+      force-reset, every change written to the audit trail, plus a documented periodic access
+      review step in the runbook (task 30).
+
+34. Adopt the no-prod-access and synthetic-data rule.
+    - Goal: make explicit that development and testing never touch real personal data — the
+      template ships the rule so forks inherit it.
+    - Clarification: mimic matrika ADR 0010: development and test run exclusively on synthetic
+      or anonymized data; real data lives only in customer-side UAT/PROD; exceptional
+      production access follows a documented procedure with MFA; logs and crash reports are
+      sanitized (record identifiers, never personal field content) before leaving the
+      environment.
+    - How: add the rule to SECURITY.md, verify the seeded demo data is fully synthetic, and
+      note the sanitization expectation in the logging note from task 3.
 
 ## Task discovery rules
 
