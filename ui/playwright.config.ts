@@ -22,8 +22,9 @@ const config: PlaywrightTestConfig = {
     forbidOnly: !!process.env.CI,
     /* Retry on CI only */
     retries: process.env.CI ? 2 : 0,
-    /* Opt out of parallel tests on CI. */
-    workers: process.env.CI ? 1 : undefined,
+    /* Tests are self-contained (fresh in-mem H2 per run, data created via UI),
+       so they parallelize safely; 2 workers fit the 4-vCPU CI executor. */
+    workers: process.env.CI ? 2 : undefined,
     reporter: 'html',
     use: {
         baseURL: 'http://localhost:8080',

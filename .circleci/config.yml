@@ -135,9 +135,9 @@ jobs:
 workflows:
   build-and-test:
     jobs:
-      - build-node:
-          requires:
-            - test-java
+      # All three jobs are independent and run in parallel — pipeline wall time
+      # is the longest job, not the sum.
+      - build-node
       - test-java
       # Runs in parallel with test-java: it builds the API itself (shared Maven
       # cache) and gives the fastest possible E2E signal on every push.
