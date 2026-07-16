@@ -3,6 +3,9 @@
 Implement in this order. Keep each item focused on the goal and desired outcome;
 do not preserve historical notes here. Git is the history.
 
+Task numbers are stable identifiers: completed tasks are removed without
+renumbering the rest, and a new task always takes the next unused number.
+
 New tasks are derived by applying the discovery rules at the bottom of this file
 to `docs/ARCHITECTURE.md`, the ADRs, and `SECURITY.md`.
 
@@ -12,16 +15,6 @@ Reference project: the production registry
 needs an operational decision — RPO/RTO, log retention, release process,
 deletion policy — mirror the corresponding matrika ADR and record any
 intentional divergence in the task or a local ADR.
-
-1. Run the Playwright harness in CI.
-   - Goal: make the E2E suite (auth, authz, GDPR, audit chain, a11y, OpenAPI drift) a push-time
-     gate instead of a laptop-only check.
-   - Clarification: today CircleCI gates only `mvnw verify` + UI lint/build; every Playwright
-     spec runs only via local `doctor`. This is the largest gap between "gate is the safety net"
-     and what the gate actually covers.
-   - How: add a CircleCI job (Node 22 image + `npx playwright install --with-deps chromium`)
-     that runs smoke + the full E2E suite; the suite already self-starts both servers on in-mem
-     H2, so no Docker is needed. Store the HTML report + screenshots as build artifacts.
 
 2. Add login throttling.
    - Goal: protect login against account and source-address brute-force attempts before the template is exposed beyond local/demo use.

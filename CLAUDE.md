@@ -270,9 +270,13 @@ GitHub-managed (not in `.github/workflows/`):
 - **Dependabot Updates** — `.github/dependabot.yml` schedules weekly Maven (`/api`) and npm
   (`/ui`) bumps.
 
-**CircleCI** runs the actual build gate: backend `./mvnw verify` + frontend audit, lint, and build. Key
+**CircleCI** runs the actual build gate: backend `./mvnw verify` + frontend audit, lint, and build,
+plus the `e2e-playwright` job (app smoke + full Playwright E2E suite as a push-time gate). Key
 notes in `.circleci/config.yml`:
-- `cimg/openjdk:21.0` (matches project Java 21 LTS).
+- `cimg/openjdk:21.0` (matches project Java 21 LTS). The `e2e-playwright` job uses
+  `cimg/openjdk:21.0-node` (JDK 21 + Node in one image — the E2E webServer boots the API via
+  `./mvnw spring-boot:run`) on `resource_class: large`, pre-builds the API so the 180 s webServer
+  timeout holds, and stores the Playwright HTML reports + screenshots as build artifacts.
 - `override-ci-command: npm ci --legacy-peer-deps --no-audit --no-fund`. `npm ci` works because
   the lockfile carries full entries (resolved + integrity) for **all** `@parcel/watcher` platform
   variants, not just the dev host's `darwin-arm64`. If `npm ci` ever fails on Linux with a missing

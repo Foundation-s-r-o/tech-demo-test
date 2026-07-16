@@ -54,6 +54,72 @@ jobs:
           key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
           paths:
             - ~/.m2/repository
+  e2e-playwright:
+    # Playwright push-time gate: app smoke + full E2E suite (auth, authz, GDPR,
+    # audit chain, a11y, OpenAPI drift). The E2E webServer boots the API via
+    # ./mvnw spring-boot:run on in-mem H2, so this executor needs JDK 21 and
+    # Node in one image; no Docker-in-Docker needed.
+    docker:
+      - image: cimg/openjdk:21.0-node
+    # JVM (API) + webpack dev server + Chromium in one container — medium (4 GB)
+    # is too tight, large (8 GB) keeps the run stable.
+    resource_class: large
+    working_directory: ~/project/ui
+    steps:
+      - checkout:
+          path: ~/project
+      - node/install-packages:
+          pkg-manager: npm
+          override-ci-command: npm ci --legacy-peer-deps --no-audit --no-fund
+      - run:
+          name: Calculate Maven cache key
+          command: |-
+            cd ~/project/api && find . -name 'pom.xml' -o -name 'gradlew*' -o -name '*.gradle*' | \
+                    sort | xargs cat > /tmp/CIRCLECI_CACHE_KEY
+      - restore_cache:
+          key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
+      - run:
+          # Downloads dependencies and compiles ahead of time so the Playwright
+          # webServer's mvnw spring-boot:run fits its 180 s startup timeout.
+          name: Pre-build API
+          command: cd ~/project/api && ./mvnw -q -DskipTests -Dcheckstyle.skip=true package
+      - save_cache:
+          key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
+          paths:
+            - ~/.m2/repository
+      - restore_cache:
+          key: playwright-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install Playwright Chromium
+          command: npx playwright install --with-deps chromium
+      - save_cache:
+          key: playwright-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.cache/ms-playwright
+      - run:
+          name: App smoke tests (backend-free, dev server on :8090)
+          command: npm run smoke
+      - run:
+          # --reporter=list,html keeps the config's HTML report (same default
+          # playwright-report/ folder) and adds per-test stdout so the step
+          # never trips no_output_timeout during a long quiet run.
+          name: Full E2E suite (self-starts API :8082 + UI :8080 on in-mem H2)
+          command: npx playwright test --reporter=list,html
+          no_output_timeout: 30m
+      # store_artifacts always runs even when a previous step failed, so
+      # reports and screenshots are available exactly when tests go red.
+      - store_artifacts:
+          path: playwright-report
+          destination: playwright-e2e-report
+      - store_artifacts:
+          path: playwright-report-smoke
+          destination: playwright-smoke-report
+      - store_artifacts:
+          path: test-results
+          destination: test-results
+      - store_artifacts:
+          path: ~/project/docs/smoke-app.log
+          destination: logs/smoke-app.log
   deploy:
     # This is an example deploy job, not actually used by the workflow
     docker:
@@ -73,6 +139,9 @@ workflows:
           requires:
             - test-java
       - test-java
+      # Runs in parallel with test-java: it builds the API itself (shared Maven
+      # cache) and gives the fastest possible E2E signal on every push.
+      - e2e-playwright
     # - deploy:
     #     requires:
     #       - build-node
